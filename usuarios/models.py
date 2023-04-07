@@ -16,4 +16,19 @@ class Usuario(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        return self.correo_electronico
+        return self.email
+
+class Persona(models.Model):
+    tipo = models.CharField(choices=(('V','V'),('E','E'),('J','J'),('G','G')), required=True, null=False, max_length=1)
+    identificacion = models.CharField(max_length=9, required=True, null=False )
+    nombre = models.CharField(max_length=50)
+    apellido = models.CharField(max_length=50)
+    fecha_nacimiento = models.DateTimeField(null=False)
+    puede_ver = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.nombre.title() + " " + self.apellido.title()
+    
+    def cedula(self):
+        return self.tipo + "-" + self.identificacion
+
