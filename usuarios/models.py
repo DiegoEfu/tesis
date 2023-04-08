@@ -22,9 +22,7 @@ class Persona(models.Model):
 class Usuario(AbstractUser):
     username = None
     email = models.EmailField("Correo Electrónico", unique=True)
-    numero_seguridad = models.CharField("Número Secreto", null=True, max_length=5)
     persona = models.OneToOneField(to='usuarios.Persona', on_delete=models.CASCADE)
-
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
