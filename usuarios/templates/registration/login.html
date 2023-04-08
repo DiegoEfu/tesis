@@ -3,6 +3,6 @@
     {% csrf_token %}
     {{form.as_p}}
     <input type="submit" value="Enviar">
-    <a href="#">Crear Nuevo Usuario</a>
+    <a href="{% url 'registro' %}">Crear Nuevo Usuario</a>
     <a href="#">Soy ciego y uso otro método de autenticación</a>
 </form>

@@ -1,0 +1,36 @@
+<h1>Registro de Usuario</h1>
+<form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+    <h4>Datos Personales</h4>
+    <label>Cédula de Identidad o RIF</label>
+    <select name="tipo" id="tipo">
+        <option value="V">V</option>
+        <option value="E">E</option>
+        <option value="J">J</option>
+        <option value="G">G</option>
+    </select>
+    <input required type="number" max="999999999999" name="identificacion" id="identificacion"><br>
+
+    <label>Nombre(s)</label>
+    <input required type="number" name="nombre" id="nombre"><br>
+
+    <label>Apellido(s)</label>
+    <input required type="number" name="apellido" id="apellido"><br>
+
+    <label>Fecha de Nacimiento</label>
+    <input required type="date" name="fecha_nacimiento" id="fecha_nacimiento"><br>
+
+    <label>¿Es Usted Ciego?</label>
+    <input required type="checkbox" name="ciego" id="ciego"><br>
+
+    <h4>Datos de Usuario</h4>
+    <!-- Aquí deben haber 2 formularios: uno con solo contraseña y otro con "palabra de seguridad" y "número de seguridad" -->
+    <label>Correo Electrónico</label>
+    <input required type="email" name="email" id="email"><br>
+
+    <label>Contraseña</label>
+    <input required type="password" name="password" id="password"><br>
+
+    <input required type="submit" value="Registrar">
+    ¿Ya tiene cuenta? <a href="login/">Regresar</a>.
+</form>

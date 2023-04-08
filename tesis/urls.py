@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from usuarios.views import bienvenida
+from django.contrib.auth.forms import UserCreationForm
 
 urlpatterns = [
     path('admin/', admin.site.urls),

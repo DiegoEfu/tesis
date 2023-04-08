@@ -7,3 +7,6 @@ from django.http.response import HttpResponse
 
 def bienvenida(request):
     return HttpResponse(request.user)
+
+def register_user(request):
+    return render(request, 'registration/register.html', {})
