@@ -45,6 +45,21 @@
                                     hablar("Usted ha dicho ayuda. " + crear_utterance());
                                 }
                             break;
+
+                            case "iniciar sesion":
+                                hablar("Usted ha dicho iniciar sesión. Diga 'salir' para salir del formulario. Formulario:");
+                                // Lógica por VOZ de ingresar parámetros
+                                break;
+                            
+                            case "crear nuevo usuario":
+                                hablar("Usted ha dicho crear nuevo usuario. Redirigiendo.");
+                                location.replace("/usuarios/register");
+                                break;
+                            
+                            case "soy ciego":
+                                hablar("Usted ha dicho soy ciego. Redirigiendo.");
+                                location.replace("/usuarios/register");
+                                break;
                         }
                       }    
                    });
@@ -58,7 +73,7 @@
 
         async function bienvenida(){
             if ('speechSynthesis' in window) {
-                var utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de inicio de sesión general. Si quiere saber los comandos disponibles diga "ayuda" o presione la tecla escape. Si el sistema no reconoce su comando de voz, presione F2.');
+                var utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de inicio de sesión general. Si quiere saber los comandos disponibles diga "ayuda".');
                 utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;

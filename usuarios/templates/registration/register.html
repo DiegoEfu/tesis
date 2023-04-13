@@ -1,3 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+
+    <script>
+        const synthesis = window.speechSynthesis;
+        let speaking = true;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "iniciar sesión": "Llevar a la página de inicio de sesión",
+            "crear nuevo usuario": "Permite crear un nuevo usuario con el formulario"
+        };
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = function(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript;
+                   console.log(speech);
+                   Object.keys(comandos).forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                            break;
+
+                            case "iniciar sesión":
+                                hablar("Usted ha dicho iniciar sesión. Redirigiendo.");
+                                location.replace("/usuarios/login/");
+                                break;
+                            
+                            case "crear nuevo usuario":
+                                hablar("Usted ha dicho iniciar sesión. Diga 'salir' para salir del formulario. Formulario:");
+                                // Lógica del formulario por VOZ
+                                break;
+                        }
+                      }    
+                   });
+                }
+            }
+        }
+
+        recognition.onerror = (event) => {
+            console.log(event);
+        }
+
+        async function bienvenida(){
+            if ('speechSynthesis' in window) {
+                var utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de registro de usuario. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+                recognition.start();
+                recognition.addEventListener('end', recognition.start);
+            }
+        }
+
+        async function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+            }
+        }
+
+        bienvenida();
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
+
 <h1>Registro de Usuario</h1>
 <form action="{% url 'login' %}" method="post">
     {% csrf_token %}
