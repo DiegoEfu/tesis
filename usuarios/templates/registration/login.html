@@ -1,8 +1,99 @@
-<h1>Inicio de Sesión</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+
+    <script>
+        const synthesis = window.speechSynthesis;
+        let speaking = true;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "iniciar sesion": "Da inicio al formulario de inicio de sesión",
+            "crear nuevo usuario": "Lleva a la pantalla de nuevo usuario",
+            "soy ciego": "Lleva al inicio de sesión exclusivo para personas con discapacidad visual"
+        };
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = function(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript;
+                   console.log(speech);
+                   Object.keys(comandos).forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                            break;
+                        }
+                      }    
+                   });
+                }
+            }
+        }
+
+        recognition.onerror = (event) => {
+            console.log(event);
+        }
+
+        async function bienvenida(){
+            if ('speechSynthesis' in window) {
+                var utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de inicio de sesión general. Si quiere saber los comandos disponibles diga "ayuda" o presione la tecla escape. Si el sistema no reconoce su comando de voz, presione F2.');
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+                recognition.start();
+                recognition.addEventListener('end', recognition.start);
+            }
+        }
+
+        async function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+            }
+        }
+
+        bienvenida();
+    </script>
+</head>
+<body>
+    <h1>Inicio de Sesión</h1>
 <form action="{% url 'bienvenida' %}" method="post">
     {% csrf_token %}
     {{form.as_p}}
     <input type="submit" value="Enviar">
     <a href="{% url 'registro' %}">Crear Nuevo Usuario</a>
     <a href="#">Soy ciego y uso otro método de autenticación</a>
-</form>
+</form>    
+</body>
+</html>
