@@ -6,26 +6,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de Sesión</title>
 
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+
     <script>
         const synthesis = window.speechSynthesis;
-        let speaking = true;
+        let speaking = true, escribiendo = false;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
-            "iniciar sesion": "Da inicio al formulario de inicio de sesión",
+            "iniciar sesión": "Da inicio al formulario de inicio de sesión",
             "crear nuevo usuario": "Lleva a la pantalla de nuevo usuario",
             "soy ciego": "Lleva al inicio de sesión exclusivo para personas con discapacidad visual"
         };
 
-        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-        var recognition = new SpeechRecognition();
-        recognition.lang = "es-VE";
-        recognition.continuous = true;
-        recognition.interimResults = true;
+        function formulario_p1(event){
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript;
+                   console.log(speech);
+                   ["dictado", "teclado", "salir", "JAMMU", "continuar", "editar", "listo"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "salir":
+                                hablar("Usted ha dicho salir. Saliendo del formulario.");
+                                recognition.onresult = inicial;
+                            break;
 
-        recognition.onresult = function(event) {
+                            case "dictado":
+                                hablar("Usted ha dicho dictado. Deletree o dicte con claridad su correo electrónico.");
+                                escribiendo = true;
+                                break;
+                            
+                            case "JAMMU":
+                                hablar("Jammu es la Diosa Planta.");
+                                break;
+
+                            case "teclado":
+                                hablar("Usted ha dicho teclado. Escriba su correo electrónico y presione la tecla enter o tabulador, o diga 'listo'.");
+                                escribiendo = true;
+                                const input = document.getElementById('id_username');
+                                console.log(input);
+                                input.focus();
+                                break;
+
+                            case "continuar":
+                                if(!escribiendo){
+                                    hablar("Campo #2: Contraseña. Por razones de seguridad, las contraseñas solo pueden ingresarse por teclado.")
+                                }
+                                break;
+                            
+                            case "editar":
+                                break;
+
+                            case "listo":
+                                hablar("Usted ha escrito: " + $('#id_username').val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                escribiendo = false;
+                                break;
+                        }
+                      }    
+                   });
+                }
+            }
+        }
+
+        function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript;
@@ -46,9 +93,12 @@
                                 }
                             break;
 
-                            case "iniciar sesion":
+                            case "iniciar sesión":
                                 hablar("Usted ha dicho iniciar sesión. Diga 'salir' para salir del formulario. Formulario:");
-                                // Lógica por VOZ de ingresar parámetros
+                                hablar("Campo #1: Correo Electrónico. Si desea escribirlo en teclado, diga 'teclado'. Si desea dictar su correo electrónico, diga 'dictado'. Si desea salir, diga 'salir'.");
+                                
+                                recognition.onresult = formulario_p1;
+                                
                                 break;
                             
                             case "crear nuevo usuario":
@@ -66,6 +116,14 @@
                 }
             }
         }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
 
         recognition.onerror = (event) => {
             console.log(event);
@@ -99,6 +157,14 @@
         }
 
         bienvenida();
+
+        $('#id_username').blur(() => {
+            if(escribiendo){
+                const input = document.getElementById('id_username');
+                console.log(input);
+                input.focus();
+            }
+        });
     </script>
 </head>
 <body>
