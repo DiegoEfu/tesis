@@ -10,7 +10,7 @@
 
     <script>
         const synthesis = window.speechSynthesis;
-        let speaking = true, escribiendo = false;
+        let speaking = true, escribiendo = false, dictando = false;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -26,7 +26,7 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript;
                    console.log(speech);
-                   ["dictado", "teclado", "salir", "JAMMU", "continuar", "editar", "listo"].forEach(comando => {
+                    ["dictado", "teclado", "salir", "JAMMU", "continuar", "editar", "listo"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -38,6 +38,7 @@
                             case "dictado":
                                 hablar("Usted ha dicho dictado. Deletree o dicte con claridad su correo electrónico.");
                                 escribiendo = true;
+                                dictando = true;
                                 break;
                             
                             case "JAMMU":
@@ -48,12 +49,13 @@
                                 hablar("Usted ha dicho teclado. Escriba su correo electrónico y presione la tecla enter o tabulador, o diga 'listo'.");
                                 escribiendo = true;
                                 const input = document.getElementById('id_username');
-                                console.log(input);
                                 input.focus();
                                 break;
 
                             case "continuar":
                                 if(!escribiendo){
+                                    const input2 = document.getElementById('id_password');
+                                    inputx.focus();   
                                     hablar("Campo #2: Contraseña. Por razones de seguridad, las contraseñas solo pueden ingresarse por teclado.")
                                 }
                                 break;
@@ -64,10 +66,17 @@
                             case "listo":
                                 hablar("Usted ha escrito: " + $('#id_username').val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
                                 escribiendo = false;
+                                dictando = false;
                                 break;
+                            }
                         }
-                      }    
-                   });
+                    });
+
+                    if(dictando){
+                        console.log(speech);
+                        console.log($('#id_username').val());
+                        $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(" ", "").replace(".","").replace("punto", "."));
+                    }  
                 }
             }
         }
