@@ -10,7 +10,8 @@
 
     <script>
         const synthesis = window.speechSynthesis;
-        let speaking = true, escribiendo = false;
+        const campos = [['Correo Electrónico', 'id_username', ''], ['Contraseña', 'id_password', '']];
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -26,48 +27,75 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript;
                    console.log(speech);
-                   ["dictado", "teclado", "salir", "JAMMU", "continuar", "editar", "listo"].forEach(comando => {
+                   if(dictando){
+                        $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
+                    }  
+
+                    ["dictado", "teclado", "salir", "JAMMU", "continuar", "editar", "listo"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
-                            case "salir":
-                                hablar("Usted ha dicho salir. Saliendo del formulario.");
-                                recognition.onresult = inicial;
-                            break;
-
-                            case "dictado":
-                                hablar("Usted ha dicho dictado. Deletree o dicte con claridad su correo electrónico.");
-                                escribiendo = true;
-                                break;
-                            
-                            case "JAMMU":
-                                hablar("Jammu es la Diosa Planta.");
+                                case "salir":
+                                    hablar("Usted ha dicho salir. Saliendo del formulario.");
+                                    dictando = false;
+                                    recognition.onresult = inicial;
                                 break;
 
-                            case "teclado":
-                                hablar("Usted ha dicho teclado. Escriba su correo electrónico y presione la tecla enter o tabulador, o diga 'listo'.");
-                                escribiendo = true;
-                                const input = document.getElementById('id_username');
-                                console.log(input);
-                                input.focus();
-                                break;
+                                case "dictado":
+                                    if(campo == 0){
+                                        hablar("Usted ha dicho dictado. Deletree o dicte con claridad su correo electrónico.");
+                                        escribiendo = true;
+                                        dictando = true;
+                                    }
+                                    break;
+                                
+                                case "jammu":
+                                    hablar("Jammu es la Diosa Planta.");
+                                    break;
 
-                            case "continuar":
-                                if(!escribiendo){
-                                    hablar("Campo #2: Contraseña. Por razones de seguridad, las contraseñas solo pueden ingresarse por teclado.")
-                                }
-                                break;
-                            
-                            case "editar":
-                                break;
+                                case "teclado":
+                                    hablar("Usted ha dicho teclado. Escriba su correo electrónico y presione la tecla enter o tabulador, o diga 'listo'.");
+                                    escribiendo = true;
+                                    const input = document.getElementById('id_username');
+                                    input.focus();
+                                    break;
 
-                            case "listo":
-                                hablar("Usted ha escrito: " + $('#id_username').val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
-                                escribiendo = false;
-                                break;
+                                case "continuar":
+                                    if(!escribiendo){
+                                        campo++;
+                                        if(campo < campos.length){
+                                            const input2 = document.getElementById(campos[campo][1]);
+                                            input2.focus();
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. Diga listo una vez la haya ingresado.`);
+                                            escribiendo = true;
+                                        } else{
+                                            campo = 0;
+                                            $('form').submit();
+                                        }
+                                    }
+                                    break;
+                                
+                                case "editar":
+                                    if(campo == 1){
+                                        hablar("Usted ha dicho 'editar'. Vuelva a escribir su contraseña.")
+                                        $('#id_password').val("");
+                                        const input2 = document.getElementById(campos[campo][1]);
+                                        input2.focus();
+                                        escribiendo = true;
+                                    } else{
+                                        hablar("Usted ha dicho 'editar'. Diga 'teclado' para escribir el campo con teclado, o diga 'dictado' para dictarlo.")
+                                        $('#id_username').val("");
+                                    }                                
+                                    break;
+
+                                case "listo":
+                                    hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    escribiendo = false;
+                                    dictando = false;
+                                    break;
+                            }
                         }
-                      }    
-                   });
+                    });
                 }
             }
         }
@@ -126,7 +154,9 @@
         recognition.onresult = inicial;
 
         recognition.onerror = (event) => {
-            console.log(event);
+            if(event.error !== 'no-speech'){
+                console.log(event);
+            }
         }
 
         async function bienvenida(){
