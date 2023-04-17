@@ -27,12 +27,17 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript;
                    console.log(speech);
+                   if(dictando){
+                        $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
+                    }  
+
                     ["dictado", "teclado", "salir", "JAMMU", "continuar", "editar", "listo"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
                                 case "salir":
                                     hablar("Usted ha dicho salir. Saliendo del formulario.");
+                                    dictando = false;
                                     recognition.onresult = inicial;
                                 break;
 
@@ -91,10 +96,6 @@
                             }
                         }
                     });
-
-                    if(dictando){
-                        $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(" ", "").replace(".","").replace("punto", "."));
-                    }  
                 }
             }
         }

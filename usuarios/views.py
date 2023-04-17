@@ -6,7 +6,7 @@ from django.http.response import HttpResponse
 # Create your views here.
 
 def bienvenida(request):
-    return HttpResponse(request.user)
+    return HttpResponse("¡Usted ha iniciado sesión!")
 
 def register_user(request):
     return render(request, 'registration/register.html', {})
