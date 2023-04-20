@@ -18,8 +18,7 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "iniciar sesión": "Da inicio al formulario de inicio de sesión",
-            "crear nuevo usuario": "Lleva a la pantalla de nuevo usuario",
-            "soy ciego": "Lleva al inicio de sesión exclusivo para personas con discapacidad visual"
+            "crear nuevo usuario": "Lleva a la pantalla de nuevo usuario"
         };
 
         function formulario_p1(event){
@@ -133,11 +132,6 @@
                                 hablar("Usted ha dicho crear nuevo usuario. Redirigiendo.");
                                 location.replace("/usuarios/register");
                                 break;
-                            
-                            case "soy ciego":
-                                hablar("Usted ha dicho soy ciego. Redirigiendo.");
-                                location.replace("/usuarios/register");
-                                break;
                         }
                       }    
                    });
@@ -204,7 +198,6 @@
     {{form.as_p}}
     <input type="submit" value="Enviar">
     <a href="{% url 'registro' %}">Crear Nuevo Usuario</a>
-    <a href="#">Soy ciego y uso otro método de autenticación</a>
 </form>    
 </body>
 </html>
