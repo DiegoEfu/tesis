@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from django.contrib import messages
 from django.http.response import HttpResponse
 
@@ -7,12 +7,12 @@ from django.http.response import HttpResponse
 
 def bienvenida(request):
     if request.method == 'POST':
-        return redirect('/usuarios/login/') 
-    print(request.user)
+        logout()
+        return redirect('/usuarios/login/')
+
     if request.user.is_authenticated:
         return render(request, 'registration/bienvenida.html', {})
     
-    print("Patata")
     return redirect('/usuarios/login/')
 
 def register_user(request):
