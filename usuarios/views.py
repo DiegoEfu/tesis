@@ -7,7 +7,7 @@ from django.http.response import HttpResponse
 
 def bienvenida(request):
     if request.method == 'POST':
-        logout()
+        logout(request)
         return redirect('/usuarios/login/')
 
     if request.user.is_authenticated:
