@@ -18,8 +18,7 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "iniciar sesión": "Da inicio al formulario de inicio de sesión",
-            "crear nuevo usuario": "Lleva a la pantalla de nuevo usuario",
-            "soy ciego": "Lleva al inicio de sesión exclusivo para personas con discapacidad visual"
+            "crear nuevo usuario": "Lleva a la pantalla de nuevo usuario"
         };
 
         function formulario_p1(event){
@@ -133,11 +132,6 @@
                                 hablar("Usted ha dicho crear nuevo usuario. Redirigiendo.");
                                 location.replace("/usuarios/register");
                                 break;
-                            
-                            case "soy ciego":
-                                hablar("Usted ha dicho soy ciego. Redirigiendo.");
-                                location.replace("/usuarios/register");
-                                break;
                         }
                       }    
                    });
@@ -159,9 +153,14 @@
             }
         }
 
-        async function bienvenida(){
+        function bienvenida(tipo = 0){
             if ('speechSynthesis' in window) {
-                var utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de inicio de sesión general. Si quiere saber los comandos disponibles diga "ayuda".');
+                let utterance = undefined;
+                if(tipo === 0)
+                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de inicio de sesión general. Si quiere saber los comandos disponibles diga "ayuda".');
+                else
+                    utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: Por favor, introduzca un Correo Electrónico y clave correctos. Observe que ambos campos pueden ser sensibles a mayúsculas. Diga "iniciar sesión" para reintentar.');
+                
                 utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
@@ -173,7 +172,7 @@
             }
         }
 
-        async function hablar(texto){
+        function hablar(texto){
             if ('speechSynthesis' in window) {
                 speaking = true;
                 var utterance = new SpeechSynthesisUtterance(texto);
@@ -185,8 +184,13 @@
                 synthesis.speak(utterance);
             }
         }
-
-        bienvenida();
+        
+        if({{form.errors|length}} === 0){
+            bienvenida();
+        } else{
+            bienvenida(1);
+        }
+        
 
         $('#id_username').blur(() => {
             if(escribiendo){
@@ -199,12 +203,11 @@
 </head>
 <body>
     <h1>Inicio de Sesión</h1>
-<form action="{% url 'bienvenida' %}" method="post">
+<form action="" method="post">
     {% csrf_token %}
     {{form.as_p}}
     <input type="submit" value="Enviar">
     <a href="{% url 'registro' %}">Crear Nuevo Usuario</a>
-    <a href="#">Soy ciego y uso otro método de autenticación</a>
-</form>    
+</form>
 </body>
 </html>
