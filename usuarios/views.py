@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, logout
-from django.contrib import messages
+from django.contrib.auth import logout
 from .models import Persona, Usuario
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 
@@ -30,5 +30,9 @@ def register_user(request):
         # Validar
 
         # Crear
+        persona = Persona.objects.create(tipo=persona, identificacion=identificacion, nombre=nombre, apellido=apellido, fecha_nacimiento=fecha_nacimiento, puede_ver = not ciego)
+        Usuario.objects.create(persona=persona, email=email, password = make_password(password))
+
+        return redirect('usuarios/login/')
     else:
         return render(request, 'registration/register.html', {})
