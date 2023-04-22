@@ -3,6 +3,7 @@ from django.contrib.auth import logout
 from .models import Persona, Usuario
 from django.contrib.auth.hashers import make_password
 import re
+import datetime
 # Create your views here.
 
 def bienvenida(request):
@@ -45,7 +46,6 @@ def register_user(request):
             errores.append("El campo de contraseña no puede estar vacío.")
         
         # Campos duplicados
-
         if(Usuario.objects.filter(email=email).exists()):
             errores.append("El email ingresado ya fue utilizado.")
         if(Persona.objects.filter(tipo=persona,identificacion=identificacion).exists()):
@@ -60,13 +60,19 @@ def register_user(request):
             errores.append("El nombre ingresado no es válido.")
         if(not re.fullmatch(regex,apellido.strip())):
             errores.append("El apellido ingresado no es válido.")
+        if(datetime.datetime.today() < datetime.datetime.strptime(fecha_nacimiento, '%Y-%m-%d')):
+            errores.append("La fecha de nacimiento debe de ser menor o igual al día actual.")
+        
         if(len(password) < 8):
             errores.append("La contraseña debe contener al menos 8 caracteres.")
+
+        if(len(errores) != 0):
+            return render(request, 'registration/register.html', {'errores': errores})
 
         # Crear
         persona = Persona.objects.create(tipo=persona, identificacion=identificacion.strip(), nombre=nombre.strip(), apellido=apellido.strip(), fecha_nacimiento=fecha_nacimiento, puede_ver = not ciego)
         Usuario.objects.create(persona=persona, email=email.strip(), password = make_password(password))
 
-        return redirect('usuarios/login/')
+        return redirect('login/')
     else:
         return render(request, 'registration/register.html', {})
