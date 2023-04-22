@@ -18,13 +18,85 @@
             "crear nuevo usuario": "Permite crear un nuevo usuario con el formulario"
         };
 
-        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-        var recognition = new SpeechRecognition();
-        recognition.lang = "es-VE";
-        recognition.continuous = true;
-        recognition.interimResults = true;
+        function formulario_p1(event){
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript;
+                   console.log(speech);
+                   if(dictando){
+                        $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
+                    }  
 
-        recognition.onresult = function(event) {
+                    ["dictado", "teclado", "salir", "JAMMU", "continuar", "editar", "listo"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                                case "salir":
+                                    hablar("Usted ha dicho salir. Saliendo del formulario.");
+                                    dictando = false;
+                                    recognition.onresult = inicial;
+                                break;
+
+                                case "dictado":
+                                    if(campo == 0){
+                                        hablar("Usted ha dicho dictado. Deletree o dicte con claridad su correo electrónico.");
+                                        escribiendo = true;
+                                        dictando = true;
+                                    }
+                                    break;
+                                
+                                case "jammu":
+                                    hablar("Jammu es la Diosa Planta.");
+                                    break;
+
+                                case "teclado":
+                                    hablar("Usted ha dicho teclado. Escriba su correo electrónico y presione la tecla enter o tabulador, o diga 'listo'.");
+                                    escribiendo = true;
+                                    const input = document.getElementById('id_username');
+                                    input.focus();
+                                    break;
+
+                                case "continuar":
+                                    if(!escribiendo){
+                                        campo++;
+                                        if(campo < campos.length){
+                                            const input2 = document.getElementById(campos[campo][1]);
+                                            input2.focus();
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. Diga listo una vez la haya ingresado.`);
+                                            escribiendo = true;
+                                        } else{
+                                            campo = 0;
+                                            $('form').submit();
+                                        }
+                                    }
+                                    break;
+                                
+                                case "editar":
+                                    if(campo == 1){
+                                        hablar("Usted ha dicho 'editar'. Vuelva a escribir su contraseña.")
+                                        $('#id_password').val("");
+                                        const input2 = document.getElementById(campos[campo][1]);
+                                        input2.focus();
+                                        escribiendo = true;
+                                    } else{
+                                        hablar("Usted ha dicho 'editar'. Diga 'teclado' para escribir el campo con teclado, o diga 'dictado' para dictarlo.")
+                                        $('#id_username').val("");
+                                    }                                
+                                    break;
+
+                                case "listo":
+                                    hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    escribiendo = false;
+                                    dictando = false;
+                                    break;
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript;
@@ -51,8 +123,10 @@
                                 break;
                             
                             case "crear nuevo usuario":
-                                hablar("Usted ha dicho iniciar sesión. Diga 'salir' para salir del formulario. Formulario:");
-                                // Lógica del formulario por VOZ
+                                hablar("Usted ha dicho crear nuevo usuario. Diga 'salir' para salir del formulario. Formulario:");
+                                hablar("Campo #1: Tipo de Persona. Diga 1 para venezolano. Diga 2 para extranjero.");
+                                
+                                recognition.onresult = formulario_p1;
                                 break;
                         }
                       }    
@@ -60,6 +134,14 @@
                 }
             }
         }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
 
         recognition.onerror = (event) => {
             console.log(event);
@@ -96,43 +178,48 @@
     </script>
 </head>
 <body>
-    
+    <h1>Registro de Usuario</h1>
+    {% if errores %}
+    <ul>
+        {% for error in errores %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <h4>Datos Personales</h4>
+        <label>Cédula de Identidad o RIF</label>
+        <select name="tipo" id="tipo">
+            <option value="V">V</option>
+            <option value="E">E</option>
+            <option value="J">J</option>
+            <option value="G">G</option>
+        </select>
+        <input required type="number" max="999999999999" name="identificacion" id="identificacion"><br>
+
+        <label>Nombre(s)</label>
+        <input required type="text" name="nombre" id="nombre"><br>
+
+        <label>Apellido(s)</label>
+        <input required type="text" name="apellido" id="apellido"><br>
+
+        <label>Fecha de Nacimiento</label>
+        <input required type="date" name="fecha_nacimiento" id="fecha_nacimiento"><br>
+
+        <label>¿Es Usted Ciego?</label>
+        <input type="checkbox" name="ciego" id="ciego"><br>
+
+        <h4>Datos de Usuario</h4>
+        <!-- Aquí deben haber 2 formularios: uno con solo contraseña y otro con "palabra de seguridad" y "número de seguridad" -->
+        <label>Correo Electrónico</label>
+        <input required type="email" name="email" id="email"><br>
+
+        <label>Contraseña</label>
+        <input required type="password" name="password" id="password"><br>
+
+        <input required type="submit" value="Registrar">
+        ¿Ya tiene cuenta? <a href="login/">Regresar</a>.
+    </form>    
 </body>
 </html>
-
-<h1>Registro de Usuario</h1>
-<form action="{% url 'login' %}" method="post">
-    {% csrf_token %}
-    <h4>Datos Personales</h4>
-    <label>Cédula de Identidad o RIF</label>
-    <select name="tipo" id="tipo">
-        <option value="V">V</option>
-        <option value="E">E</option>
-        <option value="J">J</option>
-        <option value="G">G</option>
-    </select>
-    <input required type="number" max="999999999999" name="identificacion" id="identificacion"><br>
-
-    <label>Nombre(s)</label>
-    <input required type="number" name="nombre" id="nombre"><br>
-
-    <label>Apellido(s)</label>
-    <input required type="number" name="apellido" id="apellido"><br>
-
-    <label>Fecha de Nacimiento</label>
-    <input required type="date" name="fecha_nacimiento" id="fecha_nacimiento"><br>
-
-    <label>¿Es Usted Ciego?</label>
-    <input required type="checkbox" name="ciego" id="ciego"><br>
-
-    <h4>Datos de Usuario</h4>
-    <!-- Aquí deben haber 2 formularios: uno con solo contraseña y otro con "palabra de seguridad" y "número de seguridad" -->
-    <label>Correo Electrónico</label>
-    <input required type="email" name="email" id="email"><br>
-
-    <label>Contraseña</label>
-    <input required type="password" name="password" id="password"><br>
-
-    <input required type="submit" value="Registrar">
-    ¿Ya tiene cuenta? <a href="login/">Regresar</a>.
-</form>
