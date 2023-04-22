@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Usuario</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 
     <script>
         const synthesis = window.speechSynthesis;
@@ -18,8 +19,7 @@
             ['Correo Electrónico', 'email', 'Ingrese su correo electrónico. Debe ser un correo electrónico válido.'],
             ['Contraseña', 'contraseña', 'Ingrese su contraseña secreta. Debe tener un mínimo de 8 caracteres.']
         ];
-        let campo = 0;
-        let speaking = true;
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -36,9 +36,13 @@
                    console.log(speech);
                    if(dictando){
                         $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
-                    }  
+                    } 
+                    
+                    if(campo === 0){
+                        speech = speech.toLowerCase().replace("uno", "1").replace("dos", "2");
+                    }
 
-                    ["dictado", "teclado", "salir", "continuar", "editar", "listo"].forEach(comando => {
+                    ["dictado", "teclado", "salir", "continuar", "editar", "listo", "1", "2"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -50,7 +54,7 @@
 
                                 case "dictado":
                                     if(campo == 0){
-                                        hablar("Usted ha dicho dictado. Deletree o dicte con claridad su correo electrónico.");
+                                        hablar(`Usted ha dicho dictado. Deletree o dicte con claridad su ${campos[campo][0]}.`);
                                         escribiendo = true;
                                         dictando = true;
                                     }
@@ -80,7 +84,7 @@
                                 
                                 case "editar":
                                     if(campo == 1){
-                                        hablar("Usted ha dicho 'editar'. Vuelva a escribir su contraseña.")
+                                        hablar(`Usted ha dicho 'editar'. Vuelva a escribir su ${campos[campo][0]}.`)
                                         $('#id_password').val("");
                                         const input2 = document.getElementById(campos[campo][1]);
                                         input2.focus();
@@ -96,6 +100,20 @@
                                     escribiendo = false;
                                     dictando = false;
                                     break;
+                                
+                                case "1":
+                                    if(campo === 0){
+                                        hablar("Usted ha seleccionado la opción 'venezolano'. Si quiso decir extranjero, diga 2. Si quiere continuar, diga continuar.");
+                                        $('#tipo').val("V");                                
+                                    }
+                                    break;
+                                
+                                case "2":
+                                    if(campo === 0){
+                                        hablar("Usted ha seleccionado la opción 'extranjero'. Si quiso decir venezolano, diga 1. Si quiere continuar, diga continuar.");
+                                        $('#tipo').val("E");
+                                    }
+                                    break;                                    
                             }
                         }
                     });
