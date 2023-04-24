@@ -172,9 +172,15 @@
             console.log(event);
         }
 
-        async function bienvenida(){
+        async function bienvenida(tipo = 0){
             if ('speechSynthesis' in window) {
-                var utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de registro de usuario. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
+                var utterance = undefined;
+                
+                if(tipo === 0)
+                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de registro de usuario. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
+                else
+                    utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
+                
                 utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
@@ -199,7 +205,10 @@
             }
         }
 
-        bienvenida();
+        if({{errores|length}} === 0)
+            bienvenida();
+        else
+            bienvenida(1);
     </script>
 </head>
 <body>
