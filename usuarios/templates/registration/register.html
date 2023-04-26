@@ -34,9 +34,6 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript;
                    console.log(speech);
-                   if(dictando){
-                        $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
-                    } 
                     
                     if(campo === 0){
                         speech = speech.toLowerCase().replace("uno", "1").replace("dos", "2");
@@ -61,7 +58,7 @@
                                     break;
                                 
                                 case "teclado":
-                                    hablar("Usted ha dicho teclado. Escriba su correo electrónico y presione la tecla enter o tabulador, o diga 'listo'.");
+                                    hablar(`Usted ha dicho teclado. Escriba su ${campos[campo][0]} y diga 'listo' al terminar.`);
                                     escribiendo = true;
                                     const input = document.getElementById('id_username');
                                     input.focus();
@@ -227,8 +224,6 @@
         <select name="tipo" id="tipo">
             <option value="V">V</option>
             <option value="E">E</option>
-            <option value="J">J</option>
-            <option value="G">G</option>
         </select>
         <input required type="number" max="999999999999" name="identificacion" id="identificacion"><br>
 
