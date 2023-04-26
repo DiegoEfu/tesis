@@ -11,9 +11,9 @@
         const synthesis = window.speechSynthesis;
         const campos = [
             ['Tipo de Persona', 'tipo', ''], 
-            ['Identificación', 'identificacion', 'Ingrese su número de identificación. Solo se aceptan números.'],
-            ['Nombre', 'nombre', 'Ingrese su nombre. Separe con un espacio en caso de tener más de un nombre.'],
-            ['Apellido', 'apellido', 'Ingrese su apellido. Puede tener un máximo de dos apellidos. Separe con espacios.'],
+            ['Identificación', 'identificacion', 'Ingrese su número de identificación. Solo se aceptan números. Diga dictado para dictar.'],
+            ['Nombre', 'nombre', 'Ingrese su nombre. Separe con un espacio en caso de tener más de un nombre. Diga dictado para dictar.'],
+            ['Apellido', 'apellido', 'Ingrese su apellido. Puede tener un máximo de dos apellidos. Separe con espacios. Diga dictado para dictar.'],
             ['Fecha de Nacimiento', 'fecha_nacimiento', 'Ingrese su fecha de nacimiento. Debe tener un mínimo de 18 años para poder registrarse.'],
             ['¿Es usted ciego?', 'ciego', 'Responda a la pregunta con un "sí" o un "no".'],
             ['Correo Electrónico', 'email', 'Ingrese su correo electrónico. Debe ser un correo electrónico válido.'],
@@ -50,7 +50,7 @@
                                 break;
 
                                 case "dictado":
-                                    if(campo == 0){
+                                    if([1,2,3,4,6].indexOf(campo) !== -1){
                                         hablar(`Usted ha dicho dictado. Deletree o dicte con claridad su ${campos[campo][0]}.`);
                                         escribiendo = true;
                                         dictando = true;
@@ -80,7 +80,7 @@
                                     break;
                                 
                                 case "editar":
-                                    if(campo == 1){
+                                    if(campo >= 1){
                                         hablar(`Usted ha dicho 'editar'. Vuelva a escribir su ${campos[campo][0]}.`)
                                         $('#id_password').val("");
                                         const input2 = document.getElementById(campos[campo][1]);
