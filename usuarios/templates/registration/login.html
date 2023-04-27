@@ -185,11 +185,10 @@
             }
         }
         
-        if({{form.errors|length}} === 0){
+        if({{form.errors|length}} === 0)
             bienvenida();
-        } else{
+        else
             bienvenida(1);
-        }
         
 
         $('#id_username').blur(() => {
