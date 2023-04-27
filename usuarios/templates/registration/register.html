@@ -82,7 +82,7 @@
                                 case "editar":
                                     if(campo >= 1){
                                         hablar(`Usted ha dicho 'editar'. Vuelva a escribir su ${campos[campo][0]}.`)
-                                        $('#id_password').val("");
+                                        $(`#${campos[campo][1]}`).val("");
                                         const input2 = document.getElementById(campos[campo][1]);
                                         input2.focus();
                                         escribiendo = true;
@@ -116,12 +116,17 @@
                     });
 
                     if(dictando && campo === 1){
-                        speech = speech.replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','');
-                        if(speech.is)
-                        $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
-                    }
+                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
+                        
+                        if(!isNaN(speech)) // Esto verifica que el string sea numérico
+                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
+
+                    } else if(dictando)
+                        if(speech.indexOf("Dictado") === -1)
+                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + " " + speech.toLowerCase().split(' ').map((word) => 
+                                (word.charAt(0).toUpperCase() + word.slice(1))).join(" ").replace('.',''));
                 }
             }
         }
