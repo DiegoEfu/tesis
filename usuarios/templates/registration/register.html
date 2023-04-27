@@ -50,7 +50,7 @@
                                 break;
 
                                 case "dictado":
-                                    if([1,2,3,4,6].indexOf(campo) !== -1){
+                                    if([1,2,3,4,6].indexOf(campo) !== -1 && !dictando){
                                         hablar(`Usted ha dicho dictado. Deletree o dicte con claridad su ${campos[campo][0]}.`);
                                         escribiendo = true;
                                         dictando = true;
@@ -114,6 +114,14 @@
                             }
                         }
                     });
+
+                    if(dictando && campo === 1){
+                        speech = speech.replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','');
+                        if(speech.is)
+                        $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
+                    }
                 }
             }
         }
