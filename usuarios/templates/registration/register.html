@@ -51,7 +51,7 @@
                                 break;
 
                                 case "dictado":
-                                    if([1,2,3,4,7].indexOf(campo) !== -1 && !dictando){
+                                    if([1,2,3,4,5,7].indexOf(campo) !== -1 && !dictando){
                                         if(campo !== 4)
                                             hablar(`Usted ha dicho dictado. Deletree o dicte con claridad su ${campos[campo][0]}.`);
                                         else
@@ -150,7 +150,7 @@
                         .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
                         $('#fecha_nacimiento').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
                     }
-                    else if(dictando && campo === 6){
+                    else if(dictando && campo === 5){
                         if(/[0-9]+/.test(speech.replaceAll(" ", "")))
                             $('#telefono').val($('#telefono').val() + speech.replaceAll(" ", ""));
                     }                        
@@ -227,7 +227,7 @@
                 
                 utterance.voice = voice;
                 utterance.pitch = 1;
-                utterance.rate = 5;
+                utterance.rate = 1;
                 utterance.volume = 1;
                 utterance.onend = () => {speaking = false};
                 synthesis.speak(utterance);
@@ -242,7 +242,7 @@
                 var utterance = new SpeechSynthesisUtterance(texto);
                 utterance.voice = voice;
                 utterance.pitch = 1;
-                utterance.rate = 5;
+                utterance.rate = 1;
                 utterance.volume = 1;
                 utterance.onend = () => {speaking = false};
                 synthesis.speak(utterance);
