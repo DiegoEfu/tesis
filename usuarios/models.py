@@ -11,6 +11,7 @@ class Persona(models.Model):
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     fecha_nacimiento = models.DateTimeField(null=False)
+    numero_telefono = models.CharField(null=False, max_length=11)
     puede_ver = models.BooleanField(default=False)
 
     def __str__(self):
