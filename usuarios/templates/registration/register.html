@@ -114,7 +114,21 @@
                                         hablar("Usted ha seleccionado la opción 'extranjero'. Si quiso decir venezolano, diga 1. Si quiere continuar, diga continuar.");
                                         $('#tipo').val("E");
                                     }
-                                    break;                                    
+                                    break; 
+                                
+                                case "sí":
+                                    if(campo === 5){
+                                        $('#ciego').prop("checked", true);
+                                        hablar("Usted ha dicho que sí es ciego. Diga no para cambiar esta opción. Si quiere continuar, diga continuar.")
+                                    }
+                                    break;
+                                
+                                case "no":
+                                    if(campo === 5){
+                                        $('#ciego').prop("checked", false);
+                                        hablar("Usted ha dicho que no es ciego. Diga sí para cambiar esta opción. Si quiere continuar, diga continuar.")                                        
+                                    }
+                                    break;
                             }
                         }
                     });
