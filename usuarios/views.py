@@ -27,6 +27,7 @@ def register_user(request):
         ciego = request.POST.get('ciego')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        telefono = request.POST.get('telefono')
 
         # Validar
         errores = []
@@ -62,6 +63,12 @@ def register_user(request):
             errores.append("El apellido ingresado no es válido.")
         if(datetime.datetime.today() < datetime.datetime.strptime(fecha_nacimiento, '%Y-%m-%d')):
             errores.append("La fecha de nacimiento debe de ser menor o igual al día actual.")
+        regex = r"[0-9]+"
+        if(re.fullmatch(telefono,regex)):
+            errores.append("El número de teléfono ingresado no es enteramente numérico.")
+        
+        if(len(telefono) < 10):
+            errores.append("El número de teléfono debe ser de al menos 10 caracteres.")
         
         if(len(password) < 8):
             errores.append("La contraseña debe contener al menos 8 caracteres.")
@@ -70,7 +77,9 @@ def register_user(request):
             return render(request, 'registration/register.html', {'errores': errores})
 
         # Crear
-        persona = Persona.objects.create(tipo=persona, identificacion=identificacion.strip(), nombre=nombre.strip(), apellido=apellido.strip(), fecha_nacimiento=fecha_nacimiento, puede_ver = not ciego)
+        persona = Persona.objects.create(tipo=persona, identificacion=identificacion.strip(),
+            nombre=nombre.strip(), apellido=apellido.strip(), fecha_nacimiento=fecha_nacimiento,
+            telefono = telefono, puede_ver = not ciego)
         Usuario.objects.create(persona=persona, email=email.strip(), password = make_password(password))
 
         return redirect('login/')

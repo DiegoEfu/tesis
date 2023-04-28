@@ -14,10 +14,11 @@
             ['Identificación', 'identificacion', 'Ingrese su número de identificación. Solo se aceptan números. Diga dictado para dictar.'],
             ['Nombre', 'nombre', 'Ingrese su nombre. Separe con un espacio en caso de tener más de un nombre. Diga dictado para dictar.'],
             ['Apellido', 'apellido', 'Ingrese su apellido. Puede tener un máximo de dos apellidos. Separe con espacios. Diga dictado para dictar.'],
-            ['Fecha de Nacimiento', 'fecha_nacimiento', 'Ingrese su fecha de nacimiento. Debe tener un mínimo de 18 años para poder registrarse.'],
+            ['Fecha de Nacimiento', 'fecha_nacimiento', 'Ingrese su fecha de nacimiento. Debe tener al menos de 18 años. Diga dictado para dictar.'],
+            ['Número Telefónico', 'telefono', 'Ingrese su número telefónico. Debe ser un número telefónico venezolano. Diga dictado para dictar.'],
             ['¿Es usted ciego?', 'ciego', 'Responda a la pregunta con un "sí" o un "no".'],
             ['Correo Electrónico', 'email', 'Ingrese su correo electrónico. Debe ser un correo electrónico válido.'],
-            ['Contraseña', 'contraseña', 'Ingrese su contraseña secreta. Debe tener un mínimo de 8 caracteres.']
+            ['Contraseña', 'password', 'Ingrese su contraseña secreta. Debe tener un mínimo de 8 caracteres y por seguridad no se puede dictar.']
         ];
         let speaking = true, escribiendo = false, dictando = false, campo = 0;;
         const voice = synthesis.getVoices().filter(function (voice) {
@@ -39,7 +40,7 @@
                         speech = speech.toLowerCase().replace("uno", "1").replace("dos", "2");
                     }
 
-                    ["dictado", "teclado", "salir", "continuar", "editar", "listo", "1", "2"].forEach(comando => {
+                    ["dictado", "teclado", "salir", "continuar", "editar", "listo", "1", "2","sí","no"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -50,7 +51,7 @@
                                 break;
 
                                 case "dictado":
-                                    if([1,2,3,4,6].indexOf(campo) !== -1 && !dictando){
+                                    if([1,2,3,4,7].indexOf(campo) !== -1 && !dictando){
                                         if(campo !== 4)
                                             hablar(`Usted ha dicho dictado. Deletree o dicte con claridad su ${campos[campo][0]}.`);
                                         else
@@ -111,20 +112,20 @@
                                 
                                 case "2":
                                     if(campo === 0){
-                                        hablar("Usted ha seleccionado la opción 'extranjero'. Si quiso decir venezolano, diga 1. Si quiere continuar, diga continuar.");
+                                        hablar("Usted ha seleccionado la opción 'extranjero'. Si quiso decir venezolano, diga 1. Diga listo para continuar.");
                                         $('#tipo').val("E");
                                     }
                                     break; 
                                 
                                 case "sí":
-                                    if(campo === 5){
+                                    if(campo === 6){
                                         $('#ciego').prop("checked", true);
-                                        hablar("Usted ha dicho que sí es ciego. Diga no para cambiar esta opción. Si quiere continuar, diga continuar.")
+                                        hablar("Usted ha dicho que sí es ciego. Diga no para cambiar esta opción. Diga listo para continuar.")
                                     }
                                     break;
                                 
                                 case "no":
-                                    if(campo === 5){
+                                    if(campo === 6){
                                         $('#ciego').prop("checked", false);
                                         hablar("Usted ha dicho que no es ciego. Diga sí para cambiar esta opción. Si quiere continuar, diga continuar.")                                        
                                     }
@@ -142,15 +143,20 @@
                             $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
 
                     } else if(dictando && campo === 4){
-                        speech = speech.toLowerCase().replace("del","").replace("de","").replace(/\s+/g, " ");
-                        console.log(speech);
+                        speech = speech.toLowerCase().replaceAll("del","").replaceAll("de","").replaceAll(/\s+/g, " ");
                         let nuevo = speech.replace("enero","01").replace("febrero","02").replace("marzo","03")
                         .replace("abril","04").replace("mayo","05").replace("junio","06")
                         .replace("julio","07").replace("agosto","08").replace("septiembre","09")
                         .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
-                        console.log(nuevo);
                         $('#fecha_nacimiento').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
-                    } 
+                    }
+                    else if(dictando && campo === 6){
+                        if(/[0-9]+/.test(speech.replaceAll(" ", "")))
+                            $('#telefono').val($('#telefono').val() + speech.replaceAll(" ", ""));
+                    }                        
+                    else if(dictando && campo === 7)
+                        if(speech.toLowerCase().indexOf("dictado") === -1)
+                            $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
                     else if(dictando)
                         if(speech.indexOf("Dictado") === -1)
                             $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + " " + speech.toLowerCase().split(' ').map((word) => 
@@ -276,6 +282,9 @@
 
         <label>Fecha de Nacimiento</label>
         <input required type="date" name="fecha_nacimiento" id="fecha_nacimiento"><br>
+
+        <label>Número Telefónico</label>
+        <input required type="text" maxlength="11" name="telefono" id="telefono"><br>
 
         <label>¿Es Usted Ciego?</label>
         <input type="checkbox" name="ciego" id="ciego"><br>
