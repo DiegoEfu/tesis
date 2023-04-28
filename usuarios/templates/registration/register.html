@@ -51,7 +51,11 @@
 
                                 case "dictado":
                                     if([1,2,3,4,6].indexOf(campo) !== -1 && !dictando){
-                                        hablar(`Usted ha dicho dictado. Deletree o dicte con claridad su ${campos[campo][0]}.`);
+                                        if(campo !== 4)
+                                            hablar(`Usted ha dicho dictado. Deletree o dicte con claridad su ${campos[campo][0]}.`);
+                                        else
+                                            hablar("Usted ha dicho dictado. Su fecha de nacimiento debe ser pronunciada en el formato: día (en números) mes (en nombre) año (en números)");
+
                                         escribiendo = true;
                                         dictando = true;
                                     }
@@ -123,7 +127,17 @@
                         if(!isNaN(speech)) // Esto verifica que el string sea numérico
                             $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
 
-                    } else if(dictando)
+                    } else if(dictando && campo === 4){
+                        speech = speech.toLowerCase().replace("del","").replace("de","").replace(/\s+/g, " ");
+                        console.log(speech);
+                        let nuevo = speech.replace("enero","01").replace("febrero","02").replace("marzo","03")
+                        .replace("abril","04").replace("mayo","05").replace("junio","06")
+                        .replace("julio","07").replace("agosto","08").replace("septiembre","09")
+                        .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
+                        console.log(nuevo);
+                        $('#fecha_nacimiento').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
+                    } 
+                    else if(dictando)
                         if(speech.indexOf("Dictado") === -1)
                             $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + " " + speech.toLowerCase().split(' ').map((word) => 
                                 (word.charAt(0).toUpperCase() + word.slice(1))).join(" ").replace('.',''));
@@ -193,7 +207,7 @@
                 
                 utterance.voice = voice;
                 utterance.pitch = 1;
-                utterance.rate = 1;
+                utterance.rate = 5;
                 utterance.volume = 1;
                 utterance.onend = () => {speaking = false};
                 synthesis.speak(utterance);
@@ -208,7 +222,7 @@
                 var utterance = new SpeechSynthesisUtterance(texto);
                 utterance.voice = voice;
                 utterance.pitch = 1;
-                utterance.rate = 1;
+                utterance.rate = 5;
                 utterance.volume = 1;
                 utterance.onend = () => {speaking = false};
                 synthesis.speak(utterance);
