@@ -13,6 +13,7 @@ class Persona(models.Model):
     fecha_nacimiento = models.DateTimeField(null=False)
     numero_telefono = models.CharField(null=False, max_length=11)
     puede_ver = models.BooleanField(default=False)
+    cargo = models.CharField(max_length=1,choices=(("A","Administrador"), ("G", "Agente Inmobiliario"), ("C", "Comprador")))
 
     def __str__(self):
         return self.nombre.title() + " " + self.apellido.title()
