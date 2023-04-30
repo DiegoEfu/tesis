@@ -79,7 +79,7 @@ def register_user(request):
         # Crear
         persona = Persona.objects.create(tipo=persona, identificacion=identificacion.strip(),
             nombre=nombre.strip(), apellido=apellido.strip(), fecha_nacimiento=fecha_nacimiento,
-            telefono = telefono, puede_ver = not ciego)
+            telefono = telefono, puede_ver = not ciego, cargo = "C")
         Usuario.objects.create(persona=persona, email=email.strip(), password = make_password(password))
 
         return redirect('login/')
