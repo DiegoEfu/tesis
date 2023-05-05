@@ -157,12 +157,11 @@
                         if(/[0-9]+/.test(speech.replaceAll(" ", "")))
                             $('#telefono').val($('#telefono').val() + speech.replaceAll(" ", ""));
                     }                        
-                    else if(dictando && campo === 7)
+                    else if(dictando && campo === 7){
                         if(speech.toLowerCase().indexOf("dictado") === -1)
                             $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
+                    }
                     else if(dictando){
-                        console.log("AAAAAA");
-                        console.log(campo);
                         if(speech.indexOf("Dictado") === -1){
                             console.log("A");
                             $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + " " + speech.toLowerCase().split(' ').map((word) => 
