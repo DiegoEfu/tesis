@@ -7,9 +7,49 @@
     <title>Creación de Inmueble</title>
 </head>
 <body>
-    Jammu es una planta.
-    Jammu is a plant.
-    Jammu est une plante.
-    ジャンムーは植物
+    <h2>Formulario de Inmueble</h2>
+    <label for="nombre">Nombre del Inmueble:</label>
+    <input type="text" name="nombre" id="nombre">
+
+    <label for="sector">Sector:</label>
+    <select name="tipo_construccion" id="tipo_construccion">
+        <option value="La Concepción">La Concepción</option>
+    </select>
+
+    <select name="tipo_construccion" id="tipo_construccion">
+        <option value="Casa Individual">Casa Individual</option>
+        <option value="Casa Dúplex">Casa Dúplex</option>
+        <option value="Casa Triplex">Casa Triplex</option>
+        <option value="Casa de Villa">Casa de Villa</option>
+        <option value="Apartamento Regular">Apartamento Regular</option>
+        <option value="Apartamento PentHouse">Apartamento PentHouse</option>
+    </select>
+
+    <label for="ubicacion_detallada">Ubicación Detallada:</label>
+    <textarea name="ubicacion_detallada" id="ubicacion_detallada" cols="30" rows="10"></textarea>
+
+    <label for="ano">Año de Construcción:</label>
+    <input type="number" name="ano" id="ano">
+
+    <label for="tamano">Tamaño (en metros cuadrados):</label>
+    <input type="number" name="tamano" id="tamano" step=".01">
+
+    <label for="habitaciones">Número de Habitaciones:</label>
+    <input type="number" name="habitaciones" id="habitaciones">
+
+    <label for="banos">Número de Baños:</label>
+    <input type="number" name="banos" id="banos">
+
+    <label for="descripcion">Descripción (será editada para optimizarse para personas con discapacidad visual):</label>
+    <textarea name="descripcion" id="descripcion" cols="30" rows="10"></textarea>
+
+    <label for="precio">Precio:</label>
+    <input type="number" name="precio" id="precio">
+
+    <label for="amueblado">Está amueblado:</label>
+    <input type="checkbox" name="amueblado" id="amueblado">
+
+    <label for="estacionamiento">Tiene estacionamiento:</label>
+    <input type="checkbox" name="estacionamiento" id="estacionamiento">
 </body>
 </html>
