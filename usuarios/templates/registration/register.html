@@ -134,7 +134,10 @@
                         }
                     });
 
-                    if(dictando && campo === 1){
+                    console.log(dictando);
+                    console.log(campo)
+
+                    if(dictando && (campo === 1 || campo === 5)){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
@@ -157,10 +160,17 @@
                     else if(dictando && campo === 7)
                         if(speech.toLowerCase().indexOf("dictado") === -1)
                             $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
-                    else if(dictando)
-                        if(speech.indexOf("Dictado") === -1)
+                    else if(dictando){
+                        console.log("AAAAAA");
+                        console.log(campo);
+                        if(speech.indexOf("Dictado") === -1){
+                            console.log("A");
                             $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + " " + speech.toLowerCase().split(' ').map((word) => 
                                 (word.charAt(0).toUpperCase() + word.slice(1))).join(" ").replace('.',''));
+                        }
+                    }
+                        
+                            
                 }
             }
         }
@@ -269,30 +279,30 @@
         <h4>Datos Personales</h4>
         <label>Cédula de Identidad o RIF</label>
         <select name="tipo" id="tipo">
-            <option value="V">V</option>
-            <option value="E">E</option>
+            <option {% if previo.tipo == 'V' %} selected {% endif %} value="V">V</option>
+            <option {% if previo.tipo == 'E' %} selected {% endif %} value="E">E</option>
         </select>
-        <input required type="number" max="999999999999" name="identificacion" id="identificacion"><br>
+        <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" max="999999999999" name="identificacion" id="identificacion"><br>
 
         <label>Nombre(s)</label>
-        <input required type="text" name="nombre" id="nombre"><br>
+        <input {% if previo %} value="{{previo.nombre}}" {% endif %} required type="text" name="nombre" id="nombre"><br>
 
         <label>Apellido(s)</label>
-        <input required type="text" name="apellido" id="apellido"><br>
+        <input {% if previo %} value="{{previo.apellido}}" {% endif %} required type="text" name="apellido" id="apellido"><br>
 
         <label>Fecha de Nacimiento</label>
         <input required type="date" name="fecha_nacimiento" id="fecha_nacimiento"><br>
 
         <label>Número Telefónico</label>
-        <input required type="text" maxlength="11" name="telefono" id="telefono"><br>
+        <input {% if previo %} value="{{previo.telefono}}" {% endif %} required type="text" maxlength="11" name="telefono" id="telefono"><br>
 
         <label>¿Es Usted Ciego?</label>
-        <input type="checkbox" name="ciego" id="ciego"><br>
+        <input {% if previo.ciego %} checked {% endif %} type="checkbox" name="ciego" id="ciego"><br>
 
         <h4>Datos de Usuario</h4>
         <!-- Aquí deben haber 2 formularios: uno con solo contraseña y otro con "palabra de seguridad" y "número de seguridad" -->
         <label>Correo Electrónico</label>
-        <input required type="email" name="email" id="email"><br>
+        <input {% if previo %} value="{{previo.email}}" {% endif %} required type="email" name="email" id="email"><br>
 
         <label>Contraseña</label>
         <input required type="password" name="password" id="password"><br>

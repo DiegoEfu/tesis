@@ -74,12 +74,12 @@ def register_user(request):
             errores.append("La contraseña debe contener al menos 8 caracteres.")
 
         if(len(errores) != 0):
-            return render(request, 'registration/register.html', {'errores': errores})
+            return render(request, 'registration/register.html', {'errores': errores, 'previo': request.POST})
 
         # Crear
         persona = Persona.objects.create(tipo=persona, identificacion=identificacion.strip(),
             nombre=nombre.strip(), apellido=apellido.strip(), fecha_nacimiento=fecha_nacimiento,
-            telefono = telefono, puede_ver = not ciego, cargo = "C")
+            numero_telefono= telefono, telefono = telefono, puede_ver = not ciego, cargo = "C")
         Usuario.objects.create(persona=persona, email=email.strip(), password = make_password(password))
 
         return redirect('login/')
