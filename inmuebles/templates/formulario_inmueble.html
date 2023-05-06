@@ -5,16 +5,271 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creación de Inmueble</title>
+
+    <script>
+        const synthesis = window.speechSynthesis;
+        const campos = [
+            ['Nombre del Inmueble', 'nombre', ''], 
+            ['Sector', 'sector', 'Sector donde se encuentra el inmueble. Las opciones son: '],
+            ['Tipo de Construcción', 'tipo_construccion', 'Tipo de construcción. Las opciones son: '],
+            ['Ubicación detallada', 'ubicacion_detallada', 'Ingrese la ubicación detallada. Diga dictado para dictarla.'],
+            ['Año de Construcción', 'ano_construccion', 'Ingrese el año de construcción del inmueble. Diga dictado para dictar.'],
+            ['Tamaño', 'tamano', 'Ingrese el tamaño en metros cuadrados. Diga dictado para dictar.'],
+            ['Número de Habitaciones', 'habitaciones', 'Ingrese el número de habitaciones. Diga dictado para dictar.'],
+            ['Número de baños', 'banos', 'Ingrese el número de baños. Diga dictado para dictar.'],
+            ['Descripción', 'descripcion', 'Ingrese la descripción de la publicación. La descripción podrá ser cambiada por el agente. Diga dictado para dictar.'],
+            ['Precio', 'precio', 'Ingrese el precio en dólares del inmueble. Diga dictado para dictar.'],
+            ['¿Está amueblado?', 'amueblado', 'Responda a la pregunta con "sí" o "no".'],
+            ['¿Tiene estacionamiento?', 'estacionamiento', 'Responda a la pregunta con "sí" o "no".']
+        ];
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "crear inmueble": "Inicia el formulario de creación de inmueble."
+        };
+
+        //TODO lógica del formulario
+        function formulario_p1(event){
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript;
+                   console.log(speech);
+                    
+                    if(campo === 0){
+                        speech = speech.toLowerCase().replace("uno", "1").replace("dos", "2");
+                    }
+
+                    ["dictado", "teclado", "salir", "continuar", "editar", "listo", "1", "2","sí","no"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                                case "salir":
+                                    hablar("Usted ha dicho salir. Saliendo del formulario.");
+                                    dictando = false;
+                                    recognition.onresult = inicial;
+                                break;
+
+                                case "dictado":
+                                    if([1,2,3,4,5,7].indexOf(campo) !== -1 && !dictando){
+                                        if(campo !== 4)
+                                            hablar(`Usted ha dicho dictado. Deletree o dicte con claridad su ${campos[campo][0]}.`);
+                                        else
+                                            hablar("Usted ha dicho dictado. Su fecha de nacimiento debe ser pronunciada en el formato: día (en números) mes (en nombre) año (en números)");
+
+                                        escribiendo = true;
+                                        dictando = true;
+                                    }
+                                    break;
+                                
+                                case "teclado":
+                                    hablar(`Usted ha dicho teclado. Escriba su ${campos[campo][0]} y diga 'listo' al terminar.`);
+                                    escribiendo = true;
+                                    const input = document.getElementById('id_username');
+                                    input.focus();
+                                    break;
+
+                                case "continuar":
+                                    if(!escribiendo){
+                                        campo++;
+                                        if(campo < campos.length){
+                                            const input2 = document.getElementById(campos[campo][1]);
+                                            input2.focus();
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. Diga listo una vez la haya ingresado.`);
+                                            escribiendo = true;
+                                        } else{
+                                            campo = 0;
+                                            $('form').submit();
+                                        }
+                                    }
+                                    break;
+                                
+                                case "editar":
+                                    if(campo >= 1){
+                                        hablar(`Usted ha dicho 'editar'. Vuelva a escribir su ${campos[campo][0]}.`)
+                                        $(`#${campos[campo][1]}`).val("");
+                                        const input2 = document.getElementById(campos[campo][1]);
+                                        input2.focus();
+                                        escribiendo = true;
+                                    } else{
+                                        hablar("Usted ha dicho 'editar'. Diga 'teclado' para escribir el campo con teclado, o diga 'dictado' para dictarlo.")
+                                        $('#id_username').val("");
+                                    }                                
+                                    break;
+
+                                case "listo":
+                                    hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    escribiendo = false;
+                                    dictando = false;
+                                    break;
+                                
+                                case "1":
+                                    if(campo === 0){
+                                        hablar("Usted ha seleccionado la opción 'venezolano'. Si quiso decir extranjero, diga 2. Si quiere continuar, diga continuar.");
+                                        $('#tipo').val("V");                                
+                                    }
+                                    break;
+                                
+                                case "2":
+                                    if(campo === 0){
+                                        hablar("Usted ha seleccionado la opción 'extranjero'. Si quiso decir venezolano, diga 1. Diga listo para continuar.");
+                                        $('#tipo').val("E");
+                                    }
+                                    break; 
+                                
+                                case "sí":
+                                    if(campo === 6){
+                                        $('#ciego').prop("checked", true);
+                                        hablar("Usted ha dicho que sí es ciego. Diga no para cambiar esta opción. Diga listo para continuar.")
+                                    }
+                                    break;
+                                
+                                case "no":
+                                    if(campo === 6){
+                                        $('#ciego').prop("checked", false);
+                                        hablar("Usted ha dicho que no es ciego. Diga sí para cambiar esta opción. Si quiere continuar, diga continuar.")                                        
+                                    }
+                                    break;
+                            }
+                        }
+                    });
+
+                    console.log(dictando);
+                    console.log(campo)
+
+                    if(dictando && (campo === 1 || campo === 5)){
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
+                        
+                        if(!isNaN(speech)) // Esto verifica que el string sea numérico
+                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
+
+                    } else if(dictando && campo === 4){
+                        speech = speech.toLowerCase().replaceAll("del","").replaceAll("de","").replaceAll(/\s+/g, " ");
+                        let nuevo = speech.replace("enero","01").replace("febrero","02").replace("marzo","03")
+                        .replace("abril","04").replace("mayo","05").replace("junio","06")
+                        .replace("julio","07").replace("agosto","08").replace("septiembre","09")
+                        .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
+                        $('#fecha_nacimiento').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
+                    }
+                    else if(dictando && campo === 5){
+                        if(/[0-9]+/.test(speech.replaceAll(" ", "")))
+                            $('#telefono').val($('#telefono').val() + speech.replaceAll(" ", ""));
+                    }                        
+                    else if(dictando && campo === 7){
+                        if(speech.toLowerCase().indexOf("dictado") === -1)
+                            $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
+                    }
+                    else if(dictando){
+                        if(speech.indexOf("Dictado") === -1){
+                            console.log("A");
+                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + " " + speech.toLowerCase().split(' ').map((word) => 
+                                (word.charAt(0).toUpperCase() + word.slice(1))).join(" ").replace('.',''));
+                        }
+                    }
+                        
+                            
+                }
+            }
+        }
+
+        function inicial(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript;
+                   console.log(speech);
+                   Object.keys(comandos).forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                            break;
+                            
+                            case "crear inmueble":
+                                hablar("Usted ha dicho crear inmueble. Diga 'salir' para salir del formulario. Formulario:");
+                                hablar("Campo #1: Nombre del Inmueble. Diga dictado para dictar.");
+                                
+                                recognition.onresult = formulario_p1;
+                                break;
+                        }
+                      }    
+                   });
+                }
+            }
+        }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
+
+        recognition.onerror = (event) => {
+            console.log(event);
+        }
+
+        async function bienvenida(tipo = 0){
+            if ('speechSynthesis' in window) {
+                var utterance = undefined;
+                
+                if(tipo === 0)
+                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de creación de inmueble. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
+                else
+                    utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
+                
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+                recognition.start();
+                recognition.addEventListener('end', recognition.start);
+            }
+        }
+
+        async function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+            }
+        }
+
+        if({{errores|length}} === 0)
+            bienvenida();
+        else
+            bienvenida(1);
+    </script>
 </head>
 <body>
     <h2>Formulario de Inmueble</h2>
     <label for="nombre">Nombre del Inmueble:</label>
-    <input type="text" name="nombre" id="nombre">
+    <input type="text" name="nombre" id="nombre"> <br>
 
     <label for="sector">Sector:</label>
     <select name="tipo_construccion" id="tipo_construccion">
         <option value="La Concepción">La Concepción</option>
-    </select>
+    </select><br>
 
     <select name="tipo_construccion" id="tipo_construccion">
         <option value="Casa Individual">Casa Individual</option>
@@ -23,33 +278,35 @@
         <option value="Casa de Villa">Casa de Villa</option>
         <option value="Apartamento Regular">Apartamento Regular</option>
         <option value="Apartamento PentHouse">Apartamento PentHouse</option>
-    </select>
+    </select><br>
 
     <label for="ubicacion_detallada">Ubicación Detallada:</label>
-    <textarea name="ubicacion_detallada" id="ubicacion_detallada" cols="30" rows="10"></textarea>
+    <textarea name="ubicacion_detallada" id="ubicacion_detallada" cols="30" rows="10"></textarea><br>
 
     <label for="ano">Año de Construcción:</label>
-    <input type="number" name="ano" id="ano">
+    <input type="number" name="ano" id="ano"><br>
 
     <label for="tamano">Tamaño (en metros cuadrados):</label>
-    <input type="number" name="tamano" id="tamano" step=".01">
+    <input type="number" name="tamano" id="tamano" step=".01"><br>
 
     <label for="habitaciones">Número de Habitaciones:</label>
-    <input type="number" name="habitaciones" id="habitaciones">
+    <input type="number" name="habitaciones" id="habitaciones"><br>
 
     <label for="banos">Número de Baños:</label>
-    <input type="number" name="banos" id="banos">
+    <input type="number" name="banos" id="banos"><br>
 
     <label for="descripcion">Descripción (será editada para optimizarse para personas con discapacidad visual):</label>
-    <textarea name="descripcion" id="descripcion" cols="30" rows="10"></textarea>
+    <textarea name="descripcion" id="descripcion" cols="30" rows="10"></textarea><br>
 
     <label for="precio">Precio:</label>
-    <input type="number" name="precio" id="precio">
+    <input type="number" name="precio" id="precio"><br>
 
     <label for="amueblado">Está amueblado:</label>
-    <input type="checkbox" name="amueblado" id="amueblado">
+    <input type="checkbox" name="amueblado" id="amueblado"><br>
 
     <label for="estacionamiento">Tiene estacionamiento:</label>
-    <input type="checkbox" name="estacionamiento" id="estacionamiento">
+    <input type="checkbox" name="estacionamiento" id="estacionamiento"><br>
+
+    <input type="submit" value="Enviar Formulario">
 </body>
 </html>
