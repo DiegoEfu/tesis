@@ -4,21 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
-    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <title>Creación de Inmueble</title>
 
     <script>
         const synthesis = window.speechSynthesis;
         const campos = [
-            ['Tipo de Persona', 'tipo', ''], 
-            ['Identificación', 'identificacion', 'Ingrese su número de identificación. Solo se aceptan números. Diga dictado para dictar.'],
-            ['Nombre', 'nombre', 'Ingrese su nombre. Separe con un espacio en caso de tener más de un nombre. Diga dictado para dictar.'],
-            ['Apellido', 'apellido', 'Ingrese su apellido. Puede tener un máximo de dos apellidos. Separe con espacios. Diga dictado para dictar.'],
-            ['Fecha de Nacimiento', 'fecha_nacimiento', 'Ingrese su fecha de nacimiento. Debe tener al menos de 18 años. Diga dictado para dictar.'],
-            ['Número Telefónico', 'telefono', 'Ingrese su número telefónico. Debe ser un número telefónico venezolano. Diga dictado para dictar.'],
-            ['¿Es usted ciego?', 'ciego', 'Responda a la pregunta con un "sí" o un "no".'],
-            ['Correo Electrónico', 'email', 'Ingrese su correo electrónico. Debe ser un correo electrónico válido.'],
-            ['Contraseña', 'password', 'Ingrese su contraseña secreta. Debe tener un mínimo de 8 caracteres y por seguridad no se puede dictar.']
+            ['Nombre del Inmueble', 'nombre', ''], 
+            ['Sector', 'sector', 'Sector donde se encuentra el inmueble. Las opciones son: '],
+            ['Tipo de Construcción', 'tipo_construccion', 'Tipo de construcción. Las opciones son: '],
+            ['Ubicación detallada', 'ubicacion_detallada', 'Ingrese la ubicación detallada. Diga dictado para dictarla.'],
+            ['Año de Construcción', 'ano_construccion', 'Ingrese el año de construcción del inmueble. Diga dictado para dictar.'],
+            ['Tamaño', 'tamano', 'Ingrese el tamaño en metros cuadrados. Diga dictado para dictar.'],
+            ['Número de Habitaciones', 'habitaciones', 'Ingrese el número de habitaciones. Diga dictado para dictar.'],
+            ['Número de baños', 'banos', 'Ingrese el número de baños. Diga dictado para dictar.'],
+            ['Descripción', 'descripcion', 'Ingrese la descripción de la publicación. La descripción podrá ser cambiada por el agente. Diga dictado para dictar.'],
+            ['Precio', 'precio', 'Ingrese el precio en dólares del inmueble. Diga dictado para dictar.'],
+            ['¿Está amueblado?', 'amueblado', 'Responda a la pregunta con "sí" o "no".'],
+            ['¿Tiene estacionamiento?', 'estacionamiento', 'Responda a la pregunta con "sí" o "no".']
         ];
         let speaking = true, escribiendo = false, dictando = false, campo = 0;;
         const voice = synthesis.getVoices().filter(function (voice) {
@@ -26,10 +28,10 @@
         })[2];
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
-            "iniciar sesión": "Llevar a la página de inicio de sesión",
-            "crear nuevo usuario": "Permite crear un nuevo usuario con el formulario"
+            "crear inmueble": "Inicia el formulario de creación de inmueble."
         };
 
+        //TODO lógica del formulario
         function formulario_p1(event){
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
@@ -194,15 +196,10 @@
                                     hablar("Usted ha dicho ayuda. " + crear_utterance());
                                 }
                             break;
-
-                            case "iniciar sesión":
-                                hablar("Usted ha dicho iniciar sesión. Redirigiendo.");
-                                location.replace("/usuarios/login/");
-                                break;
                             
-                            case "crear nuevo usuario":
-                                hablar("Usted ha dicho crear nuevo usuario. Diga 'salir' para salir del formulario. Formulario:");
-                                hablar("Campo #1: Tipo de Persona. Diga 1 para venezolano. Diga 2 para extranjero.");
+                            case "crear inmueble":
+                                hablar("Usted ha dicho crear inmueble. Diga 'salir' para salir del formulario. Formulario:");
+                                hablar("Campo #1: Nombre del Inmueble. Diga dictado para dictar.");
                                 
                                 recognition.onresult = formulario_p1;
                                 break;
@@ -230,7 +227,7 @@
                 var utterance = undefined;
                 
                 if(tipo === 0)
-                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de registro de usuario. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
+                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de creación de inmueble. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
                 else
                     utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
                 
@@ -265,49 +262,51 @@
     </script>
 </head>
 <body>
-    <h1>Registro de Usuario</h1>
-    {% if errores %}
-    <ul>
-        {% for error in errores %}
-        <li>{{error}}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    <form method="post">
-        {% csrf_token %}
-        <h4>Datos Personales</h4>
-        <label>Cédula de Identidad o RIF</label>
-        <select name="tipo" id="tipo">
-            <option {% if previo.tipo == 'V' %} selected {% endif %} value="V">V</option>
-            <option {% if previo.tipo == 'E' %} selected {% endif %} value="E">E</option>
-        </select>
-        <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" max="999999999999" name="identificacion" id="identificacion"><br>
+    <h2>Formulario de Inmueble</h2>
+    <label for="nombre">Nombre del Inmueble:</label>
+    <input type="text" name="nombre" id="nombre"> <br>
 
-        <label>Nombre(s)</label>
-        <input {% if previo %} value="{{previo.nombre}}" {% endif %} required type="text" name="nombre" id="nombre"><br>
+    <label for="sector">Sector:</label>
+    <select name="tipo_construccion" id="tipo_construccion">
+        <option value="La Concepción">La Concepción</option>
+    </select><br>
 
-        <label>Apellido(s)</label>
-        <input {% if previo %} value="{{previo.apellido}}" {% endif %} required type="text" name="apellido" id="apellido"><br>
+    <select name="tipo_construccion" id="tipo_construccion">
+        <option value="Casa Individual">Casa Individual</option>
+        <option value="Casa Dúplex">Casa Dúplex</option>
+        <option value="Casa Triplex">Casa Triplex</option>
+        <option value="Casa de Villa">Casa de Villa</option>
+        <option value="Apartamento Regular">Apartamento Regular</option>
+        <option value="Apartamento PentHouse">Apartamento PentHouse</option>
+    </select><br>
 
-        <label>Fecha de Nacimiento</label>
-        <input required type="date" name="fecha_nacimiento" id="fecha_nacimiento"><br>
+    <label for="ubicacion_detallada">Ubicación Detallada:</label>
+    <textarea name="ubicacion_detallada" id="ubicacion_detallada" cols="30" rows="10"></textarea><br>
 
-        <label>Número Telefónico</label>
-        <input {% if previo %} value="{{previo.telefono}}" {% endif %} required type="text" maxlength="11" name="telefono" id="telefono"><br>
+    <label for="ano">Año de Construcción:</label>
+    <input type="number" name="ano" id="ano"><br>
 
-        <label>¿Es Usted Ciego?</label>
-        <input {% if previo.ciego %} checked {% endif %} type="checkbox" name="ciego" id="ciego"><br>
+    <label for="tamano">Tamaño (en metros cuadrados):</label>
+    <input type="number" name="tamano" id="tamano" step=".01"><br>
 
-        <h4>Datos de Usuario</h4>
-        <!-- Aquí deben haber 2 formularios: uno con solo contraseña y otro con "palabra de seguridad" y "número de seguridad" -->
-        <label>Correo Electrónico</label>
-        <input {% if previo %} value="{{previo.email}}" {% endif %} required type="email" name="email" id="email"><br>
+    <label for="habitaciones">Número de Habitaciones:</label>
+    <input type="number" name="habitaciones" id="habitaciones"><br>
 
-        <label>Contraseña</label>
-        <input required type="password" name="password" id="password"><br>
+    <label for="banos">Número de Baños:</label>
+    <input type="number" name="banos" id="banos"><br>
 
-        <input required type="submit" value="Registrar">
-        ¿Ya tiene cuenta? <a href="login/">Regresar</a>.
-    </form>    
+    <label for="descripcion">Descripción (será editada para optimizarse para personas con discapacidad visual):</label>
+    <textarea name="descripcion" id="descripcion" cols="30" rows="10"></textarea><br>
+
+    <label for="precio">Precio:</label>
+    <input type="number" name="precio" id="precio"><br>
+
+    <label for="amueblado">Está amueblado:</label>
+    <input type="checkbox" name="amueblado" id="amueblado"><br>
+
+    <label for="estacionamiento">Tiene estacionamiento:</label>
+    <input type="checkbox" name="estacionamiento" id="estacionamiento"><br>
+
+    <input type="submit" value="Enviar Formulario">
 </body>
 </html>
