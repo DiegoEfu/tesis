@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import bancos
 
 # Create your views here.
 
@@ -29,7 +30,7 @@ def formulario_cuenta(request):
 
     if(request.method == 'GET'):
         # Construcción del formulario a partir de la plantilla
-        return render(request, "formulario_cuenta.html")
+        return render(request, "formulario_cuenta.html", {"bancos": bancos})
     elif(request.method == 'POST'):
         # Validación de completitud de datos
         # Validación de correcta estructura de datos
