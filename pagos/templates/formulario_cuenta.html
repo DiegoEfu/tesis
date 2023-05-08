@@ -227,6 +227,11 @@
     </script>
 </head>
 <body>
+    <ul>
+        {% for error in errores %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
     <form method="post">
         {% csrf_token %}
         <label for="banco">Banco:</label>
