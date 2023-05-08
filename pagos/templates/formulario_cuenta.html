@@ -114,7 +114,7 @@
                     if(dictando && campo === 1){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace(/\w+/g,'').replace('.','').replace(",","").replace(/\D/g,"");
+                         .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace('.','').replace(",","");
                         
                         if(!isNaN(speech)) // Esto verifica que el string sea numérico
                             $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
