@@ -227,7 +227,8 @@
     </script>
 </head>
 <body>
-    <form action="post">
+    <form method="post">
+        {% csrf_token %}
         <label for="banco">Banco:</label>
         <select name="banco" id="banco">
             {% for banco in bancos %}
@@ -236,7 +237,7 @@
         </select> <br>
 
         <label for="numero">Número</label>
-        <input type="text" name="numero" id="numero" maxlength="18" placeholder="Solo pueden ser números de cuenta venezolados.">
+        <input type="text" name="numero" id="numero" maxlength="20" placeholder="Solo pueden ser números de cuenta venezolados.">
         <br>
 
         <input type="submit" value="Guardar">

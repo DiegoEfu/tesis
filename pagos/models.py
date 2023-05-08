@@ -37,7 +37,7 @@ estados = [
 ]
 
 class Cuenta(models.Model):
-    numero = models.CharField(max_length=18, null=True)
+    numero = models.CharField(max_length=20, null=True)
     titular = models.CharField(null=True, max_length=20)
     rif = models.CharField(null=True, max_length=10)
     banco = models.CharField(max_length=50, choices=bancos)
