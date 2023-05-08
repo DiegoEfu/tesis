@@ -37,15 +37,15 @@ estados = [
 ]
 
 class Cuenta(models.Model):
-    numero = models.CharField(max_length=18)
-    titular = models.CharField(null=True)
-    rif = models.CharField(null=True)
+    numero = models.CharField(max_length=20, null=True)
+    titular = models.CharField(null=True, max_length=20)
+    rif = models.CharField(null=True, max_length=10)
     banco = models.CharField(max_length=50, choices=bancos)
-    persona = models.ForeignKey(to=Persona)
+    persona = models.ForeignKey(to=Persona, on_delete=models.CASCADE)
 
 class Cambio(models.Model):
     fecha = models.DateField(auto_now_add=True)
-    tasa = models.DecimalField(5,2)
+    tasa = models.DecimalField(max_digits=5, decimal_places=2)
 
 class Pago(models.Model):
     monto = models.DecimalField(max_digits=15, decimal_places=2)
@@ -53,7 +53,7 @@ class Pago(models.Model):
     estado = models.CharField(max_length=1,choices=estados)
     comentario_cajero = models.TextField()
     referencia = models.IntegerField()
-    emisora = models.ForeignKey(to=Cuenta, on_delete=models.CASCADE, related_name="Cuenta Emisora")
-    receptora = models.ForeignKey(to=Cuenta, on_delete=models.CASCADE, related_name="Cuenta Receptora")
+    emisora = models.ForeignKey(to=Cuenta, on_delete=models.CASCADE, related_name="cuenta_emisora")
+    receptora = models.ForeignKey(to=Cuenta, on_delete=models.CASCADE, related_name="cuenta_receptora")
     tasa = models.ForeignKey(to=Cambio, on_delete=models.CASCADE)
     compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE)
