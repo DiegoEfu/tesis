@@ -54,4 +54,5 @@ class Pago(models.Model):
     emisora = models.ForeignKey(to=Cuenta, on_delete=models.CASCADE, related_name="cuenta_emisora")
     receptora = models.ForeignKey(to=Cuenta, on_delete=models.CASCADE, related_name="cuenta_receptora")
     tasa = models.ForeignKey(to=Cambio, on_delete=models.CASCADE, default=1)
+    fecha = models.DateTimeField(auto_now_add=True)
     compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE)
