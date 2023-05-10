@@ -38,8 +38,6 @@ estados = [
 
 class Cuenta(models.Model):
     numero = models.CharField(max_length=20, null=True)
-    titular = models.CharField(null=True, max_length=20)
-    rif = models.CharField(null=True, max_length=10)
     banco = models.CharField(max_length=50, choices=bancos)
     persona = models.ForeignKey(to=Persona, on_delete=models.CASCADE)
 
@@ -55,5 +53,6 @@ class Pago(models.Model):
     referencia = models.IntegerField()
     emisora = models.ForeignKey(to=Cuenta, on_delete=models.CASCADE, related_name="cuenta_emisora")
     receptora = models.ForeignKey(to=Cuenta, on_delete=models.CASCADE, related_name="cuenta_receptora")
-    tasa = models.ForeignKey(to=Cambio, on_delete=models.CASCADE)
+    tasa = models.ForeignKey(to=Cambio, on_delete=models.CASCADE, default=1)
+    fecha = models.DateTimeField(auto_now_add=True)
     compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE)
