@@ -36,8 +36,12 @@ tipos_construccion = [
     ("Apartamento PentHouse",)*2,
 ]
 
+class Parroquia(models.Model):
+    nombre = models.CharField(max_length=50)
+
 class Sector(models.Model):
     nombre = models.CharField(max_length=45)
+    parroquia = models.ForeignKey(to=Parroquia, on_delete=models.CASCADE)
 
 class Inmueble(models.Model):
     nombre = models.CharField(max_length=100)
