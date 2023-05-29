@@ -14,22 +14,18 @@ def formulario_pago(request):
     if(request.method == 'GET'):
         # Construcción del formulario a partir de la plantilla
         context = {}
-        context['cuentas_cliente'] = Cuenta.objects.filter(persona = request.user.persona)
+        context['cuentas_cliente'] = Cuenta.objects.filter(persona = request.user.persona) if request.user.is_authenticated else []
         context['cuentas_empresa'] = Cuenta.objects.filter(persona__pk = 3)
         return render(request, "formulario_pago.html")
     elif(request.method == 'POST'):
         # Validación de completitud de datos
         print(request.POST)
-        emisora = request.POST.get('emisora')
         receptora = request.POST.get('receptora')
         referencia = request.POST.get('referencia')
         monto = request.POST.get('monto')
         comentario = request.POST.get('comentario')
 
         errores = []
-
-        if(not emisora):
-            errores.append("No hay una cuenta emisora seleccionada.")
         
         if(not receptora):
             errores.append("No hay una cuenta receptora seleccionada.")
@@ -41,15 +37,10 @@ def formulario_pago(request):
             errores.append("No se ingresó un monto de pago.")
 
         # Validación de correcta estructura de datos
-
-        if(not Cuenta.objects.filter(pk=emisora).exists()):
-            errores.append("La cuenta emisora no existe")
-        elif(Cuenta.objects.get(pk=emisora).persona != request.user.persona):
-            errores.append("La cuenta emisora no pertenece al usuario.")
         
         if(not Cuenta.objects.filter(pk=receptora).exists()):
             errores.append("La cuenta receptora no existe.")
-        elif(Cuenta.objects.get(pk=emisora).persona.pk != 3):
+        elif(Cuenta.objects.get(pk=receptora).persona.pk != 3):
             errores.append("La cuenta receptora no pertenece a Inmobiliaria Villarreal CA.")
 
         if(float(monto) < 1):
@@ -60,7 +51,6 @@ def formulario_pago(request):
         Pago.objects.create(
             estado = "P",
             receptora = Cuenta.objects.get(pk=receptora),
-            emisora = Cuenta.objects.get(pk=emisora),
             referencia = referencia,
             monto = monto,
             comentario = comentario,

@@ -232,13 +232,6 @@
 </head>
 <body>
     <form method="post">
-        <label for="emisora">Cuenta Emisora:</label>
-        <select name="emisora" id="emisora">
-            {% for cuenta in cuentas_cliente %}
-            <option value="{{cuenta.id}}">{{cuenta.banco}} - {{cuenta.numero}}</option>
-            {% endfor %}
-        </select>
-
         <label for="receptora">Cuenta Receptora:</label>
         <select name="receptora" id="receptora">
             {% for cuenta in cuentas_empresa %}
