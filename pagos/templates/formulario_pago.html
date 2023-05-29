@@ -240,10 +240,13 @@
         </select>
 
         <label for="monto">Monto (en bolívares):</label>
-        <input type="number" name="monto" id="monto" step=".01" min="1">
+        <input type="number" name="monto" id="monto" step=".01" min="1" required>
 
         <label for="referencia">Número de Referencia:</label>
-        <input type="text" name="referencia" id="referencia">
+        <input type="text" name="referencia" id="referencia" required>
+
+        <label for="fecha_transaccion">Fecha de la transacción:</label>
+        <input type="date" required>
 
         <label for="comentario">Comentarios:</label>
         <textarea name="comentario" id="comentario"></textarea>

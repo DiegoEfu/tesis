@@ -24,6 +24,7 @@ def formulario_pago(request):
         referencia = request.POST.get('referencia')
         monto = request.POST.get('monto')
         comentario = request.POST.get('comentario')
+        fecha_transaccion = request.POST.get('fecha_transaccion')
 
         errores = []
         
@@ -35,6 +36,9 @@ def formulario_pago(request):
         
         if(not monto):
             errores.append("No se ingresó un monto de pago.")
+        
+        if(not fecha_transaccion):
+            errores.append("Debe seleccionar fecha de la transacción.")
 
         # Validación de correcta estructura de datos
         
@@ -54,6 +58,7 @@ def formulario_pago(request):
             referencia = referencia,
             monto = monto,
             comentario = comentario,
+            fecha_transaccion = fecha_transaccion,
             tasa = Cambio.objects.last()
         )
 
