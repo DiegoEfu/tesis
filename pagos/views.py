@@ -14,9 +14,8 @@ def formulario_pago(request):
     if(request.method == 'GET'):
         # Construcción del formulario a partir de la plantilla
         context = {}
-        context['cuentas_cliente'] = Cuenta.objects.filter(persona = request.user.persona) if request.user.is_authenticated else []
         context['cuentas_empresa'] = Cuenta.objects.filter(persona__pk = 3)
-        return render(request, "formulario_pago.html")
+        return render(request, "formulario_pago.html",context=context)
     elif(request.method == 'POST'):
         # Validación de completitud de datos
         print(request.POST)

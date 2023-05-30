@@ -12,7 +12,7 @@
         const synthesis = window.speechSynthesis;
         const campos = [
             ['Emisor', 'emisor', ''], 
-            ['Monto', 'monto', 'Ingrese el monto transferido. Diga dictado para dictar.'],
+            ['Monto', 'monto', 'Ingrese el monto transferido en bolívares. Diga dictado para dictar.'],
             ['Número de Referencia', 'referencia', 'Ingrese el número de referencia de la transacción dado por el banco. Diga dictado para dictar.'],
             ['Fecha de la transacción', 'fecha_transaccion', 'Ingrese la fecha de la transacción ingresada.'],
             ['Comentarios', 'comentario', 'Añada un comentario de continuarlo necesario. Este campo es opcional. Diga dictado para dictar.']
@@ -71,6 +71,7 @@
                                         campo++;
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
+                                            console.log(input2);
                                             input2.focus();
                                             hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. Diga listo una vez la haya ingresado.`);
                                             escribiendo = true;
@@ -102,9 +103,8 @@
                                 
                                 case 'opciones':
                                     if(campo === 0){
-
-                                        // {% for banco in bancos %}
-                                        hablar("Diga {{forloop.counter}} para " +'{{banco.0}}'.slice(6))
+                                        // {% for cuenta in cuentas_empresa %}
+                                        hablar("Diga {{forloop.counter}} para " +'{{cuenta.banco}}'.slice(6))
                                         // {% endfor %}
                                     }
                                     break;
@@ -113,12 +113,29 @@
                     });
 
                     console.log(dictando);
-                    console.log(campo)
+                    console.log(campo);
 
                     if(dictando && campo === 1){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace('.','').replace(",","");
+                         .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
+                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace(",",".").replaceAll(" ", "");
+                        
+                        speech = speech.slice(0,-1);
+                        
+                        console.log(speech);
+                        
+                        if(!isNaN(speech)) // Esto verifica que el string sea numérico
+                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
+                    }else if(dictando && campo === 2){
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                         .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
+                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replaceAll(" ", "");
+                        
+                        speech = speech.slice(0,-1);
+                        
+                        console.log(speech);
                         
                         if(!isNaN(speech)) // Esto verifica que el string sea numérico
                             $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
@@ -128,7 +145,7 @@
                         .replace("abril","04").replace("mayo","05").replace("junio","06")
                         .replace("julio","07").replace("agosto","08").replace("septiembre","09")
                         .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
-                        $('#fecha_nacimiento').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
+                        $('#fecha_transaccion').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
                     }
 
                     if(campo === 0 && !speaking){
@@ -139,11 +156,11 @@
                         console.log(speech);
                         console.log(Number(speech));
                         
-                        // {% for banco in bancos %}
+                        // {% for cuenta in cuentas_empresa %}
 
                         if({{forloop.counter}} === Number(speech)){
-                            $('#banco').val("{{banco.0}}");
-                            hablar("Usted ha dicho {{forloop.counter}}. Se ha escogido " + '{{banco.0}}'.slice(6) + " Diga continuar para continuar, o diga opciones para escuchar todas las opciones.")
+                            $('#receptora').val("{{cuenta.pk}}");
+                            hablar("Usted ha dicho {{forloop.counter}}. Se ha escogido " + '{{cuenta.banco}}'.slice(6) + " Diga continuar para continuar, o diga opciones para escuchar todas las opciones.")
                         }
 
                         // {% endfor %}
@@ -239,24 +256,24 @@
 </head>
 <body>
     <form method="post">
-        <label for="receptora">Cuenta Receptora:</label>
+        <label for="receptora">Cuenta Receptora:</label><br>
         <select name="receptora" id="receptora">
             {% for cuenta in cuentas_empresa %}
             <option value="{{cuenta.id}}">{{cuenta.banco}} - {{cuenta.numero}}</option>
             {% endfor %}
-        </select>
+        </select><br>
 
-        <label for="monto">Monto (en bolívares):</label>
-        <input type="number" name="monto" id="monto" step=".01" min="1" required>
+        <label for="monto">Monto (en bolívares):</label><br>
+        <input type="number" name="monto" id="monto" step=".01" min="1" required><br>
 
-        <label for="referencia">Número de Referencia:</label>
-        <input type="text" name="referencia" id="referencia" required>
+        <label for="referencia">Número de Referencia:</label><br>
+        <input type="text" name="referencia" id="referencia" required><br>
 
-        <label for="fecha_transaccion">Fecha de la transacción:</label>
-        <input type="date" required>
+        <label for="fecha_transaccion">Fecha de la transacción:</label><br>
+        <input type="date" name="fecha_transaccion" required><br>
 
-        <label for="comentario">Comentarios:</label>
-        <textarea name="comentario" id="comentario"></textarea>
+        <label for="comentario">Comentarios:</label><br>
+        <textarea name="comentario" id="comentario"></textarea><br>
 
         <input type="submit" value="Registrar Pago">
     </form>    
