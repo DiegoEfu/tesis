@@ -14,8 +14,8 @@
             ['Emisor', 'emisor', ''], 
             ['Monto', 'monto', 'Ingrese el monto transferido en bolívares. Diga dictado para dictar.'],
             ['Número de Referencia', 'referencia', 'Ingrese el número de referencia de la transacción dado por el banco. Diga dictado para dictar.'],
-            ['Fecha de la transacción', 'fecha_transaccion', 'Ingrese la fecha de la transacción ingresada.'],
-            ['Comentarios', 'comentario', 'Añada un comentario de continuarlo necesario. Este campo es opcional. Diga dictado para dictar.']
+            ['Fecha de la transacción', 'fecha_transaccion', 'Ingrese la fecha de la transacción.'],
+            ['Comentarios', 'comentario', 'Añada un comentario de considerarlo necesario. Este campo es opcional. Diga dictado para dictar.']
         ];
         let speaking = true, escribiendo = false, dictando = false, campo = 0;;
         const voice = synthesis.getVoices().filter(function (voice) {
@@ -146,6 +146,9 @@
                         .replace("julio","07").replace("agosto","08").replace("septiembre","09")
                         .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
                         $('#fecha_transaccion').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
+                    } else if(dictando && campo === 4){
+                        speech = speech.slice(0,-1);
+                        $('#comentario').val($("#comentario").val() + " " + speech);
                     }
 
                     if(campo === 0 && !speaking){
@@ -270,7 +273,7 @@
         <input type="text" name="referencia" id="referencia" required><br>
 
         <label for="fecha_transaccion">Fecha de la transacción:</label><br>
-        <input type="date" name="fecha_transaccion" required><br>
+        <input type="date" id="fecha_transaccion" name="fecha_transaccion" required><br>
 
         <label for="comentario">Comentarios:</label><br>
         <textarea name="comentario" id="comentario"></textarea><br>
