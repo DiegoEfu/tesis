@@ -132,3 +132,9 @@ AUTH_USER_MODEL = "usuarios.Usuario"
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
