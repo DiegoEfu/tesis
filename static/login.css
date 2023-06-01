@@ -48,7 +48,7 @@
         to bottom,
         var(--verdeOscuroFondo),
         var(--negroFondo)
-      ), url("../images/fondoLogin.jpg"); 
+      ), url("img/fondoLogin.jpg"); 
     background-size: cover;
     background-position: center;
     height: 80vw;

@@ -161,7 +161,7 @@
             if ('speechSynthesis' in window) {
                 let utterance = undefined;
                 if(tipo === 0)
-                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de inicio de sesión general. Si quiere saber los comandos disponibles diga "ayuda".');
+                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de inicio de sesión. Si quiere saber los comandos disponibles diga "ayuda".');
                 else
                     utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: Por favor, introduzca un Correo Electrónico y clave correctos. Observe que ambos campos pueden ser sensibles a mayúsculas. Diga "iniciar sesión" para reintentar.');
                 
@@ -213,17 +213,21 @@
     </header>
     <div class="fondoLogin container-fluid">
         <div class="cuadroForm container-fluid"><br>
-                <h3 class="loginTitle">Inicio de Sesión</h3> <br>
+            <h3 class="loginTitle">Inicio de Sesión</h3> <br>
+            {% for key, value in form.errors.items %}
+            <p style="color: brown;">{{value}}</p>
+            {% endfor %}
             <form method="POST" action="">  
+                {% csrf_token %}
                 <label for="">Correo Electrónico: </label><br> <br>
-                <input type="text" name="emailInput" required class="form-control">  <br> <br>
+                <input type="text" name="username" id="id_username" required class="form-control">  <br> <br>
                 <label for="">Contraseña:</label> <br> <br> 
-                <input type="text" name="claveInput" required class="form-control"> <br> <br> <br>
+                <input type="password" name="password" id="id_password" required class="form-control"> <br> <br> <br>
                 <div class="apartadoBoton">
                 <input type="submit" name="botonEnviar" class="btn-success"> <br>  <br> <br> </div>
             </form>
 
-            <label for="">¿No tienes cuenta aún? <a href="">Regístrate</a></label> 
+            <label for="">¿No tienes cuenta aún? <a href="{% url 'registro' %}">Crear Nuevo Usuario</a></label> 
         </div>
     </div>
     <footer>
