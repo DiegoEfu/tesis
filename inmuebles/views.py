@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.http import JsonResponse
 from .models import Parroquia, Sector
 
 # Create your views here.
@@ -24,3 +25,6 @@ def formulario_inmueble(request):
         # Validación de correcta estructura de datos
         # Creación
         pass
+
+def get_sectores(request, id):
+    return JsonResponse({'res': list(Sector.objects.filter(parroquia__id = id).values())})

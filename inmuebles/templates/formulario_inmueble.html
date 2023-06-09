@@ -274,15 +274,16 @@
             bienvenida(1);
 
         $(document).on('change', '#parroquia', () => {
-            let opciones = $.ajax('127.0.0.1/', {
-                url: `inmueble/sectores/${$('#parroquia').val()}`, 
-                async: false,
-                success: (res) => {
-                    console.log(res);
-                }
-            })
             $('#sector').empty();
-        })
+            let opciones = $.ajax(`sectores/${$('#parroquia').val()}`, {
+                async: false,
+                success: ({res}) => {
+                    console.log(res);
+                    for(let i = 1; i <= res.length; i++)
+                       $('#sector').append(`<option value="${i}">${res[i-1].nombre}</option>`)
+                }
+            });
+        });
     </script>
 </head>
 <body>
