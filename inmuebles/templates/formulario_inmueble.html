@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creación de Inmueble</title>
 
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <script>
         const synthesis = window.speechSynthesis;
         const campos = [
             ['Nombre del Inmueble', 'nombre', ''], 
-            ['Sector', 'sector', 'Sector donde se encuentra el inmueble. Las opciones son: '],
-            ['Tipo de Construcción', 'tipo_construccion', 'Tipo de construcción. Las opciones son: '],
+            ['Parroquia', 'parroquia', 'Parroquia donde se encuentra el inmueble. Diga opciones para escuchar las opciones.'],
+            ['Sector', 'sector', 'Sector donde se encuentra el inmueble. Diga opciones para escuchar las opciones.'],
+            ['Tipo de Construcción', 'tipo_construccion', 'Tipo de construcción. Diga opciones para escuchar las opciones.'],
             ['Ubicación detallada', 'ubicacion_detallada', 'Ingrese la ubicación detallada. Diga dictado para dictarla.'],
             ['Año de Construcción', 'ano_construccion', 'Ingrese el año de construcción del inmueble. Diga dictado para dictar.'],
             ['Tamaño', 'tamano', 'Ingrese el tamaño en metros cuadrados. Diga dictado para dictar.'],
@@ -42,7 +44,7 @@
                         speech = speech.toLowerCase().replace("uno", "1").replace("dos", "2");
                     }
 
-                    ["dictado", "teclado", "salir", "continuar", "editar", "listo", "1", "2","sí","no"].forEach(comando => {
+                    ["dictado", "teclado", "salir", "continuar", "editar", "opciones", "listo", "1", "2","sí","no"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -53,9 +55,9 @@
                                 break;
 
                                 case "dictado":
-                                    if([1,2,3,4,5,7].indexOf(campo) !== -1 && !dictando){
+                                    if([0,1,2,3,4,5,7].indexOf(campo) !== -1 && !dictando){
                                         if(campo !== 4)
-                                            hablar(`Usted ha dicho dictado. Deletree o dicte con claridad su ${campos[campo][0]}.`);
+                                            hablar(`Usted ha dicho dictado. Deletree o dicte con claridad el ${campos[campo][0]}.`);
                                         else
                                             hablar("Usted ha dicho dictado. Su fecha de nacimiento debe ser pronunciada en el formato: día (en números) mes (en nombre) año (en números)");
 
@@ -86,6 +88,17 @@
                                     }
                                     break;
                                 
+                                case "opciones":
+                                    if(campo === 1){
+                                    } else if(campo === 2){
+
+                                    } else if(campo === 3){
+                                        // {% for construccion in construcciones %}
+                                        hablar("Diga {{forloop.counter}} para " +'{{construccion.0}}')
+                                        // {% endfor %}
+                                    }
+                                    break;
+
                                 case "editar":
                                     if(campo >= 1){
                                         hablar(`Usted ha dicho 'editar'. Vuelva a escribir su ${campos[campo][0]}.`)
@@ -259,6 +272,17 @@
             bienvenida();
         else
             bienvenida(1);
+
+        $(document).on('change', '#parroquia', () => {
+            let opciones = $.ajax('127.0.0.1/', {
+                url: `inmueble/sectores/${$('#parroquia').val()}`, 
+                async: false,
+                success: (res) => {
+                    console.log(res);
+                }
+            })
+            $('#sector').empty();
+        })
     </script>
 </head>
 <body>
@@ -266,18 +290,23 @@
     <label for="nombre">Nombre del Inmueble:</label>
     <input type="text" name="nombre" id="nombre"> <br>
 
+    <label for="parroquia">Parroquia:</label>
+    <select name="parroquia" id="parroquia">
+        {% for parroquia in parroquias %}
+        <option value="{{parroquia.id}}">{{parroquia.nombre}}</option>
+        {% endfor %}
+    </select><br>
+
     <label for="sector">Sector:</label>
-    <select name="tipo_construccion" id="tipo_construccion">
+    <select name="sector" id="sector">
         <option value="La Concepción">La Concepción</option>
     </select><br>
 
+    <label for="tipo_construccion">Tipo de Construcción:</label>
     <select name="tipo_construccion" id="tipo_construccion">
-        <option value="Casa Individual">Casa Individual</option>
-        <option value="Casa Dúplex">Casa Dúplex</option>
-        <option value="Casa Triplex">Casa Triplex</option>
-        <option value="Casa de Villa">Casa de Villa</option>
-        <option value="Apartamento Regular">Apartamento Regular</option>
-        <option value="Apartamento PentHouse">Apartamento PentHouse</option>
+        {% for construccion in construcciones %}
+        <option value="{{forloop.counter}}">{{construccion}}</option>
+        {% endfor %}
     </select><br>
 
     <label for="ubicacion_detallada">Ubicación Detallada:</label>

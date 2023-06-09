@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from .models import Parroquia, Sector
 
 # Create your views here.
 
@@ -12,7 +13,12 @@ def formulario_inmueble(request):
 
     if(request.method == 'GET'):
         # Construcción del formulario a partir de la plantilla
-        return render(request, "formulario_inmueble.html")
+        context = {}
+        context['construcciones'] = ["Casa Individual", "Casa Dúplex", "Casa Tríplex",
+            "Casa de Villa", "Apartamento Regular", "Apartamento PentHouse"]
+        context['parroquias'] = Parroquia.objects.all()
+        context['sectores'] = Sector.objects.filter(parroquia = context['parroquias'].first())
+        return render(request, "formulario_inmueble.html", context=context)
     elif(request.method == 'POST'):
         # Validación de completitud de datos
         # Validación de correcta estructura de datos
