@@ -24,7 +24,8 @@
             ['¿Está amueblado?', 'amueblado', 'Responda a la pregunta con "sí" o "no".'],
             ['¿Tiene estacionamiento?', 'estacionamiento', 'Responda a la pregunta con "sí" o "no".']
         ];
-        let speaking = true, escribiendo = false, dictando = false, campo = 0;;
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        let sectores_actuales = [];
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -90,11 +91,15 @@
                                 
                                 case "opciones":
                                     if(campo === 1){
+                                        // {% for parroquia in parroquias %}
+                                        hablar("Diga {{forloop.counter}} para " +'{{parroquia.nombre}}');
+                                        // {% endfor %} 
                                     } else if(campo === 2){
-
+                                        for(let i = 1; i <= sectores_actuales.length; i++)
+                                            hablar(`Diga ${i} para ${sectores_actuales[i-1].nombre}`);
                                     } else if(campo === 3){
                                         // {% for construccion in construcciones %}
-                                        hablar("Diga {{forloop.counter}} para " +'{{construccion.0}}')
+                                        hablar("Diga {{forloop.counter}} para " +'{{construccion}}');
                                         // {% endfor %}
                                     }
                                     break;
@@ -183,8 +188,33 @@
                                 (word.charAt(0).toUpperCase() + word.slice(1))).join(" ").replace('.',''));
                         }
                     }
+
+                    if(campo === 1 && !speaking){
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace('.','').replace(",","");
                         
-                            
+                        // {% for parroquia in parroquias %}
+
+                        if({{forloop.counter}} === Number(speech)){
+                            $('#parroquia').val("{{parroquia.id}}");
+                            $('#parroquia').change();
+                            hablar("Usted ha dicho {{forloop.counter}}. Se ha escogido " + '{{parroquia.nombre}} Diga continuar para continuar, o diga opciones para escuchar todas las opciones.')
+                        }
+
+                        // {% endfor %}
+                    } else if(campo === 2 && !speaking){
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace('.','').replace(",","");
+                        
+                        for(let i = 1; i <= sectores_actuales.length; i++){
+                            if(i === Number(speech)){
+                                $('#sector').val(`${sectores_actuales[i-1].id}`);
+                                hablar(`Usted ha dicho ${i}. Se ha escogido ` + `${sectores_actuales[i-1].nombre}. Diga continuar para continuar, o diga opciones para escuchar todas las opciones.`)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -278,9 +308,10 @@
             let opciones = $.ajax(`sectores/${$('#parroquia').val()}`, {
                 async: false,
                 success: ({res}) => {
-                    console.log(res);
                     for(let i = 1; i <= res.length; i++)
                        $('#sector').append(`<option value="${i}">${res[i-1].nombre}</option>`)
+
+                    sectores_actuales = res;
                 }
             });
         });
