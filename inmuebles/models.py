@@ -54,7 +54,7 @@ class Inmueble(models.Model):
     banos = models.IntegerField()
     amueblado = models.BooleanField()
     descripcion = models.TextField()
-    comentarios_internos = models.TextField()
+    comentarios_internos = models.TextField(default="")
     ubicacion_detallada = models.TextField()
     precio = models.DecimalField(decimal_places=2,max_digits=12)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
