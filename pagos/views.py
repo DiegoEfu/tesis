@@ -18,7 +18,6 @@ def formulario_pago(request):
         return render(request, "formulario_pago.html",context=context)
     elif(request.method == 'POST'):
         # Validación de completitud de datos
-        print(request.POST)
         receptora = request.POST.get('receptora')
         referencia = request.POST.get('referencia')
         monto = request.POST.get('monto')
