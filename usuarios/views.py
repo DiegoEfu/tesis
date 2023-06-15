@@ -11,10 +11,7 @@ def bienvenida(request):
         logout(request)
         return redirect('/usuarios/login/')
 
-    if request.user.is_authenticated:
-        return render(request, 'registration/bienvenida.html', {})
-    
-    return redirect('/usuarios/login/')
+    return render(request, 'registration/bienvenida.html', {})
 
 def register_user(request):
     if request.method == 'POST':

@@ -11,19 +11,20 @@
     </script>
 </head>
 <body>
-    ¡Usted ha iniciado sesión! 
-    <nav>
-        <form method='POST' action="">
-            {% csrf_token %}
-            <button>SALIR</button>
-        </form>
-    </nav>
+    {% if request.user.is_authenticated %}
+    <form method='POST' action="">
+        {% csrf_token %}
+        <button>SALIR</button>
+    </form>
+    {% endif %}
 
     <div>
         <form action="" method="post">
-            <!--
-                Aquí va la búsqueda
-            -->
+            {% csrf_token %}
+            <input type="hidden" name="formulario" value="busqueda">
+            <h3>Busca tu nuevo hogar...</h3>
+            <input type="text" name="busqueda" id="busqueda" maxlength="120" placeholder="Escribe aquí tu búsqueda...">
+            <input type="submit">
         </form>
     </div>
 
