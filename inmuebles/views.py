@@ -97,7 +97,7 @@ def formulario_inmueble(request):
             precio = precio,
             sector = sector,
             dueno = request.user.persona,
-            agente = Persona.objects.first() #! CAMBIAR
+            agente = Persona.objects.first() #! CAMBIAR PARA UN AGENTE ALEATORIO
         )
 
 def get_sectores(request, id):
