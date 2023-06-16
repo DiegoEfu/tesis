@@ -7,7 +7,106 @@
     <title>Bienvenida</title>
 
     <script>
-        // Comandos de voz
+        const synthesis = window.speechSynthesis;
+        const campos = [['Correo Electrónico', 'id_username', ''], ['Contraseña', 'id_password', '']];
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+        
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            // {% if not request.user.is_authenticated %}
+            "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
+            // {% else %}
+            "cerrar sesión": "Cierra la sesión actual",
+            // {% endif %}
+            "buscar inmueble": "Permitirá buscar un inmueble."
+        };
+
+        function inicial(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript;
+                   console.log(speech);
+                   Object.keys(comandos).forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                            break;
+
+                            case "iniciar sesión":
+                                hablar("Usted ha dicho iniciar sesión. Diga 'salir' para salir del formulario. Formulario:");
+                                hablar("Campo #1: Correo Electrónico. Si desea escribirlo en teclado, diga 'teclado'. Si desea dictar su correo electrónico, diga 'dictado'. Si desea salir, diga 'salir'.");
+                                
+                                recognition.onresult = formulario_p1;
+                                
+                                break;
+                            
+                            case "crear nuevo usuario":
+                                hablar("Usted ha dicho crear nuevo usuario. Redirigiendo.");
+                                location.replace("/usuarios/register");
+                                break;
+                        }
+                      }    
+                   });
+                }
+            }
+        }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
+
+        recognition.onerror = (event) => {
+            if(event.error !== 'no-speech'){
+                console.log(event);
+            }
+        }
+
+        function bienvenida(){
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de inicio de sesión. Si quiere saber los comandos disponibles diga "ayuda".');
+                
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+                recognition.start();
+                recognition.addEventListener('end', recognition.start);
+            }
+        }
+
+        function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+            }
+        }
+        
+        bienvenida();
     </script>
 </head>
 <body>
