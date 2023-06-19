@@ -55,6 +55,23 @@ def bienvenida(request):
                 if separado[indice - 1].isnumeric():
                     posibles_inmuebles = posibles_inmuebles.filter(estado = "A", banos__gte = separado[indice-1])
 
+        # Por baños
+        if "habitaciones" in busqueda:
+            separado = busqueda.split(" ")
+            indice = encuentra_coincidencia(separado, "habitaciones")
+            
+            if indice != -1:
+                if separado[indice - 1].isnumeric():
+                    posibles_inmuebles = posibles_inmuebles.filter(estado = "A", habitaciones__gte = separado[indice-1])
+        elif "habitacion" in busqueda:
+            separado = busqueda.split(" ")
+            indice = encuentra_coincidencia(separado, "habitacion")
+            
+            if indice != -1:
+                if separado[indice - 1].isnumeric():
+                    posibles_inmuebles = posibles_inmuebles.filter(estado = "A", habitaciones__gte = separado[indice-1])
+        
+
         request.session['busqueda'] = busqueda
         request.session['posibles_inmuebles'] = posibles_inmuebles
 
