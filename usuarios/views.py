@@ -1,13 +1,66 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from .models import Persona, Usuario
+from inmuebles.models import Sector, Parroquia, Inmueble
 from django.contrib.auth.hashers import make_password
 import re
 import datetime
 # Create your views here.
 
+def encuentra_coincidencia(array, a_buscar):
+    for i,x in enumerate(array):
+        if x == a_buscar:
+            return i
+    
+    return -1
+
 def bienvenida(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.POST.get('busqueda'):
+        busqueda = request.POST.get('busqueda').strip().lower()
+        posibles_inmuebles = None
+
+        # Por Ubicación
+
+        for sector in Sector.objects.all():
+            if sector.nombre in busqueda:
+                posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector = sector.pk) # Se colocan posibles inmuebles en ese sector
+        
+        if not posibles_inmuebles:
+            for parroquia in Parroquia.objects.all():
+                if parroquia.nombre in busqueda:
+                    posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector__parroquia__nombre = parroquia.pk)
+
+        # Por metros cuadrados
+        if "metros cuadrados" in busqueda:
+            separado = busqueda.split(" ")
+            indice = encuentra_coincidencia(separado, "metros")
+            
+            if indice != -1:
+                if separado[indice - 1].isnumeric():
+                    posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tamano__gte = separado[indice-1])
+
+        # Por baños
+        if "baños" in busqueda:
+            separado = busqueda.split(" ")
+            indice = encuentra_coincidencia(separado, "baños")
+            
+            if indice != -1:
+                if separado[indice - 1].isnumeric():
+                    posibles_inmuebles = posibles_inmuebles.filter(estado = "A", banos__gte = separado[indice-1])
+        elif "baño" in busqueda:
+            separado = busqueda.split(" ")
+            indice = encuentra_coincidencia(separado, "baño")
+            
+            if indice != -1:
+                if separado[indice - 1].isnumeric():
+                    posibles_inmuebles = posibles_inmuebles.filter(estado = "A", banos__gte = separado[indice-1])
+
+        request.session['busqueda'] = busqueda
+        request.session['posibles_inmuebles'] = posibles_inmuebles
+
+        return redirect
+        
+    elif request.method == 'POST':
         logout(request)
         return redirect('/usuarios/login/')
 
