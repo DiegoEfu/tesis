@@ -9,7 +9,7 @@
     {% if resultados %}
         {% for inmueble in resultados %}
             {{inmueble.id}}
-            {{inmueble.nombre}}
+            <a href="{% url 'detalle_inmueble' pk=inmueble.pk %}">{{inmueble.nombre}}</a>
         {% endfor %}
     {% endif %}
 </body>

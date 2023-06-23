@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from .models import Parroquia, Sector, Inmueble
 from usuarios.models import Persona
 
-# Create your views here.
+# Vistas:
 
 def formulario_inmueble(request):
     # Vista del formulario de creación de inmueble
@@ -111,6 +111,14 @@ def resultados(request):
     elif request.method == 'POST':
         #! Búsqueda (pendiente)
         pass
+
+def detallar_inmueble(request, pk):
+    if(request.method == 'GET'):
+        return render(request, "detalle_inmueble.html", context={'inmueble': Inmueble.objects.get(pk=pk)})
+    elif(request.method == 'POST'):
+        pass
+
+# Funciones Auxiliares:
 
 def buscar_coincidencias(busqueda):
     posibles_inmuebles = None
