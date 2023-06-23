@@ -73,32 +73,42 @@ def formulario_inmueble(request):
 
         # Validación de correcta estructura de datos
         
-        if(precio <= 0):
+        if(float(precio) <= 0):
             errores.append("El precio debe ser mayor a cero.")
         
-        if(tamano <= 0):
+        if(float(tamano) <= 0):
             errores.append("El tamaño debe ser mayor a 0.")
 
         # Creación
 
         if(len(errores) != 0):
-            return render(request, 'registration/register.html', {'errores': errores, 'previo': request.POST})
+            return render(request, 'inmuebles/formulario_inmueble.html', {'errores': errores, 'previo': request.POST})
 
         Inmueble.objects.create(
             nombre = nombre,
             ano_construccion = ano_construccion,
             tipo_construccion = tipo_construccion,
-            tiene_estacionamiento = tiene_estacionamiento,
+            tiene_estacionamiento = bool(tiene_estacionamiento),
             tamano = tamano,
+            banos = banos,
             habitaciones = habitaciones,
-            amueblado = amueblado,
+            amueblado = bool(amueblado),
             descripcion = descripcion,
             ubicacion_detallada = ubicacion_detallada,
             precio = precio,
-            sector = sector,
-            dueno = request.user.persona,
+            sector = Sector.objects.get(pk=sector),
+            dueno = request.user.persona if request.user.is_authenticated else Persona.objects.first(),
             agente = Persona.objects.first() #! CAMBIAR PARA UN AGENTE ALEATORIO
         )
 
 def get_sectores(request, id):
     return JsonResponse({'res': list(Sector.objects.filter(parroquia__id = id).values())})
+
+def resultados(request):
+    if request.method == 'GET':
+        resultados = request.session['posibles_inmuebles']
+        del(request.session['posibles_inmuebles'])
+        return render(request, 'resultados.html', context={'resultados': resultados})
+    elif request.method == 'POST':
+        #! Búsqueda (pendiente)
+        pass

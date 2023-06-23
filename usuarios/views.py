@@ -70,12 +70,12 @@ def bienvenida(request):
             if indice != -1:
                 if separado[indice - 1].isnumeric():
                     posibles_inmuebles = posibles_inmuebles.filter(estado = "A", habitaciones__gte = separado[indice-1])
-        
 
+        print(posibles_inmuebles)
         request.session['busqueda'] = busqueda
         request.session['posibles_inmuebles'] = posibles_inmuebles
 
-        return redirect
+        return redirect('/inmuebles/resultados/')
         
     elif request.method == 'POST':
         logout(request)
