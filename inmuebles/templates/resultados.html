@@ -6,9 +6,11 @@
     <title>Resultados</title>
 </head>
 <body>
-    {% for inmueble in resultados %}
-    {{inmueble.id}}
-    {{inmueble.nombre}}
-    {% endfor %}
+    {% if resultados %}
+        {% for inmueble in resultados %}
+            {{inmueble.id}}
+            {{inmueble.nombre}}
+        {% endfor %}
+    {% endif %}
 </body>
 </html>

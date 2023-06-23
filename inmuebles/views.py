@@ -106,9 +106,73 @@ def get_sectores(request, id):
 
 def resultados(request):
     if request.method == 'GET':
-        resultados = request.session['posibles_inmuebles']
-        del(request.session['posibles_inmuebles'])
+        resultados = buscar_coincidencias(request.session['busqueda'])
         return render(request, 'resultados.html', context={'resultados': resultados})
     elif request.method == 'POST':
         #! Búsqueda (pendiente)
         pass
+
+def buscar_coincidencias(busqueda):
+    posibles_inmuebles = None
+
+    # Por Ubicación
+
+    for sector in Sector.objects.all():
+        if sector.nombre.lower() in busqueda:
+            posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector = sector.pk) # Se colocan posibles inmuebles en ese sector
+        
+        if not posibles_inmuebles:
+            for parroquia in Parroquia.objects.all():
+                if parroquia.nombre in busqueda:
+                    posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector__parroquia__nombre = parroquia.pk)
+
+    # Por metros cuadrados
+    if "metros cuadrados" in busqueda:
+        separado = busqueda.split(" ")
+        indice = encuentra_coincidencia(separado, "metros")
+        
+        if indice != -1:
+            if separado[indice - 1].isnumeric():
+                posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tamano__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tamano__gte = separado[indice-1])
+
+    # Por baños
+    if "baños" in busqueda:
+        separado = busqueda.split(" ")
+        indice = encuentra_coincidencia(separado, "baños")
+            
+        if indice != -1:
+            if separado[indice - 1].isnumeric():
+                posibles_inmuebles = posibles_inmuebles.filter(estado = "A", banos__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", banos__gte = separado[indice-1])
+    
+    elif "baño" in busqueda:
+        separado = busqueda.split(" ")
+        indice = encuentra_coincidencia(separado, "baño")
+            
+        if indice != -1:
+            if separado[indice - 1].isnumeric():
+                posibles_inmuebles = posibles_inmuebles.filter(estado = "A", banos__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", banos__gte = separado[indice-1])
+
+    # Por baños
+    if "habitaciones" in busqueda:
+        separado = busqueda.split(" ")
+        indice = encuentra_coincidencia(separado, "habitaciones")
+            
+        if indice != -1:
+            if separado[indice - 1].isnumeric():
+                posibles_inmuebles = posibles_inmuebles.filter(estado = "A", habitaciones__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", habitaciones__gte = separado[indice-1])
+    elif "habitacion" in busqueda:
+        separado = busqueda.split(" ")
+        indice = encuentra_coincidencia(separado, "habitacion")
+            
+        if indice != -1:
+            if separado[indice - 1].isnumeric():
+                posibles_inmuebles = posibles_inmuebles.filter(estado = "A", habitaciones__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", habitaciones__gte = separado[indice-1])
+
+    return posibles_inmuebles
+
+def encuentra_coincidencia(array, a_buscar):
+    for i,x in enumerate(array):
+        if x == a_buscar:
+            return i
+    
+    return -1
