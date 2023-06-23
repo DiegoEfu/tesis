@@ -1,13 +1,20 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from .models import Persona, Usuario
+from inmuebles.models import Sector, Parroquia, Inmueble
 from django.contrib.auth.hashers import make_password
 import re
 import datetime
 # Create your views here.
 
 def bienvenida(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.POST.get('busqueda'):
+        busqueda = request.POST.get('busqueda').strip().lower()
+        request.session['busqueda'] = busqueda
+
+        return redirect('/inmuebles/resultados/')
+        
+    elif request.method == 'POST':
         logout(request)
         return redirect('/usuarios/login/')
 
