@@ -6,6 +6,10 @@
     <title>Resultados</title>
 </head>
 <body>
+    <form method="post">
+        <input type="text" name="busqueda" value="{{busqueda}}">
+        <input type="submit" value="Buscar">
+    </form>
     {% if resultados %}
         {% for inmueble in resultados %}
             {{inmueble.id}}

@@ -6,6 +6,11 @@
     <title>PUBLICACIÓN - {{inmueble.nombre.upper}}</title>
 </head>
 <body>
+    <form method="post">
+        <input type="text" name="busqueda" value="{{busqueda}}">
+        <input type="submit" value="Buscar">
+    </form>
+    
     <h2>{{inmueble.nombre.upper}}</h2>
     <h3>${{inmueble.precio}}</h3>
     "{{inmueble.descripcion}}"

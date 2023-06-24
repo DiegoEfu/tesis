@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Parroquia, Sector, Inmueble
 from usuarios.models import Persona
@@ -107,16 +107,21 @@ def get_sectores(request, id):
 def resultados(request):
     if request.method == 'GET':
         resultados = buscar_coincidencias(request.session['busqueda'])
-        return render(request, 'resultados.html', context={'resultados': resultados})
+        return render(request, 'resultados.html', context={'resultados': resultados, 'busqueda': request.session['busqueda']})
     elif request.method == 'POST':
-        #! Búsqueda (pendiente)
-        pass
+        busqueda = request.POST.get('busqueda').strip().lower()
+        request.session['busqueda'] = busqueda
+
+        return redirect('/inmuebles/resultados/')
 
 def detallar_inmueble(request, pk):
     if(request.method == 'GET'):
         return render(request, "detalle_inmueble.html", context={'inmueble': Inmueble.objects.get(pk=pk)})
     elif(request.method == 'POST'):
-        pass
+        busqueda = request.POST.get('busqueda').strip().lower()
+        request.session['busqueda'] = busqueda
+
+        return redirect('/inmuebles/resultados/')
 
 # Funciones Auxiliares:
 
