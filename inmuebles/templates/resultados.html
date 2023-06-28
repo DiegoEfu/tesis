@@ -7,6 +7,7 @@
 </head>
 <body>
     <form method="post">
+        {% csrf_token %}
         <input type="text" name="busqueda" value="{{busqueda}}">
         <input type="submit" value="Buscar">
     </form>

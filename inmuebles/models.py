@@ -62,6 +62,9 @@ class Inmueble(models.Model):
     dueno = models.ForeignKey(to=Persona,on_delete=models.CASCADE, related_name="dueno")
     agente =  models.ForeignKey(to=Persona, on_delete=models.CASCADE, related_name="agente")
 
+    def precio_input(self):
+        return str(self.precio).replace(",",".")
+
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     estado = models.CharField(max_length=1,choices=estados_compra)

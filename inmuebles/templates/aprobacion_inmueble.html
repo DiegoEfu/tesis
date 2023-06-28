@@ -17,10 +17,13 @@
         <input type="text" name="cedula" id="cedula" disabled value="{{inmueble.dueno.cedula}}">
 
         <label for="dueno">Teléfono del Dueño:</label>
-        <input type="text" name="cedula" id="cedula" disabled value="{{inmueble.dueno.telefono}}">
+        <input type="text" name="cedula" id="cedula" disabled value="{{inmueble.dueno.numero_telefono}}">
+
+        <label for="dueno">Puede Ver:</label>
+        <input type="text" name="puede_ver" id="puede_ver" disabled value="{% if inmueble.dueno.puede_ver %}Sí{% else %}No{% endif %}.">
 
         <label for="dueno">Correo del Dueño:</label>
-        <input type="text" name="cedula" id="cedula" disabled value="{{inmueble.dueno.correo}}">
+        <input type="text" name="cedula" id="cedula" disabled value="{{inmueble.dueno.usuario_persona.email}}">
 
         <label for="parroquia">Parroquia:</label>
         <select name="parroquia" id="parroquia" disabled>
@@ -35,7 +38,7 @@
         <label for="tipo_construccion">Tipo de Construcción:</label>
         <select name="tipo_construccion" id="tipo_construccion">
             {% for construccion in construcciones %}
-            <option value="{{forloop.counter}}">{{construccion}}</option>
+            <option value="{{forloop.counter}}">{{construccion.0}}</option>
             {% endfor %}
         </select><br>
 
@@ -45,10 +48,10 @@
         </textarea><br>
 
         <label for="ano">Año de Construcción:</label>
-        <input type="number" name="ano" id="ano" value="{{ano_construccion}}"><br>
+        <input type="number" name="ano" id="ano" value="{{inmueble.ano_construccion}}"><br>
 
         <label for="tamano">Tamaño (en metros cuadrados):</label>
-        <input type="number" name="tamano" id="tamano" step=".01" value="tamano"><br>
+        <input type="number" name="tamano" id="tamano" step=".01" value="{{inmueble.tamano}}"><br>
 
         <label for="habitaciones">Número de Habitaciones:</label>
         <input type="number" name="habitaciones" id="habitaciones" value="{{inmueble.habitaciones}}"><br>
@@ -58,11 +61,11 @@
 
         <label for="descripcion">Descripción (Edite y optimice para la descripción por voz):</label>
         <textarea name="descripcion" id="descripcion" cols="30" rows="10">
-            {{descripcion}}
+            {{inmueble.descripcion}}
         </textarea><br>
 
         <label for="precio">Precio:</label>
-        <input type="number" name="precio" id="precio" value="{{inmueble.precio}}"><br>
+        <input type="number" name="precio" id="precio" value="{{inmueble.precio_input}}"><br>
 
         <label for="amueblado">Está amueblado:</label>
         <input type="checkbox" name="amueblado" id="amueblado" {% if inmueble.amueblado %}checked{% endif %}><br>

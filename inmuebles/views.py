@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import Parroquia, Sector, Inmueble
+from .models import Parroquia, Sector, Inmueble, tipos_construccion
 from usuarios.models import Persona
 
 # Vistas:
@@ -87,7 +87,7 @@ def formulario_inmueble(request):
         Inmueble.objects.create(
             nombre = nombre,
             ano_construccion = ano_construccion,
-            tipo_construccion = tipo_construccion,
+            tipo_construccion = tipos_construccion[tipo_construccion-1],
             tiene_estacionamiento = bool(tiene_estacionamiento),
             tamano = tamano,
             banos = banos,
@@ -122,6 +122,11 @@ def detallar_inmueble(request, pk):
         request.session['busqueda'] = busqueda
 
         return redirect('/inmuebles/resultados/')
+
+def aprobar_inmueble(request, pk):
+    if request.method == "GET":
+        return render(request, 'aprobacion_inmueble.html', context={'inmueble': Inmueble.objects.get(pk = pk),
+                                                                    'construcciones': tipos_construccion})
 
 # Funciones Auxiliares:
 
