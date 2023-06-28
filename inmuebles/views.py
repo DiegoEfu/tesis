@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import Parroquia, Sector, Inmueble
+from .models import Parroquia, Sector, Inmueble, tipos_construccion
 from usuarios.models import Persona
 
-# Create your views here.
+# Vistas:
 
 def formulario_inmueble(request):
     # Vista del formulario de creación de inmueble
@@ -87,7 +87,7 @@ def formulario_inmueble(request):
         Inmueble.objects.create(
             nombre = nombre,
             ano_construccion = ano_construccion,
-            tipo_construccion = tipo_construccion,
+            tipo_construccion = tipos_construccion[tipo_construccion-1],
             tiene_estacionamiento = bool(tiene_estacionamiento),
             tamano = tamano,
             banos = banos,
@@ -107,10 +107,28 @@ def get_sectores(request, id):
 def resultados(request):
     if request.method == 'GET':
         resultados = buscar_coincidencias(request.session['busqueda'])
-        return render(request, 'resultados.html', context={'resultados': resultados})
+        return render(request, 'resultados.html', context={'resultados': resultados, 'busqueda': request.session['busqueda']})
     elif request.method == 'POST':
-        #! Búsqueda (pendiente)
-        pass
+        busqueda = request.POST.get('busqueda').strip().lower()
+        request.session['busqueda'] = busqueda
+
+        return redirect('/inmuebles/resultados/')
+
+def detallar_inmueble(request, pk):
+    if(request.method == 'GET'):
+        return render(request, "detalle_inmueble.html", context={'inmueble': Inmueble.objects.get(pk=pk)})
+    elif(request.method == 'POST'):
+        busqueda = request.POST.get('busqueda').strip().lower()
+        request.session['busqueda'] = busqueda
+
+        return redirect('/inmuebles/resultados/')
+
+def aprobar_inmueble(request, pk):
+    if request.method == "GET":
+        return render(request, 'aprobacion_inmueble.html', context={'inmueble': Inmueble.objects.get(pk = pk),
+                                                                    'construcciones': tipos_construccion})
+
+# Funciones Auxiliares:
 
 def buscar_coincidencias(busqueda):
     posibles_inmuebles = None
@@ -167,6 +185,28 @@ def buscar_coincidencias(busqueda):
         if indice != -1:
             if separado[indice - 1].isnumeric():
                 posibles_inmuebles = posibles_inmuebles.filter(estado = "A", habitaciones__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", habitaciones__gte = separado[indice-1])
+
+    # Amueblado
+    if "amueblado" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", amueblado = True) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", amueblado = True)
+    elif "no amueblado" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", amueblado = False) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", amueblado = False)
+
+    # Tipo de vivienda:
+    if "casa" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "casa") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "casa")
+    elif "apartamento" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "apartamento") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "apartamento")
+    elif "individual" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "individual") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "individual")
+    elif "dúplex":
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "dúplex") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "dúplex")
+    elif "tríplex":
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "tríplex") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "tríplex")
+    elif "villa":
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "villa") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "villa")
+    elif "penthouse":
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "penthouse") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "penthouse")
 
     return posibles_inmuebles
 

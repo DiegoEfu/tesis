@@ -30,7 +30,7 @@ estados_cita = [
 tipos_construccion = [
     ("Casa Individual",)*2,
     ("Casa Dúplex",)*2,
-    ("Casa Triplex",)*2,
+    ("Casa Tríplex",)*2,
     ("Casa de Villa",)*2,
     ("Apartamento Regular",)*2,
     ("Apartamento PentHouse",)*2,
@@ -61,6 +61,9 @@ class Inmueble(models.Model):
     sector = models.ForeignKey(to=Sector, on_delete=models.CASCADE)
     dueno = models.ForeignKey(to=Persona,on_delete=models.CASCADE, related_name="dueno")
     agente =  models.ForeignKey(to=Persona, on_delete=models.CASCADE, related_name="agente")
+
+    def precio_input(self):
+        return str(self.precio).replace(",",".")
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)

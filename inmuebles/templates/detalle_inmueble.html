@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUBLICACIÓN - {{inmueble.nombre.upper}}</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="busqueda" value="{{busqueda}}">
+        <input type="submit" value="Buscar">
+    </form>
+    
+    <h2>{{inmueble.nombre.upper}}</h2>
+    <h3>${{inmueble.precio}}</h3>
+    "{{inmueble.descripcion}}"
+    <ul>
+        <li><b>Año de Construcción: </b> {{inmueble.ano_construccion}}</li>
+        <li><b>Tipo de Construcción: </b> {{inmueble.tipo_construccion}}</li>
+        <li><b>Tamaño: </b> {{inmueble.tamano}}</li>
+        <li><b>Número de Habitaciones: </b> {{inmueble.habitaciones}}</li>
+        <li><b>Número de Baños: </b> {{inmueble.banos}}</li>
+        <li><b>Parroquia: </b> {{inmueble.sector.parroquia.nombre}}</li>
+        <li><b>Sector: </b> {{inmueble.sector.nombre}}</li>
+        <li><b>Ubicación Detallada: </b> {{inmueble.ubicacion_detallada}}</li>
+        <li><b>Fecha de Publicación: </b> {{inmueble.fecha_creacion}}</li>
+        <li><b>Amueblado: </b> {{inmueble.amueblado|yesno:"Sí,No"}}</li>
+        <li><b>Estacionamiento: </b> {{inmueble.tiene_estacionamiento|yesno:"Sí,No"}}</li>
+        <li><a href="#1">Visitar Inmueble</a></li>
+        <li><a href="#2">Comprar</a></li>
+    </ul>
+</body>
+</html>

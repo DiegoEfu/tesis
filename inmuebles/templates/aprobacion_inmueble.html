@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprobación del Inmueble "{{inmueble.nombre}}"</title>
+</head>
+<body>
+    <h1>Aprobación del Inmueble</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="dueno">Dueño del Inmueble:</label>
+        <input type="text" name="dueno" id="dueno" disabled value="{{inmueble.dueno.nombre}}">
+
+        <label for="dueno">Cédula del Dueño:</label>
+        <input type="text" name="cedula" id="cedula" disabled value="{{inmueble.dueno.cedula}}">
+
+        <label for="dueno">Teléfono del Dueño:</label>
+        <input type="text" name="cedula" id="cedula" disabled value="{{inmueble.dueno.numero_telefono}}">
+
+        <label for="dueno">Puede Ver:</label>
+        <input type="text" name="puede_ver" id="puede_ver" disabled value="{% if inmueble.dueno.puede_ver %}Sí{% else %}No{% endif %}.">
+
+        <label for="dueno">Correo del Dueño:</label>
+        <input type="text" name="cedula" id="cedula" disabled value="{{inmueble.dueno.usuario_persona.email}}">
+
+        <label for="parroquia">Parroquia:</label>
+        <select name="parroquia" id="parroquia" disabled>
+            <option value="{{inmueble.sector.parroquia.pk}}">{{inmueble.sector.parroquia.nombre}}</option>
+        </select><br>
+
+        <label for="sector">Sector:</label>
+        <select name="sector" id="sector" disabled>
+            <option value="{{inmueble.sector.pk}}">{{inmueble.sector.nombre}}</option>
+        </select><br>
+
+        <label for="tipo_construccion">Tipo de Construcción:</label>
+        <select name="tipo_construccion" id="tipo_construccion">
+            {% for construccion in construcciones %}
+            <option value="{{forloop.counter}}">{{construccion.0}}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="ubicacion_detallada">Ubicación Detallada:</label>
+        <textarea name="ubicacion_detallada" id="ubicacion_detallada" cols="30" rows="10">
+            {{inmueble.ubicacion_detallada}}
+        </textarea><br>
+
+        <label for="ano">Año de Construcción:</label>
+        <input type="number" name="ano" id="ano" value="{{inmueble.ano_construccion}}"><br>
+
+        <label for="tamano">Tamaño (en metros cuadrados):</label>
+        <input type="number" name="tamano" id="tamano" step=".01" value="{{inmueble.tamano}}"><br>
+
+        <label for="habitaciones">Número de Habitaciones:</label>
+        <input type="number" name="habitaciones" id="habitaciones" value="{{inmueble.habitaciones}}"><br>
+
+        <label for="banos">Número de Baños:</label>
+        <input type="number" name="banos" id="banos" value="{{inmueble.banos}}"><br>
+
+        <label for="descripcion">Descripción (Edite y optimice para la descripción por voz):</label>
+        <textarea name="descripcion" id="descripcion" cols="30" rows="10">
+            {{inmueble.descripcion}}
+        </textarea><br>
+
+        <label for="precio">Precio:</label>
+        <input type="number" name="precio" id="precio" value="{{inmueble.precio_input}}"><br>
+
+        <label for="amueblado">Está amueblado:</label>
+        <input type="checkbox" name="amueblado" id="amueblado" {% if inmueble.amueblado %}checked{% endif %}><br>
+
+        <label for="estacionamiento">Tiene estacionamiento:</label>
+        <input type="checkbox" name="estacionamiento" id="estacionamiento" {% if inmueble.tiene_estaciones %}checked{% endif %}><br>
+
+        <label for="comentarios_internos">Comentarios Internos:</label>
+        <textarea name="comentarios_internos" id="comentarios_internos" cols="30" rows="10"></textarea>
+
+        <input type="submit" value="Aprobar">
+        <input type="submit" value="Rechazar">
+    </form>
+</body>
+</html>
