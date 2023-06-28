@@ -181,6 +181,28 @@ def buscar_coincidencias(busqueda):
             if separado[indice - 1].isnumeric():
                 posibles_inmuebles = posibles_inmuebles.filter(estado = "A", habitaciones__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", habitaciones__gte = separado[indice-1])
 
+    # Amueblado
+    if "amueblado" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", amueblado = True) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", amueblado = True)
+    elif "no amueblado" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", amueblado = False) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", amueblado = False)
+
+    # Tipo de vivienda:
+    if "casa" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "casa") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "casa")
+    elif "apartamento" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "apartamento") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "apartamento")
+    elif "individual" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "individual") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "individual")
+    elif "dúplex":
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "dúplex") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "dúplex")
+    elif "tríplex":
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "tríplex") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "tríplex")
+    elif "villa":
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "villa") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "villa")
+    elif "penthouse":
+        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "penthouse") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "penthouse")
+
     return posibles_inmuebles
 
 def encuentra_coincidencia(array, a_buscar):

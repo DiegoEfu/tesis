@@ -30,7 +30,7 @@ estados_cita = [
 tipos_construccion = [
     ("Casa Individual",)*2,
     ("Casa Dúplex",)*2,
-    ("Casa Triplex",)*2,
+    ("Casa Tríplex",)*2,
     ("Casa de Villa",)*2,
     ("Apartamento Regular",)*2,
     ("Apartamento PentHouse",)*2,
