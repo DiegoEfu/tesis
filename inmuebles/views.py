@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Parroquia, Sector, Inmueble, tipos_construccion
 from usuarios.models import Persona
+from datetime import datetime, timedelta
 
 # Vistas:
 
@@ -209,6 +210,32 @@ def aprobar_inmueble(request, pk):
         inmueble.save()
 
         return redirect('/')
+
+def seleccionar_dia_cita(request, pk):
+    if(request.method == 'GET'):
+        inmueble = Inmueble.objects.get(pk=pk)
+        dias_disponibles = []
+        fecha = datetime.today() + timedelta(days=1)
+
+        while len(dias_disponibles) < 7:
+            if(fecha.weekday() < 5):
+                print(fecha.weekday())
+                dia_a_comparar = datetime(fecha.year,fecha.month,fecha.day)
+                if(inmueble.agente.citas_agente().filter(fecha_asignada = dia_a_comparar).count() < 3):
+                    if(request.user.persona.citas_cliente().filter(fecha_asignada = dia_a_comparar).count() < 3):
+                        dias_disponibles.append({'fecha': fecha, 
+                                                'dia_semana': 'Lunes' if fecha.weekday() == 0 else
+                                                'Martes' if fecha.weekday() == 1 else 
+                                                'Miércoles' if fecha.weekday() == 2 else
+                                                'Jueves' if fecha.weekday() == 3 else 'Viernes'})
+
+            fecha += timedelta(days=1)
+
+        return render(request, 'seleccion_dia_cita.html', context={'dias': dias_disponibles, 'inmueble': inmueble})
+
+    elif(request.method == 'POST'):
+        request.session['fecha_cita_escogida'] = request.POST['dia_escogido']
+        return redirect(f'/inmuebles/cita/hora/{pk}')
 
 # Funciones Auxiliares:
 

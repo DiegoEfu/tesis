@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from .managers import CustomUserManager
+from inmuebles.models import Cita
 
 # Create your models here.
 
@@ -20,6 +21,12 @@ class Persona(models.Model):
     
     def cedula(self):
         return self.tipo + "-" + self.identificacion
+    
+    def citas_agente(self):
+        return Cita.objects.filter(inmueble__agente = self, estado = "E")
+    
+    def citas_cliente(self):
+        return Cita.objects.filter(persona = self, estado = "E")
 
 class Usuario(AbstractUser):
     username = None
@@ -33,3 +40,5 @@ class Usuario(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+    
