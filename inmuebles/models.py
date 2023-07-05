@@ -8,15 +8,15 @@ estados_inmueble = [
     ("A", "Activo"),
     ("D", "Denegado"),
     ("E", "Revisión por Edición"),
-    ("C", "Revisión para Cancelación")
+    ("C", "Revisión para Cancelación"),
+    ("X", "Cancelado")
 ]
 
 estados_compra = [
-    ("P", "Primera Cita"),
     ("E", "Espera de Pago"),
     ("C", "Por Cancelación"),
     ("X", "Cancelada"),
-    ("S", "Segunda Cita"),
+    ("S", "Cita de Formalidades"),
     ("F", "Finalizada"),
 ]
 
@@ -64,6 +64,9 @@ class Inmueble(models.Model):
 
     def precio_input(self):
         return str(self.precio).replace(",",".")
+    
+    def tamano_input(self):
+        return str(self.tamano).replace(",",".")
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)

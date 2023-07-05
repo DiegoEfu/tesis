@@ -127,6 +127,88 @@ def aprobar_inmueble(request, pk):
     if request.method == "GET":
         return render(request, 'aprobacion_inmueble.html', context={'inmueble': Inmueble.objects.get(pk = pk),
                                                                     'construcciones': tipos_construccion})
+    elif request.method == "POST":
+        print(request.POST)
+        nombre = request.POST.get('nombre')
+        ano_construccion = request.POST.get('ano')
+        tipo_construccion = request.POST.get('tipo_construccion')
+        tiene_estacionamiento = bool(request.POST.get('estacionamiento'))
+        tamano = request.POST.get('tamano')
+        habitaciones = request.POST.get('habitaciones')
+        banos = request.POST.get('banos')
+        amueblado = bool(request.POST.get('amueblado'))
+        descripcion = request.POST.get('descripcion')
+        ubicacion_detallada = request.POST.get('ubicacion_detallada') 
+        precio = request.POST.get('precio')
+        comentarios_internos = request.POST.get('comentarios_internos')
+
+        errores = []
+
+        if(not nombre):
+            errores.append("Debe especificar un nombre.")
+        
+        if(not ano_construccion):
+            errores.append("Debe especificar un año.")
+
+        if(not tipo_construccion):
+            errores.append("Debe especificar un tipo seleccionado.")
+
+        if(not tamano):
+            errores.append("Debe especificar tamaño.")
+
+        if(not habitaciones):
+            errores.append("Debe especificar habitaciones.")
+
+        if(not banos):
+            errores.append("Debe especificar baños.")
+
+        if(not descripcion):
+            errores.append("Debe especificar descripción.")
+
+        if(not banos):
+            errores.append("Debe especificar baños.")
+
+        if(not ubicacion_detallada):
+            errores.append("Debe especificar una ubicación detallada.")
+
+        if(not precio):
+            errores.append("Debe especificar un precio.")
+
+        # Validación de correcta estructura de datos
+        
+        if(float(precio) <= 0):
+            errores.append("El precio debe ser mayor a cero.")
+        
+        if(float(tamano) <= 0):
+            errores.append("El tamaño debe ser mayor a 0.")
+
+        # Creación
+
+        if(len(errores) != 0):
+            return render(request, 'inmuebles/formulario_inmueble.html', {'errores': errores, 'previo': request.POST})
+
+        inmueble = Inmueble.objects.get(pk=pk)
+        inmueble.nombre = nombre
+        inmueble.ano_construccion = ano_construccion
+        inmueble.tipo_construccion = tipo_construccion
+        inmueble.tiene_estacionamiento = tiene_estacionamiento
+        inmueble.tamano = tamano
+        inmueble.habitaciones = habitaciones
+        inmueble.banos = banos
+        inmueble.amueblado = amueblado
+        inmueble.descripcion = descripcion
+        inmueble.comentarios_internos = comentarios_internos
+        inmueble.ubicacion_detallada = ubicacion_detallada
+        inmueble.precio = precio
+
+        if('aprobado' in request.POST.keys()):
+            inmueble.estado = 'A'
+        else:
+            inmueble.estado = 'D'
+
+        inmueble.save()
+
+        return redirect('/')
 
 # Funciones Auxiliares:
 
