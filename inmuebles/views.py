@@ -271,6 +271,15 @@ def seleccionar_hora_cita(request, pk):
 
         return redirect(f'/inmuebles/cita/creada/{cita.pk}')
 
+def cita_creada(request, pk):
+    if(request.method == "GET"):
+        return render(request, 'cita_creada.html', context={'cita': Cita.objects.get(pk=pk)})
+    elif(request.method == "POST"): # REPORTES
+        if(request.POST['tipo'] == 'pdf'):
+            pass
+        elif(request.POST['tipo'] == 'mp3'):
+            pass
+
 # Funciones Auxiliares:
 
 def buscar_coincidencias(busqueda):

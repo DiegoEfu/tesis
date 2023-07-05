@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cita Creada para {{cita.inmueble.nombre}}</title>
+</head>
+<body>
+    <a href="/">Regresar</a>
+    <h2>¡Cita Agendada Exitosamente!</h2>
+    Estos son los datos de la cita:
+    <ul>
+        <li><b>Sector: </b>{{cita.inmueble.sector.nombre}}.</li>
+        <li><b>Dirección: </b>{{cita.inmueble.ubicacion_detallada}}.</li>
+        <li><b>Fecha y Hora: </b>{{cita.fecha_asignada}}.</li>
+        <li><b>Nombre del Agente: </b>{{cita.inmueble.agente}}.</li>
+        <li><b>Teléfono del Agente: </b>{{cita.inmueble.agente.numero_telefono}}.</li>
+        <li><b>Correo del Agente: </b>{{cita.inmueble.agente.usuario_persona.email}}.</li>
+    </ul>
+
+    Puedes descargar el reporte en presionando el siguiente botón (debe llevarlo en formato digital o físico a la cita):
+    <form method="post">
+        <button name="tipo" value="pdf" type="submit">Descargar Formulario PDF</button>
+        {% if not request.user.persona.puede_ver %}
+        <button name="tipo" value="mp3" type="submit">Descargar Formulario MP3</button>
+        {% endif %}
+    </form>
+</body>
+</html>
