@@ -6,12 +6,12 @@
     <title>Cita para el Inmueble "{{inmueble.nombre}}"</title>
 </head>
 <body>
-    De los siguientes días, escoja el que mejor se ajuste a su horario:
+    Usted escogió el día {{fecha.date}}. Las horas disponibles para el agente y para usted son las siguientes:
     <form method="post">
         {% csrf_token %}
         <ul>
-            {% for dia in dias %}
-            <li><button type="submit" name="dia_escogido" value="{{dia.fecha.day}}-{{dia.fecha.month}}-{{dia.fecha.year}}">{{dia.dia_semana}}, {{dia.fecha.date}}</button></li>
+            {% for hora in horas %}
+            <li><button type="submit" name="hora_escogida" value="{{hora.hour}}">{{hora.hour}}:00</button></li>
             {% endfor %}
         </ul>
     </form>

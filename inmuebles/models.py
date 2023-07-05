@@ -78,5 +78,5 @@ class Cita(models.Model):
     inmueble = models.ForeignKey(to=Inmueble, on_delete=models.CASCADE, null=True)
     persona = models.ForeignKey(to='usuarios.Persona', on_delete=models.CASCADE, null=True)
     fecha_asignada = models.DateTimeField()
-    estado = models.CharField(max_length=1, choices=estados_cita)
-    resultados = models.TextField()
+    estado = models.CharField(max_length=1, choices=estados_cita, default='E')
+    resultados = models.TextField(blank=True)

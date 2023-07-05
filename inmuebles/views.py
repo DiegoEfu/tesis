@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import Parroquia, Sector, Inmueble, tipos_construccion
+from .models import Parroquia, Sector, Inmueble, Cita, tipos_construccion
 from usuarios.models import Persona
 from datetime import datetime, timedelta
 
@@ -236,6 +236,40 @@ def seleccionar_dia_cita(request, pk):
     elif(request.method == 'POST'):
         request.session['fecha_cita_escogida'] = request.POST['dia_escogido']
         return redirect(f'/inmuebles/cita/hora/{pk}')
+
+def seleccionar_hora_cita(request, pk):
+    if(request.method == "GET"):
+        inmueble = Inmueble.objects.get(pk=pk)
+        horas_disponibles = []
+        fecha = datetime.strptime(request.session['fecha_cita_escogida'], '%d-%m-%Y')
+
+        if(not inmueble.agente.citas_agente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 8).exists()):
+            if(not request.user.persona.citas_cliente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 8).exists()):
+                horas_disponibles.append(fecha + timedelta(hours=8))
+        
+        if(not inmueble.agente.citas_agente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 10).exists()):
+            if(not request.user.persona.citas_cliente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 10).exists()):
+                horas_disponibles.append(fecha + timedelta(hours=10))
+
+        if(not inmueble.agente.citas_agente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 13).exists()):
+            if(not request.user.persona.citas_cliente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 13).exists()):
+                horas_disponibles.append(fecha + timedelta(hours=13))
+
+        if(not inmueble.agente.citas_agente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 16).exists()):
+            if(not request.user.persona.citas_cliente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 16).exists()):
+                horas_disponibles.append(fecha + timedelta(hours=16))
+
+        return render(request, 'seleccion_horas_cita.html', context={'fecha': fecha, 'inmueble': inmueble, 'horas': horas_disponibles})
+    elif(request.method == "POST"):
+        hora_escogida = datetime.strptime(request.session['fecha_cita_escogida'], '%d-%m-%Y') + timedelta(hours=int(request.POST['hora_escogida']))
+        cita = Cita.objects.create(
+            compra = None,
+            inmueble = Inmueble.objects.get(pk=pk),
+            persona = request.user.persona,
+            fecha_asignada = hora_escogida
+        )
+
+        return redirect(f'/inmuebles/cita/creada/{cita.pk}')
 
 # Funciones Auxiliares:
 
