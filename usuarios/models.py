@@ -24,7 +24,7 @@ class Persona(models.Model):
 class Usuario(AbstractUser):
     username = None
     email = models.EmailField("Correo Electrónico", unique=True)
-    persona = models.OneToOneField(to='usuarios.Persona', on_delete=models.CASCADE, related_name="usuario_persona")
+    persona = models.OneToOneField(to='usuarios.Persona', on_delete=models.CASCADE, related_name="usuario_persona", default=4)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

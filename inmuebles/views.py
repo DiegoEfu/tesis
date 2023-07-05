@@ -243,7 +243,6 @@ def buscar_coincidencias(busqueda):
         if indice != -1:
             if separado[indice - 1].isnumeric():
                 posibles_inmuebles = posibles_inmuebles.filter(estado = "A", banos__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", banos__gte = separado[indice-1])
-    
     elif "baño" in busqueda:
         separado = busqueda.split(" ")
         indice = encuentra_coincidencia(separado, "baño")
@@ -281,13 +280,13 @@ def buscar_coincidencias(busqueda):
         posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "apartamento") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "apartamento")
     elif "individual" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "individual") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "individual")
-    elif "dúplex":
+    elif "dúplex" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "dúplex") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "dúplex")
-    elif "tríplex":
+    elif "tríplex" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "tríplex") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "tríplex")
-    elif "villa":
+    elif "villa" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "villa") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "villa")
-    elif "penthouse":
+    elif "penthouse" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "penthouse") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "penthouse")
 
     return posibles_inmuebles
