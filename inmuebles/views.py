@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import Parroquia, Sector, Inmueble, Cita, tipos_construccion
 from usuarios.models import Persona
 from datetime import datetime, timedelta
+from reportes.mp3 import reporte_cita_mp3
+import os
 
 # Vistas:
 
@@ -278,7 +280,15 @@ def cita_creada(request, pk):
         if(request.POST['tipo'] == 'pdf'):
             pass
         elif(request.POST['tipo'] == 'mp3'):
-            pass
+            cita = Cita.objects.get(pk=pk)
+            file_path = reporte_cita_mp3(cita)
+            print(file_path)
+            print(os.path.exists(file_path))
+            if os.path.exists(file_path):
+                with open(file_path, 'rb') as fh:
+                    response = HttpResponse(fh.read(), content_type="application/mp3")
+                    response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                    return response
 
 # Funciones Auxiliares:
 
