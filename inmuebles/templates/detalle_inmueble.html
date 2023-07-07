@@ -28,8 +28,16 @@
         <li><b>Amueblado: </b> {{inmueble.amueblado|yesno:"Sí,No"}}</li>
         <li><b>Estacionamiento: </b> {{inmueble.tiene_estacionamiento|yesno:"Sí,No"}}</li>
         {% if request.user.is_authenticated %}
-        <li><a href="{% url 'seleccionar_dia_cita' pk=inmueble.id %}">Agendar Cita para Visitar el Inmueble</a></li>
-        <li><a href="#2">Comprar</a></li>
+            {% if puede_cita %}
+            <li><a href="{% url 'seleccionar_dia_cita' pk=inmueble.pk %}">Agendar Cita para Visitar el Inmueble</a></li>
+            {% else %}
+            <li><b>¡Ha agendado una cita para visitar el inmueble!</b></li>
+            {% endif %}
+            {% if puede_comprar %}
+            <li><a href="{% url 'comprar_inmueble' pk=inmueble.pk %}">Comprar</a></li>
+            {% else %}
+            <li><b>¡Debe agendar y asistir a una cita para ver el inmueble para poder comprar!</b></li>
+            {% endif %}
         {% else %}
         <li><b>Si quieres visitar este inmueble o comprarlo, inicia sesión.</b></li>
         {% endif %}

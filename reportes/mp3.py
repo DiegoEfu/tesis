@@ -22,7 +22,6 @@ class TextToSpeech:
         self.engine.save_to_file(text, filename)
         self.engine.runAndWait()
 
-
 def reporte_cita_mp3(cita):
     filename = f"reportes/mp3/REPORTE_MP3_CITA_{cita.pk}.mp3"
     text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. COMPROBANTE EN FORMATO MP3 DE CITA DE VISITA. " 
@@ -40,8 +39,6 @@ def reporte_cita_mp3(cita):
     text += f"NÚMERO DE CITA: {cita.pk}. "
 
     text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
-
-    print(text)
 
     TextToSpeech(None, 200, 100).text_to_speech(text, filename)
     return filename

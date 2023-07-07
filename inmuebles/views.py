@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
-from .models import Parroquia, Sector, Inmueble, Cita, tipos_construccion
+from .models import Parroquia, Sector, Inmueble, Cita, Compra, tipos_construccion
 from usuarios.models import Persona
 from datetime import datetime, timedelta
 from reportes.mp3 import reporte_cita_mp3
@@ -119,7 +119,8 @@ def resultados(request):
 
 def detallar_inmueble(request, pk):
     if(request.method == 'GET'):
-        return render(request, "detalle_inmueble.html", context={'inmueble': Inmueble.objects.get(pk=pk)})
+        inmueble = Inmueble.objects.get(pk=pk)
+        return render(request, "detalle_inmueble.html", context={'inmueble': inmueble, 'puede_cita': not Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "E").exists(), 'puede_comprar': Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "F").exists()})
     elif(request.method == 'POST'):
         busqueda = request.POST.get('busqueda').strip().lower()
         request.session['busqueda'] = busqueda
@@ -289,6 +290,16 @@ def cita_creada(request, pk):
                     response = HttpResponse(fh.read(), content_type="application/mp3")
                     response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
                     return response
+
+def comprar_inmueble(request, pk):
+    inmueble = Inmueble.objects.get(pk=pk)
+    if(request.method == "GET"):
+        return render(request, "contrato.html", context={'inmueble': inmueble})
+    elif(request.method == "POST"):
+        Compra.objects.create(comprador = request.user.persona, inmueble = inmueble)
+        inmueble.estado = 'T'
+        inmueble.save()
+        return redirect('/')
 
 # Funciones Auxiliares:
 
