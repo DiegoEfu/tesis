@@ -43,6 +43,26 @@ def reporte_cita_mp3(cita):
     TextToSpeech(None, 200, 100).text_to_speech(text, filename)
     return filename
 
+def reporte_compra_mp3(compra):
+    filename = f"reportes/mp3/REPORTE_MP3_COMPRA_{compra.pk}.mp3"
+    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. COMPROBANTE EN FORMATO MP3 DE COMPRA DE INMUEBLE. " 
+    text += f"NÚMERO DE COMPRA: {compra.pk}. "
+
+    text += f"EL DÍA {fecha_a_texto(str(compra.fecha.date()))} LA PERSONA {compra.comprador.nombre} {compra.comprador.apellido}. "
+    text += f"TITULAR DE LA CÉDULA DE IDENTIDAD {compra.comprador.cedula()}. "
+    text += f"HA FIRMADO VIRTUALMENTE EL CONTRATO DONDE SE HA COMPROMETIDO A LA COMPRA DEL INMUEBLE. {compra.inmueble.nombre}. "
+    text += f"UBICADO EN EL SECTOR {compra.inmueble.sector.nombre}. PARROQUIA {compra.inmueble.sector.parroquia.nombre}. DIRECCIÓN {compra.inmueble.ubicacion_detallada}. "
+    text += f"DUEÑO {compra.inmueble.dueno}. TITULAR DE LA CÉDULA DE IDENTIDAD {compra.inmueble.dueno.cedula()}. TELÉFONO {compra.inmueble.dueno.numero_telefono}. "
+    text += f"CORREO ELECTRÓNICO {compra.inmueble.dueno.usuario_persona.email}. "
+    text += f"AGENTE {compra.inmueble.agente}. TITULAR DE LA CÉDULA DE IDENTIDAD {compra.inmueble.agente.cedula()}. TELÉFONO {compra.inmueble.agente.numero_telefono}. "
+    text += f"CORREO ELECTRÓNICO {compra.inmueble.agente.usuario_persona.email}. "
+
+    text += f"EL COMPRADOR HA DECIDIDO COMPRAR EL INMUEBLE EN {compra.inmueble.precio} DÓLARES AMERICANOS SUJETOS A MODIFICACIÓN DE ACUERDO A LO ESTABLECIDO EN CITAS Y ACUERDOS PREVIOS."
+    text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
+
+    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    return filename
+
 def fecha_a_texto(fecha):
     print(fecha)
     texto = f"{fecha.split('-')[2]} de "

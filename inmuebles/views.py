@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from .models import Parroquia, Sector, Inmueble, Cita, Compra, tipos_construccion
 from usuarios.models import Persona
 from datetime import datetime, timedelta
-from reportes.mp3 import reporte_cita_mp3
+from reportes.mp3 import reporte_cita_mp3, reporte_compra_mp3
 from reportes.pdfs import generar_pdf
 import os
 
@@ -286,8 +286,6 @@ def cita_creada(request, pk):
             return response
         elif(request.POST['tipo'] == 'mp3'):
             file_path = reporte_cita_mp3(cita)
-            print(file_path)
-            print(os.path.exists(file_path))
             if os.path.exists(file_path):
                 with open(file_path, 'rb') as fh:
                     response = HttpResponse(fh.read(), content_type="application/mp3")
@@ -299,10 +297,15 @@ def comprar_inmueble(request, pk):
     if(request.method == "GET"):
         return render(request, "contrato.html", context={'inmueble': inmueble})
     elif(request.method == "POST"):
-        Compra.objects.create(comprador = request.user.persona, inmueble = inmueble)
+        compra = Compra.objects.create(comprador = request.user.persona, inmueble = inmueble)
         inmueble.estado = 'T'
         inmueble.save()
-        return redirect('/')
+
+        file_path = reporte_compra_mp3(compra)
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/mp3")
+            response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+            return response
 
 def resultados_cita(request, pk):
     pass
