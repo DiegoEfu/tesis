@@ -4,6 +4,7 @@ from .models import Parroquia, Sector, Inmueble, Cita, Compra, tipos_construccio
 from usuarios.models import Persona
 from datetime import datetime, timedelta
 from reportes.mp3 import reporte_cita_mp3
+from reportes.pdfs import generar_pdf
 import os
 
 # Vistas:
@@ -275,13 +276,15 @@ def seleccionar_hora_cita(request, pk):
         return redirect(f'/inmuebles/cita/creada/{cita.pk}')
 
 def cita_creada(request, pk):
+    cita = Cita.objects.get(pk=pk)
     if(request.method == "GET"):
-        return render(request, 'cita_creada.html', context={'cita': Cita.objects.get(pk=pk)})
+        return render(request, 'cita_creada.html', context={'cita': cita})
     elif(request.method == "POST"): # REPORTES
         if(request.POST['tipo'] == 'pdf'):
-            pass
+            response = generar_pdf(request, 'comprobante_cita', cita, "Comprobante de Cita")
+            response['Content-Disposition'] = f'attachment; filename=COMPROBANTE_CITA_{cita.pk}.pdf'
+            return response
         elif(request.POST['tipo'] == 'mp3'):
-            cita = Cita.objects.get(pk=pk)
             file_path = reporte_cita_mp3(cita)
             print(file_path)
             print(os.path.exists(file_path))
@@ -300,6 +303,9 @@ def comprar_inmueble(request, pk):
         inmueble.estado = 'T'
         inmueble.save()
         return redirect('/')
+
+def resultados_cita(request, pk):
+    pass
 
 # Funciones Auxiliares:
 
