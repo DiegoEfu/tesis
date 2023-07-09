@@ -75,6 +75,29 @@ def formulario_pago(request, pk):
 
         return redirect('/')
 
+def formulario_aprobar_pago(request, pk):
+    pago = Pago.objects.get(pk=pk)
+
+    if(request.method == 'GET'):
+        return render(request, 'aprobar_pago.html', context={'pago': pago})
+    elif(request.method == 'POST'):
+        comentario_cajero = request.POST.get('comentario_cajero')
+        estado = request.POST.get('estado')
+
+        errores = []
+
+        if(not comentario_cajero):
+            errores.append("El cajero debe añadir un comentario.")
+
+        if(not estado):
+            errores.append("Debe aprobar o rechazar el pago.")
+        
+        pago.estado = estado
+        pago.comentario_cajero = comentario_cajero
+        pago.save()
+
+        return redirect("/")
+
 def formulario_cuenta(request):
     # Vista del formulario de registro de pago
 
