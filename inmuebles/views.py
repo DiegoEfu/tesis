@@ -308,7 +308,25 @@ def comprar_inmueble(request, pk):
             return response
 
 def resultados_cita(request, pk):
-    pass
+    cita = Cita.objects.get(pk=pk)
+
+    if(request.method == "GET"):
+        return render(request, 'resultados_cita.html', context={'cita': cita})    
+    elif(request.method == "POST"):
+        resultados = request.POST.get('resultados')
+        errores = []
+
+        if(resultados):
+            errores.append("Debe de registrarse un resultado de la cita.")
+
+        if(len(errores)):
+            return render(request, 'resultados_cita.html', context={'cita': cita, 'errores': errores})
+
+        cita.estado = 'F' if request.POST.get('bien') else 'X'
+        cita.resultados = request.POST['resultados']
+        cita.save()
+
+        return redirect("/")
 
 # Funciones Auxiliares:
 
