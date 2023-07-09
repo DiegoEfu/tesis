@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cita para el Inmueble "{{inmueble.nombre}}"</title>
+</head>
+<body>
+    De los siguientes días, escoja el que mejor se ajuste a su horario:
+    <form method="post">
+        {% csrf_token %}
+        <ul>
+            {% for dia in dias %}
+            <li><button type="submit" name="dia_escogido" value="{{dia.fecha.day}}-{{dia.fecha.month}}-{{dia.fecha.year}}">{{dia.dia_semana}}, {{dia.fecha.date}}</button></li>
+            {% endfor %}
+        </ul>
+    </form>
+</body>
+</html>

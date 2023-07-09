@@ -1,11 +1,11 @@
 from django.db import models
-from usuarios.models import Persona
 
 # Create your models here.
 
 estados_inmueble = [
     ("R", "En Revisión"),
     ("A", "Activo"),
+    ("T", "Compromiso de Compra"),
     ("D", "Denegado"),
     ("E", "Revisión por Edición"),
     ("C", "Revisión para Cancelación"),
@@ -24,7 +24,8 @@ estados_cita = [
     ("E", "En Espera"),
     ("C", "Cancelada"),
     ("P", "Pendiente por Resultado"),
-    ("F", "Finalizada"),
+    ("F", "Finalizada - Visto Bueno"),
+    ("X", "Finalizada - Visto Malo"),
 ]
 
 tipos_construccion = [
@@ -59,8 +60,8 @@ class Inmueble(models.Model):
     precio = models.DecimalField(decimal_places=2,max_digits=12)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     sector = models.ForeignKey(to=Sector, on_delete=models.CASCADE)
-    dueno = models.ForeignKey(to=Persona,on_delete=models.CASCADE, related_name="dueno")
-    agente =  models.ForeignKey(to=Persona, on_delete=models.CASCADE, related_name="agente")
+    dueno = models.ForeignKey(to='usuarios.Persona',on_delete=models.CASCADE, related_name="dueno")
+    agente =  models.ForeignKey(to='usuarios.Persona', on_delete=models.CASCADE, related_name="agente")
 
     def precio_input(self):
         return str(self.precio).replace(",",".")
@@ -70,12 +71,14 @@ class Inmueble(models.Model):
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
-    estado = models.CharField(max_length=1,choices=estados_compra)
-    comprador = models.ForeignKey(to=Persona, on_delete=models.CASCADE)
+    estado = models.CharField(max_length=1,choices=estados_compra,default='C')
+    comprador = models.ForeignKey(to='usuarios.Persona', on_delete=models.CASCADE)
     inmueble = models.ForeignKey(to=Inmueble, on_delete=models.CASCADE)
 
 class Cita(models.Model):
-    compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE)
+    compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE, null=True)
+    inmueble = models.ForeignKey(to=Inmueble, on_delete=models.CASCADE, null=True)
+    persona = models.ForeignKey(to='usuarios.Persona', on_delete=models.CASCADE, null=True)
     fecha_asignada = models.DateTimeField()
-    estado = models.CharField(max_length=1, choices=estados_cita)
-    resultados = models.TextField()
+    estado = models.CharField(max_length=1, choices=estados_cita, default='E')
+    resultados = models.TextField(blank=True)

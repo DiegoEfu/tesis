@@ -8,7 +8,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 
-    <script>
+    <script> <!--HAY QUE EDITAR EL FORMULARIO-->
         const synthesis = window.speechSynthesis;
         const campos = [
             ['Emisor', 'emisor', ''], 
@@ -25,6 +25,7 @@
             "ayuda": "Indica todos los comandos con su descripción.",
             "registrar pago": "Inicia el formulario de registro de pago."
         };
+        const tasa = Number("{{tasa_dolar}}".replace(",","."));
 
         function formulario_p1(event){
             for (var i = event.resultIndex; i < event.results.length; i++) {
@@ -255,10 +256,22 @@
             bienvenida();
         else
             bienvenida(1);
+
+        function redondeoFinanciero(num, decimalPlaces = 2) {
+            var d = decimalPlaces || 0;
+            var m = Math.pow(10, d);
+            var n = +(d ? num * m : num).toFixed(8); // Avoid rounding errors
+            var i = Math.floor(n), f = n - i;
+            var e = 1e-8; // Allow for rounding errors in f
+            var r = (f > 0.5 - e && f < 0.5 + e) ?
+                        ((i % 2 == 0) ? i : i + 1) : Math.round(n);
+            return d ? r / m : r;
+        }
     </script>
 </head>
 <body>
     <form method="post">
+        {% csrf_token %}
         <label for="receptora">Cuenta Receptora:</label><br>
         <select name="receptora" id="receptora">
             {% for cuenta in cuentas_empresa %}
@@ -266,7 +279,10 @@
             {% endfor %}
         </select><br>
 
-        <label for="monto">Monto (en bolívares):</label><br>
+        <label for="monto">Monto:</label><br>
+        <select name="moneda" id="moneda">
+            <option value="bolivar">BsD</option>
+        </select>
         <input type="number" name="monto" id="monto" step=".01" min="1" required><br>
 
         <label for="referencia">Número de Referencia:</label><br>
@@ -278,7 +294,28 @@
         <label for="comentario">Comentarios:</label><br>
         <textarea name="comentario" id="comentario"></textarea><br>
 
+        <label for="monto_cancelado_usd">Monto Cancelado ($):</label>
+        <input type="number" value="0.00" step=".01" id="monto_cancelado_usd" name="monto_cancelado_usd" disabled>
+
         <input type="submit" value="Registrar Pago">
-    </form>    
+    </form>  
+    
+    <script>
+        document.getElementById('monto').addEventListener('change', (event) => {
+            let monto = document.getElementById('monto').value;
+            if(document.getElementById('moneda').value === "bolivar")
+                monto = redondeoFinanciero(monto/tasa);
+            
+            document.getElementById('monto_cancelado_usd').value = monto;
+        });
+
+        document.getElementById('moneda').addEventListener('change', (event) => {
+            let monto = document.getElementById('monto').value;
+            if(document.getElementById('moneda').value === "bolivar")
+                monto = redondeoFinanciero(monto/tasa);
+            
+            document.getElementById('monto_cancelado_usd').value = monto;
+        });
+    </script>
 </body>
 </html>

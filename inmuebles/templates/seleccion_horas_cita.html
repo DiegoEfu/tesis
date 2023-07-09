@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cita para el Inmueble "{{inmueble.nombre}}"</title>
+</head>
+<body>
+    Usted escogió el día {{fecha.date}}. Las horas disponibles para el agente y para usted son las siguientes:
+    <form method="post">
+        {% csrf_token %}
+        <ul>
+            {% for hora in horas %}
+            <li><button type="submit" name="hora_escogida" value="{{hora.hour}}">{{hora.hour}}:00</button></li>
+            {% endfor %}
+        </ul>
+    </form>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados Cita de Visita</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <label for="cita">Número de Cita:</label>
+        <input type="text" name="cita" value="{{cita.pk}}" disabled>
+
+        <label for="ci_visitante">Cédula del Visitante:</label>
+        <input type="text" name="ci_visitante" value="{{cita.persona.cedula}}" disabled>
+
+        <label for="nombre_visitante">Nombre del Visitante:</label>
+        <input type="text" name="nombre_visitante" value="{{cita.persona}}" disabled>
+
+        <label for="nombre_inmueble">Nombre del Inmueble:</label>
+        <input type="text" name="nombre_inmueble" value="{{cita.inmueble.nombre}}" disabled>
+
+        <label for="direccion_inmueble">Sector del Inmueble:</label>
+        <input type="text" name="direccion_inmueble" value="{{cita.inmueble.sector.nombre}}" disabled>
+
+        <label for="dia_cita">Día de la Cita:</label>
+        <input type="text" name="dia_cita" value="{{cita.fecha_asignada.date}}" disabled>
+
+        <label for="hora_cita">Hora de la Cita:</label>
+        <input type="text" name="hora_cita" value="{{cita.fecha_asignada.hour}}:00" disabled>
+
+        <label for="hora_cita">Resultados de la cita:</label>
+        <textarea name="resultados" id="resultados" cols="30" rows="10" required></textarea>
+
+        <button type="submit" value="bien">Enviar Resultados (Positivo)</button>
+        <button type="submit" value="mal">Enviar Resultados (Negativo)</button>
+    </form>
+</body>
+</html>

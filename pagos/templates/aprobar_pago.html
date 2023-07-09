@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprobación de Pago</title>
+</head>
+<body>
+    <h2>Pago de {{pago.compra.inmueble.nombre}}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label>Cuenta</label>
+        <input type="text" value="{{pago.cuenta}}" disabled> <br>
+
+        <label>Monto Pagado (BsD)</label>
+        <input type="text" value="{{pago.monto}}" disabled> <br>
+
+        <label>Monto Pagado (USD)</label>
+        <input type="text" value="{{pago.valor_dolar|floatformat:2}}" disabled> <br>
+
+        <label>Referencia</label>
+        <input type="number" value="{{pago.referencia}}" disabled> <br>
+
+        <label>Comentarios</label>
+        <textarea disabled name="comentarios" id="comentarios" cols="30" rows="10">{{pago.comentario}}</textarea> <br>
+
+        <label for="comentario_cajero">Comentario Cajero</label>
+        <textarea name="comentario_cajero" id="comentario_cajero" cols="30" rows="10" required></textarea> <br>
+
+        <button type="submit" name="estado" value="A">Aprobar</button>
+        <button type="submit" name="estado" value="R">Rechazar</button>
+    </form>
+</body>
+</html>

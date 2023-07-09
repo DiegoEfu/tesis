@@ -41,6 +41,9 @@ class Cuenta(models.Model):
     banco = models.CharField(max_length=50, choices=bancos)
     persona = models.ForeignKey(to=Persona, on_delete=models.CASCADE)
 
+    def __str__(self) -> str:
+        return f"{self.banco} - {self.numero}"
+
 class Cambio(models.Model):
     fecha = models.DateField(auto_now_add=True)
     tasa = models.DecimalField(max_digits=5, decimal_places=2)
@@ -56,3 +59,6 @@ class Pago(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE)
     fecha_transaccion = models.DateField()
+
+    def valor_dolar(self):
+        return self.monto/self.tasa.tasa
