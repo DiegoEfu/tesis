@@ -68,6 +68,13 @@ class Inmueble(models.Model):
     
     def tamano_input(self):
         return str(self.tamano).replace(",",".")
+    
+    def estado_largo(self):
+        for (x,y) in estados_inmueble:
+            if(x == self.estado):
+                return y
+        
+        return "DESCONOCIDO"
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
@@ -82,3 +89,10 @@ class Cita(models.Model):
     fecha_asignada = models.DateTimeField()
     estado = models.CharField(max_length=1, choices=estados_cita, default='E')
     resultados = models.TextField(blank=True)
+
+    def estado_largo(self):
+        for (x,y) in estados_cita:
+            if(x == self.estado):
+                return y
+        
+        return "DESCONOCIDO"

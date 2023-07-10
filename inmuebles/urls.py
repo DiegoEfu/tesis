@@ -17,4 +17,9 @@ urlpatterns = [
     
     # Comprar
     path("comprar/<int:pk>/", comprar_inmueble, name="comprar_inmueble"),
+
+    # Consultas
+    path('consultar/compras/', consultar_compras, name="consultar_compras"),
+    path('consultar/publicaciones/', consultar_publicaciones, name="consultar_publicaciones"),
+    path('consultar/citas/', consultar_citas, name="consultar_citas")
 ]

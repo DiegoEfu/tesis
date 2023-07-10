@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar sus Citas</title>
+</head>
+<body>
+    <h3>Consulta de Citas</h3>
+    {% for cita in citas %}
+    <hr>
+    <h5><a href="{% url 'detalle_inmueble' pk=cita.inmueble.pk %}">{{cita.inmueble.nombre}}</a></h5>
+    <b>Fecha:</b> {{cita.fecha_asignada.date}} {{cita.fecha_asignada.hour}}:00
+    <b>Agente:</b> {{cita.inmueble.agente}} (Teléfono: {{cita.inmueble.agente.numero_teléfono}})
+    <b>Sector:</b> {{cita.inmueble.sector.nombre}} 
+    <b>Ubicación detallada: </b> {{cita.inmueble.ubicacion_detallada}}
+    <b>Estado de la Cita:</b> {{cita.estado_largo}}
+    {% if cita.estado == 'F' or cita.estado == 'X' %}
+    <b>Comentarios del Agente:</b> {{cita.resultados}}
+    {% else %}
+    <b>Lleve uno de los siguientes comprobantes a la cita:</b>
+    {% csrf_token %}
+    <form method="post"><button name="tipo" value="pdf" type="submit">Descargar Comprobante PDF</button></form>
+    <form method="post"><button name="tipo" value="mp3" type="submit">Descargar Comprobante MP3</button></form>
+    {% endif %}
+    {% endfor %}
+</body>
+</html>

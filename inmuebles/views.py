@@ -328,6 +328,15 @@ def resultados_cita(request, pk):
 
         return redirect("/")
 
+def consultar_compras(request):
+    return render(request, 'consultas/consultar_compras.html', context={'compras': Compra.objects.filter(comprador=request.user.persona)})
+
+def consultar_publicaciones(request):
+    return render(request, 'consultas/consultar_publicaciones.html', context={'publicaciones': Inmueble.objects.filter(dueno=request.user.persona)})
+
+def consultar_citas(request): # Citas de VISITA
+    return render(request, 'consultas/consultar_citas_visita.html', context={'citas': Cita.objects.filter(persona=request.user.persona)})
+
 # Funciones Auxiliares:
 
 def buscar_coincidencias(busqueda):
