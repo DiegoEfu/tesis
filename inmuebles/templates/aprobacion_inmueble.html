@@ -69,11 +69,26 @@
         <label for="amueblado">Está amueblado:</label>
         <input type="checkbox" name="amueblado" id="amueblado" {% if inmueble.amueblado %}checked{% endif %}><br>
 
-        <label for="estacionamiento">Tiene estacionamiento:</label>
-        <input type="checkbox" name="estacionamiento" id="estacionamiento" {% if inmueble.tiene_estaciones %}checked{% endif %}><br>
+        <label for="estacionamiento">Puestos de estacionamiento:</label>
+        <input type="number" min="0" value="{{inmueble.estacionamientos}}" name="estacionamiento" id="estacionamiento"><br>
+
+        <label for="pisos">Número de Pisos:</label>
+        <input type="number" min="1" value="{{inmueble.pisos}}" required name="pisos" id="pisos"><br>
 
         <label for="comentarios_internos">Comentarios Internos:</label>
         <textarea name="comentarios_internos" id="comentarios_internos" cols="30" rows="10"></textarea>
+
+        <h4>Servicios</h4>
+        <label for="agua">Servicio de agua:</label>
+        <input type="checkbox" name="agua" id="agua" {% if inmueble.agua %}checked{% endif %}><br>
+        <label for="electricidad">Servicio de electricidad:</label>
+        <input type="checkbox" name="electricidad" id="electricidad" {% if inmueble.electricidad %}checked{% endif %}><br>
+        <label for="gas">Servicio de gas:</label>
+        <input type="checkbox" name="gas" id="gas" {% if inmueble.gas %}checked{% endif %}><br>
+        <label for="aseo">Servicio de aseo:</label>
+        <input type="checkbox" name="aseo" id="aseo" {% if inmueble.aseo %}checked{% endif %}><br>
+        <label for="internet">Servicio de Internet:</label>
+        <input type="checkbox" name="internet" id="internet" {% if inmueble.internet %}checked{% endif %}><br>
 
         <input type="submit" name="aprobado" value="Aprobar">
         <input type="submit" name="rechazado" value="Rechazar">

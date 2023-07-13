@@ -30,7 +30,7 @@ def formulario_inmueble(request):
         nombre = request.POST.get('nombre')
         ano_construccion = request.POST.get('ano')
         tipo_construccion = request.POST.get('tipo_construccion')
-        tiene_estacionamiento = request.POST.get('estacionamiento')
+        estacionamiento = request.POST.get('estacionamiento')
         tamano = request.POST.get('tamano')
         habitaciones = request.POST.get('habitaciones')
         banos = request.POST.get('banos')
@@ -39,6 +39,12 @@ def formulario_inmueble(request):
         ubicacion_detallada = request.POST.get('ubicacion_detallada') 
         precio = request.POST.get('precio')    
         sector = request.POST.get('sector')
+        electricidad = request.POST.get('electricidad')
+        agua = request.POST.get('agua')
+        internet = request.POST.get('internet')
+        aseo = request.POST.get('aseo')
+        gas = request.POST.get('gas')
+        pisos = request.POST.get('pisos')
 
         errores = []
 
@@ -82,17 +88,29 @@ def formulario_inmueble(request):
         
         if(float(tamano) <= 0):
             errores.append("El tamaño debe ser mayor a 0.")
+        
+        if(float(pisos) <= 0):
+            errores.append("Debe de tener al menos un piso.")
+        
+        if(float(banos) < 0):
+            errores.append("El número de baños debe ser positivo o cero.")
+        
+        if(float(estacionamiento) < 0):
+            errores.append("El número de estacionamientos debe ser positivo o cero.")
+        
+        if(float(habitaciones) < 0):
+            errores.append("El número de habitaciones debe ser positivo o cero.")
 
         # Creación
 
         if(len(errores) != 0):
-            return render(request, 'inmuebles/formulario_inmueble.html', {'errores': errores, 'previo': request.POST})
+            return render(request, 'formulario_inmueble.html', {'errores': errores, 'previo': request.POST})
 
         Inmueble.objects.create(
             nombre = nombre,
             ano_construccion = ano_construccion,
-            tipo_construccion = tipos_construccion[tipo_construccion-1],
-            tiene_estacionamiento = bool(tiene_estacionamiento),
+            tipo_construccion = tipos_construccion[int(tipo_construccion)-1][0],
+            estacionamientos = estacionamiento,
             tamano = tamano,
             banos = banos,
             habitaciones = habitaciones,
@@ -100,10 +118,18 @@ def formulario_inmueble(request):
             descripcion = descripcion,
             ubicacion_detallada = ubicacion_detallada,
             precio = precio,
+            agua = bool(agua),
+            gas = bool(gas),
+            electricidad = bool(electricidad),
+            internet = bool(internet),
+            aseo = bool(aseo),
+            pisos = pisos,
             sector = Sector.objects.get(pk=sector),
             dueno = request.user.persona if request.user.is_authenticated else Persona.objects.first(),
             agente = Persona.objects.first() #! CAMBIAR PARA UN AGENTE ALEATORIO
         )
+
+        return render(request, )
 
 def get_sectores(request, id):
     return JsonResponse({'res': list(Sector.objects.filter(parroquia__id = id).values())})
@@ -132,12 +158,12 @@ def aprobar_inmueble(request, pk):
     if request.method == "GET":
         return render(request, 'aprobacion_inmueble.html', context={'inmueble': Inmueble.objects.get(pk = pk),
                                                                     'construcciones': tipos_construccion})
+    
     elif request.method == "POST":
-        print(request.POST)
         nombre = request.POST.get('nombre')
         ano_construccion = request.POST.get('ano')
         tipo_construccion = request.POST.get('tipo_construccion')
-        tiene_estacionamiento = bool(request.POST.get('estacionamiento'))
+        estacionamientos = bool(request.POST.get('estacionamiento'))
         tamano = request.POST.get('tamano')
         habitaciones = request.POST.get('habitaciones')
         banos = request.POST.get('banos')
@@ -146,6 +172,12 @@ def aprobar_inmueble(request, pk):
         ubicacion_detallada = request.POST.get('ubicacion_detallada') 
         precio = request.POST.get('precio')
         comentarios_internos = request.POST.get('comentarios_internos')
+        electricidad = request.POST.get('electricidad')
+        agua = request.POST.get('agua')
+        internet = request.POST.get('internet')
+        aseo = request.POST.get('aseo')
+        gas = request.POST.get('gas')
+        pisos = request.POST.get('pisos')
 
         errores = []
 
@@ -186,17 +218,29 @@ def aprobar_inmueble(request, pk):
         
         if(float(tamano) <= 0):
             errores.append("El tamaño debe ser mayor a 0.")
+        
+        if(float(pisos) <= 0):
+            errores.append("Debe de tener al menos un piso.")
+        
+        if(float(banos) < 0):
+            errores.append("El número de baños debe ser positivo o cero.")
+        
+        if(float(estacionamientos) < 0):
+            errores.append("El número de estacionamientos debe ser positivo o cero.")
+        
+        if(float(habitaciones) < 0):
+            errores.append("El número de habitaciones debe ser positivo o cero.")
 
         # Creación
 
         if(len(errores) != 0):
-            return render(request, 'inmuebles/formulario_inmueble.html', {'errores': errores, 'previo': request.POST})
+            return render(request, 'aprobacion_inmuebles.html', {'errores': errores, 'inmueble': Inmueble.objects.get(pk=pk)})
 
         inmueble = Inmueble.objects.get(pk=pk)
         inmueble.nombre = nombre
         inmueble.ano_construccion = ano_construccion
         inmueble.tipo_construccion = tipo_construccion
-        inmueble.tiene_estacionamiento = tiene_estacionamiento
+        inmueble.estacionamientos = estacionamientos
         inmueble.tamano = tamano
         inmueble.habitaciones = habitaciones
         inmueble.banos = banos
@@ -205,6 +249,12 @@ def aprobar_inmueble(request, pk):
         inmueble.comentarios_internos = comentarios_internos
         inmueble.ubicacion_detallada = ubicacion_detallada
         inmueble.precio = precio
+        inmueble.agua = agua
+        inmueble.electricidad = electricidad
+        inmueble.gas = gas
+        inmueble.aseo = aseo
+        inmueble.internet = internet
+        inmueble.pisos = pisos
 
         if('aprobado' in request.POST.keys()):
             inmueble.estado = 'A'

@@ -325,6 +325,7 @@
         });
     </script>
 </head>
+
 <body>
     <h2>Formulario de Inmueble</h2>
     <form method="post">
@@ -369,14 +370,33 @@
         <label for="descripcion">Descripción (será editada para optimizarse para personas con discapacidad visual):</label>
         <textarea name="descripcion" id="descripcion" cols="30" rows="10"></textarea><br>
 
-        <label for="precio">Precio:</label>
+        <label for="precio">Precio (Dólares):</label>
         <input type="number" name="precio" id="precio"><br>
+
+        <hr>
+        <h4>Características Extra</h4>
 
         <label for="amueblado">Está amueblado:</label>
         <input type="checkbox" name="amueblado" id="amueblado"><br>
 
-        <label for="estacionamiento">Tiene estacionamiento:</label>
-        <input type="checkbox" name="estacionamiento" id="estacionamiento"><br>
+        <label for="estacionamiento">Puestos de Estacionamiento:</label>
+        <input type="number" min="0" value="0" required name="estacionamiento" id="estacionamiento"><br>
+
+        <label for="pisos">Número de Pisos:</label>
+        <input type="number" min="1" value="1" required name="pisos" id="pisos"><br>
+
+        <hr>
+        <h4>Servicios</h4>
+        <label for="agua">Servicio de agua:</label>
+        <input type="checkbox" name="agua" id="agua"><br>
+        <label for="electricidad">Servicio de electricidad:</label>
+        <input type="checkbox" name="electricidad" id="electricidad"><br>
+        <label for="gas">Servicio de gas:</label>
+        <input type="checkbox" name="gas" id="gas"><br>
+        <label for="aseo">Servicio de aseo:</label>
+        <input type="checkbox" name="aseo" id="aseo"><br>
+        <label for="internet">Servicio de Internet:</label>
+        <input type="checkbox" name="internet" id="internet"><br>
 
         <input type="submit" value="Enviar Formulario">
     </form>
