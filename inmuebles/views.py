@@ -387,6 +387,10 @@ def consultar_publicaciones(request):
 def consultar_citas(request): # Citas de VISITA
     return render(request, 'consultas/consultar_citas_visita.html', context={'citas': Cita.objects.filter(persona=request.user.persona)})
 
+def consultar_ventas(request): # Para USUARIOS NORMALES
+    print(Compra.objects.filter(inmueble__dueno=request.user.persona))
+    return render(request, 'consultas/consultar_ventas_persona.html', context={'ventas': Compra.objects.filter(inmueble__dueno=request.user.persona)})
+
 # Funciones Auxiliares:
 
 def buscar_coincidencias(busqueda):

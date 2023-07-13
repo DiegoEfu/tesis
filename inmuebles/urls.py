@@ -21,5 +21,6 @@ urlpatterns = [
     # Consultas
     path('consultar/compras/', consultar_compras, name="consultar_compras"),
     path('consultar/publicaciones/', consultar_publicaciones, name="consultar_publicaciones"),
-    path('consultar/citas/', consultar_citas, name="consultar_citas")
+    path('consultar/citas/', consultar_citas, name="consultar_citas"),
+    path('consultar/ventas/', consultar_ventas, name="consultar_ventas")
 ]
