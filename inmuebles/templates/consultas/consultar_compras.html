@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,7 @@
     {% for compra in compras %}
     <hr>
     <h5><a href="{% url 'detalle_inmueble' pk=compra.inmueble.pk %}">{{compra.inmueble.nombre}}</a></h5>
+    <a href="{% url 'consultar_pagos_compra' pk=compra.pk %}">Consultar Pagos</a>
     {% endfor %}
 </body>
 </html>

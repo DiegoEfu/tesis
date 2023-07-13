@@ -91,7 +91,7 @@ class Compra(models.Model):
     inmueble = models.ForeignKey(to=Inmueble, on_delete=models.CASCADE)
 
     def monto_cancelado(self):
-        return sum([x.valor_dolar() for x in self.pagos.all()] if self.pagos.all().count() else [0])
+        return sum([x.valor_dolar() for x in self.pagos.filter(estado = "A")] if self.pagos.all().count() else [0])
     
     def estado_largo(self):
         for (x,y) in estados_compra:

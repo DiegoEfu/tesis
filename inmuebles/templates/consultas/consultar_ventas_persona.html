@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,7 @@
     {% endif %}
 
     {% if compra.pagos.all.count %}
-    <a href="#">Consultar Pagos</a>
+    <a href="{% url 'consultar_pagos_ventas' pk=compra.pk %}">Consultar Pagos</a>
     {% endif %}
 
     <form method="post">

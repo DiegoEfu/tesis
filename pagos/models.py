@@ -62,3 +62,10 @@ class Pago(models.Model):
 
     def valor_dolar(self):
         return self.monto/self.tasa.tasa
+    
+    def estado_largo(self):
+        for (x,y) in estados:
+            if(x == self.estado):
+                return y
+        
+        return "DESCONOCIDO"
