@@ -7,6 +7,11 @@
 </head>
 <body>
     <h2>Consultar Pagos Realizados</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="tipo" value="mp3">DESCARGAR REPORTE MP3</button>
+        <button type="submit" name="tipo" value="pdf">DESCARGAR REPORTE PDF</button>
+    </form>
     {% for pago in pagos %}
     <hr>
     <b>Monto</b>: Bs. {{pago.monto}} / $ {{pago.valor_dolar|floatformat:2}} (Tasa: {{pago.tasa.tasa}}) <br>

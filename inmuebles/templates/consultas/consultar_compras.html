@@ -7,6 +7,12 @@
 </head>
 <body>
     <h3>Consulta de Compras</h3>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="tipo" value="mp3">DESCARGAR REPORTE MP3</button>
+        <button type="submit" name="tipo" value="pdf">DESCARGAR REPORTE PDF</button>
+    </form>
+
     {% for compra in compras %}
     <hr>
     <h5><a href="{% url 'detalle_inmueble' pk=compra.inmueble.pk %}">{{compra.inmueble.nombre}}</a></h5>

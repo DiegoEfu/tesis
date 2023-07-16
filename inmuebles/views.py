@@ -392,7 +392,18 @@ def resultados_cita(request, pk):
         return redirect("/")
 
 def consultar_compras(request):
-    return render(request, 'consultas/consultar_compras.html', context={'compras': Compra.objects.filter(comprador=request.user.persona)})
+    compras = Compra.objects.filter(comprador=request.user.persona)
+
+    if(request.method == 'GET'):
+        return render(request, 'consultas/consultar_compras.html', context={'compras': compras})
+    elif(request.method == 'POST'):
+        if(request.POST['tipo'] == 'mp3'):
+            pass
+        elif(request.POST['tipo'] == 'pdf'):
+            response = generar_pdf(request, 'reporte_compras', compras, "REPORTE DE COMPRAS")
+            response['Content-Disposition'] = f'attachment; filename=REPORTE_COMPRAS.pdf'
+            return response
+    
 
 def consultar_publicaciones(request):
     return render(request, 'consultas/consultar_publicaciones.html', context={'publicaciones': Inmueble.objects.filter(dueno=request.user.persona)})
@@ -407,7 +418,18 @@ def consultar_pagos_ventas(request,pk): # Para USUARIOS NORMALES
     return render(request, 'consultas/consultar_pagos_ventas_persona.html', context={'pagos': Compra.objects.get(pk=pk).pagos.order_by('-fecha')})
 
 def consultar_pagos_compras(request,pk): # Para USUARIOS NORMALES
-    return render(request, 'consultas/consultar_pagos_compras_persona.html', context={'pagos': Compra.objects.get(pk=pk).pagos.order_by('-fecha')})
+    compra = Compra.objects.get(pk=pk)
+    pagos = compra.pagos.order_by('-fecha')
+
+    if(request.method == 'GET'):
+        return render(request, 'consultas/consultar_pagos_compras_persona.html', context={'pagos': pagos})
+    elif(request.method == 'POST'):
+        if(request.POST['tipo'] == 'mp3'):
+            pass
+        elif(request.POST['tipo'] == 'pdf'):
+            response = generar_pdf(request, 'reporte_pagos', pagos, "REPORTE DE PAGOS")
+            response['Content-Disposition'] = f'attachment; filename=REPORTE_PAGOS_{compra.pk}.pdf'
+            return response
 
 # Funciones Auxiliares:
 
