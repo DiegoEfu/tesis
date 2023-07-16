@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar sus Compras</title>
+</head>
+<body>
+    <h3>Consulta de Compras</h3>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="tipo" value="mp3">DESCARGAR REPORTE MP3</button>
+        <button type="submit" name="tipo" value="pdf">DESCARGAR REPORTE PDF</button>
+    </form>
+
+    {% for compra in compras %}
+    <hr>
+    <h5><a href="{% url 'detalle_inmueble' pk=compra.inmueble.pk %}">{{compra.inmueble.nombre}}</a></h5>
+    <a href="{% url 'consultar_pagos_compra' pk=compra.pk %}">Consultar Pagos</a>
+    {% endfor %}
+</body>
+</html>

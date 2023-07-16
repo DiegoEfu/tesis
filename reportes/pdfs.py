@@ -6,9 +6,9 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib import colors
 from reportlab.lib.units import  inch
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_RIGHT
+from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER
 from django.db.models import Sum
-from django.db import models
+from pagos.models import Compra
 import datetime
 import locale
 
@@ -105,6 +105,12 @@ def generar_pdf(request,data,object_list,titulo):
 def define_table(request,data,object_list):
     if data == 'comprobante_cita':
         return comprobante_cita(object_list)
+    elif data == 'comprobante_compra':
+        return comprobante_compra(object_list)
+    elif data == 'reporte_pagos':
+        return reporte_pagos(request, object_list)
+    elif data == 'reporte_compras':
+        return reporte_compras(object_list)
         
 def comprobante_cita(cita):
     t = []
@@ -128,4 +134,72 @@ def comprobante_cita(cita):
                        f"a las {cita.fecha_asignada.hour} horas con 00 minutos en la dirección del inmueble para la comprobación de su identidad al momento de la visita.</b>",
                        ParagraphStyle("", alignment = TA_JUSTIFY, fontSize = 12)))
     
+    return t
+
+def comprobante_compra(compra):
+    t = []
+    t.append(Paragraph(f"<b>Número de Compra: </b>{compra.pk}"))
+
+    t.append(Spacer(0,10))
+    t.append(Paragraph(f"El usuario <b>{compra.comprador}</b>, titular de la cédula de identidad <b>{compra.comprador.cedula()}</b>, "
+                    +  f"ha firmado del contrato de aceptación de términos de compra del inmueble cuyos datos se muestran en la siguiente: "))
+    
+    t.append(Spacer(0,10))
+    t.append(Table([["NOMBRE","CÓDIGO","SECTOR","UBICACIÓN", "PRECIO"],
+                    [Paragraph(compra.inmueble.nombre), Paragraph(f"{compra.inmueble.pk}"), 
+                     Paragraph(compra.inmueble.sector.nombre), Paragraph(compra.inmueble.ubicacion_detallada),
+                     Paragraph(f"${compra.inmueble.precio}")]]))
+    
+    t.append(Spacer(0,10))
+    t.append(Paragraph(f"Del dueño <b>{compra.inmueble.dueno}</b>, titular de la cédula de identidad <b>{compra.inmueble.dueno.cedula()}</b>."
+                    +  f" Queda encargado de la presente compra el agente <b>{compra.inmueble.agente}</b>, titular de la cédula de identidad "
+                    +  f"<b>{compra.inmueble.agente.cedula()}</b>, el cual puede ser contactado en las vías autorizadas: "))
+    
+    t.append(Spacer(0,10))
+    t.append(Table([["TELÉFONO","EMAIL"],
+                    [Paragraph(compra.inmueble.agente.numero_telefono), Paragraph(compra.inmueble.agente.usuario_persona.email)]]))
+    
+    t.append(Spacer(0,10))
+    t.append(Paragraph(f"<b>Compra acordada entre las partes interesadas con la inmobiliaria INCAIBO, a los {compra.fecha.day} días del mes número {compra.fecha.month} del año {compra.fecha.year}.</b>", ParagraphStyle("", alignment=TA_CENTER)))
+    
+    return t
+
+def reporte_compras(compras):
+    t = []
+    tabla = [['NÚM.', 'INMUEBLE', 'FECHA', 'ESTADO', 'PRECIO']]
+
+    for compra in compras:
+        tabla.append([Paragraph(str(compra.pk)), Paragraph(compra.inmueble.nombre),
+                      Paragraph(str(compra.fecha.date())), Paragraph(compra.estado_largo()),
+                      Paragraph(f"$ {compra.inmueble.precio}")])
+
+    t.append(Table(tabla, colWidths=[0.5*inch, 3*inch, 1*inch, 1.5*inch, 1*inch]))
+
+    return t
+
+def reporte_pagos(request, pagos):
+    t = []
+    compra = Compra.objects.get(pk=request.resolver_match.kwargs['pk'])
+    t.append(Table([['NÚMERO COMPRA', 'INMUEBLE', 'FECHA DE COMPRA', 'ESTADO', 'PRECIO'],
+            [Paragraph(str(compra.pk)), Paragraph(compra.inmueble.nombre),
+             Paragraph(str(compra.fecha.date())), Paragraph(compra.estado_largo()), Paragraph(f'${compra.inmueble.precio}')]]))
+    
+    t.append(Spacer(0,10))
+    
+    tabla = [['#', 'REFERENCIA', 'BANCO', 'FECHA', 'ESTADO', 'MONTO BS', 'MONTO $']]
+
+    total_bs, total_dolar = 0, 0
+    for (i,pago) in enumerate(pagos):
+        tabla.append([str(i+1), Paragraph(str(pago.referencia)), Paragraph(str(pago.cuenta)), 
+                      Paragraph(str(pago.fecha.date())), Paragraph(pago.estado_largo()),
+                      Paragraph(f'Bs. {pago.monto}'), Paragraph(f'$ {round(pago.valor_dolar(),2)}')])
+        
+        if(pago.estado == 'A'):
+            total_bs += pago.monto
+            total_dolar += pago.valor_dolar()
+
+    t.append(Table(tabla, colWidths=[0.5*inch,1*inch,2*inch,1*inch,1*inch,1*inch,1*inch]))
+    t.append(Table([['','','','','',Paragraph(f"Bs.{total_bs}"),Paragraph(f"${round(total_dolar, 2)}")]], 
+                   colWidths=[0.5*inch,1*inch,2*inch,1*inch,1*inch,1*inch,1*inch]))
+
     return t

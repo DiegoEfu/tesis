@@ -35,6 +35,7 @@ tipos_construccion = [
     ("Casa de Villa",)*2,
     ("Apartamento Regular",)*2,
     ("Apartamento PentHouse",)*2,
+    ("Terreno",)*2,
 ]
 
 class Parroquia(models.Model):
@@ -49,7 +50,7 @@ class Inmueble(models.Model):
     estado = models.CharField(max_length=1, default="R", choices=estados_inmueble)
     ano_construccion = models.IntegerField()
     tipo_construccion = models.CharField(max_length=45, default="Casa Individual", choices=tipos_construccion)
-    tiene_estacionamiento = models.BooleanField()
+    estacionamientos = models.IntegerField()
     tamano = models.DecimalField(decimal_places=2,max_digits=10)
     habitaciones = models.IntegerField()
     banos = models.IntegerField()
@@ -59,6 +60,13 @@ class Inmueble(models.Model):
     ubicacion_detallada = models.TextField()
     precio = models.DecimalField(decimal_places=2,max_digits=12)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+    pisos = models.IntegerField()
+    agua = models.BooleanField()
+    electricidad = models.BooleanField()
+    internet = models.BooleanField()
+    gas = models.BooleanField()
+    aseo = models.BooleanField()
+
     sector = models.ForeignKey(to=Sector, on_delete=models.CASCADE)
     dueno = models.ForeignKey(to='usuarios.Persona',on_delete=models.CASCADE, related_name="dueno")
     agente =  models.ForeignKey(to='usuarios.Persona', on_delete=models.CASCADE, related_name="agente")
@@ -68,12 +76,29 @@ class Inmueble(models.Model):
     
     def tamano_input(self):
         return str(self.tamano).replace(",",".")
+    
+    def estado_largo(self):
+        for (x,y) in estados_inmueble:
+            if(x == self.estado):
+                return y
+        
+        return "DESCONOCIDO"
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     estado = models.CharField(max_length=1,choices=estados_compra,default='C')
     comprador = models.ForeignKey(to='usuarios.Persona', on_delete=models.CASCADE)
     inmueble = models.ForeignKey(to=Inmueble, on_delete=models.CASCADE)
+
+    def monto_cancelado(self):
+        return sum([x.valor_dolar() for x in self.pagos.filter(estado = "A")] if self.pagos.all().count() else [0])
+    
+    def estado_largo(self):
+        for (x,y) in estados_compra:
+            if(x == self.estado):
+                return y
+        
+        return "DESCONOCIDO"
 
 class Cita(models.Model):
     compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE, null=True)
@@ -82,3 +107,10 @@ class Cita(models.Model):
     fecha_asignada = models.DateTimeField()
     estado = models.CharField(max_length=1, choices=estados_cita, default='E')
     resultados = models.TextField(blank=True)
+
+    def estado_largo(self):
+        for (x,y) in estados_cita:
+            if(x == self.estado):
+                return y
+        
+        return "DESCONOCIDO"

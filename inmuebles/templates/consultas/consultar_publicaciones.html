@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar sus Publicaciones</title>
+</head>
+<body>
+    <h3>Consulta de Publicaciones</h3>
+    {% for publicacion in publicaciones %}
+    <hr>
+    <h5>{{publicacion.nombre}}</h5>
+    <b>Precio:</b> ${{publicacion.precio}}
+    <b>Sector:</b> {{publicacion.sector.nombre}} (Parroquia {{publicacion.sector.parroquia.nombre}})
+    <b>Ubicación detallada: </b> {{publicacion.ubicacion_detallada}}
+    <b>Agente Asignado:</b> {{publicacion.agente}} ({{publicacion.agente.cedula}})
+    <b>Estado de la Publicación:</b> {{publicacion.estado_largo}}
+    {% endfor %}
+</body>
+</html>

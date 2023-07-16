@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Pagos</title>
+</head>
+<body>
+    <h2>Consultar Pagos Realizados</h2>
+    {% for pago in pagos %}
+    <hr>
+    <b>Monto</b>: Bs. {{pago.monto}} / $ {{pago.valor_dolar|floatformat:2}} (Tasa: {{pago.tasa.tasa}}) <br>
+    <b>Estado:</b> {{pago.estado_largo}} <br>
+    <b>Fecha:</b> {{pago.fecha}} <br>
+
+    {% if pago.estado == 'R' %}
+    <b>Comentario del Cajero: </b> {{pago.comentario_cajero}}
+    {% endif %}
+    {% endfor %}
+</body>
+</html>

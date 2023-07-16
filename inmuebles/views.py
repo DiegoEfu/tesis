@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from .models import Parroquia, Sector, Inmueble, Cita, Compra, tipos_construccion
 from usuarios.models import Persona
 from datetime import datetime, timedelta
-from reportes.mp3 import reporte_cita_mp3, reporte_compra_mp3
+from reportes.mp3 import reporte_cita_mp3, reporte_compra_mp3, reporte_compras_mp3, reporte_pagos_compra_mp3
 from reportes.pdfs import generar_pdf
 import os
 
@@ -30,7 +30,7 @@ def formulario_inmueble(request):
         nombre = request.POST.get('nombre')
         ano_construccion = request.POST.get('ano')
         tipo_construccion = request.POST.get('tipo_construccion')
-        tiene_estacionamiento = request.POST.get('estacionamiento')
+        estacionamiento = request.POST.get('estacionamiento')
         tamano = request.POST.get('tamano')
         habitaciones = request.POST.get('habitaciones')
         banos = request.POST.get('banos')
@@ -39,6 +39,12 @@ def formulario_inmueble(request):
         ubicacion_detallada = request.POST.get('ubicacion_detallada') 
         precio = request.POST.get('precio')    
         sector = request.POST.get('sector')
+        electricidad = request.POST.get('electricidad')
+        agua = request.POST.get('agua')
+        internet = request.POST.get('internet')
+        aseo = request.POST.get('aseo')
+        gas = request.POST.get('gas')
+        pisos = request.POST.get('pisos')
 
         errores = []
 
@@ -82,17 +88,29 @@ def formulario_inmueble(request):
         
         if(float(tamano) <= 0):
             errores.append("El tamaño debe ser mayor a 0.")
+        
+        if(float(pisos) <= 0):
+            errores.append("Debe de tener al menos un piso.")
+        
+        if(float(banos) < 0):
+            errores.append("El número de baños debe ser positivo o cero.")
+        
+        if(float(estacionamiento) < 0):
+            errores.append("El número de estacionamientos debe ser positivo o cero.")
+        
+        if(float(habitaciones) < 0):
+            errores.append("El número de habitaciones debe ser positivo o cero.")
 
         # Creación
 
         if(len(errores) != 0):
-            return render(request, 'inmuebles/formulario_inmueble.html', {'errores': errores, 'previo': request.POST})
+            return render(request, 'formulario_inmueble.html', {'errores': errores, 'previo': request.POST})
 
         Inmueble.objects.create(
             nombre = nombre,
             ano_construccion = ano_construccion,
-            tipo_construccion = tipos_construccion[tipo_construccion-1],
-            tiene_estacionamiento = bool(tiene_estacionamiento),
+            tipo_construccion = tipos_construccion[int(tipo_construccion)-1][0],
+            estacionamientos = estacionamiento,
             tamano = tamano,
             banos = banos,
             habitaciones = habitaciones,
@@ -100,10 +118,18 @@ def formulario_inmueble(request):
             descripcion = descripcion,
             ubicacion_detallada = ubicacion_detallada,
             precio = precio,
+            agua = bool(agua),
+            gas = bool(gas),
+            electricidad = bool(electricidad),
+            internet = bool(internet),
+            aseo = bool(aseo),
+            pisos = pisos,
             sector = Sector.objects.get(pk=sector),
             dueno = request.user.persona if request.user.is_authenticated else Persona.objects.first(),
             agente = Persona.objects.first() #! CAMBIAR PARA UN AGENTE ALEATORIO
         )
+
+        return render(request, )
 
 def get_sectores(request, id):
     return JsonResponse({'res': list(Sector.objects.filter(parroquia__id = id).values())})
@@ -132,12 +158,12 @@ def aprobar_inmueble(request, pk):
     if request.method == "GET":
         return render(request, 'aprobacion_inmueble.html', context={'inmueble': Inmueble.objects.get(pk = pk),
                                                                     'construcciones': tipos_construccion})
+    
     elif request.method == "POST":
-        print(request.POST)
         nombre = request.POST.get('nombre')
         ano_construccion = request.POST.get('ano')
         tipo_construccion = request.POST.get('tipo_construccion')
-        tiene_estacionamiento = bool(request.POST.get('estacionamiento'))
+        estacionamientos = bool(request.POST.get('estacionamiento'))
         tamano = request.POST.get('tamano')
         habitaciones = request.POST.get('habitaciones')
         banos = request.POST.get('banos')
@@ -146,6 +172,12 @@ def aprobar_inmueble(request, pk):
         ubicacion_detallada = request.POST.get('ubicacion_detallada') 
         precio = request.POST.get('precio')
         comentarios_internos = request.POST.get('comentarios_internos')
+        electricidad = request.POST.get('electricidad')
+        agua = request.POST.get('agua')
+        internet = request.POST.get('internet')
+        aseo = request.POST.get('aseo')
+        gas = request.POST.get('gas')
+        pisos = request.POST.get('pisos')
 
         errores = []
 
@@ -186,17 +218,29 @@ def aprobar_inmueble(request, pk):
         
         if(float(tamano) <= 0):
             errores.append("El tamaño debe ser mayor a 0.")
+        
+        if(float(pisos) <= 0):
+            errores.append("Debe de tener al menos un piso.")
+        
+        if(float(banos) < 0):
+            errores.append("El número de baños debe ser positivo o cero.")
+        
+        if(float(estacionamientos) < 0):
+            errores.append("El número de estacionamientos debe ser positivo o cero.")
+        
+        if(float(habitaciones) < 0):
+            errores.append("El número de habitaciones debe ser positivo o cero.")
 
         # Creación
 
         if(len(errores) != 0):
-            return render(request, 'inmuebles/formulario_inmueble.html', {'errores': errores, 'previo': request.POST})
+            return render(request, 'aprobacion_inmuebles.html', {'errores': errores, 'inmueble': Inmueble.objects.get(pk=pk)})
 
         inmueble = Inmueble.objects.get(pk=pk)
         inmueble.nombre = nombre
         inmueble.ano_construccion = ano_construccion
         inmueble.tipo_construccion = tipo_construccion
-        inmueble.tiene_estacionamiento = tiene_estacionamiento
+        inmueble.estacionamientos = estacionamientos
         inmueble.tamano = tamano
         inmueble.habitaciones = habitaciones
         inmueble.banos = banos
@@ -205,6 +249,12 @@ def aprobar_inmueble(request, pk):
         inmueble.comentarios_internos = comentarios_internos
         inmueble.ubicacion_detallada = ubicacion_detallada
         inmueble.precio = precio
+        inmueble.agua = agua
+        inmueble.electricidad = electricidad
+        inmueble.gas = gas
+        inmueble.aseo = aseo
+        inmueble.internet = internet
+        inmueble.pisos = pisos
 
         if('aprobado' in request.POST.keys()):
             inmueble.estado = 'A'
@@ -301,10 +351,23 @@ def comprar_inmueble(request, pk):
         inmueble.estado = 'T'
         inmueble.save()
 
-        file_path = reporte_compra_mp3(compra)
-        with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/mp3")
-            response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+        return redirect(f'/inmuebles/compra_realizada/{compra.pk}/')
+
+def compra_realizada(request, pk):
+    compra = Compra.objects.get(pk=pk)
+    if(request.method == 'GET'):
+        return render(request, "compra_realizada.html", context={'compra': compra})
+    elif(request.method == 'POST'):
+        if(request.POST['tipo'] == 'mp3'):
+            file_path = reporte_compra_mp3(compra)
+
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/mp3")
+                response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                return response
+        elif(request.POST['tipo'] == 'pdf'):
+            response = generar_pdf(request, 'comprobante_compra', compra, "Comprobante de Compra")
+            response['Content-Disposition'] = f'attachment; filename=COMPROBANTE_COMPRA_{compra.pk}.pdf'
             return response
 
 def resultados_cita(request, pk):
@@ -327,6 +390,55 @@ def resultados_cita(request, pk):
         cita.save()
 
         return redirect("/")
+
+def consultar_compras(request):
+    compras = Compra.objects.filter(comprador=request.user.persona)
+
+    if(request.method == 'GET'):
+        return render(request, 'consultas/consultar_compras.html', context={'compras': compras})
+    elif(request.method == 'POST'):
+        if(request.POST['tipo'] == 'mp3'):
+            file_path = reporte_compras_mp3(request, compras)
+
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/mp3")
+                response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                return response
+        elif(request.POST['tipo'] == 'pdf'):
+            response = generar_pdf(request, 'reporte_compras', compras, "REPORTE DE COMPRAS")
+            response['Content-Disposition'] = f'attachment; filename=REPORTE_COMPRAS.pdf'
+            return response
+    
+def consultar_publicaciones(request):
+    return render(request, 'consultas/consultar_publicaciones.html', context={'publicaciones': Inmueble.objects.filter(dueno=request.user.persona)})
+
+def consultar_citas(request): # Citas de VISITA
+    return render(request, 'consultas/consultar_citas_visita.html', context={'citas': Cita.objects.filter(persona=request.user.persona)})
+
+def consultar_ventas(request): # Para USUARIOS NORMALES
+    return render(request, 'consultas/consultar_ventas_persona.html', context={'ventas': Compra.objects.filter(inmueble__dueno=request.user.persona)})
+
+def consultar_pagos_ventas(request,pk): # Para USUARIOS NORMALES
+    return render(request, 'consultas/consultar_pagos_ventas_persona.html', context={'pagos': Compra.objects.get(pk=pk).pagos.order_by('-fecha')})
+
+def consultar_pagos_compras(request,pk): # Para USUARIOS NORMALES
+    compra = Compra.objects.get(pk=pk)
+    pagos = compra.pagos.order_by('-fecha')
+
+    if(request.method == 'GET'):
+        return render(request, 'consultas/consultar_pagos_compras_persona.html', context={'pagos': pagos})
+    elif(request.method == 'POST'):
+        if(request.POST['tipo'] == 'mp3'):
+            file_path = reporte_pagos_compra_mp3(pagos, compra)
+
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/mp3")
+                response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                return response
+        elif(request.POST['tipo'] == 'pdf'):
+            response = generar_pdf(request, 'reporte_pagos', pagos, "REPORTE DE PAGOS")
+            response['Content-Disposition'] = f'attachment; filename=REPORTE_PAGOS_{compra.pk}.pdf'
+            return response
 
 # Funciones Auxiliares:
 

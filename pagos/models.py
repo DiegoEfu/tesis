@@ -57,8 +57,15 @@ class Pago(models.Model):
     cuenta = models.ForeignKey(to=Cuenta, on_delete=models.CASCADE, related_name="cuenta_receptora")
     tasa = models.ForeignKey(to=Cambio, on_delete=models.CASCADE, default=1)
     fecha = models.DateTimeField(auto_now_add=True)
-    compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE)
+    compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE, related_name="pagos")
     fecha_transaccion = models.DateField()
 
     def valor_dolar(self):
         return self.monto/self.tasa.tasa
+    
+    def estado_largo(self):
+        for (x,y) in estados:
+            if(x == self.estado):
+                return y
+        
+        return "DESCONOCIDO"

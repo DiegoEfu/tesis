@@ -63,6 +63,48 @@ def reporte_compra_mp3(compra):
     TextToSpeech(None, 200, 100).text_to_speech(text, filename)
     return filename
 
+def reporte_compras_mp3(request, compras):
+    filename = f"reportes/mp3/REPORTE_MP3_COMPRAS.mp3"
+    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE DE COMPRAS DEL USUARIO {request.user.persona}. " 
+
+    for compra in compras:
+        text += f"COMPRA NÚMERO {compra.pk}, INMUEBLE {compra.inmueble.nombre}, FECHA {fecha_a_texto(str(compra.fecha.date()))}, "
+        text += f"ESTADO {compra.estado_largo()}, PRECIO {compra.inmueble.precio} DÓLARES. "
+
+    text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
+
+    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    return filename
+
+def reporte_pagos_compra_mp3(pagos, compra):
+    filename = f"reportes/mp3/REPORTE_MP3_PAGOS.mp3"
+    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE DE PAGOS DE LA COMPRA {compra.pk}. " 
+
+    text += f"COMPRA NÚMERO {compra.pk}, INMUEBLE {compra.inmueble.nombre}, FECHA {fecha_a_texto(str(compra.fecha.date()))}, "
+    text += f"ESTADO {compra.estado_largo()}, PRECIO {compra.inmueble.precio} DÓLARES. "
+
+    text += "LISTA DE PAGOS"
+
+    total_bs = 0
+    total_dolar = 0
+
+    for i,pago in enumerate(pagos):
+        text += f"PAGO {i+1}, REFERENCIA {pago.referencia}, FECHA {fecha_a_texto(str(pago.fecha.date()))}, "
+        text += f"CUENTA {pago.cuenta.banco} {pago.cuenta.numero}, MONTO BOLÍVARES {pago.monto}, "
+        text += f"MONTO DÓLARES {round(pago.valor_dolar(), 2)}, ESTADO {pago.estado_largo()}. "
+
+        if(pago.estado == 'A'):
+            total_bs += pago.monto
+            total_dolar += pago.valor_dolar()
+
+    text += f"MONTO APROBADO EN BOLÍVARES: {total_bs} BOLÍVARES. MONTO APROBADO EN DÓLARES: {total_dolar} DÓLARES."
+
+    text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
+
+    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    return filename
+
+
 def fecha_a_texto(fecha):
     print(fecha)
     texto = f"{fecha.split('-')[2]} de "
