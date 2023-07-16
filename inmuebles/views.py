@@ -351,10 +351,23 @@ def comprar_inmueble(request, pk):
         inmueble.estado = 'T'
         inmueble.save()
 
-        file_path = reporte_compra_mp3(compra)
-        with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/mp3")
-            response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+        return redirect(f'/inmuebles/compra_realizada/{compra.pk}/')
+
+def compra_realizada(request, pk):
+    compra = Compra.objects.get(pk=pk)
+    if(request.method == 'GET'):
+        return render(request, "compra_realizada.html", context={'compra': compra})
+    elif(request.method == 'POST'):
+        if(request.POST['tipo'] == 'mp3'):
+            file_path = reporte_compra_mp3(compra)
+
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/mp3")
+                response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                return response
+        elif(request.POST['tipo'] == 'pdf'):
+            response = generar_pdf(request, 'comprobante_compra', compra, "Comprobante de Compra")
+            response['Content-Disposition'] = f'attachment; filename=COMPROBANTE_COMPRA_{compra.pk}.pdf'
             return response
 
 def resultados_cita(request, pk):

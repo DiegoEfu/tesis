@@ -105,6 +105,8 @@ def generar_pdf(request,data,object_list,titulo):
 def define_table(request,data,object_list):
     if data == 'comprobante_cita':
         return comprobante_cita(object_list)
+    elif data == 'comprobante_compra':
+        return comprobante_compra(object_list)
         
 def comprobante_cita(cita):
     t = []
@@ -127,5 +129,33 @@ def comprobante_cita(cita):
     t.append(Paragraph(f"<b>El presente comprobante debe ser llevado en este formato o en formato MP3 el día {cita.fecha_asignada.date} del mes {cita.fecha_asignada.month} del año {cita.fecha_asignada.year}," +
                        f"a las {cita.fecha_asignada.hour} horas con 00 minutos en la dirección del inmueble para la comprobación de su identidad al momento de la visita.</b>",
                        ParagraphStyle("", alignment = TA_JUSTIFY, fontSize = 12)))
+    
+    return t
+
+def comprobante_compra(compra):
+    t = []
+    t.append(Paragraph(f"<b>Número de Compra: </b>{compra.pk}"))
+
+    t.append(Spacer(0,10))
+    t.append(Paragraph(f"El usuario <b>{compra.comprador}</b>, titular de la cédula de identidad <b>{compra.comprador.cedula()}</b>, "
+                    +  f"ha firmado del contrato de aceptación de términos de compra del inmueble cuyos datos se muestran en la siguiente: "))
+    
+    t.append(Spacer(0,10))
+    t.append(Table([["NOMBRE","CÓDIGO","SECTOR","UBICACIÓN", "PRECIO"],
+                    [Paragraph(compra.inmueble.nombre), Paragraph(f"{compra.inmueble.pk}"), 
+                     Paragraph(compra.inmueble.sector.nombre), Paragraph(compra.inmueble.ubicacion_detallada),
+                     Paragraph(f"${compra.inmueble.precio}")]]))
+    
+    t.append(Spacer(0,10))
+    t.append(Paragraph(f"Del dueño <b>{compra.inmueble.dueno}</b>, titular de la cédula de identidad <b>{compra.inmueble.dueno.cedula()}</b>."
+                    +  f" Queda encargado de la presente compra el agente <b>{compra.inmueble.agente}</b>, titular de la cédula de identidad "
+                    +  f"<b>{compra.inmueble.agente.cedula()}</b>, el cual puede ser contactado en las vías autorizadas: "))
+    
+    t.append(Spacer(0,10))
+    t.append(Table([["TELÉFONO","EMAIL"],
+                    [Paragraph(compra.inmueble.agente.numero_telefono), Paragraph(compra.inmueble.agente.usuario_persona.email)]]))
+    
+    t.append(Spacer(0,10))
+    t.append(Paragraph(f"<b>Compra acordada entre las partes interesadas con la inmobiliaria INCAIBO, a los {compra.fecha.day} días del mes número {compra.fecha.month} del año {compra.fecha.year}.</b>", ParagraphStyle("", alignment=TA_CENTER)))
     
     return t

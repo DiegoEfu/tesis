@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra Exitosa</title>
+</head>
+<body>
+    <h2>¡La compra se ha realizado con éxito!</h2>
+    <b>Número de Compra Asignado:</b> {{compra.pk}} <br>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="tipo" value="mp3">DESCARGAR COMPROBANTE MP3</button>
+        <button type="submit" name="tipo" value="pdf">DESCARGAR COMPROBANTE PDF</button>
+    </form>
+</body>
+</html>
