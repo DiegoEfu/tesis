@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from .models import Parroquia, Sector, Inmueble, Cita, Compra, tipos_construccion
 from usuarios.models import Persona
 from datetime import datetime, timedelta
-from reportes.mp3 import reporte_cita_mp3, reporte_compra_mp3
+from reportes.mp3 import reporte_cita_mp3, reporte_compra_mp3, reporte_compras_mp3, reporte_pagos_compra_mp3
 from reportes.pdfs import generar_pdf
 import os
 
@@ -398,13 +398,17 @@ def consultar_compras(request):
         return render(request, 'consultas/consultar_compras.html', context={'compras': compras})
     elif(request.method == 'POST'):
         if(request.POST['tipo'] == 'mp3'):
-            pass
+            file_path = reporte_compras_mp3(request, compras)
+
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/mp3")
+                response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                return response
         elif(request.POST['tipo'] == 'pdf'):
             response = generar_pdf(request, 'reporte_compras', compras, "REPORTE DE COMPRAS")
             response['Content-Disposition'] = f'attachment; filename=REPORTE_COMPRAS.pdf'
             return response
     
-
 def consultar_publicaciones(request):
     return render(request, 'consultas/consultar_publicaciones.html', context={'publicaciones': Inmueble.objects.filter(dueno=request.user.persona)})
 
@@ -425,7 +429,12 @@ def consultar_pagos_compras(request,pk): # Para USUARIOS NORMALES
         return render(request, 'consultas/consultar_pagos_compras_persona.html', context={'pagos': pagos})
     elif(request.method == 'POST'):
         if(request.POST['tipo'] == 'mp3'):
-            pass
+            file_path = reporte_pagos_compra_mp3(pagos, compra)
+
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/mp3")
+                response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                return response
         elif(request.POST['tipo'] == 'pdf'):
             response = generar_pdf(request, 'reporte_pagos', pagos, "REPORTE DE PAGOS")
             response['Content-Disposition'] = f'attachment; filename=REPORTE_PAGOS_{compra.pk}.pdf'
