@@ -4,6 +4,7 @@ from .models import Parroquia, Sector, Inmueble, Cita, Compra, tipos_construccio
 from usuarios.models import Persona
 from datetime import datetime, timedelta
 from reportes.mp3 import reporte_cita_mp3, reporte_compra_mp3, reporte_compras_mp3, reporte_pagos_compra_mp3
+from reportes.mp3 import reporte_publicacion_mp3
 from reportes.pdfs import generar_pdf
 import os
 
@@ -145,14 +146,26 @@ def resultados(request):
         return redirect('/inmuebles/resultados/')
 
 def detallar_inmueble(request, pk):
+    inmueble = Inmueble.objects.get(pk=pk)
     if(request.method == 'GET'):
-        inmueble = Inmueble.objects.get(pk=pk)
         return render(request, "detalle_inmueble.html", context={'inmueble': inmueble, 'puede_cita': not Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "E").exists(), 'puede_comprar': Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "F").exists()})
     elif(request.method == 'POST'):
-        busqueda = request.POST.get('busqueda').strip().lower()
-        request.session['busqueda'] = busqueda
+        if(request.POST.get('busqueda')):
+            busqueda = request.POST.get('busqueda').strip().lower()
+            request.session['busqueda'] = busqueda
 
-        return redirect('/inmuebles/resultados/')
+            return redirect('/inmuebles/resultados/')
+        elif(request.POST.get('tipo') == 'pdf'):
+            response = generar_pdf(request, 'reporte_publicacion', inmueble, "REPORTE DE INMUEBLE")
+            response['Content-Disposition'] = f'attachment; filename=REPORTE_PUBLICACION_{inmueble.pk}.pdf'
+            return response
+        elif(request.POST.get('tipo') == 'mp3'):
+            file_path = reporte_publicacion_mp3(inmueble)
+            if os.path.exists(file_path):
+                with open(file_path, 'rb') as fh:
+                    response = HttpResponse(fh.read(), content_type="application/mp3")
+                    response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                    return response
 
 def aprobar_inmueble(request, pk):
     if request.method == "GET":

@@ -111,6 +111,8 @@ def define_table(request,data,object_list):
         return reporte_pagos(request, object_list)
     elif data == 'reporte_compras':
         return reporte_compras(object_list)
+    elif data == 'reporte_publicacion':
+        return reporte_publicacion(object_list)
         
 def comprobante_cita(cita):
     t = []
@@ -201,5 +203,32 @@ def reporte_pagos(request, pagos):
     t.append(Table(tabla, colWidths=[0.5*inch,1*inch,2*inch,1*inch,1*inch,1*inch,1*inch]))
     t.append(Table([['','','','','',Paragraph(f"Bs.{total_bs}"),Paragraph(f"${round(total_dolar, 2)}")]], 
                    colWidths=[0.5*inch,1*inch,2*inch,1*inch,1*inch,1*inch,1*inch]))
+
+    return t
+
+def reporte_publicacion(inmueble):
+    t, tabla = [], []
+
+    t.append(Paragraph(f'<b>PUBLICACIÓN DEL INMUEBLE "{inmueble.nombre}"</b>',ParagraphStyle("", alignment=TA_CENTER, fontSize=16)))
+    t.append(Spacer(0,15))
+    tabla.append(['CAMPO', 'VALOR'])
+    tabla.append(['PRECIO', Paragraph(f"${inmueble.precio}")])
+    tabla.append(['PARROQUIA', Paragraph(f"{inmueble.sector.parroquia.nombre}")])
+    tabla.append(['SECTOR', Paragraph(f"{inmueble.sector.nombre}")])
+    tabla.append(['UBICACIÓN DETALLADA', Paragraph(f"{inmueble.ubicacion_detallada}")])
+    tabla.append(['AÑO DE CONSTRUCCIÓN', Paragraph(f"{inmueble.ano_construccion}")])
+    tabla.append(['TIPO DE CONSTRUCCIÓN', Paragraph(f"{inmueble.tipo_construccion}")])
+    tabla.append(['TAMAÑO', Paragraph(f"{inmueble.tamano} m2.")])
+    tabla.append(['NÚMERO DE HABITACIONES', Paragraph(f"{inmueble.habitaciones}")])
+    tabla.append(['NÚMERO DE BAÑOS', Paragraph(f"{inmueble.banos}")])
+    tabla.append(['NÚMERO DE PISOS', Paragraph(f"{inmueble.pisos}")])
+    tabla.append(['PUESTOS DE ESTACIONAMIENTO', Paragraph(f"{inmueble.estacionamientos}")])
+    tabla.append(['SERVICIO DE AGUA', Paragraph("SÍ" if inmueble.agua else "NO")])
+    tabla.append(['SERVICIO DE ELECTRICIDAD', Paragraph("SÍ" if inmueble.electricidad else "NO")])
+    tabla.append(['SERVICIO DE GAS', Paragraph("SÍ" if inmueble.gas else "NO")])
+    tabla.append(['SERVICIO DE ASEO URBANO', Paragraph("SÍ" if inmueble.aseo else "NO")])
+    tabla.append(['SERVICIO DE INTERNET', Paragraph("SÍ" if inmueble.internet else "NO")])
+
+    t.append(Table(tabla, colWidths=(2.5*inch, 4.5*inch)))
 
     return t
