@@ -9,7 +9,9 @@ estados_inmueble = [
     ("D", "Denegado"),
     ("E", "Revisión por Edición"),
     ("C", "Revisión para Cancelación"),
-    ("X", "Cancelado")
+    ("X", "Cancelado"),
+    ("S", "Formalidades Pendientes"),
+    ("V", "Vendida")
 ]
 
 estados_compra = [
@@ -99,6 +101,18 @@ class Compra(models.Model):
                 return y
         
         return "DESCONOCIDO"
+    
+    def comision_inmobiliaria(self):
+        return round(float(self.inmueble.precio)*0.05, 2)
+    
+    def iva(self):
+        return round(float(self.inmueble.precio)*0.16, 2)
+    
+    def comision_dueno(self):
+        return round(float(self.inmueble.precio)*0.79, 2)
+    
+    def excedente(self):
+        return round(float(self.monto_cancelado()) - float(self.inmueble.precio), 2)
 
 class Cita(models.Model):
     compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE, null=True)
