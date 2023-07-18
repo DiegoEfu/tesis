@@ -1,4 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from reportes.pdfs import generar_pdf
+from reportes.mp3 import cita_formalidades_mp3
+import os
 from .models import bancos, Cuenta, Pago, Cambio
 from inmuebles.models import Compra, Cita
 from decimal import Decimal
@@ -83,6 +87,20 @@ def formulario_aprobar_pago(request, pk):
     if(request.method == 'GET'):
         return render(request, 'aprobar_pago.html', context={'pago': pago})
     elif(request.method == 'POST'):
+        if(request.POST.get('tipo') == 'pdf'):
+            pass
+        elif(request.POST.get('tipo') == 'mp3'):
+            file_path = cita_formalidades_mp3(cita_formalidades)
+
+            with open('file_path', 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/mp3")
+                response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                return response
+        elif(request.POST['tipo'] == 'pdf'):
+            response = generar_pdf(request, 'reporte_cita_formalidades', cita_formalidades, "CITA FORMALIZACIÓN DE VENTA")
+            response['Content-Disposition'] = f'attachment; filename=REPORTE_FORMALIZACION_{cita_formalidades.pk}.pdf'
+            return response
+
         comentario_cajero = request.POST.get('comentario_cajero')
         estado = request.POST.get('estado')
 

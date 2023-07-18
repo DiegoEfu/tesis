@@ -128,6 +128,15 @@ def reporte_publicacion_mp3(inmueble):
     TextToSpeech(None, 200, 100).text_to_speech(text, filename)
     return filename
 
+def cita_formalidades_mp3(cita):
+    filename = f"reportes/mp3/REPORTE_MP3_PUBLICACIÓN.mp3"
+    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE PUBLICACIÓN INMUEBLE {inmueble.nombre}. " 
+
+    text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
+
+    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    return filename
+
 def fecha_a_texto(fecha):
     texto = f"{fecha.split('-')[2]} de "
     

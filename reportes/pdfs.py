@@ -113,6 +113,8 @@ def define_table(request,data,object_list):
         return reporte_compras(object_list)
     elif data == 'reporte_publicacion':
         return reporte_publicacion(object_list)
+    elif data == 'reporte_cita_formalidades':
+        return reporte_cita_formalidades(object_list)
         
 def comprobante_cita(cita):
     t = []
@@ -230,5 +232,27 @@ def reporte_publicacion(inmueble):
     tabla.append(['SERVICIO DE INTERNET', Paragraph("SÍ" if inmueble.internet else "NO")])
 
     t.append(Table(tabla, colWidths=(2.5*inch, 4.5*inch)))
+
+    return t
+
+def reporte_cita_formalidades(cita):
+    t = []
+
+    t.append(Paragraph("DATOS DE LA CITA FINAL", ParagraphStyle("", alignment=TA_CENTER, fontSize=16)))
+    t.append(Spacer(0,10))
+
+    t.append(Table([["DÍA", "HORA"], [f"{cita.fecha_asignada.date()}", f"{cita.hour}:00"]]))
+    t.append(Spacer(0,10))
+
+    t.append(Paragraph("DATOS DE LOS PAGOS REALIZADOS", ParagraphStyle("", alignment=TA_CENTER, fontSize=16)))
+    t.append(Spacer(0,10))
+
+    t.append(Table([["PAGO", "MONTO"], 
+        ["MONTO PAGADO POR EL CLIENTE", f"${cita.compra.monto_cancelado()}"],
+        ["COMISIÓN DE LA INMOBILIARIA", f"${cita.compra.comision_inmobiliaria()}"],
+        ["IVA", f"${cita.compra.iva()}"],
+        ["EXCEDENTE", f"${cita.compra.excedente()}"],
+        ["COMISIÓN DUEÑO", f"{cita.compra.comision_dueno()}"]
+    ]))
 
     return t

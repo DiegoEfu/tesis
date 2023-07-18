@@ -15,5 +15,10 @@
         <li><b>Excedente (Pago al Cliente):</b>  ${{cita.compra.excedente}}</li>
         <li><b>Comisión del Dueño (79% del Precio):</b>  ${{cita.compra.comision_dueno}}</li>
     </ul>
+
+    <form method="post">
+        <button type="submit" name="tipo" value="pdf">Reporte PDF</button>
+        <button type="submit" name="tipo" value="mp3">Reporte MP3</button>
+    </form>
 </body>
 </html>
