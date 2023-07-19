@@ -150,6 +150,7 @@
     </script>
 </head>
 <body>
+    {% include 'nav.html' %}
     {% if request.user.is_authenticated %}
     <form method='POST' action="">
         {% csrf_token %}

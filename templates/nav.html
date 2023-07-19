@@ -1,0 +1,9 @@
+{% if request.user.is_authenticated %}
+<nav>
+    <a href="{% url 'consultar_publicaciones' %}">Publicaciones</a>
+    <a href="{% url 'consultar_compras' %}">Compras</a>
+    <a href="{% url 'consultar_ventas' %}">Ventas</a>
+    <a href="{% url 'consultar_citas' %}">Citas</a>
+    <hr>
+</nav>
+{% endif %}
