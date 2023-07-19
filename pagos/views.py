@@ -87,16 +87,16 @@ def formulario_aprobar_pago(request, pk):
     if(request.method == 'GET'):
         return render(request, 'aprobar_pago.html', context={'pago': pago})
     elif(request.method == 'POST'):
-        if(request.POST.get('tipo') == 'pdf'):
-            pass
-        elif(request.POST.get('tipo') == 'mp3'):
+        if(request.POST.get('tipo') == 'mp3'):
+            cita_formalidades = pago.compra.citas.first()
             file_path = cita_formalidades_mp3(cita_formalidades)
 
-            with open('file_path', 'rb') as fh:
+            with open(file_path, 'rb') as fh:
                 response = HttpResponse(fh.read(), content_type="application/mp3")
                 response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
                 return response
-        elif(request.POST['tipo'] == 'pdf'):
+        elif(request.POST.get('tipo') == 'pdf'):
+            cita_formalidades = pago.compra.citas.first()
             response = generar_pdf(request, 'reporte_cita_formalidades', cita_formalidades, "CITA FORMALIZACIÓN DE VENTA")
             response['Content-Disposition'] = f'attachment; filename=REPORTE_FORMALIZACION_{cita_formalidades.pk}.pdf'
             return response

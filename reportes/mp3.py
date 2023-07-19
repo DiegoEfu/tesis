@@ -129,8 +129,19 @@ def reporte_publicacion_mp3(inmueble):
     return filename
 
 def cita_formalidades_mp3(cita):
-    filename = f"reportes/mp3/REPORTE_MP3_PUBLICACIÓN.mp3"
-    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE PUBLICACIÓN INMUEBLE {inmueble.nombre}. " 
+    filename = f"reportes/mp3/REPORTE_MP3_FORMALIZACION_{cita.pk}.mp3"
+    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE FORMALIZACIÓN FINAL INMUEBLE NÚMERO {cita.compra.inmueble.pk} COMPRA NÚMERO {cita.compra.pk}. " 
+
+    text += f"SECCIÓN 1: DATOS DE LA CITA FINAL.\n"
+    text += f"DÍA: {fecha_a_texto(str(cita.fecha_asignada.date()))}"
+    text += f". HORA: {cita.fecha_asignada.hour}:00. \n"
+
+    text += f"SECCIÓN 2: PAGOS REALIZADOS.\n"
+    text += f"MONTO TOTAL PAGADO POR EL CLIENTE: {cita.compra.monto_cancelado()} DÓLARES.\n"
+    text += f"COMISIÓN DEL 5% DE LA INMOBILIARIA: {cita.compra.comision_inmobiliaria()} DÓLARES.\n"
+    text += f"IMPUESTO AL VALOR AGREGADO IVA 16%: {cita.compra.iva()} DÓLARES.\n"
+    text += f"EXCEDENTE DEL PAGO: {cita.compra.excedente()} DÓLARES.\n"
+    text += f"COMISIÓN DEL DUEÑO 79%: {cita.compra.comision_dueno()} DÓLARES.\n"
 
     text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
 

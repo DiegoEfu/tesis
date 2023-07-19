@@ -241,7 +241,7 @@ def reporte_cita_formalidades(cita):
     t.append(Paragraph("DATOS DE LA CITA FINAL", ParagraphStyle("", alignment=TA_CENTER, fontSize=16)))
     t.append(Spacer(0,10))
 
-    t.append(Table([["DÍA", "HORA"], [f"{cita.fecha_asignada.date()}", f"{cita.hour}:00"]]))
+    t.append(Table([["DÍA", "HORA"], [f"{cita.fecha_asignada.date()}", f"{cita.fecha_asignada.hour}:00"]]))
     t.append(Spacer(0,10))
 
     t.append(Paragraph("DATOS DE LOS PAGOS REALIZADOS", ParagraphStyle("", alignment=TA_CENTER, fontSize=16)))

@@ -17,6 +17,7 @@
     </ul>
 
     <form method="post">
+        {% csrf_token %}
         <button type="submit" name="tipo" value="pdf">Reporte PDF</button>
         <button type="submit" name="tipo" value="mp3">Reporte MP3</button>
     </form>
