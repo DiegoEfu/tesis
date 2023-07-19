@@ -286,7 +286,7 @@
         <input type="number" name="monto" id="monto" step=".01" min="1" required><br>
 
         <label for="referencia">Número de Referencia:</label><br>
-        <input type="text" name="referencia" id="referencia" required><br>
+        <input type="text" pattern="[0-9]+" name="referencia" id="referencia" maxlength="15" required><br>
 
         <label for="fecha_transaccion">Fecha de la transacción:</label><br>
         <input type="date" id="fecha_transaccion" name="fecha_transaccion" required><br>

@@ -39,8 +39,13 @@
             <li><b>¡Debe agendar y asistir a una cita para ver el inmueble para poder comprar!</b></li>
             {% endif %}
         {% else %}
-        <li><b>Si quieres visitar este inmueble o comprarlo, inicia sesión.</b></li>
+            <li><b>Si quieres visitar este inmueble o comprarlo, inicia sesión.</b></li>
         {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <li><button type="submit" name="tipo" value="pdf">DESCARGAR PDF</button></li>
+            <li><button type="submit" name="tipo" value="mp3">DESCARGAR MP3</button></li>
+        </form>
     </ul>
 </body>
 </html>

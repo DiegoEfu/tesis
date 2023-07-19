@@ -104,9 +104,51 @@ def reporte_pagos_compra_mp3(pagos, compra):
     TextToSpeech(None, 200, 100).text_to_speech(text, filename)
     return filename
 
+def reporte_publicacion_mp3(inmueble):
+    filename = f"reportes/mp3/REPORTE_MP3_PUBLICACIÓN.mp3"
+    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE PUBLICACIÓN INMUEBLE {inmueble.nombre}. " 
+
+    text += f"PRECIO: {inmueble.precio} DÓLARES. "
+    text += f"PARROQUIA: {inmueble.sector.parroquia.nombre}. "
+    text += f"SECTOR: {inmueble.sector.nombre}. "
+    text += f"UBICACIÓN DETALLADA: {inmueble.ubicacion_detallada}. "
+    text += f"AÑO DE CONSTRUCCIÓN: {inmueble.ano_construccion}. "
+    text += f"TIPO DE CONSTRUCCIÓN: {inmueble.tipo_construccion}. "
+    text += f"TAMAÑO: {inmueble.tamano} METROS CUADRADOS. "
+    text += f"HABITACIONES: {inmueble.habitaciones}. "
+    text += f"PUESTOS DE ESTACIONAMIENTO: {inmueble.estacionamientos}. "
+    text += f"BAÑOS: {inmueble.banos}. "
+    text += f"PISOS: {inmueble.pisos}. "
+    text += f"SERVICIOS DISPONIBLES: {'AGUA,' if inmueble.agua else ''} {'ELECTRICIDAD,' if inmueble.electricidad else ''} "
+    text += f"{'GAS' if inmueble.gas else ''} {'ASEO URBANO' if inmueble.aseo else ''} {'INTERNET' if inmueble.internet else ''} "
+    text += f"{'NINGUNO' if not(inmueble.gas or inmueble.agua or inmueble.electricidad or inmueble.aseo or inmueble.internet) else ''}."
+
+    text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
+
+    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    return filename
+
+def cita_formalidades_mp3(cita):
+    filename = f"reportes/mp3/REPORTE_MP3_FORMALIZACION_{cita.pk}.mp3"
+    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE FORMALIZACIÓN FINAL INMUEBLE NÚMERO {cita.compra.inmueble.pk} COMPRA NÚMERO {cita.compra.pk}. " 
+
+    text += f"SECCIÓN 1: DATOS DE LA CITA FINAL.\n"
+    text += f"DÍA: {fecha_a_texto(str(cita.fecha_asignada.date()))}"
+    text += f". HORA: {cita.fecha_asignada.hour}:00. \n"
+
+    text += f"SECCIÓN 2: PAGOS REALIZADOS.\n"
+    text += f"MONTO TOTAL PAGADO POR EL CLIENTE: {cita.compra.monto_cancelado()} DÓLARES.\n"
+    text += f"COMISIÓN DEL 5% DE LA INMOBILIARIA: {cita.compra.comision_inmobiliaria()} DÓLARES.\n"
+    text += f"IMPUESTO AL VALOR AGREGADO IVA 16%: {cita.compra.iva()} DÓLARES.\n"
+    text += f"EXCEDENTE DEL PAGO: {cita.compra.excedente()} DÓLARES.\n"
+    text += f"COMISIÓN DEL DUEÑO 79%: {cita.compra.comision_dueno()} DÓLARES.\n"
+
+    text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
+
+    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    return filename
 
 def fecha_a_texto(fecha):
-    print(fecha)
     texto = f"{fecha.split('-')[2]} de "
     
     mes = int(fecha.split('-')[1])

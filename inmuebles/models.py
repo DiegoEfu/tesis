@@ -9,7 +9,9 @@ estados_inmueble = [
     ("D", "Denegado"),
     ("E", "Revisión por Edición"),
     ("C", "Revisión para Cancelación"),
-    ("X", "Cancelado")
+    ("X", "Cancelado"),
+    ("S", "Formalidades Pendientes"),
+    ("V", "Vendida")
 ]
 
 estados_compra = [
@@ -91,7 +93,7 @@ class Compra(models.Model):
     inmueble = models.ForeignKey(to=Inmueble, on_delete=models.CASCADE)
 
     def monto_cancelado(self):
-        return sum([x.valor_dolar() for x in self.pagos.filter(estado = "A")] if self.pagos.all().count() else [0])
+        return sum([round(x.valor_dolar(), 2) for x in self.pagos.filter(estado = "A")] if self.pagos.all().count() else [0])
     
     def estado_largo(self):
         for (x,y) in estados_compra:
@@ -99,9 +101,21 @@ class Compra(models.Model):
                 return y
         
         return "DESCONOCIDO"
+    
+    def comision_inmobiliaria(self):
+        return round(float(self.inmueble.precio)*0.05, 2)
+    
+    def iva(self):
+        return round(float(self.inmueble.precio)*0.16, 2)
+    
+    def comision_dueno(self):
+        return round(float(self.inmueble.precio)*0.79, 2)
+    
+    def excedente(self):
+        return round(float(self.monto_cancelado()) - float(self.inmueble.precio), 2)
 
 class Cita(models.Model):
-    compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE, null=True)
+    compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE, null=True, related_name="citas")
     inmueble = models.ForeignKey(to=Inmueble, on_delete=models.CASCADE, null=True)
     persona = models.ForeignKey(to='usuarios.Persona', on_delete=models.CASCADE, null=True)
     fecha_asignada = models.DateTimeField()

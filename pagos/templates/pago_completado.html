@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Completado</title>
+</head>
+<body>
+    <h3>El pago del Inmueble ha sido completado.</h3>
+    <ul>
+        <li><b>Cita para la formalización de la compraventa:</b> {{cita.fecha_asignada}}</li>
+        <li><b>Monto Total Pagado por el Comprador:</b> ${{cita.compra.monto_cancelado|floatformat:2}}</li>
+        <li><b>Comisión de la inmobiliaria (5% del Precio):</b> ${{cita.compra.comision_inmobiliaria}}</li>
+        <li><b>IVA (16% del Precio):</b> ${{cita.compra.iva}}</li>
+        <li><b>Excedente (Pago al Cliente):</b>  ${{cita.compra.excedente}}</li>
+        <li><b>Comisión del Dueño (79% del Precio):</b>  ${{cita.compra.comision_dueno}}</li>
+    </ul>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="tipo" value="pdf">Reporte PDF</button>
+        <button type="submit" name="tipo" value="mp3">Reporte MP3</button>
+    </form>
+</body>
+</html>
