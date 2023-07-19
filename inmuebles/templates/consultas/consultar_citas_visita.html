@@ -21,6 +21,7 @@
     <b>Lleve uno de los siguientes comprobantes a la cita:</b>
     <form method="post">
         {% csrf_token %}
+        <input type="hidden" name="pk" value="{{cita.pk}}">
         <button name="tipo" value="pdf" type="submit">Descargar Comprobante PDF</button>
         <button name="tipo" value="mp3" type="submit">Descargar Comprobante MP3</button>
     </form>

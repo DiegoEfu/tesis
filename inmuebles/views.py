@@ -426,7 +426,22 @@ def consultar_publicaciones(request):
     return render(request, 'consultas/consultar_publicaciones.html', context={'publicaciones': Inmueble.objects.filter(dueno=request.user.persona)})
 
 def consultar_citas(request): # Citas de VISITA
-    return render(request, 'consultas/consultar_citas_visita.html', context={'citas': Cita.objects.filter(persona=request.user.persona)})
+    citas = Cita.objects.filter(persona=request.user.persona)
+    if(request.method == 'GET'):
+        return render(request, 'consultas/consultar_citas_visita.html', context={'citas': citas})
+    elif(request.method == 'POST'):
+        cita = Cita.objects.get(pk = request.POST['pk'])
+        if(request.POST['tipo'] == 'mp3'):
+            file_path = reporte_cita_mp3(cita)
+
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/mp3")
+                response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                return response
+        elif(request.POST['tipo'] == 'pdf'):
+            response = generar_pdf(request, 'comprobante_cita', cita, "COMPROBANTE DE CITA")
+            response['Content-Disposition'] = f'attachment; filename=COMPROBANTE_CITA_{cita.pk}.pdf'
+            return response
 
 def consultar_ventas(request): # Para USUARIOS NORMALES
     return render(request, 'consultas/consultar_ventas_persona.html', context={'ventas': Compra.objects.filter(inmueble__dueno=request.user.persona)})
