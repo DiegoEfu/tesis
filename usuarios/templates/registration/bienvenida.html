@@ -15,12 +15,17 @@
         
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
+            "buscar inmueble": "Permitirá buscar un inmueble.",
+            "leer pantalla": "Lee la el contenido de la pantalla",
             // {% if not request.user.is_authenticated %}
             "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
             // {% else %}
             "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles"
             // {% endif %}
-            "buscar inmueble": "Permitirá buscar un inmueble."
         };
 
         function inicial(event) {
@@ -28,8 +33,8 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript;
                    console.log(speech);
-                   ["ayuda","iniciar sesión","buscar inmueble", "cerrar sesión", "dictado", "salir", "listo",
-                    "continuar", "editar"].forEach(comando => {
+                   ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   "buscar inmueble", "cerrar sesión", "leer", "dictado", "salir", "listo","continuar", "editar"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -43,6 +48,26 @@
                                     
                                     hablar("Usted ha dicho ayuda. " + crear_utterance());
                                 }
+                                break;
+                            
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
 
                             case "iniciar sesión":
@@ -76,7 +101,7 @@
                                 break;
 
                             case "listo":
-                                hablar(`Usted ha escrito: ${document.getElementById('busqueda')}. Diga "continuar" para buscar inmuebles, o diga "editar" para editar.`);
+                                hablar(`Usted ha escrito: ${document.getElementById('busqueda').value}. Diga "continuar" para buscar inmuebles, o diga "editar" para editar.`);
                                 campo = 2;
                                 dictando = false;
                                 break;
@@ -84,6 +109,18 @@
                             case "continuar":
                                 if(campo === 2)
                                     document.getElementById('form_busqueda').submit();
+                                break;
+                            
+                            case "leer pantalla":
+                                hablar(`Esta es la pantalla principal, la cual se encuentra integrada por las siguientes secciones:
+                                1. Barra de Navegación: Aquí se encuentran las opciones básicas de navegación por el sistema.
+                                2. Sección de Búsqueda: Aquí se encuentra el campo de búsqueda.
+                                3. Sección de Información: Aquí hay información general de la empresa. Hay un párrafo que indica "".
+                                4. Sección de Soporte: Aquí se explica el soporte de comandos de voz de la aplicación.
+                                5. Sección de Agentes Calificados: Aquí se exhiben los agentes destacados y calificados que trabajan para nostros.
+                                6. Sección de Registro: Aquí puede registrarse.
+                                7. Sección de Fúter: Aquí se encuentra información básica de la aplicación por motivos estéticos.
+                                `);
                                 break;
                             
                             case "editar":
@@ -154,7 +191,7 @@
     {% if request.user.is_authenticated %}
     <form method='POST' action="">
         {% csrf_token %}
-        <button>SALIR</button>
+        <button>CERRAR SESIÓN</button>
     </form>
     {% endif %}
 
