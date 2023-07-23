@@ -4,11 +4,249 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PUBLICACIÓN - {{inmueble.nombre.upper}}</title>
+    
+    <script>
+        const synthesis = window.speechSynthesis;
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+        
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "buscar inmueble": "Permitirá buscar un inmueble.",
+            "leer pantalla": "Lee la el contenido de la pantalla",
+            "leer detalles": "Lee los detalles del inmueble",
+            "descargar pdf": "Descarga el reporte PDF de la publicación",
+            "descargar mp3": "Descarga el reporte MP3 de la publicación",
+            // {% if not request.user.is_authenticated %}
+            "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
+            // {% else %}
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            // {% endif %}
+            
+        };
+
+        function inicial(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript;
+                   console.log(speech);
+                   ["ayuda","iniciar sesión","resultado","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   "descargar mp3", "descargar mp 3", "descargar pdf",
+                   /* {% if puede_cita %} */ "agendar cita", /* {% endif %} */ /* {% if puede_comprar %} */ "comprar inmueble", /* {% endif %} */ 
+                   "buscar inmueble", "leer detalles", "cerrar sesión", "leer pantalla", "dictado", "salir", "listo","continuar", "editar"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                                break;
+                            
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+
+                            case "iniciar sesión":
+                                hablar("Redirigiendo a la pantalla de inicio de sesión.");
+                                location.replace("/usuarios/login/");
+                                
+                                break;
+                            
+                            case "buscar inmueble":
+                                hablar("Escriba la descripción del inmueble que desea. Diga dictado para dictarla. Diga salir para no buscar. Diga listo una vez haya finalizado.");
+                                const input = document.getElementById('busqueda');
+                                input.focus();
+                                campo = 1;
+
+                                break;
+
+                            case "dictado":
+                                if(campo === 1){
+                                    hablar("Deletree o dicte la descripción del inmueble que busca");
+                                    dictando = true;
+                                }
+                                
+                                break;
+                            
+                            case "salir":
+                                if(campo === 1){
+                                    hablar("Saliendo del formulario.");
+                                    dictando = false;
+                                    campo = 0;
+                                }
+                                break;
+
+                            case "listo":
+                                hablar(`Usted ha escrito: ${document.getElementById('busqueda').value}. Diga "continuar" para buscar inmuebles, o diga "editar" para editar.`);
+                                campo = 2;
+                                dictando = false;
+                                break;
+                            
+                            case "continuar":
+                                if(campo === 2)
+                                    document.getElementById('form_busqueda').submit();
+                                break;
+                            
+                            case "leer pantalla":
+                                hablar(`Esta es la pantalla de detalles del inmueble {{inmueble.nombre}}, la cual se encuentra integrada por las siguientes secciones:
+                                1. Barra de Navegación: Aquí se encuentran las opciones básicas de navegación por el sistema.
+                                2. Sección de Búsqueda: Aquí se encuentra la barra de búsqueda de para inmuebles.
+                                3. Sección de Detalles: Aquí se encuentran los detalles del inmueble. Puede decir "leer detalles" para escuchar el contenido de la sección.
+                                `);
+                                break;
+                            
+                            case "leer detalles":
+                                hablar(`La publicación del inmueble se llama '{{inmueble.nombre}}'. Tiene un costo de {{inmueble.precio|floatformat:2}} dólares.
+                                    Fue construido en el año {{inmueble.ano_construccion}}. Es del tipo {{inmueble.tipo_construccion}}. 
+                                    Tiene {{inmueble.estacionamientos}} puestos de estacionamiento. Tiene un área de {{inmueble.tamano}} metros cuadrados.
+                                    Tiene {{inmueble.habitaciones}} habitaciones. Consta de {{inmueble.pisos}} pisos. Tiene {{inmueble.banos}} baños. {% if inmueble.amueblado %} Está {% else %} No está {% endif %} amoblado.
+                                    Se encuentra en el sector {{inmueble.sector.nombre}} de la parroquia {{inmueble.sector.parroquia.nombre}}, Maracaibo.
+                                    en la siguiente ubicación detallada: {{inmueble.ubicacion_detallada}}.
+                                    Cuenta con los servicios: {{inmueble.servicios}}.
+                                    Se describe de la siguiente forma: {{inmueble.descripcion}}.
+                                    `);
+                                break;
+                            
+                            case "resultado":
+                                const numero = speech.split(" ")[speech.split(" ").indexOf("resultado") + 2].replace(/[.,]/g,"");
+                                let pasado = false;
+                                console.log(numero);
+                                // {% for resultado in resultados %}
+                                if(numero == '{{forloop.counter}}'){
+                                    hablar("Redirigiendo al detalle del inmueble.")
+                                    window.location.replace("/inmuebles/detallar/{{resultado.pk}}/")
+                                    pasado = true;
+                                }
+                                // {% endfor %}
+
+                                if(!pasado)
+                                    hablar(`No hay resultados con el número '${numero}'.`)
+
+                                break;
+                            
+                            case "editar":
+                                if(campo === 2){
+                                    campo = 1;
+                                    document.getElementById('busqueda').value = "";
+                                    document.getElementById('busqueda').focus();
+                                }
+                                break;
+                            
+                            case "descargar pdf":
+                                document.getElementById('pdf').click();
+                                hablar("Descargando reporte PDF.");
+                                break;
+                            
+                            case "descargar mp3":
+                                document.getElementById('mp3').click();
+                                hablar("Descargando reporte MP3.");
+                                break;
+                            
+                            case "descargar mp 3":
+                                document.getElementById('mp3').click();
+                                hablar("Descargando reporte MP3.");
+                                break;
+                        
+                            // {% if puede_cita %}
+                            case "agendar cita":
+                                document.getElementById('agendar').click();
+                                break;
+                            // {% endif %}
+
+                            // {% if puede_comprar %}
+                            case "comprar inmueble":
+                                break;
+                            // {% endif %}
+                        }
+                      }    
+                   });
+
+                   if(dictando && speech.indexOf("dictado") == -1)
+                        document.getElementById('busqueda').value += " " + speech.toLowerCase().slice(0,-1);
+                }
+            }
+        }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
+
+        recognition.onerror = (event) => {
+            if(event.error !== 'no-speech'){
+                console.log(event);
+            }
+        }
+
+        function bienvenida(){
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla del detalle del inmueble "{{inmueble.nombre}}", de {{inmueble.precio|floatformat:2}} dólares.' 
+                    + 'Diga "leer detalles" para escuchar los detalles del inmueble. {% if puede_cita %} Puede agendar una cita diciendo "agendar cita". {% endif %}.'
+                    + '{% if puede_comprar %} Puede tramitar la compra del inmueble diciendo "yo quiero comprar este inmueble". {% else %} Para poder tramitar una compra, deberá agendar una cita de visita y recibir un visto bueno primero. {% endif %}');
+                
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+                recognition.start();
+                recognition.addEventListener('end', recognition.start);
+            }
+        }
+
+        function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+            }
+        }
+        
+        bienvenida();
+    </script>
 </head>
 <body>
     <form method="post">
         {% csrf_token %}
-        <input type="text" name="busqueda" value="{{busqueda}}">
+        <input type="text" id="busqueda" name="busqueda" value="{{busqueda}}">
         <input type="submit" value="Buscar">
     </form>
     
@@ -24,17 +262,17 @@
         <li><b>Parroquia: </b> {{inmueble.sector.parroquia.nombre}}</li>
         <li><b>Sector: </b> {{inmueble.sector.nombre}}</li>
         <li><b>Ubicación Detallada: </b> {{inmueble.ubicacion_detallada}}</li>
-        <li><b>Fecha de Publicación: </b> {{inmueble.fecha_creacion}}</li>
         <li><b>Amueblado: </b> {{inmueble.amueblado|yesno:"Sí,No"}}</li>
-        <li><b>Estacionamiento: </b> {{inmueble.tiene_estacionamiento|yesno:"Sí,No"}}</li>
+        <li><b>Puestos de Estacionamiento: </b> {{inmueble.estacionamientos}}</li>
+        <li><b>Servicios: </b> {{inmueble.servicios}}</li>
         {% if request.user.is_authenticated %}
             {% if puede_cita %}
-            <li><a href="{% url 'seleccionar_dia_cita' pk=inmueble.pk %}">Agendar Cita para Visitar el Inmueble</a></li>
+            <li><a id="agendar" href="{% url 'seleccionar_dia_cita' pk=inmueble.pk %}">Agendar Cita para Visitar el Inmueble</a></li>
             {% else %}
             <li><b>¡Ha agendado una cita para visitar el inmueble!</b></li>
             {% endif %}
             {% if puede_comprar %}
-            <li><a href="{% url 'comprar_inmueble' pk=inmueble.pk %}">Comprar</a></li>
+            <li><a id="comprar" href="{% url 'comprar_inmueble' pk=inmueble.pk %}">Comprar</a></li>
             {% else %}
             <li><b>¡Debe agendar y asistir a una cita para ver el inmueble para poder comprar!</b></li>
             {% endif %}
@@ -43,8 +281,8 @@
         {% endif %}
         <form method="post">
             {% csrf_token %}
-            <li><button type="submit" name="tipo" value="pdf">DESCARGAR PDF</button></li>
-            <li><button type="submit" name="tipo" value="mp3">DESCARGAR MP3</button></li>
+            <li><button id="pdf" type="submit" name="tipo" value="pdf">DESCARGAR PDF</button></li>
+            <li><button id="mp3" type="submit" name="tipo" value="mp3">DESCARGAR MP3</button></li>
         </form>
     </ul>
 </body>

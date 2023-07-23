@@ -4,6 +4,212 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultar sus Citas</title>
+    
+    <script>
+        const synthesis = window.speechSynthesis;
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+        
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "leer pantalla": "Lee la el contenido de la pantalla",
+            "leer detalles": "Lee los detalles del inmueble",
+            "descargar pdf": "Descarga el reporte PDF de la publicación",
+            "descargar mp3": "Descarga el reporte MP3 de la publicación",
+            // {% if not request.user.is_authenticated %}
+            "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
+            // {% else %}
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            // {% endif %}
+            
+        };
+
+        function inicial(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
+                   console.log(speech);
+                   ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer cita", "salir"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                                break;
+                            
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+
+                            case "iniciar sesión":
+                                hablar("Redirigiendo a la pantalla de inicio de sesión.");
+                                location.replace("/usuarios/login/");
+                                
+                                break;
+                                                        
+                            case "leer pantalla": // ! TODO
+                                hablar(`Esta es la pantalla de consultas de citas. Usted ha tenido {{citas.count}} citas. La pantalla está dividida en las siguientes secciones:
+                                1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
+                                2. Sección de Citas: Aquí se muestran los detalles de las {{citas.count}} citas que ha tenido. Diga "leer citas", o, "leer cita" seguido del número de cita.
+                                `);
+                                break;
+                            
+                            case "leer cita":
+                                console.log(speech.split(" "));
+                                console.log(speech.split(" ").indexOf("cita"));
+                                const numero = speech.split(" ")[speech.split(" ").indexOf("cita") + 1].replace(/[.,]/g,"");
+                                let pasado = false;
+                                console.log(numero);
+                                // {% for cita in citas %}
+                                if(numero == '{{forloop.counter}}'){
+                                    hablar(`Esta cita tiene como fecha {{cita.fecha_asignada.date}} a las {{cita.fecha_asignada.hour}} horas.
+                                     {% if cita.compra %} Cita de formalización para la compra del inmueble {{cita.compra.inmueble.nombre}}
+                                     {% else %} Cita de visita al inmueble {{cita.inmueble.nombre}}{% endif %}. Su estatus es {{cita.estado_largo}}.
+                                     {% if cita.estado == "F" or cita.estado == "X" %}El agente añadió un comentario: "{{cita.resultados}}".{% endif %}`)
+                                    pasado = true;
+                                }
+                                // {% endfor %}
+
+                                if(!pasado)
+                                    hablar(`No hay citas con el número '${numero}'.`)
+                                hablar(``);
+                                break;
+                            
+                            case "descargar pdf": // Tanto cita por comprobante como general
+                                const cita = speech.split(" ")[speech.split(" ").indexOf("PDF") + 1].replace(/[.,]/g,"");
+                                console.log(cita);
+                                // {% for cita in citas %}
+                                if(cita == '{{forloop.counter}}'){
+                                    if(["E","P"].indexOf(("{{cita.estado}}")) !== -1){
+                                        hablar("Descargando comprobante de cita en formato PDF.");
+                                        document.getElementById('pdf_{{cita.pk}}').click();
+                                    } else
+                                        hablar("La cita especificada no permite la descarga de su comprobante.");
+                                    break;
+                                }
+                                // {% endfor %}
+
+                                hablar(`No hay citas con el número ${cita}.`);
+                                break;
+                            
+                            case "descargar mp3": // Tanto cita por comprobante como general
+                                const mp3 = speech.split(" ")[speech.split(" ").indexOf("MP3") + 1].replace(/[.,]/g,"");
+                                console.log(mp3);
+                                // {% for cita in citas %}
+                                if(cita == '{{forloop.counter}}'){
+                                    if(["E","P"].indexOf(("{{cita.estado}}")) !== -1){
+                                        hablar("Descargando comprobante de cita en formato MP3.");
+                                        document.getElementById('mp3_{{cita.pk}}').click();
+                                    } else
+                                        hablar("La cita especificada no permite la descarga de su comprobante.");
+                                    break;
+                                }
+                                // {% endfor %}
+
+                                hablar(`No hay citas con el número ${mp3}.`);
+                                break;
+                            
+                            case "descargar mp 3": // Tanto cita por comprobante como general
+                                const mp_3 = speech.split(" ")[speech.split(" ").indexOf("MP") + 1].replace(/[.,]/g,"").replace(/^3/g, "");
+                                console.log(mp_3);
+                                // {% for cita in citas %}
+                                if(mp_3 == '{{forloop.counter}}'){
+                                    if(["E","P"].indexOf(("{{cita.estado}}")) !== -1){
+                                        hablar("Descargando comprobante de cita en formato MP3.");
+                                        document.getElementById('mp3_{{cita.pk}}').click();
+                                    } else
+                                        hablar("La cita especificada no permite la descarga de su comprobante.");
+                                    break;
+                                }
+                                // {% endfor %}
+
+                                hablar(`No hay citas con el número ${mp_3}.`);
+                                break;
+                        }
+                      }    
+                   });
+
+                   if(dictando && speech.indexOf("dictado") == -1)
+                        document.getElementById('busqueda').value += " " + speech.toLowerCase().slice(0,-1);
+                }
+            }
+        }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
+
+        recognition.onerror = (event) => {
+            if(event.error !== 'no-speech'){
+                console.log(event);
+            }
+        }
+
+        function bienvenida(){
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de citas. Usted tiene {{citas.count}} citas. Diga "leer cita" seguido del número de cita para obtener una lectura de la misma.');
+                
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+                recognition.start();
+                recognition.addEventListener('end', recognition.start);
+            }
+        }
+
+        function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+            }
+        }
+        
+        bienvenida();
+    </script>
 </head>
 <body>
     <h3>Consulta de Citas</h3>
@@ -22,8 +228,8 @@
     <form method="post">
         {% csrf_token %}
         <input type="hidden" name="pk" value="{{cita.pk}}">
-        <button name="tipo" value="pdf" type="submit">Descargar Comprobante PDF</button>
-        <button name="tipo" value="mp3" type="submit">Descargar Comprobante MP3</button>
+        <button name="tipo" id="pdf_{{cita.pk}}" value="pdf" type="submit">Descargar Comprobante PDF</button>
+        <button name="tipo" id="mp3_{{cita.pk}}" value="mp3" type="submit">Descargar Comprobante MP3</button>
     </form>
     {% endif %}
     {% endfor %}

@@ -34,8 +34,8 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript;
                    console.log(speech);
-                   ["ayuda","iniciar sesión","resultado","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                    "buscar inmueble", "leer resultados", "cerrar sesión", "leer pantalla", "dictado", "salir", "listo","continuar", "editar"].forEach(comando => {
+                   ["ayuda","iniciar sesión","leer resultados","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                    "buscar inmueble", "resultado", "cerrar sesión", "leer pantalla", "dictado", "salir", "listo","continuar", "editar"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {

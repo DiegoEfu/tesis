@@ -134,7 +134,7 @@
                       }    
                    });
 
-                   if(dictando && speech.indexOf("dictado") == -1)
+                   if(dictando && speech.toLowerCase().indexOf("dictado") == -1)
                         document.getElementById('busqueda').value += " " + speech.toLowerCase().slice(0,-1);
                 }
             }

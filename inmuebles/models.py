@@ -85,6 +85,28 @@ class Inmueble(models.Model):
                 return y
         
         return "DESCONOCIDO"
+    
+    def servicios(self):
+        servicios = ""
+        if(self.agua):
+            servicios += "Agua. "
+        
+        if(self.electricidad):
+            servicios += "Electricidad. "
+        
+        if(self.aseo):
+            servicios += "Aseo urbano. "
+        
+        if(self.gas):
+            servicios += "Gas. "
+        
+        if(self.internet):
+            servicios += "Internet. "
+        
+        if(len(servicios) == 0):
+            servicios = "Ninguno."
+
+        return servicios
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
