@@ -89,19 +89,19 @@ class Inmueble(models.Model):
     def servicios(self):
         servicios = ""
         if(self.agua):
-            servicios += "Agua, "
+            servicios += "Agua. "
         
         if(self.electricidad):
-            servicios += "Electricidad, "
+            servicios += "Electricidad. "
         
         if(self.aseo):
-            servicios += "Aseo urbano, "
+            servicios += "Aseo urbano. "
         
         if(self.gas):
-            servicios += "Gas, "
+            servicios += "Gas. "
         
         if(self.internet):
-            servicios += "Internet, "
+            servicios += "Internet. "
         
         if(len(servicios) == 0):
             servicios = "Ninguno."
