@@ -86,6 +86,9 @@ class Inmueble(models.Model):
         
         return "DESCONOCIDO"
     
+    def compra_activa(self):
+        return Compra.objects.filter(inmueble=self,estado="E")
+
     def servicios(self):
         servicios = ""
         if(self.agua):

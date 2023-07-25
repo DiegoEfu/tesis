@@ -4,6 +4,215 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultar sus Publicaciones</title>
+
+    <script>
+        const synthesis = window.speechSynthesis;
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+        
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "leer pantalla": "Lee la el contenido de la pantalla",
+            "leer publicación": "Lee la publicación del número especificado.",
+            "descargar pdf": "Descarga el reporte PDF de la publicación especificada.",
+            "descargar mp3": "Descarga el reporte MP3 de la publicación especificada.",
+            // {% if not request.user.is_authenticated %}
+            "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
+            // {% else %}
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            // {% endif %}
+            
+        };
+
+        function inicial(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
+                   console.log(speech);
+                   ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer publicación", "salir"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                                break;
+                            
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+
+                            case "iniciar sesión":
+                                hablar("Redirigiendo a la pantalla de inicio de sesión.");
+                                location.replace("/usuarios/login/");
+                                
+                                break;
+                                                        
+                            case "leer pantalla":
+                                hablar(`Esta es la pantalla de consultas de publicaciones. Usted ha tenido {{publicaciones.count}} citas. La pantalla está dividida en las siguientes secciones:
+                                1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
+                                2. Sección de Publicaciones: Aquí se muestran los detalles de las {{publicaciones.count}} publicaciones que ha tenido. Diga "leer publicaciones", o, "leer publicación" seguido del número de cita.
+                                `);
+                                break;
+                            
+                            case "leer publicación":
+                                console.log(speech.split(" "));
+                                console.log(speech.split(" ").indexOf("publicación"));
+                                const numero = speech.split(" ")[speech.split(" ").indexOf("publicación") + 1]
+                                .replace(/[.,]/g,"").replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1");
+                                let pasado = false;
+                                console.log(numero);
+                                // {% for publicacion in publicaciones %}
+                                if(numero == '{{forloop.counter}}'){
+                                    hablar(`Esta publicación es del inmueble llamado "{{publicacion.nombre}}". Actualmente su estado es "{{publicacion.estado_largo}}".
+                                    {% if publicacion.estado == 'A' %} Tiene un precio de {{publicacion.precio|floatformat:2}}.
+                                    {% elif publicacion.estado == 'R' %} Se encuentra en revisión por el agente asignado. Usted sugirió el precio {{publicacion.precio|floatformat:2}} dólares.
+                                    {% elif publicacion.estado == 'T' %} La persona {{publicacion.compra_activa.comprador}} de cédula de identidad {{publicacion.compra_activa.comprador.cedula}} ha comprado por el precio de {{publicacion.precio|floatformat:2}} dólares.
+                                    {% elif publicacion.estado == 'D' %} 
+                                    {% elif publicacion.estado == 'E' %}
+                                    {% elif publicacion.estado == 'C' %}
+                                    {% elif publicacion.estado == 'X' %}
+                                    {% elif publicacion.estado == 'S' %}
+                                    {% elif publicacion.estado == 'V' %}
+                                    {% endif %}
+                                    Este inmueble se ubica en el sector {{publicacion.sector.nombre}} de la parroquia {{publicacion.sector.parroquia.nombre}}.
+                                    Esta publicación tiene el agente asignado: {{publicacion.agente}}. Si tiene alguna duda o pregunta, contáctelo al número de teléfono {{publicacion.agente.numero_telefono}} 
+                                    o al correo {{publicacion.agente.usuario_persona.email}}.`)
+                                    pasado = true;
+                                }
+                                // {% endfor %}
+
+                                if(!pasado)
+                                    hablar(`No hay una publicación con el número '${numero}'.`)
+                                break;
+                            
+                            case "descargar pdf": // Tanto cita por comprobante como general
+                                const cita = speech.split(" ")[speech.split(" ").indexOf("PDF") + 1].replace(/[.,]/g,"");
+                                console.log(cita);
+                                // {% for publicacion in publicaciones %}
+                                if(cita == '{{forloop.counter}}'){
+                                    hablar("Descargando reporte de publicación en formato PDF.");
+                                    document.getElementById('pdf_{{publicacion.pk}}').click();
+                                    
+                                    break;
+                                }
+                                // {% endfor %}
+
+                                hablar(`No hay citas con el número ${cita}.`);
+                                break;
+                            
+                            case "descargar mp3": // Tanto cita por comprobante como general
+                                const mp3 = speech.split(" ")[speech.split(" ").indexOf("MP3") + 1].replace(/[.,]/g,"");
+                                console.log(mp3);
+                                // {% for cita in citas %}
+                                if(cita == '{{forloop.counter}}'){
+                                    hablar("Descargando comprobante de cita en formato MP3.");
+                                    document.getElementById('mp3_{{cita.pk}}').click();
+                                }
+                                // {% endfor %}
+
+                                hablar(`No hay citas con el número ${mp3}.`);
+                                break;
+                            
+                            case "descargar mp 3":
+                                const mp_3 = speech.split(" ")[speech.split(" ").indexOf("MP") + 1].replace(/[.,]/g,"").replace(/^3/g, "");
+                                console.log(mp_3);
+                                // {% for publicacion in publicaciones %}
+                                if(mp_3 == '{{forloop.counter}}'){
+                                    hablar("Descargando reporte de publicación en formato MP3.");
+                                    document.getElementById('mp3_{{publicacion.pk}}').click();
+                                    break;
+                                }
+                                // {% endfor %}
+
+                                hablar(`No hay una publicación con el número ${mp_3}.`);
+                                break;
+                        }
+                      }    
+                   });
+
+                   if(dictando && speech.indexOf("dictado") == -1)
+                        document.getElementById('busqueda').value += " " + speech.toLowerCase().slice(0,-1);
+                }
+            }
+        }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
+
+        recognition.onerror = (event) => {
+            if(event.error !== 'no-speech'){
+                console.log(event);
+            }
+        }
+
+        function bienvenida(){
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de publicaciones. Usted tiene {{publicaciones.count}} publicaciones. Diga "leer publicación" seguido del número de publicación para obtener una lectura de la misma.');
+                
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+                recognition.start();
+                recognition.addEventListener('end', recognition.start);
+            }
+        }
+
+        function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+            }
+        }
+        
+        bienvenida();
+    </script>
 </head>
 <body>
     <h3>Consulta de Publicaciones</h3>
