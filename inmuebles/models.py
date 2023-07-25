@@ -86,6 +86,13 @@ class Inmueble(models.Model):
         
         return "DESCONOCIDO"
     
+    def compra_activa(self):
+        return Compra.objects.get(inmueble=self,estado="E")
+
+    def formalidades(self):
+        if(self.estado == 'S'):
+            return self.compra_activa().citas.first()
+
     def servicios(self):
         servicios = ""
         if(self.agua):
