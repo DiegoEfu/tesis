@@ -4,6 +4,161 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cita para el Inmueble "{{inmueble.nombre}}"</title>
+
+    <script>
+        const synthesis = window.speechSynthesis;
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+        
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "leer pantalla": "Lee el contenido de la pantalla",
+            "leer opciones": "Lee el contenido de la pantalla",
+            "agendar hora": "Seguido del número indicado en las opciones, se agenda una cita en la hora especificada",
+            // {% if not request.user.is_authenticated %}
+            "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
+            // {% else %}
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            // {% endif %}
+            
+        };
+
+        function inicial(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
+                   console.log(speech);
+                   ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   "cerrar sesión", "leer pantalla", "leer opciones", "agendar hora", "salir"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                                break;
+                            
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+                                                        
+                            case "leer pantalla":
+                                hablar(`Esta es la pantalla de agendar hora para la cita de visita que solicitó para el día {{fecha.date}}. La pantalla está dividida en las siguientes secciones:
+                                    1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
+                                    2. Sección de Horas: Aquí salen las horas en las que puede agendar cita para visitar el inmueble el día {{fecha.date}}. Diga "leer opciones", para escuchar las horas disponibles.
+                                `);
+                                break;
+                            
+                            case "leer opciones":
+                                hablar(`{% for hora in horas %}
+                                Diga agendar hora {{forloop.counter}} para la hora: {{hora.hour}}:00.\n
+                                {% endfor %}`)
+                                break;
+                            
+                            case "agendar hora":
+                                const hora = speech.split(" ")[speech.split(" ").indexOf("hora") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                let encontrado = false;
+
+                                // {% for hora in horas %}
+                                if(hora == '{{forloop.counter}}'){
+                                    hablar(`Ha seleccionado la hora {{hora}}:00 para el día {{fecha.date}}.`);
+                                    document.getElementById('hora_{{forloop.counter}}').click();
+                                    encontrado = true;
+                                    break;
+                                }
+                                // {% endfor %}
+
+                                if(!encontrado)
+                                    hablar(`No hay hora disponible con el número '${hora}'.`)
+                                hablar(``);
+                                break;
+                        }
+                      }    
+                   });
+                }
+            }
+        }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
+
+        recognition.onerror = (event) => {
+            if(event.error !== 'no-speech'){
+                console.log(event);
+            }
+        }
+
+        function bienvenida(){
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance(`Ahora deberá agendar la hora de su cita del día {{fecha.date}}. Escoja la que mejor se ajuste a su horario. Tiene las siguientes opciones:
+                {% for hora in horas %}
+                Diga agendar hora {{forloop.counter}} para la hora: {{hora.hour}}:00.\n
+                {% endfor %}
+                `);
+                
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+                recognition.start();
+                recognition.addEventListener('end', recognition.start);
+            }
+        }
+
+        function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+            }
+        }
+        
+        bienvenida();
+    </script>
 </head>
 <body>
     Usted escogió el día {{fecha.date}}. Las horas disponibles para el agente y para usted son las siguientes:
@@ -11,7 +166,7 @@
         {% csrf_token %}
         <ul>
             {% for hora in horas %}
-            <li><button type="submit" name="hora_escogida" value="{{hora.hour}}">{{hora.hour}}:00</button></li>
+            <li><button id="hora_{{forloop.counter}}" type="submit" name="hora_escogida" value="{{hora.hour}}">{{hora.hour}}:00</button></li>
             {% endfor %}
         </ul>
     </form>
