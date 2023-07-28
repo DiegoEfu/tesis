@@ -14,7 +14,7 @@
         
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
-            "leer pantalla": "Lee la el contenido de la pantalla",
+            "leer pantalla": "Lee el contenido de la pantalla",
             "leer cita": "Seguido de un número lee los detalles de la cita especificada.",
             "descargar pdf": "Descarga el reporte PDF de la cita",
             "descargar mp3": "Descarga el reporte MP3 de la cita",
@@ -72,11 +72,13 @@
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
 
-                            case "iniciar sesión":
+                            // {% if request.user.is_authenticated %}
+case "iniciar sesión":
                                 hablar("Redirigiendo a la pantalla de inicio de sesión.");
                                 location.replace("/usuarios/login/");
                                 
                                 break;
+//{%endif%}
                                                         
                             case "leer pantalla": // ! TODO
                                 hablar(`Esta es la pantalla de consultas de citas. Usted ha tenido {{citas.count}} citas. La pantalla está dividida en las siguientes secciones:

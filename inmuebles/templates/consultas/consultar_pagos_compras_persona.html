@@ -4,14 +4,221 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de Pagos</title>
+
+    <script>
+        const synthesis = window.speechSynthesis;
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+        
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "leer pantalla": "Lee el contenido de la pantalla",
+            "leer pago": "Seguido de un número lee los detalles del pago especificado.",
+            // {% if pagos.count %}
+            "descargar pdf": "Descarga el reporte PDF de la compra",
+            "descargar mp3": "Descarga el reporte MP3 de la compra",
+            //{% endif %}
+            // {% if not request.user.is_authenticated %}
+            "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
+            // {% else %}
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            // {% endif %}
+            
+        };
+
+        function inicial(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
+                   console.log(speech);
+                   ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer pago", "salir"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                                break;
+                            
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+                                                        
+                            case "leer pantalla":
+                                hablar(`Esta es la pantalla de consultas de compras. Usted ha realizado {{compras.count}} compras. La pantalla está dividida en las siguientes secciones:
+                                    1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
+                                    2. Sección de Reportes: Aquí se muestran las opciones de reportes tanto en formato PDF como MP3.
+                                    3. Sección de pagos: Aquí se muestra la lista de pagos realizadas por su persona, diga "leer pago" seguido del número de pago para escuchar la información.
+                                `);
+                                break;
+                            
+                            case "leer pago":
+                                const numero = speech.split(" ")[speech.split(" ").indexOf("pago") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                let pasado = false;
+                                console.log(numero);
+                                // {% for pago in pagos %}
+                                if(numero == '{{forloop.counter}}'){
+                                    hablar(`Este pago se realizó el día {{pago.fecha.date}}. 
+                                        El monto pagado fue de bolívares {{pago.monto}} los cuales fueron al cambio del día {{pago.tasa.tasa}} por dólar, un valor de
+                                        {{pago.valor_dolar|floatformat:2}} dólares.
+                                        Se realizó por transferencia a la cuenta: {{pago.cuenta}},
+                                        con una referencia número {{pago.referencia}}.
+                                        Usted añadió el comentario: {{pago.comentario}}.
+
+                                        El estado del pago es: {{pago.estado_largo}}.
+
+                                        {% if pago.estado == 'R' %}
+                                            Luego de revisión administrativa se dejó la siguiente observación para 
+                                            su consideración al reportar un nuevo pago: {{pago.comentario_cajero}}.
+                                        {% endif %}`)
+                                    pasado = true;
+                                }
+                                // {% endfor %}
+
+                                if(!pasado)
+                                    hablar(`No hay compra con el número '${numero}'.`)
+                                break;
+                            
+                            case "pagos compra":
+                                const compra = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                console.log(compra);
+                                // {% for compra in compras %}
+                                if(compra == '{{forloop.counter}}'){
+                                    hablar(`Redirigiendo a la consulta de pagos de la compra.`);
+                                    window.location.replace("/inmuebles/consultar/pagos/compras/{{compra.pk}}/");
+                                    break;
+                                }
+                                // {% endfor %}
+
+                                if(!encontrado)
+                                    hablar(`No hay compras con el número '${numero}'.`)
+                                hablar(``);
+                                break;
+
+                            // {% if pagos.count %}
+
+                            case "descargar pdf":
+                                hablar("Descargando reporte de compras en formato PDF.");
+                                document.getElementById('pdf').click();
+                                break;
+                            
+                            case "descargar mp3":
+                                hablar("Descargando reporte de compras en formato MP3.");
+                                document.getElementById('mp3').click();
+                                break;
+                            
+                            case "descargar mp 3": 
+                                hablar("Descargando reporte de compras en formato MP3.");
+                                document.getElementById('mp3').click();
+                                break;
+
+                            // {% endif %}
+                        }
+                      }    
+                   });
+
+                   if(dictando && speech.indexOf("dictado") == -1)
+                        document.getElementById('busqueda').value += " " + speech.toLowerCase().slice(0,-1);
+                }
+            }
+        }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
+
+        recognition.onerror = (event) => {
+            if(event.error !== 'no-speech'){
+                console.log(event);
+            }
+        }
+
+        function bienvenida(){
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance(`Justo ahora está en la pantalla de consulta de pagos para la compra {{compra.pk}} del inmueble {{compra.inmueble.nombre}}. Usted realizó {{pagos.count}} pagos para esta compra. 
+                {% if compra.estado == 'X' %} Debido a que esta compra fue cancelada, los pagos fueron reembolsados.
+                {% elif compra.estado == 'C' %} Debe esperar a que la compra sea cancelada para recibir su reembolso.
+                {% else %} Usted ha cancelado {{compra.monto_cancelado}} dólares de los {{compra.inmueble.precio}} dólares del costo del inmueble. {% endif %}
+                Diga "leer pago" seguido del número de pago para obtener una lectura del mismo.`);
+                
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+                recognition.start();
+                recognition.addEventListener('end', recognition.start);
+            }
+        }
+
+        function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+            }
+        }
+        
+        bienvenida();
+    </script>
 </head>
 <body>
     <h2>Consultar Pagos Realizados</h2>
+    {% if pagos.count %}
     <form method="post">
         {% csrf_token %}
-        <button type="submit" name="tipo" value="mp3">DESCARGAR REPORTE MP3</button>
-        <button type="submit" name="tipo" value="pdf">DESCARGAR REPORTE PDF</button>
+        <button id="mp3" type="submit" name="tipo" value="mp3">DESCARGAR REPORTE MP3</button>
+        <button id="pdf" type="submit" name="tipo" value="pdf">DESCARGAR REPORTE PDF</button>
     </form>
+    {% else %}
+    No hay pagos para esta compra.
+    {% endif %}
     {% for pago in pagos %}
     <hr>
     <b>Monto</b>: Bs. {{pago.monto}} / $ {{pago.valor_dolar|floatformat:2}} (Tasa: {{pago.tasa.tasa}}) <br>

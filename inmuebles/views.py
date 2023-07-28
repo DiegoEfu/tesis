@@ -454,7 +454,7 @@ def consultar_pagos_compras(request,pk): # Para USUARIOS NORMALES
     pagos = compra.pagos.order_by('-fecha')
 
     if(request.method == 'GET'):
-        return render(request, 'consultas/consultar_pagos_compras_persona.html', context={'pagos': pagos})
+        return render(request, 'consultas/consultar_pagos_compras_persona.html', context={'pagos': pagos, 'compra': compra})
     elif(request.method == 'POST'):
         if(request.POST['tipo'] == 'mp3'):
             file_path = reporte_pagos_compra_mp3(pagos, compra)

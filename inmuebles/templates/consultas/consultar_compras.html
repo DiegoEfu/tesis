@@ -14,7 +14,7 @@
         
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
-            "leer pantalla": "Lee la el contenido de la pantalla",
+            "leer pantalla": "Lee el contenido de la pantalla",
             "leer compra": "Seguido de un número lee los detalles de la compra especificada.",
             "pagos compra": "Seguido de un número redirige a la pantalla de pagos de la compra especificada.",
             "descargar pdf": "Descarga el reporte PDF de la compra",
@@ -71,11 +71,6 @@
                             case "consultar publicaciones":
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
-                                break;
-
-                            case "iniciar sesión":
-                                hablar("Redirigiendo a la pantalla de inicio de sesión.");
-                                location.replace("/usuarios/login/");
                                 break;
                                                         
                             case "leer pantalla":
