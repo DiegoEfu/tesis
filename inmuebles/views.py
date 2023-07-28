@@ -408,7 +408,7 @@ def consultar_compras(request):
     compras = Compra.objects.filter(comprador=request.user.persona)
 
     if(request.method == 'GET'):
-        return render(request, 'consultas/consultar_compras.html', context={'compras': compras})
+        return render(request, 'consultas/consultar_compras.html', context={'compras': compras.order_by('-fecha')})
     elif(request.method == 'POST'):
         if(request.POST['tipo'] == 'mp3'):
             file_path = reporte_compras_mp3(request, compras)

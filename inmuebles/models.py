@@ -142,6 +142,9 @@ class Compra(models.Model):
     
     def excedente(self):
         return round(float(self.monto_cancelado()) - float(self.inmueble.precio), 2)
+    
+    def cita_formalidades(self):
+        return self.citas.first()
 
 class Cita(models.Model):
     compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE, null=True, related_name="citas")
