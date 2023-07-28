@@ -75,7 +75,7 @@
                                 break;
                                                         
                             case "leer pantalla":
-                                hablar(`Esta es la pantalla de consultas de compras. Usted ha realizado {{compras.count}} compras. La pantalla está dividida en las siguientes secciones:
+                                hablar(`Esta es la pantalla de consultas de pagos de sus compras. Usted ha realizado {{compras.count}} compras. La pantalla está dividida en las siguientes secciones:
                                     1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
                                     2. Sección de Reportes: Aquí se muestran las opciones de reportes tanto en formato PDF como MP3.
                                     3. Sección de pagos: Aquí se muestra la lista de pagos realizadas por su persona, diga "leer pago" seguido del número de pago para escuchar la información.
@@ -112,39 +112,20 @@
                                     hablar(`No hay compra con el número '${numero}'.`)
                                 break;
                             
-                            case "pagos compra":
-                                const compra = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
-                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
-                                .replace("nueve","9").replace("uno","1").replace("una","1");
-                                console.log(compra);
-                                // {% for compra in compras %}
-                                if(compra == '{{forloop.counter}}'){
-                                    hablar(`Redirigiendo a la consulta de pagos de la compra.`);
-                                    window.location.replace("/inmuebles/consultar/pagos/compras/{{compra.pk}}/");
-                                    break;
-                                }
-                                // {% endfor %}
-
-                                if(!encontrado)
-                                    hablar(`No hay compras con el número '${numero}'.`)
-                                hablar(``);
-                                break;
-
                             // {% if pagos.count %}
 
                             case "descargar pdf":
-                                hablar("Descargando reporte de compras en formato PDF.");
+                                hablar("Descargando reporte de pagos en formato PDF.");
                                 document.getElementById('pdf').click();
                                 break;
                             
                             case "descargar mp3":
-                                hablar("Descargando reporte de compras en formato MP3.");
+                                hablar("Descargando reporte de pagos en formato MP3.");
                                 document.getElementById('mp3').click();
                                 break;
                             
                             case "descargar mp 3": 
-                                hablar("Descargando reporte de compras en formato MP3.");
+                                hablar("Descargando reporte de pagos en formato MP3.");
                                 document.getElementById('mp3').click();
                                 break;
 
