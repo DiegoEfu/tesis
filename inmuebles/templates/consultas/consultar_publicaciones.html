@@ -14,7 +14,7 @@
         
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
-            "leer pantalla": "Lee la el contenido de la pantalla",
+            "leer pantalla": "Lee el contenido de la pantalla",
             "leer publicación": "Lee la publicación del número especificado.",
             "descargar pdf": "Descarga el reporte PDF de la publicación especificada.",
             "descargar mp3": "Descarga el reporte MP3 de la publicación especificada.",
@@ -72,11 +72,13 @@
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
 
-                            case "iniciar sesión":
+                            // {% if request.user.is_authenticated %}
+case "iniciar sesión":
                                 hablar("Redirigiendo a la pantalla de inicio de sesión.");
                                 location.replace("/usuarios/login/");
                                 
                                 break;
+//{%endif%}
                                                         
                             case "leer pantalla":
                                 hablar(`Esta es la pantalla de consultas de publicaciones. Usted ha tenido {{publicaciones.count}} citas. La pantalla está dividida en las siguientes secciones:

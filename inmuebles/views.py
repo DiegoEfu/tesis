@@ -408,7 +408,7 @@ def consultar_compras(request):
     compras = Compra.objects.filter(comprador=request.user.persona)
 
     if(request.method == 'GET'):
-        return render(request, 'consultas/consultar_compras.html', context={'compras': compras})
+        return render(request, 'consultas/consultar_compras.html', context={'compras': compras.order_by('-fecha')})
     elif(request.method == 'POST'):
         if(request.POST['tipo'] == 'mp3'):
             file_path = reporte_compras_mp3(request, compras)
@@ -447,14 +447,15 @@ def consultar_ventas(request): # Para USUARIOS NORMALES
     return render(request, 'consultas/consultar_ventas_persona.html', context={'ventas': Compra.objects.filter(inmueble__dueno=request.user.persona)})
 
 def consultar_pagos_ventas(request,pk): # Para USUARIOS NORMALES
-    return render(request, 'consultas/consultar_pagos_ventas_persona.html', context={'pagos': Compra.objects.get(pk=pk).pagos.order_by('-fecha')})
+    compra = Compra.objects.get(pk=pk)
+    return render(request, 'consultas/consultar_pagos_ventas_persona.html', context={'pagos': compra.pagos.order_by('-fecha'), 'compra': compra})
 
 def consultar_pagos_compras(request,pk): # Para USUARIOS NORMALES
     compra = Compra.objects.get(pk=pk)
     pagos = compra.pagos.order_by('-fecha')
 
     if(request.method == 'GET'):
-        return render(request, 'consultas/consultar_pagos_compras_persona.html', context={'pagos': pagos})
+        return render(request, 'consultas/consultar_pagos_compras_persona.html', context={'pagos': pagos.order_by('-fecha'), 'compra': compra})
     elif(request.method == 'POST'):
         if(request.POST['tipo'] == 'mp3'):
             file_path = reporte_pagos_compra_mp3(pagos, compra)
