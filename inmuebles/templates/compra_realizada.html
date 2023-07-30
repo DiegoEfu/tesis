@@ -4,6 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compra Exitosa</title>
+
+    <script>
+        const synthesis = window.speechSynthesis;
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+        
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "leer pantalla": "Lee el contenido de la pantalla",
+            "descargar pdf": "Descarga el comprobante de compra en formato PDF.",
+            "descargar mp3": "Descarga el comprobante de compra en formato MP3",
+            // {% if not request.user.is_authenticated %}
+            "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
+            // {% else %}
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            // {% endif %}
+            
+        };
+
+        function inicial(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
+                   console.log(speech);
+                   ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   "cerrar sesión", "leer pantalla", "descargar pdf", "descargar mp3", "descargar mp 3", "salir"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. Esta es la pantalla de compra exitosa. Estos son los comandos disponibles en esta pantalla: \n" + crear_utterance());
+                                }
+                                break;
+                            
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+                                                        
+                            case "leer pantalla":
+                                hablar(`. La pantalla está dividida en las siguientes secciones:
+                                    1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
+                                    2. Sección de Comprobante: Aquí se encuentran los botones de comprobante de compra. Diga "descargar pdf" o "descargar mp3" para descargarlo en el formato especificado.
+                                `);
+                                break;
+                            
+                            case "descargar pdf":
+                                document.getElementById('pdf').click();
+                                break;
+
+                            case "descargar mp3":
+                                document.getElementById('mp3').click();
+                                break;
+
+                            case "descargar mp 3":
+                                document.getElementById('mp3').click();
+                                break;
+                        }}    
+                   });
+                }
+            }
+        }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
+
+        recognition.onerror = (event) => {
+            if(event.error !== 'no-speech'){
+                console.log(event);
+            }
+        }
+
+        function bienvenida(){
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance(`
+                ¡La compra se ha realizado con éxito!
+                A su compra le fue asignada el número de compra número {{compra.pk}}. Diga "descargar pdf" o "descargar mp3" para descargar el comprobante de compra. Este comprobante lo puede descargar en cualquier momento.
+                `);
+                
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+                recognition.start();
+                recognition.addEventListener('end', recognition.start);
+            }
+        }
+
+        function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+            }
+        }
+        
+        bienvenida();
+    </script>
 </head>
 <body>
     <h2>¡La compra se ha realizado con éxito!</h2>
@@ -11,8 +149,8 @@
 
     <form method="post">
         {% csrf_token %}
-        <button type="submit" name="tipo" value="mp3">DESCARGAR COMPROBANTE MP3</button>
-        <button type="submit" name="tipo" value="pdf">DESCARGAR COMPROBANTE PDF</button>
+        <button id="mp3" type="submit" name="tipo" value="mp3">DESCARGAR COMPROBANTE MP3</button>
+        <button id="pdf" type="submit" name="tipo" value="pdf">DESCARGAR COMPROBANTE PDF</button>
     </form>
 </body>
 </html>
