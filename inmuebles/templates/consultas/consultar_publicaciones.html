@@ -18,6 +18,7 @@
             "leer publicación": "Lee la publicación del número especificado.",
             "descargar pdf": "Descarga el reporte PDF de la publicación especificada.",
             "descargar mp3": "Descarga el reporte MP3 de la publicación especificada.",
+            "crear nueva publicación": "Lleva al formulario de creación de nueva publicación",
             // {% if not request.user.is_authenticated %}
             "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
             // {% else %}
@@ -35,7 +36,7 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
                    console.log(speech);
-                   ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   ["crear nueva publicación", "ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
                    "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer publicación", "salir"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
@@ -73,18 +74,22 @@
                                 break;
 
                             // {% if request.user.is_authenticated %}
-case "iniciar sesión":
+                            case "iniciar sesión":
                                 hablar("Redirigiendo a la pantalla de inicio de sesión.");
                                 location.replace("/usuarios/login/");
                                 
                                 break;
-//{%endif%}
+                            //{%endif%}
                                                         
                             case "leer pantalla":
                                 hablar(`Esta es la pantalla de consultas de publicaciones. Usted ha tenido {{publicaciones.count}} citas. La pantalla está dividida en las siguientes secciones:
                                 1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
                                 2. Sección de Publicaciones: Aquí se muestran los detalles de las {{publicaciones.count}} publicaciones que ha tenido. Diga "leer publicaciones", o, "leer publicación" seguido del número de cita.
                                 `);
+                                break;
+                            
+                            case "crear nueva publicación":
+                                window.location.replace("/inmuebles/creacion/");
                                 break;
                             
                             case "leer publicación":
@@ -130,20 +135,20 @@ case "iniciar sesión":
                                 }
                                 // {% endfor %}
 
-                                hablar(`No hay citas con el número ${cita}.`);
+                                hablar(`No hay publicaciones con el número ${cita}.`);
                                 break;
                             
                             case "descargar mp3": // Tanto cita por comprobante como general
                                 const mp3 = speech.split(" ")[speech.split(" ").indexOf("MP3") + 1].replace(/[.,]/g,"");
                                 console.log(mp3);
-                                // {% for cita in citas %}
+                                // {% for publicacion in publicaciones %}
                                 if(cita == '{{forloop.counter}}'){
                                     hablar("Descargando comprobante de cita en formato MP3.");
                                     document.getElementById('mp3_{{cita.pk}}').click();
                                 }
                                 // {% endfor %}
 
-                                hablar(`No hay citas con el número ${mp3}.`);
+                                hablar(`No hay publicaciones con el número ${mp3}.`);
                                 break;
                             
                             case "descargar mp 3":
@@ -185,13 +190,17 @@ case "iniciar sesión":
 
         function bienvenida(){
             if ('speechSynthesis' in window) {
-                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de publicaciones. Usted tiene {{publicaciones.count}} publicaciones. Diga "leer publicación" seguido del número de publicación para obtener una lectura de la misma.');
+                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de publicaciones. Usted tiene {{publicaciones.count}} publicaciones. Diga "leer publicación" seguido del número de publicación para obtener una lectura de la misma. Diga "crear nueva publicación" para ir al formulario.');
                 
                 utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false;
+                    console.log("LISTO");
+                };
                 synthesis.speak(utterance);
                 recognition.start();
                 recognition.addEventListener('end', recognition.start);
@@ -206,7 +215,11 @@ case "iniciar sesión":
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false;
+                    console.log("LISTO");
+                };
                 synthesis.speak(utterance);
             }
         }
@@ -216,6 +229,7 @@ case "iniciar sesión":
 </head>
 <body>
     <h3>Consulta de Publicaciones</h3>
+    <a href="/inmuebles/creacion/">Publicar nuevo inmueble</a>
     {% for publicacion in publicaciones %}
     <hr>
     <h5>{{publicacion.nombre}}</h5>

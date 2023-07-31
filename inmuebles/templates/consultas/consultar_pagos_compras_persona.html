@@ -15,8 +15,9 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
-            "leer pago": "Seguido de un número lee los detalles del pago especificado.",
+            "registrar nuevo pago": "Lleva al formulario de registro de pago",
             // {% if pagos.count %}
+            "leer pago": "Seguido de un número lee los detalles del pago especificado.",
             "descargar pdf": "Descarga el reporte PDF de la compra",
             "descargar mp3": "Descarga el reporte MP3 de la compra",
             //{% endif %}
@@ -33,12 +34,12 @@
         };
 
         function inicial(event) {
-            for (var i = event.resultIndex; i < event.results.length; i++) {
+            for (var i = event.resultIndex; i < event.results.length && !speaking; i++) {
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
                    console.log(speech);
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer pago", "salir"].forEach(comando => {
+                   "descargar mp3", "descargar mp 3", "registrar nuevo pago", "descargar pdf","cerrar sesión", "leer pantalla", "leer pago", "salir"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -112,6 +113,10 @@
                                     hablar(`No hay compra con el número '${numero}'.`)
                                 break;
                             
+                            case "registrar nuevo pago":
+                                window.location.replace("/pagos/registro/{{compra.pk}}/")
+                                break;
+
                             // {% if pagos.count %}
 
                             case "descargar pdf":
@@ -160,13 +165,20 @@
                 {% if compra.estado == 'X' %} Debido a que esta compra fue cancelada, los pagos fueron reembolsados.
                 {% elif compra.estado == 'C' %} Debe esperar a que la compra sea cancelada para recibir su reembolso.
                 {% else %} Usted ha cancelado {{compra.monto_cancelado}} dólares de los {{compra.inmueble.precio}} dólares del costo del inmueble. {% endif %}
-                Diga "leer pago" seguido del número de pago para obtener una lectura del mismo.`);
+                Diga "leer pago" seguido del número de pago para obtener una lectura del mismo. 
+                {% if compra.estado == 'E' %}
+                Diga "registrar nuevo pago" para ir al formulario de registro de pago.
+                {% endif %}`);
                 
                 utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false;
+                    console.log("LISTO");
+                };
                 synthesis.speak(utterance);
                 recognition.start();
                 recognition.addEventListener('end', recognition.start);
@@ -181,7 +193,7 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async () => {speaking = false};
                 synthesis.speak(utterance);
             }
         }
@@ -191,6 +203,10 @@
 </head>
 <body>
     <h2>Consultar Pagos Realizados</h2>
+    {% if compra.estado == 'E' %}
+    <a href="{% url 'formulario_registro_pago' pk=compra.pk %}">Registrar nuevo pago</a>
+    {% endif %}
+
     {% if pagos.count %}
     <form method="post">
         {% csrf_token %}
@@ -213,6 +229,8 @@
     {% if pago.estado == 'R' %}
     <b>Comentario del Cajero: </b> {{pago.comentario_cajero}}
     {% endif %}
+    {% empty %}
+    No hay pagos.
     {% endfor %}
 </body>
 </html>

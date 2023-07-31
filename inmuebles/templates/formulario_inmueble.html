@@ -29,12 +29,18 @@
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
+
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
-            "crear inmueble": "Inicia el formulario de creación de inmueble."
+            "crear inmueble": "Inicia el formulario de creación de inmueble.",
+            "leer pantalla": "Lee el contenido de la pantalla",
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
         };
 
-        //TODO lógica del formulario
         function formulario_p1(event){
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
@@ -254,6 +260,33 @@
                                 
                                 recognition.onresult = formulario_p1;
                                 break;
+
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+                                                        
+                            case "leer pantalla":
+                                hablar(`Esta es la pantalla de consultas de compras. Usted ha realizado {{compras.count}} compras. La pantalla está dividida en las siguientes secciones:
+                                    1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
+                                    2. Sección de Formulario: Aquí se encuenta el formulario de creación de inmueble y todos sus campos, diga "crear inmueble" para iniciarlo por voz.
+                                `);
+                                break;
                         }
                       }    
                    });
@@ -286,7 +319,11 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false;
+                    console.log("LISTO");
+                };
                 synthesis.speak(utterance);
                 recognition.start();
                 recognition.addEventListener('end', recognition.start);
@@ -301,7 +338,11 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false;
+                    console.log("LISTO");
+                };
                 synthesis.speak(utterance);
             }
         }
