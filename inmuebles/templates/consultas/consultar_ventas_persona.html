@@ -4,6 +4,245 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Venta de sus Inmuebles</title>
+
+    <script>
+        const synthesis = window.speechSynthesis;
+        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+        
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "leer pantalla": "Lee el contenido de la pantalla",
+            "leer compra": "Seguido de un número lee los detalles de la compra especificada.",
+            "pagos compra": "Seguido de un número redirige a la pantalla de pagos de la compra especificada.",
+            "descargar pdf": "Descarga el reporte PDF de la compra",
+            "descargar mp3": "Descarga el reporte MP3 de la compra",
+            // {% if not request.user.is_authenticated %}
+            "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
+            // {% else %}
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            // {% endif %}
+            
+        };
+
+        function inicial(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
+                   console.log(speech);
+                   ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "pagos compra", "leer compra", "salir"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                                break;
+                            
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+                                                        
+                            case "leer pantalla":
+                                hablar(`Esta es la pantalla de consultas de compras. Usted ha realizado {{compras.count}} compras. La pantalla está dividida en las siguientes secciones:
+                                    1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
+                                    2. Sección de Reportes: Aquí se muestran las opciones de reportes tanto en formato PDF como MP3.
+                                    3. Sección de Compras: Aquí se muestra la lista de compras realizadas por su persona, diga "leer compra" seguido del número de compra para escuchar la información.
+                                `);
+                                break;
+                            
+                            case "leer venta":
+                                const numero = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                let pasado = false;
+                                console.log(numero);
+                                // {% for compra in compras %}
+                                if(numero == '{{forloop.counter}}'){
+                                    hablar(`Esta venta lleva el código interno {{compra.pk}}. Fecha {{compra.fecha.date}}. Estado: {{compra.estado_largo}}
+                                    {% if compra.estado == 'E' %} El comprador ha cancelado {{compra.monto_cancelado|floatformat:2}} dólares de {{compra.inmueble.precio}} dólares. 
+                                    {% elif compra.estado == 'S' %} El comprador ha cancelado la totalidad del precio y debe asistir a la cita de formalidades en el inmueble el día {{compra.cita_formalidades.fecha_asignada}} 
+                                    {% elif compra.estado == 'X' %} Esta venta fue cancelada. 
+                                    {% elif compra.estado == 'C' %} Esta venta está pendiente por cancelación.
+                                    {% else %} El comprador canceló y formalizó el traspaso del inmueble.\n {% endif %}
+                                    El comprador se llama {{compra.comprador}} y su correo es {{compra.comprador.usuario_persona.email}}, número de teléfono {{compra.comprador.numero_telefono}}.
+                                    En caso de tener alguna duda con esta venta, contactar con el agente {{compra.inmueble.agente}},
+                                    número de teléfono {{compra.inmueble.agente.numero_telefono}} y correo electrónico
+                                    {{compra.inmueble.agente.usuario_persona.email}}.`)
+                                    pasado = true;
+                                }
+                                // {% endfor %}
+
+                                if(!pasado)
+                                    hablar(`No hay venta con el número '${numero}'.`)
+                                break;
+                            
+                            case "pagos venta":
+                                const compra = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                console.log(compra);
+                                // {% for compra in compras %}
+                                if(compra == '{{forloop.counter}}'){
+                                    hablar(`Redirigiendo a la consulta de pagos de la compra.`);
+                                    window.location.replace("/inmuebles/consultar/pagos/venta/{{compra.pk}}/");
+                                    break;
+                                }
+                                // {% endfor %}
+
+                                if(!encontrado)
+                                    hablar(`No hay compras con el número '${numero}'.`)
+                                hablar(``);
+                                break;
+
+                            case "descargar pdf":
+                                const pdf = speech.split(" ")[speech.split(" ").indexOf("pdf") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                let listo = false;
+                                console.log(pdf);
+                                // {% for compra in compras %}
+                                if(pdf == '{{forloop.counter}}'){
+                                    hablar(`Descargando comprobante PDF de la venta {{forloop.counter}}.`);
+                                    document.getElementById('pdf_{{forloop.counter}}').click();
+                                    listo = true;
+                                }
+                                // {% endfor %}
+
+                                if(!listo){
+                                    hablar("Descargando reporte de ventas en formato PDF.");
+                                    document.getElementById('pdf').click();
+                                }
+                                
+                                break;
+                            
+                            case "descargar mp3":
+                                const mp3 = speech.split(" ")[speech.split(" ").indexOf("mp3") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                let encontrado = false;
+                                console.log(mp3);
+                                // {% for compra in compras %}
+                                if(mp3 == '{{forloop.counter}}'){
+                                    hablar(`Descargando comprobante mp3 de la venta {{forloop.counter}}.`);
+                                    document.getElementById('mp3_{{forloop.counter}}').click();
+                                    encontrado = true;
+                                }
+                                // {% endfor %}
+
+                                if(!encontrado){
+                                    hablar("Descargando reporte de ventas en formato PDF.");
+                                    document.getElementById('pdf').click();
+                                }
+                                
+                                break;
+                            
+                            case "descargar mp 3":
+                                const mp_3 = speech.split(" ")[speech.split(" ").indexOf("3") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                let hecho = false;
+                                console.log(mp_3);
+                                // {% for compra in compras %}
+                                if(mp_3 == '{{forloop.counter}}'){
+                                    hablar(`Descargando comprobante mp3 de la venta {{forloop.counter}}.`);
+                                    document.getElementById('mp3_{{forloop.counter}}').click();
+                                    hecho = true;
+                                }
+                                // {% endfor %}
+
+                                if(!hecho){
+                                    hablar("Descargando reporte de ventas en formato PDF.");
+                                    document.getElementById('pdf').click();
+                                }
+                                
+                                break;
+                        }
+                      }    
+                   });
+                }
+            }
+        }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
+
+        recognition.onerror = (event) => {
+            if(event.error !== 'no-speech'){
+                console.log(event);
+            }
+        }
+
+        function bienvenida(){
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de ventas. Usted tiene {{compras.count}} ventas. Diga "leer compra" seguido del número de compra para obtener una lectura de la misma.');
+                
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+                recognition.start();
+                recognition.addEventListener('end', recognition.start);
+            }
+        }
+
+        function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = () => {speaking = false};
+                synthesis.speak(utterance);
+            }
+        }
+        
+        bienvenida();
+    </script>
 </head>
 <body>
     <h3>Sus Ventas</h3>
@@ -32,8 +271,8 @@
     {% endif %}
 
     <form method="post">
-        <button type="submit">Reporte PDF</button>
-        <button type="submit">Reporte MP3</button>
+        <button id="pdf_{{forloop.counter}}" type="submit">Reporte PDF</button>
+        <button id="mp3_{{forloop.counter}}" type="submit">Reporte MP3</button>
     </form>
     {% endfor %}
 </body>

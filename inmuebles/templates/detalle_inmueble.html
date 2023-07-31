@@ -38,7 +38,7 @@
                    console.log(speech);
                    ["ayuda","iniciar sesión","resultado","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
                    "descargar mp3", "descargar mp 3", "descargar pdf",
-                   /* {% if puede_cita %} */ "agendar cita", /* {% endif %} */ /* {% if puede_comprar %} */ "comprar inmueble", /* {% endif %} */ 
+                   /* {% if puede_cita %} */ "agendar cita", /* {% endif %} */ /* {% if puede_comprar %} */ "yo quiero comprar este inmueble", /* {% endif %} */ 
                    "buscar inmueble", "leer detalles", "cerrar sesión", "leer pantalla", "dictado", "salir", "listo","continuar", "editar"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
@@ -183,7 +183,8 @@
                             // {% endif %}
 
                             // {% if puede_comprar %}
-                            case "comprar inmueble":
+                            case "yo quiero comprar este inmueble":
+                                document.getElementById("comprar").click();
                                 break;
                             // {% endif %}
                         }
