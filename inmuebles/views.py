@@ -130,7 +130,7 @@ def formulario_inmueble(request):
             agente = Persona.objects.first() #! CAMBIAR PARA UN AGENTE ALEATORIO
         )
 
-        return render(request, )
+        return redirect("/")
 
 def get_sectores(request, id):
     return JsonResponse({'res': list(Sector.objects.filter(parroquia__id = id).values())})

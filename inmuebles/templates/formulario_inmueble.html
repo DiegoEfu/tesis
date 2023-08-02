@@ -22,7 +22,13 @@
             ['Descripción', 'descripcion', 'Ingrese la descripción de la publicación. La descripción podrá ser cambiada por el agente. Diga dictado para dictar.'],
             ['Precio', 'precio', 'Ingrese el precio en dólares del inmueble. Diga dictado para dictar.'],
             ['¿Está amueblado?', 'amueblado', 'Responda a la pregunta con "sí" o "no".'],
-            ['¿Tiene estacionamiento?', 'estacionamiento', 'Responda a la pregunta con "sí" o "no".']
+            ['Puestos de estacionamiento', 'estacionamiento', 'Ingrese la cantidad de puestos de estacionamiento. Diga dictado para dictar.'],
+            ['Número de Pisos', 'pisos', 'Ingrese la cantidad de pisos del inmueble. Diga dictado para dictar.'],
+            ['¿Tiene servicio de agua?', 'agua', 'Responda a la pregunta con "sí" o "no".'],
+            ['¿Tiene servicio de electricidad?', 'electricidad', 'Responda a la pregunta con "sí" o "no".'],
+            ['¿Tiene servicio de gas?', 'gas', 'Responda a la pregunta con "sí" o "no".'],
+            ['¿Tiene servicio de aseo?', 'aseo', 'Responda a la pregunta con "sí" o "no".'],
+            ['¿Tiene servicio de internet?', 'internet', 'Responda a la pregunta con "sí" o "no".'],
         ];
         let speaking = true, escribiendo = false, dictando = false, campo = 0;
         let sectores_actuales = [];
@@ -62,7 +68,7 @@
                                 break;
 
                                 case "dictado":
-                                    if([0,4,5,6,7,8,9,10].indexOf(campo) !== -1 && !dictando){
+                                    if([0,4,5,6,7,8,9,10,12,13].indexOf(campo) !== -1 && !dictando){
                                         hablar(`Usted ha dicho dictado. Deletree o dicte con claridad el ${campos[campo][0]}.`);
 
                                         escribiendo = true;
@@ -73,12 +79,12 @@
                                 case "teclado":
                                     hablar(`Usted ha dicho teclado. Escriba su ${campos[campo][0]} y diga 'listo' al terminar.`);
                                     escribiendo = true;
-                                    const input = document.getElementById('id_username');
+                                    const input = document.getElementById(campos[campo][1]);
                                     input.focus();
                                     break;
 
                                 case "continuar":
-                                    if(!escribiendo || campo === 1 || campo === 2 || campo == 3 || campo == 11 || campo == 12){
+                                    if(!escribiendo || campo === 1 || campo === 2 || campo == 3 || campo == 11 || campo >= 14){
                                         campo++;
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
@@ -141,19 +147,43 @@
                                     if(campo === 11){
                                         $('#amueblado').prop("checked", true);
                                         hablar("Usted ha dicho que el inmueble está amueblado. Diga no para cambiar esta opción. Diga continuar para continuar.")
-                                    } else if(campo === 12){
-                                        $('#estacionamiento').prop("checked", true);
-                                        hablar("Usted ha dicho que el inmueble tiene estacionamiento. Diga no para cambiar esta opción. Diga continuar para continuar.")
-                                    }
+                                    } else if(campo === 14){
+                                        $('#agua').prop("checked", true);
+                                        hablar("Usted ha dicho que el inmueble tiene el servicio de agua. Diga no para cambiar esta opción. Diga continuar para continuar.")
+                                    } else if(campo === 15){
+                                        $('#electricidad').prop("checked", true);
+                                        hablar("Usted ha dicho que el inmueble tiene el servicio de electricidad. Diga no para cambiar esta opción. Diga continuar para continuar.")
+                                    } else if(campo === 16){
+                                        $('#gas').prop("checked", true);
+                                        hablar("Usted ha dicho que el inmueble tiene el servicio de gas. Diga no para cambiar esta opción. Diga continuar para continuar.")
+                                    } else if(campo === 17){
+                                        $('#aseo').prop("checked", true);
+                                        hablar("Usted ha dicho que el inmueble tiene el servicio de aseo. Diga no para cambiar esta opción. Diga continuar para continuar.")
+                                    } else if(campo === 18){
+                                        $('#internet').prop("checked", true);
+                                        hablar("Usted ha dicho que el inmueble tiene el servicio de internet. Diga no para cambiar esta opción. Diga continuar para finalizr.")
+                                    }        
                                     break;
                                 
                                 case "no":
                                     if(campo === 11){
-                                        $('#amueblado').prop("checked", true);
-                                        hablar("Usted ha dicho que el inmueble no está amueblado. Diga no para cambiar esta opción. Diga continuar para terminar el formulario.")
-                                    } else if(campo === 12){
-                                        $('#estacionamiento').prop("checked", true);
-                                        hablar("Usted ha dicho que el inmueble no tiene estacionamiento. Diga no para cambiar esta opción. Diga continuar para terminar el formulario.")
+                                        $('#amueblado').prop("checked", false);
+                                        hablar("Usted ha dicho que el inmueble no está amueblado. Diga sí para cambiar esta opción. Diga continuar para terminar el formulario.")
+                                    } else if(campo === 14){
+                                        $('#agua').prop("checked", false);
+                                        hablar("Usted ha dicho que el inmueble no tiene el servicio de agua. Diga sí para cambiar esta opción. Diga continuar para continuar.")
+                                    } else if(campo === 15){
+                                        $('#electricidad').prop("checked", false);
+                                        hablar("Usted ha dicho que el inmueble no tiene el servicio de electricidad. Diga sí para cambiar esta opción. Diga continuar para continuar.")
+                                    } else if(campo === 16){
+                                        $('#gas').prop("checked", false);
+                                        hablar("Usted ha dicho que el inmueble no tiene el servicio de gas. Diga sí para cambiar esta opción. Diga continuar para continuar.")
+                                    } else if(campo === 17){
+                                        $('#aseo').prop("checked", false);
+                                        hablar("Usted ha dicho que el inmueble no tiene el servicio de aseo. Diga sí para cambiar esta opción. Diga continuar para continuar.")
+                                    } else if(campo === 18){
+                                        $('#internet').prop("checked", false);
+                                        hablar("Usted ha dicho que el inmueble no tiene el servicio de internet. Diga sí para cambiar esta opción. Diga continuar para finalizr.")
                                     }
                                     break;
                             }
@@ -163,7 +193,7 @@
                     console.log(dictando);
                     console.log(campo)
 
-                    if(dictando && (campo === 1 || campo === 5)){
+                    if(dictando && (campo === 1 || campo === 5 || campo === 12)){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
@@ -171,8 +201,8 @@
                         if(!isNaN(speech)) // Esto verifica que el string sea numérico
                             $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
 
-                    } else if(dictando && (campo === 4 || campo === 9)){
-                        $(`#${campos[campo][1]}`).val($(`#${campos[campo][1]}`).val() + " " + speech.replace(".",""))
+                    } else if(dictando && (campo === 0 || campo === 4 || campo === 9)){
+                        $(`#${campos[campo][1]}`).val($(`#${campos[campo][1]}`).val() + " " + speech.replace(".","").replace("dictado", "").replace("m2", "metros cuadrados").replace("/4", " cuartos"))
                     }
                     else if(dictando && (campo === 5 || campo === 6 || campo === 7 || campo === 8)){
                         if(/[0-9]+/.test(speech.replaceAll(" ", "")))
@@ -187,7 +217,7 @@
                             $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
-                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace(",",".").replaceAll(" ", ""));
+                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace(".","").replace(",",".").replaceAll(" ", ""));
                     }
 
                     if(campo === 1 && !speaking){
