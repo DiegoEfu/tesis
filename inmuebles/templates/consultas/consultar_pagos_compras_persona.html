@@ -93,8 +93,8 @@
                                 // {% for pago in pagos %}
                                 if(numero == '{{forloop.counter}}'){
                                     hablar(`Este pago se realizó el día {{pago.fecha.date}}. 
-                                        El monto pagado fue de bolívares {{pago.monto}} los cuales fueron al cambio del día {{pago.tasa.tasa}} por dólar, un valor de
-                                        {{pago.valor_dolar|floatformat:2}} dólares.
+                                        El monto pagado fue de bolívares {{pago.monto_texto}} los cuales fueron al cambio del día {{pago.tasa.tasa_texto}} por dólar, un valor de
+                                        {{pago.valor_dolar_texto}} dólares.
                                         Se realizó por transferencia a la cuenta: {{pago.cuenta}},
                                         con una referencia número {{pago.referencia}}.
                                         Usted añadió el comentario: {{pago.comentario}}.
@@ -164,7 +164,7 @@
                 let utterance = new SpeechSynthesisUtterance(`Justo ahora está en la pantalla de consulta de pagos para la compra {{compra.pk}} del inmueble {{compra.inmueble.nombre}}. Usted realizó {{pagos.count}} pagos para esta compra. 
                 {% if compra.estado == 'X' %} Debido a que esta compra fue cancelada, los pagos fueron reembolsados.
                 {% elif compra.estado == 'C' %} Debe esperar a que la compra sea cancelada para recibir su reembolso.
-                {% else %} Usted ha cancelado {{compra.monto_cancelado}} dólares de los {{compra.inmueble.precio}} dólares del costo del inmueble. {% endif %}
+                {% else %} Usted ha cancelado {{compra.monto_cancelado_texto}} dólares de los {{compra.inmueble.precio_texto}} dólares del costo del inmueble. {% endif %}
                 Diga "leer pago" seguido del número de pago para obtener una lectura del mismo. 
                 {% if compra.estado == 'E' %}
                 Diga "registrar nuevo pago" para ir al formulario de registro de pago.

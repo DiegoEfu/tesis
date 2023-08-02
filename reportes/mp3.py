@@ -57,7 +57,7 @@ def reporte_compra_mp3(compra):
     text += f"AGENTE {compra.inmueble.agente}. TITULAR DE LA CÉDULA DE IDENTIDAD {compra.inmueble.agente.cedula()}. TELÉFONO {compra.inmueble.agente.numero_telefono}. "
     text += f"CORREO ELECTRÓNICO {compra.inmueble.agente.usuario_persona.email}. "
 
-    text += f"EL COMPRADOR HA DECIDIDO COMPRAR EL INMUEBLE EN {compra.inmueble.precio} DÓLARES AMERICANOS SUJETOS A MODIFICACIÓN DE ACUERDO A LO ESTABLECIDO EN CITAS Y ACUERDOS PREVIOS."
+    text += f"EL COMPRADOR HA DECIDIDO COMPRAR EL INMUEBLE EN {compra.inmueble.precio_texto} DÓLARES AMERICANOS SUJETOS A MODIFICACIÓN DE ACUERDO A LO ESTABLECIDO EN CITAS Y ACUERDOS PREVIOS."
     text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
 
     TextToSpeech(None, 200, 100).text_to_speech(text, filename)
@@ -69,7 +69,7 @@ def reporte_compras_mp3(request, compras):
 
     for compra in compras:
         text += f"COMPRA NÚMERO {compra.pk}, INMUEBLE {compra.inmueble.nombre}, FECHA {fecha_a_texto(str(compra.fecha.date()))}, "
-        text += f"ESTADO {compra.estado_largo()}, PRECIO {compra.inmueble.precio} DÓLARES. "
+        text += f"ESTADO {compra.estado_largo()}, PRECIO {compra.inmueble.precio_texto} DÓLARES. "
 
     text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
 
@@ -81,7 +81,7 @@ def reporte_pagos_compra_mp3(pagos, compra):
     text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE DE PAGOS DE LA COMPRA {compra.pk}. " 
 
     text += f"COMPRA NÚMERO {compra.pk}, INMUEBLE {compra.inmueble.nombre}, FECHA {fecha_a_texto(str(compra.fecha.date()))}, "
-    text += f"ESTADO {compra.estado_largo()}, PRECIO {compra.inmueble.precio} DÓLARES. "
+    text += f"ESTADO {compra.estado_largo()}, PRECIO {compra.inmueble.precio_texto} DÓLARES. "
 
     text += "LISTA DE PAGOS"
 
@@ -90,8 +90,8 @@ def reporte_pagos_compra_mp3(pagos, compra):
 
     for i,pago in enumerate(pagos):
         text += f"PAGO {i+1}, REFERENCIA {pago.referencia}, FECHA {fecha_a_texto(str(pago.fecha.date()))}, "
-        text += f"CUENTA {pago.cuenta.banco} {pago.cuenta.numero}, MONTO BOLÍVARES {pago.monto}, "
-        text += f"MONTO DÓLARES {round(pago.valor_dolar(), 2)}, ESTADO {pago.estado_largo()}. "
+        text += f"CUENTA {pago.cuenta.banco} {pago.cuenta.numero}, MONTO BOLÍVARES {pago.monto_texto()}, "
+        text += f"MONTO DÓLARES {round(pago.valor_dolar_texto(), 2)}, ESTADO {pago.estado_largo()}. "
 
         if(pago.estado == 'A'):
             total_bs += pago.monto
@@ -108,7 +108,7 @@ def reporte_publicacion_mp3(inmueble):
     filename = f"reportes/mp3/REPORTE_MP3_PUBLICACIÓN.mp3"
     text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE PUBLICACIÓN INMUEBLE {inmueble.nombre}. " 
 
-    text += f"PRECIO: {inmueble.precio} DÓLARES. "
+    text += f"PRECIO: {inmueble.precio_texto} DÓLARES. "
     text += f"PARROQUIA: {inmueble.sector.parroquia.nombre}. "
     text += f"SECTOR: {inmueble.sector.nombre}. "
     text += f"UBICACIÓN DETALLADA: {inmueble.ubicacion_detallada}. "
@@ -137,11 +137,11 @@ def cita_formalidades_mp3(cita):
     text += f". HORA: {cita.fecha_asignada.hour}:00. \n"
 
     text += f"SECCIÓN 2: PAGOS REALIZADOS.\n"
-    text += f"MONTO TOTAL PAGADO POR EL CLIENTE: {cita.compra.monto_cancelado()} DÓLARES.\n"
-    text += f"COMISIÓN DEL 5% DE LA INMOBILIARIA: {cita.compra.comision_inmobiliaria()} DÓLARES.\n"
-    text += f"IMPUESTO AL VALOR AGREGADO IVA 16%: {cita.compra.iva()} DÓLARES.\n"
-    text += f"EXCEDENTE DEL PAGO: {cita.compra.excedente()} DÓLARES.\n"
-    text += f"COMISIÓN DEL DUEÑO 79%: {cita.compra.comision_dueno()} DÓLARES.\n"
+    text += f"MONTO TOTAL PAGADO POR EL CLIENTE: {cita.compra.monto_cancelado_texto()} DÓLARES.\n"
+    text += f"COMISIÓN DEL 5% DE LA INMOBILIARIA: {cita.compra.comision_inmobiliaria_texto()} DÓLARES.\n"
+    text += f"IMPUESTO AL VALOR AGREGADO IVA 16%: {cita.compra.iva_texto()} DÓLARES.\n"
+    text += f"EXCEDENTE DEL PAGO: {cita.compra.excedente_texto()} DÓLARES.\n"
+    text += f"COMISIÓN DEL DUEÑO 79%: {cita.compra.comision_dueno_texto()} DÓLARES.\n"
 
     text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
 

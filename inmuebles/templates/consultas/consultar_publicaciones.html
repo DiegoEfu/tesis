@@ -102,15 +102,15 @@
                                 // {% for publicacion in publicaciones %}
                                 if(numero == '{{forloop.counter}}'){
                                     hablar(`Esta publicación es del inmueble llamado "{{publicacion.nombre}}". Actualmente su estado es "{{publicacion.estado_largo}}".
-                                    {% if publicacion.estado == 'A' %} Tiene un precio de {{publicacion.precio|floatformat:2}}.
-                                    {% elif publicacion.estado == 'R' %} Se encuentra en revisión por el agente asignado. Usted sugirió el precio {{publicacion.precio|floatformat:2}} dólares.
-                                    {% elif publicacion.estado == 'T' %} La persona {{publicacion.compra_activa.comprador}} de cédula de identidad {{publicacion.compra_activa.comprador.cedula}} ha comprado por el precio de {{publicacion.precio|floatformat:2}} dólares.
+                                    {% if publicacion.estado == 'A' %} Tiene un precio de {{publicacion.precio_texto}}.
+                                    {% elif publicacion.estado == 'R' %} Se encuentra en revisión por el agente asignado. Usted sugirió el precio {{publicacion.precio_texto}} dólares.
+                                    {% elif publicacion.estado == 'T' %} La persona {{publicacion.compra_activa.comprador}} de cédula de identidad {{publicacion.compra_activa.comprador.cedula}} ha comprado por el precio de {{publicacion.precio_texto}} dólares.
                                     {% elif publicacion.estado == 'D' %} Su publicación fue denegada. El agente añadió el siguiente comentario: {{publicacion.comentarios_internos}}
                                     {% elif publicacion.estado == 'E' %} Espere a que el agente tome una decisión respecto a su caso. Al tomarse será notificado por correo electrónico.
                                     {% elif publicacion.estado == 'C' %} Espere a que el agente tome una decisión respecto a su caso. Al tomarse será notificado por correo electrónico.
                                     {% elif publicacion.estado == 'X' %} Usted canceló esta publicación.
                                     {% elif publicacion.estado == 'S' %} El comprador ha finalizado el pago de la compra del inmueble. Tiene una cita el {{publicacion.formalidades.fecha_asignada.date}} a las {{publicacion.formalidades.fecha_asignada.hour}} horas.
-                                    {% elif publicacion.estado == 'V' %} El inmueble se vendió en {{publicacion.precio}} dólares.
+                                    {% elif publicacion.estado == 'V' %} El inmueble se vendió en {{publicacion.precio_texto}} dólares.
                                     {% endif %}
                                     Este inmueble se ubica en el sector {{publicacion.sector.nombre}} de la parroquia {{publicacion.sector.parroquia.nombre}}.
                                     Esta publicación tiene el agente asignado: {{publicacion.agente}}. Si tiene alguna duda o pregunta, contáctelo al número de teléfono {{publicacion.agente.numero_telefono}} 

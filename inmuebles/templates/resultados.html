@@ -123,7 +123,7 @@
                             case "leer resultados":
                                 hablar(`{% if resultados.count %} Estos son los {{resultados.count}} resultados de su búsqueda: {% else %} No se han encontrado resultados para su búsqueda. {% endif %}
                                     {% for resultado in resultados %}
-                                    {{forloop.counter}}: {{resultado.nombre}}, sector {{resultado.sector.nombre}}, precio: {{resultado.precio|floatformat:2}} dólares.\n
+                                    {{forloop.counter}}: {{resultado.nombre}}, sector {{resultado.sector.nombre}}, precio: {{resultado.precio_texto}} dólares.\n
                                     {% endfor %}
                                 `);
                                 break;

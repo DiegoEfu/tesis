@@ -92,8 +92,8 @@
                                 // {% for pago in pagos %}
                                 if(numero == '{{forloop.counter}}'){
                                     hablar(`Este pago se realizó el día {{pago.fecha.date}}. 
-                                        El monto pagado fue de bolívares {{pago.monto}} los cuales fueron al cambio del día {{pago.tasa.tasa}} por dólar, un valor de
-                                        {{pago.valor_dolar|floatformat:2}} dólares.
+                                        El monto pagado fue de bolívares {{pago.monto_texto}} los cuales fueron al cambio del día {{pago.tasa.tasa_texto}} por dólar, un valor de
+                                        {{pago.valor_dolar_texto}} dólares.
 
                                         El estado del pago es: {{pago.estado_largo}}.
 
@@ -153,7 +153,7 @@
                 let utterance = new SpeechSynthesisUtterance(`Justo ahora está en la pantalla de consulta de pagos para la venta {{compra.pk}} del inmueble {{compra.inmueble.nombre}}. Se realizaron {{pagos.count}} pagos en esta venta. 
                 {% if compra.estado == 'X' %} Debido a que esta venta fue cancelada, los pagos fueron reembolsados.
                 {% elif compra.estado == 'C' %} Debe esperar a que la venta sea cancelada para recibir otras ventas de este inmueble.
-                {% else %} Se han cancelado {{compra.monto_cancelado}} dólares de los {{compra.inmueble.precio}} dólares del costo del inmueble. {% endif %}
+                {% else %} Se han cancelado {{compra.monto_cancelado_texto}} dólares de los {{compra.inmueble.precio_texto}} dólares del costo del inmueble. {% endif %}
                 Diga "leer pago" seguido del número de pago para obtener una lectura del mismo.`);
                 
                 utterance.voice = voice;

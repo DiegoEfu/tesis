@@ -91,7 +91,7 @@
                                 // {% for compra in compras %}
                                 if(numero == '{{forloop.counter}}'){
                                     hablar(`Esta compra lleva el código interno {{compra.pk}}. Fecha {{compra.fecha.date}}. Estado: {{compra.estado_largo}}
-                                    {% if compra.estado == 'E' %} Usted ha cancelado {{compra.monto_cancelado|floatformat:2}} dólares de {{compra.inmueble.precio}} dólares. 
+                                    {% if compra.estado == 'E' %} Usted ha cancelado {{compra.monto_cancelado_texto}} dólares de {{compra.inmueble.precio_texto}} dólares. 
                                     {% elif compra.estado == 'S' %} Usted ha cancelado la totalidad del precio y debe asistir a la cita de formalidades en el inmueble el día {{compra.cita_formalidades.fecha_asignada}} 
                                     {% elif compra.estado == 'X' %} Esta compra fue cancelada. 
                                     {% elif compra.estado == 'C' %} Esta compra está pendiente por cancelación.
