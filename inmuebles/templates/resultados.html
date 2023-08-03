@@ -123,7 +123,7 @@
                             case "leer resultados":
                                 hablar(`{% if resultados.count %} Estos son los {{resultados.count}} resultados de su búsqueda: {% else %} No se han encontrado resultados para su búsqueda. {% endif %}
                                     {% for resultado in resultados %}
-                                    {{forloop.counter}}: {{resultado.nombre}}, sector {{resultado.sector.nombre}}, precio: {{resultado.precio|floatformat:2}} dólares.\n
+                                    {{forloop.counter}}: {{resultado.nombre}}, sector {{resultado.sector.nombre}}, precio: {{resultado.precio_texto}} dólares.\n
                                     {% endfor %}
                                 `);
                                 break;
@@ -186,7 +186,11 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false;
+                    console.log("LISTO");
+                };
                 synthesis.speak(utterance);
                 recognition.start();
                 recognition.addEventListener('end', recognition.start);
@@ -201,7 +205,11 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false;
+                    console.log("LISTO");
+                };
                 synthesis.speak(utterance);
             }
         }

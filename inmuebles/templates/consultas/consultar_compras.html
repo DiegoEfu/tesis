@@ -91,7 +91,7 @@
                                 // {% for compra in compras %}
                                 if(numero == '{{forloop.counter}}'){
                                     hablar(`Esta compra lleva el código interno {{compra.pk}}. Fecha {{compra.fecha.date}}. Estado: {{compra.estado_largo}}
-                                    {% if compra.estado == 'E' %} Usted ha cancelado {{compra.monto_cancelado|floatformat:2}} dólares de {{compra.inmueble.precio}} dólares. 
+                                    {% if compra.estado == 'E' %} Usted ha cancelado {{compra.monto_cancelado_texto}} dólares de {{compra.inmueble.precio_texto}} dólares. 
                                     {% elif compra.estado == 'S' %} Usted ha cancelado la totalidad del precio y debe asistir a la cita de formalidades en el inmueble el día {{compra.cita_formalidades.fecha_asignada}} 
                                     {% elif compra.estado == 'X' %} Esta compra fue cancelada. 
                                     {% elif compra.estado == 'C' %} Esta compra está pendiente por cancelación.
@@ -172,7 +172,11 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false;
+                    console.log("LISTO");
+                };
                 synthesis.speak(utterance);
                 recognition.start();
                 recognition.addEventListener('end', recognition.start);
@@ -187,7 +191,11 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false;
+                    console.log("LISTO");
+                };
                 synthesis.speak(utterance);
             }
         }
@@ -210,6 +218,17 @@
     {{compra.fecha}} <br>
     {{compra.estado_largo}} <br>
     <a href="{% url 'consultar_pagos_compra' pk=compra.pk %}">Consultar Pagos</a>
+
+    {% if compra.estado == 'E' %}
+    <a href="{% url 'cancelar_compra' pk=compra.pk %}">Cancelar Compra</a>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="compra" value="{{compra.pk}}">
+        <button type="submit" name="tipo" value="mp3">Comprobante MP3</button>
+        <button type="submit" name="tipo" value="pdf">Comprobante PDF</button>
+    </form>
+    {% endif %}
+
     {% endfor %}
 </body>
 </html>

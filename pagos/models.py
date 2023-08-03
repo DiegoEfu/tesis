@@ -1,6 +1,7 @@
 from django.db import models
 from usuarios.models import Persona
 from inmuebles.models import Compra
+from num2words import num2words
 
 # Create your models here.
 
@@ -48,6 +49,9 @@ class Cambio(models.Model):
     fecha = models.DateField(auto_now_add=True)
     tasa = models.DecimalField(max_digits=5, decimal_places=2)
 
+    def tasa_texto(self):
+        return num2words(self.tasa, lang="es")
+
 class Pago(models.Model):
     monto = models.DecimalField(max_digits=15, decimal_places=2)
     comentario = models.TextField()
@@ -61,7 +65,13 @@ class Pago(models.Model):
     fecha_transaccion = models.DateField()
 
     def valor_dolar(self):
-        return self.monto/self.tasa.tasa
+        return round(self.monto/self.tasa.tasa, 2)
+    
+    def valor_dolar_texto(self):
+        return num2words(round(self.monto/self.tasa.tasa, 2), lang="es")
+    
+    def monto_texto(self):
+        return num2words(self.monto, lang="es")
     
     def estado_largo(self):
         for (x,y) in estados:

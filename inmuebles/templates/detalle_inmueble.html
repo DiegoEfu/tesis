@@ -125,7 +125,7 @@
                                 break;
                             
                             case "leer detalles":
-                                hablar(`La publicación del inmueble se llama '{{inmueble.nombre}}'. Tiene un costo de {{inmueble.precio|floatformat:2}} dólares.
+                                hablar(`La publicación del inmueble se llama '{{inmueble.nombre}}'. Tiene un costo de {{inmueble.precio_texto}} dólares.
                                     Fue construido en el año {{inmueble.ano_construccion}}. Es del tipo {{inmueble.tipo_construccion}}. 
                                     Tiene {{inmueble.estacionamientos}} puestos de estacionamiento. Tiene un área de {{inmueble.tamano}} metros cuadrados.
                                     Tiene {{inmueble.habitaciones}} habitaciones. Consta de {{inmueble.pisos}} pisos. Tiene {{inmueble.banos}} baños. {% if inmueble.amueblado %} Está {% else %} No está {% endif %} amoblado.
@@ -221,7 +221,11 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false;
+                    console.log("LISTO");
+                };
                 synthesis.speak(utterance);
                 recognition.start();
                 recognition.addEventListener('end', recognition.start);
@@ -236,7 +240,11 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
-                utterance.onend = () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false;
+                    console.log("LISTO");
+                };
                 synthesis.speak(utterance);
             }
         }

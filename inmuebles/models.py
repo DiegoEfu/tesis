@@ -1,4 +1,5 @@
 from django.db import models
+from num2words import num2words
 
 # Create your models here.
 
@@ -79,6 +80,9 @@ class Inmueble(models.Model):
     def tamano_input(self):
         return str(self.tamano).replace(",",".")
     
+    def precio_texto(self):
+        return num2words(self.precio, lang="es")
+    
     def estado_largo(self):
         for (x,y) in estados_inmueble:
             if(x == self.estado):
@@ -124,6 +128,9 @@ class Compra(models.Model):
     def monto_cancelado(self):
         return sum([round(x.valor_dolar(), 2) for x in self.pagos.filter(estado = "A")] if self.pagos.all().count() else [0])
     
+    def monto_cancelado_texto(self):
+        return num2words(sum([round(x.valor_dolar(), 2) for x in self.pagos.filter(estado = "A")] if self.pagos.all().count() else [0]), lang="es")
+
     def estado_largo(self):
         for (x,y) in estados_compra:
             if(x == self.estado):
@@ -142,6 +149,18 @@ class Compra(models.Model):
     
     def excedente(self):
         return round(float(self.monto_cancelado()) - float(self.inmueble.precio), 2)
+    
+    def comision_inmobiliaria_texto(self):
+        return num2words(round(float(self.inmueble.precio)*0.05, 2), lang="es")
+    
+    def iva_texto(self):
+        return num2words(round(float(self.inmueble.precio)*0.16, 2), lang="es")
+    
+    def comision_dueno_texto(self):
+        return num2words(round(float(self.inmueble.precio)*0.79, 2), lang="es")
+    
+    def excedente_texto(self):
+        return num2words(round(float(self.monto_cancelado()) - float(self.inmueble.precio), 2), lang="es")
     
     def cita_formalidades(self):
         return self.citas.first()
