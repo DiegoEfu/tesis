@@ -410,6 +410,20 @@ def consultar_compras(request):
     if(request.method == 'GET'):
         return render(request, 'consultas/consultar_compras.html', context={'compras': compras.order_by('-fecha')})
     elif(request.method == 'POST'):
+        if(request.POST.get('compra')): # Comprobante compras en espera
+            if(request.POST['tipo'] == 'mp3'):
+                file_path = reporte_compra_mp3(compras.get(pk=request.POST['compra']))
+
+                with open(file_path, 'rb') as fh:
+                    response = HttpResponse(fh.read(), content_type="application/mp3")
+                    response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                    return response
+            elif(request.POST['tipo'] == 'pdf'):
+                compra = compras.get(pk=request.POST.get('compra'))
+                response = generar_pdf(request, 'comprobante_compra', compra, "Comprobante de Compra")
+                response['Content-Disposition'] = f'attachment; filename=COMPROBANTE_COMPRA_{compra.pk}.pdf'
+                return response
+            
         if(request.POST['tipo'] == 'mp3'):
             file_path = reporte_compras_mp3(request, compras)
 
