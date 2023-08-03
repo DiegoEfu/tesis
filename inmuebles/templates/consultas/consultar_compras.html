@@ -218,6 +218,11 @@
     {{compra.fecha}} <br>
     {{compra.estado_largo}} <br>
     <a href="{% url 'consultar_pagos_compra' pk=compra.pk %}">Consultar Pagos</a>
+
+    {% if compra.estado == 'E' %}
+    <a href="{% url 'cancelar_compra' pk=compra.pk %}">Cancelar Compra</a>
+    {% endif %}
+
     {% endfor %}
 </body>
 </html>

@@ -469,6 +469,16 @@ def consultar_pagos_compras(request,pk): # Para USUARIOS NORMALES
             response['Content-Disposition'] = f'attachment; filename=REPORTE_PAGOS_{compra.pk}.pdf'
             return response
 
+def cancelar_compra(request,pk):
+    compra = Compra.objects.get(pk=pk)
+    if(request.method == 'GET'):
+        return render(request, 'cancelacion/cancelacion_compra.html', context={'compra': compra})
+    elif(request.method == 'POST'):
+        if(compra.estado == 'E'):
+            compra.estado = 'C'
+            compra.save()
+            return render(request, 'cancelacion/espera_cancelacion_compra.html', context={'compra': compra})
+
 # Funciones Auxiliares:
 
 def buscar_coincidencias(busqueda):
