@@ -9,6 +9,7 @@
     <script>
         const synthesis = window.speechSynthesis;
         let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        let utterance = undefined;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -156,7 +157,7 @@
 
         function bienvenida(){
             if ('speechSynthesis' in window) {
-                let utterance = new SpeechSynthesisUtterance('{% if request.user.is_aunthenticated %}Bienvenido, {{request.user.persona.nombre}}. {% endif %}' + 'Justo ahora está en la pantalla de bienvenida.' 
+                utterance = new SpeechSynthesisUtterance('{% if request.user.is_aunthenticated %}Bienvenido, {{request.user.persona.nombre}}. {% endif %}' + 'Justo ahora está en la pantalla de bienvenida.' 
                     + ' Si quiere saber los comandos disponibles diga "ayuda".');
                 
                 utterance.voice = voice;
@@ -177,7 +178,7 @@
         function hablar(texto){
             if ('speechSynthesis' in window) {
                 speaking = true;
-                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance = new SpeechSynthesisUtterance(texto);
                 utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
@@ -189,6 +190,11 @@
                 };
                 synthesis.speak(utterance);
             }
+        }
+        
+        window.onbeforeunload = function () {
+            synthesis.cancel();
+            recognition.stop();
         }
         
         bienvenida();

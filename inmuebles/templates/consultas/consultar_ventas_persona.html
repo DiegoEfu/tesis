@@ -249,6 +249,11 @@
             }
         }
         
+        window.onbeforeunload = function () {
+            synthesis.cancel();
+            recognition.stop();
+        }
+        
         bienvenida();
     </script>
 </head>

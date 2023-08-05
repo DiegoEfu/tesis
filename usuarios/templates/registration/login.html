@@ -198,7 +198,12 @@
         }
         
         if({{form.errors|length}} === 0)
-            bienvenida();
+            window.onbeforeunload = function () {
+            synthesis.cancel();
+            recognition.stop();
+        }
+        
+        bienvenida();
         else
             bienvenida(1);
         
