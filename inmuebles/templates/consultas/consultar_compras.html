@@ -37,7 +37,8 @@
                    speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
                    console.log(speech);
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "pagos compra", "leer compra", "salir"].forEach(comando => {
+                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "pagos compra",
+                   "leer compra", "cancelar compra", "salir"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -127,18 +128,104 @@
                                 break;
 
                             case "descargar pdf":
-                                hablar("Descargando reporte de compras en formato PDF.");
-                                document.getElementById('pdf').click();
+                                const pdf = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                let final = false;
+
+                                // {% for compra in compras %}
+                                if(pdf == '{{forloop.counter}}'){
+                                    // {% if compra.estado == 'E' %}
+                                    hablar("Descargando comprobante de la compra en formato pdf.");
+                                    document.getElementById('pdf_{{compra.pk}}').click();
+                                    // {% else %}
+                                    hablar("La compra especificada no tiene disponible un comprobante debido a su estado: {{compra.estado_largo}}");
+                                    // {% endif %}
+                                    final = true;
+                                }
+                                // {% endfor %}
+
+                                if(!final){
+                                    hablar("Descargando reporte de compras en formato pdf.");
+                                    document.getElementById('pdf').click();
+                                }
+
                                 break;
                             
                             case "descargar mp3":
-                                hablar("Descargando reporte de compras en formato MP3.");
-                                document.getElementById('mp3').click();
+                                const mp3 = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                let completo = false;
+
+                                // {% for compra in compras %}
+                                if(mp3 == '{{forloop.counter}}'){
+                                    // {% if compra.estado == 'E' %}
+                                    hablar("Descargando comprobante de la compra en formato MP3.");
+                                    document.getElementById('mp3_{{compra.pk}}').click();
+                                    // {% else %}
+                                    hablar("La compra especificada no tiene disponible un comprobante debido a su estado: {{compra.estado_largo}}");
+                                    // {% endif %}
+                                    completo = true;
+                                }
+                                // {% endfor %}
+
+                                if(!completo){
+                                    hablar("Descargando reporte de compras en formato MP3.");
+                                    document.getElementById('mp3').click();
+                                }
+
                                 break;
                             
-                            case "descargar mp 3": 
-                                hablar("Descargando reporte de compras en formato MP3.");
-                                document.getElementById('mp3').click();
+                            case "descargar mp 3":
+                                const mp_3 = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                let listo = false;
+
+                                // {% for compra in compras %}
+                                if(mp_3 == '{{forloop.counter}}'){
+                                    // {% if compra.estado == 'E' %}
+                                    hablar("Descargando comprobante de la compra en formato MP3.");
+                                    document.getElementById('mp3_{{compra.pk}}').click();
+                                    // {% else %}
+                                    hablar("La compra especificada no tiene disponible un comprobante debido a su estado: {{compra.estado_largo}}");
+                                    // {% endif %}
+                                    listo = true;
+                                }
+                                // {% endfor %}
+
+                                if(!listo){
+                                    hablar("Descargando reporte de compras en formato MP3.");
+                                    document.getElementById('mp3').click();
+                                }
+
+                                break;
+                        
+                            case "cancelar compra":
+                                const cancelar = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
+                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1");
+                                let hecho = false;
+                                console.log(cancelar);
+                                // {% for compra in compras %}
+                                if(cancelar == '{{forloop.counter}}'){
+                                    // {% if compra.estado == 'E' %}
+                                    hablar(`Redirigiendo a la pantalla de cancelación de la compra.`);
+                                    window.location.replace("/inmuebles/compra/cancelar/{{compra.pk}}/");
+                                    hecho = true;
+                                    // {% else %}
+                                    hablar("La compra especificada no puede ser cancelada debido a su estado: {{compra.estado_largo}}");
+                                    // {% endif %}
+                                }
+                                // {% endfor %}
+
+                                if(!hecho)
+                                    hablar(`No hay compra con el número '${numero}'.`)
                                 break;
                         }
                       }    
@@ -224,8 +311,8 @@
     <form method="post">
         {% csrf_token %}
         <input type="hidden" name="compra" value="{{compra.pk}}">
-        <button type="submit" name="tipo" value="mp3">Comprobante MP3</button>
-        <button type="submit" name="tipo" value="pdf">Comprobante PDF</button>
+        <button type="submit" id="mp3_{{compra.pk}}" name="tipo" value="mp3">Comprobante MP3</button>
+        <button type="submit" id="pdf_{{compra.pk}}" name="tipo" value="pdf">Comprobante PDF</button>
     </form>
     {% endif %}
 
