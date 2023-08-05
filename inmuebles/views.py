@@ -494,14 +494,14 @@ def cancelar_compra(request,pk):
             return render(request, 'cancelacion/espera_cancelacion_compra.html', context={'compra': compra})
 
 def cancelar_publicacion(request,pk):
-    inmueble = Inmueble.objects.get(pk=pk)
+    publicacion = Inmueble.objects.get(pk=pk)
     if(request.method == 'GET'):
-        return render(request, 'cancelacion/cancelacion_inmueble.html', context={'inmueble': inmueble})
+        return render(request, 'cancelacion/cancelacion_publicacion.html', context={'publicacion': publicacion})
     elif(request.method == 'POST'):
-        if(inmueble.estado == 'E'):
-            inmueble.estado = 'C'
-            inmueble.save()
-            return render(request, 'cancelacion/espera_cancelacion_inmueble.html', context={'inmueble': inmueble})
+        if(publicacion.estado == 'A' or publicacion.estado == 'R'):
+            publicacion.estado = 'C'
+            publicacion.save()
+            return render(request, 'cancelacion/espera_cancelacion_publicacion.html', context={'publicacion': publicacion})
 
 def cancelar_venta(request,pk):
     venta = Compra.objects.get(pk=pk)
@@ -511,7 +511,7 @@ def cancelar_venta(request,pk):
         if(venta.estado == 'E'):
             venta.estado = 'C'
             venta.save()
-            return render(request, 'cancelacion/espera_cancelacion_compra.html', context={'compra': compra})
+            return render(request, 'cancelacion/espera_cancelacion_venta.html', context={'venta': venta})
 
 # Funciones Auxiliares:
 
