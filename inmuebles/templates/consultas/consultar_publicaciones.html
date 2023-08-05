@@ -19,6 +19,7 @@
             "descargar pdf": "Descarga el reporte PDF de la publicación especificada.",
             "descargar mp3": "Descarga el reporte MP3 de la publicación especificada.",
             "crear nueva publicación": "Lleva al formulario de creación de nueva publicación",
+            "cancelar publicación": "Lleva a la pantalla de cancelación si la publicación está activa o en revisión",
             // {% if not request.user.is_authenticated %}
             "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
             // {% else %}
@@ -37,7 +38,7 @@
                    speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
                    console.log(speech);
                    ["crear nueva publicación", "ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer publicación", "salir"].forEach(comando => {
+                   "cancelar publicación", "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer publicación", "salir"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -164,6 +165,30 @@
 
                                 hablar(`No hay una publicación con el número ${mp_3}.`);
                                 break;
+                        
+                            case "cancelar publicación":
+                                    const cancelar = speech.split(" ")[speech.split(" ").indexOf("publicación") + 1].replace(/[.,]/g,"")
+                                    .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                    .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                    .replace("nueve","9").replace("uno","1").replace("una","1");
+                                    let fin = false;
+                                    console.log(cancelar);
+                                    // {% for publicacion in publicaciones %}
+                                    console.log('{{forloop.counter}}');
+                                    if(cancelar == '{{forloop.counter}}'){
+                                        // {% if publicacion.estado == 'R' or publicacion.estado == 'A' %}
+                                        hablar(`Redirigiendo a la pantalla de cancelación de la publicacion.`);
+                                        window.location.replace("/inmuebles/cancelar/publicacion/{{publicacion.pk}}/");
+                                        // {% else %}
+                                        hablar("La publicacion especificada no puede ser cancelada debido a su estado: {{compra.estado_largo}}");
+                                        // {% endif %}
+                                        fin = true;
+                                    }
+                                    // {% endfor %}
+
+                                    if(!fin)
+                                        hablar(`No hay publicacion con el número '${cancelar}'.`)
+                                    break;
                         }
                       }    
                    });
@@ -243,6 +268,9 @@
     <b>Ubicación detallada: </b> {{publicacion.ubicacion_detallada}}
     <b>Agente Asignado:</b> {{publicacion.agente}} ({{publicacion.agente.cedula}})
     <b>Estado de la Publicación:</b> {{publicacion.estado_largo}}
+    {% if publicacion.estado == 'A' or publicacion.estado == 'R' %}
+    <a href="{% url 'cancelar_publicacion' pk=publicacion.pk %}">Cancelar publicación</a>
+    {% endif %}
     {% endfor %}
 </body>
 </html>

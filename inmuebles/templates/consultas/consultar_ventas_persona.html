@@ -19,6 +19,7 @@
             "pagos compra": "Seguido de un número redirige a la pantalla de pagos de la compra especificada.",
             "descargar pdf": "Descarga el reporte PDF de la compra",
             "descargar mp3": "Descarga el reporte MP3 de la compra",
+            "cancelar venta": "Seguido del número en la lista de la venta, puede cancelarla si está en espera",
             // {% if not request.user.is_authenticated %}
             "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
             // {% else %}
@@ -37,7 +38,7 @@
                    speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
                    console.log(speech);
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "pagos compra", "leer compra", "salir"].forEach(comando => {
+                   "cancelar venta", "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "pagos venta", "leer venta", "salir"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -74,21 +75,21 @@
                                 break;
                                                         
                             case "leer pantalla":
-                                hablar(`Esta es la pantalla de consultas de compras. Usted ha realizado {{compras.count}} compras. La pantalla está dividida en las siguientes secciones:
+                                hablar(`Esta es la pantalla de consultas de compras. Usted ha realizado {{ventas.count}} ventas. La pantalla está dividida en las siguientes secciones:
                                     1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
                                     2. Sección de Reportes: Aquí se muestran las opciones de reportes tanto en formato PDF como MP3.
-                                    3. Sección de Compras: Aquí se muestra la lista de compras realizadas por su persona, diga "leer compra" seguido del número de compra para escuchar la información.
+                                    3. Sección de Ventas: Aquí se muestra la lista de ventas realizadas por su persona, diga "leer venta" seguido del número de venta para escuchar la información.
                                 `);
                                 break;
                             
                             case "leer venta":
-                                const numero = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
+                                const numero = speech.split(" ")[speech.split(" ").indexOf("venta") + 1].replace(/[.,]/g,"")
                                 .replace("dos","2").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 let pasado = false;
                                 console.log(numero);
-                                // {% for compra in compras %}
+                                // {% for compra in ventas %}
                                 if(numero == '{{forloop.counter}}'){
                                     hablar(`Esta venta lleva el código interno {{compra.pk}}. Fecha {{compra.fecha.date}}. Estado: {{compra.estado_largo}}
                                     {% if compra.estado == 'E' %} El comprador ha cancelado {{compra.monto_cancelado_texto}} dólares de {{compra.inmueble.precio_texto}} dólares. 
@@ -109,12 +110,12 @@
                                 break;
                             
                             case "pagos venta":
-                                const compra = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
+                                const compra = speech.split(" ")[speech.split(" ").indexOf("venta") + 1].replace(/[.,]/g,"")
                                 .replace("dos","2").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 console.log(compra);
-                                // {% for compra in compras %}
+                                // {% for compra in ventas %}
                                 if(compra == '{{forloop.counter}}'){
                                     hablar(`Redirigiendo a la consulta de pagos de la compra.`);
                                     window.location.replace("/inmuebles/consultar/pagos/venta/{{compra.pk}}/");
@@ -134,7 +135,7 @@
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 let listo = false;
                                 console.log(pdf);
-                                // {% for compra in compras %}
+                                // {% for compra in ventas %}
                                 if(pdf == '{{forloop.counter}}'){
                                     hablar(`Descargando comprobante PDF de la venta {{forloop.counter}}.`);
                                     document.getElementById('pdf_{{forloop.counter}}').click();
@@ -156,7 +157,7 @@
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 let encontrado = false;
                                 console.log(mp3);
-                                // {% for compra in compras %}
+                                // {% for compra in ventas %}
                                 if(mp3 == '{{forloop.counter}}'){
                                     hablar(`Descargando comprobante mp3 de la venta {{forloop.counter}}.`);
                                     document.getElementById('mp3_{{forloop.counter}}').click();
@@ -178,7 +179,7 @@
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 let hecho = false;
                                 console.log(mp_3);
-                                // {% for compra in compras %}
+                                // {% for compra in ventas %}
                                 if(mp_3 == '{{forloop.counter}}'){
                                     hablar(`Descargando comprobante mp3 de la venta {{forloop.counter}}.`);
                                     document.getElementById('mp3_{{forloop.counter}}').click();
@@ -192,6 +193,30 @@
                                 }
                                 
                                 break;
+                        
+                            case "cancelar venta":
+                                    const cancelar = speech.split(" ")[speech.split(" ").indexOf("venta") + 1].replace(/[.,]/g,"")
+                                    .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                    .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                    .replace("nueve","9").replace("uno","1").replace("una","1");
+                                    let fin = false;
+                                    console.log(cancelar);
+                                    // {% for compra in ventas %}
+                                    console.log('{{forloop.counter}}');
+                                    if(cancelar == '{{forloop.counter}}'){
+                                        // {% if compra.estado == 'E' %}
+                                        hablar(`Redirigiendo a la pantalla de cancelación de la venta.`);
+                                        window.location.replace("/inmuebles/cancelar/venta/{{compra.pk}}/");
+                                        // {% else %}
+                                        hablar("La venta especificada no puede ser cancelada debido a su estado: {{compra.estado_largo}}");
+                                        // {% endif %}
+                                        fin = true;
+                                    }
+                                    // {% endfor %}
+
+                                    if(!fin)
+                                        hablar(`No hay venta con el número '${cancelar}'.`)
+                                    break;
                         }
                       }    
                    });
@@ -276,7 +301,7 @@
     <b>Monto cancelado ($):</b> $ {{compra.monto_cancelado|floatformat:2}} / $ {{compra.inmueble.precio}}<br>
 
     {% if compra.estado == 'E' %}
-    <a href="#">Cancelar</a>
+    <a href="{% url 'cancelar_venta' pk=compra.pk %}">Cancelar</a>
     {% endif %}
 
     {% if compra.pagos.all.count %}
