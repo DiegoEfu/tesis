@@ -50,7 +50,9 @@
                                 }
                                 break;
                             
+                            // {% if request.user.is_authenticated %}
                             case "consultar compras":
+
                                 hablar("Redirigiendo a la pantalla de compras.");
                                 location.replace("/inmuebles/consultar/compras/");
                                 break;
@@ -69,6 +71,7 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
+// {%endif%}
                                                         
                             case "leer pantalla":
                                 hablar(`Esta es la pantalla de contrato de compraventa del inmueble. La pantalla está dividida en las siguientes secciones:

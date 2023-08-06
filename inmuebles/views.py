@@ -148,7 +148,12 @@ def resultados(request):
 def detallar_inmueble(request, pk):
     inmueble = Inmueble.objects.get(pk=pk)
     if(request.method == 'GET'):
-        return render(request, "detalle_inmueble.html", context={'inmueble': inmueble, 'busqueda': request.session['busqueda'], 'puede_cita': not Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "E").exists(), 'puede_comprar': Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "F").exists()})
+        if(request.user.is_authenticated):
+            context={'inmueble': inmueble, 'busqueda': request.session['busqueda'], 'puede_cita': not Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "E").exists(), 'puede_comprar': Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "F").exists()}
+        else:
+            context={'inmueble': inmueble, 'busqueda': request.session['busqueda'], 'puede_cita': False, 'puede_comprar': False}
+        
+        return render(request, "detalle_inmueble.html", context=context)
     elif(request.method == 'POST'):
         if(request.POST.get('busqueda')):
             busqueda = request.POST.get('busqueda').strip().lower()
