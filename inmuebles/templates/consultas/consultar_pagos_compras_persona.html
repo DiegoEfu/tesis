@@ -55,7 +55,9 @@
                                 }
                                 break;
                             
+                            // {% if request.user.is_authenticated %}
                             case "consultar compras":
+
                                 hablar("Redirigiendo a la pantalla de compras.");
                                 location.replace("/inmuebles/consultar/compras/");
                                 break;
@@ -74,6 +76,7 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
+// {%endif%}
                                                         
                             case "leer pantalla":
                                 hablar(`Esta es la pantalla de consultas de pagos de sus compras. Usted ha realizado {{compras.count}} compras. La pantalla está dividida en las siguientes secciones:
@@ -174,7 +177,12 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false;
                     console.log("LISTO");
@@ -193,6 +201,9 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async () => {speaking = false};
                 synthesis.speak(utterance);
             }

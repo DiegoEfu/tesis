@@ -1,30 +1,10 @@
-import pyttsx3
+from gtts import gTTS
+import os
 from datetime import datetime
-
-class TextToSpeech:
-    engine: pyttsx3.Engine
-
-    def __init__(self, voice, rate, volume):
-        self.engine = pyttsx3.init()
-        if voice:
-            self.engine.setProperty("voice", voice)
-        
-        self.engine.setProperty('rate', rate)
-        self.engine.setProperty('volume', volume)
-    
-    def list_available_voices(self):
-        voices: list = [self.engine.getProperty('voices')]
-
-        for i,voice in enumerate(voices[0]):
-            print(f'{i+1} {voice.name}: {voice.languages} ({voice.id})')
-
-    def text_to_speech(self, text, filename="reporte.mp3"):
-        self.engine.save_to_file(text, filename)
-        self.engine.runAndWait()
 
 def reporte_cita_mp3(cita):
     filename = f"reportes/mp3/REPORTE_MP3_CITA_{cita.pk}.mp3"
-    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. COMPROBANTE EN FORMATO MP3 DE CITA DE VISITA. " 
+    text =  f"INMUEBLES incaibo. {fecha_a_texto(str(datetime.now().date()))}. COMPROBANTE EN FORMATO MP3 DE CITA DE VISITA. " 
     text += f"DEBE LLEVAR ESTE COMPROBANTE EL DÍA DE LA CITA PARA SER ADMITIDO EN LA VISITA AL INMUEBLE. "
     text += f"INMUEBLE A VISITAR: {cita.inmueble.nombre}. "
     text += f"SECTOR DEL INMUEBLE: {cita.inmueble.sector.nombre}. "
@@ -40,12 +20,13 @@ def reporte_cita_mp3(cita):
 
     text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
 
-    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    audio = gTTS(text=text,lang="es",slow=False)
+    audio.save(filename)
     return filename
 
 def reporte_compra_mp3(compra):
     filename = f"reportes/mp3/REPORTE_MP3_COMPRA_{compra.pk}.mp3"
-    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. COMPROBANTE EN FORMATO MP3 DE COMPRA DE INMUEBLE. " 
+    text =  f"INMUEBLES incaibo. {fecha_a_texto(str(datetime.now().date()))}. COMPROBANTE EN FORMATO MP3 DE COMPRA DE INMUEBLE. " 
     text += f"NÚMERO DE COMPRA: {compra.pk}. "
 
     text += f"EL DÍA {fecha_a_texto(str(compra.fecha.date()))} LA PERSONA {compra.comprador.nombre} {compra.comprador.apellido}. "
@@ -57,31 +38,33 @@ def reporte_compra_mp3(compra):
     text += f"AGENTE {compra.inmueble.agente}. TITULAR DE LA CÉDULA DE IDENTIDAD {compra.inmueble.agente.cedula()}. TELÉFONO {compra.inmueble.agente.numero_telefono}. "
     text += f"CORREO ELECTRÓNICO {compra.inmueble.agente.usuario_persona.email}. "
 
-    text += f"EL COMPRADOR HA DECIDIDO COMPRAR EL INMUEBLE EN {compra.inmueble.precio_texto} DÓLARES AMERICANOS SUJETOS A MODIFICACIÓN DE ACUERDO A LO ESTABLECIDO EN CITAS Y ACUERDOS PREVIOS."
+    text += f"EL COMPRADOR HA DECIDIDO COMPRAR EL INMUEBLE EN {compra.inmueble.precio_texto()} DÓLARES AMERICANOS SUJETOS A MODIFICACIÓN DE ACUERDO A LO ESTABLECIDO EN CITAS Y ACUERDOS PREVIOS."
     text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
 
-    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    audio = gTTS(text=text,lang="es",slow=False)
+    audio.save(filename)
     return filename
 
 def reporte_compras_mp3(request, compras):
     filename = f"reportes/mp3/REPORTE_MP3_COMPRAS.mp3"
-    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE DE COMPRAS DEL USUARIO {request.user.persona}. " 
+    text =  f"INMUEBLES incaibo. {fecha_a_texto(str(datetime.now().date()))}. REPORTE DE COMPRAS DEL USUARIO {request.user.persona}. " 
 
     for compra in compras:
         text += f"COMPRA NÚMERO {compra.pk}, INMUEBLE {compra.inmueble.nombre}, FECHA {fecha_a_texto(str(compra.fecha.date()))}, "
-        text += f"ESTADO {compra.estado_largo()}, PRECIO {compra.inmueble.precio_texto} DÓLARES. "
+        text += f"ESTADO {compra.estado_largo()}, PRECIO {compra.inmueble.precio_texto()} DÓLARES. "
 
     text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
 
-    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    audio = gTTS(text=text,lang="es",slow=False)
+    audio.save(filename)
     return filename
 
 def reporte_pagos_compra_mp3(pagos, compra):
     filename = f"reportes/mp3/REPORTE_MP3_PAGOS.mp3"
-    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE DE PAGOS DE LA COMPRA {compra.pk}. " 
+    text =  f"INMUEBLES incaibo. {fecha_a_texto(str(datetime.now().date()))}. REPORTE DE PAGOS DE LA COMPRA {compra.pk}. " 
 
     text += f"COMPRA NÚMERO {compra.pk}, INMUEBLE {compra.inmueble.nombre}, FECHA {fecha_a_texto(str(compra.fecha.date()))}, "
-    text += f"ESTADO {compra.estado_largo()}, PRECIO {compra.inmueble.precio_texto} DÓLARES. "
+    text += f"ESTADO {compra.estado_largo()}, PRECIO {compra.inmueble.precio_texto()} DÓLARES. "
 
     text += "LISTA DE PAGOS"
 
@@ -101,14 +84,15 @@ def reporte_pagos_compra_mp3(pagos, compra):
 
     text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
 
-    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    audio = gTTS(text=text,lang="es",slow=False)
+    audio.save(filename)
     return filename
 
 def reporte_publicacion_mp3(inmueble):
     filename = f"reportes/mp3/REPORTE_MP3_PUBLICACIÓN.mp3"
-    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE PUBLICACIÓN INMUEBLE {inmueble.nombre}. " 
+    text =  f"INMUEBLES incaibo. {fecha_a_texto(str(datetime.now().date()))}. REPORTE PUBLICACIÓN INMUEBLE {inmueble.nombre}. " 
 
-    text += f"PRECIO: {inmueble.precio_texto} DÓLARES. "
+    text += f"PRECIO: {inmueble.precio_texto()} DÓLARES. "
     text += f"PARROQUIA: {inmueble.sector.parroquia.nombre}. "
     text += f"SECTOR: {inmueble.sector.nombre}. "
     text += f"UBICACIÓN DETALLADA: {inmueble.ubicacion_detallada}. "
@@ -125,12 +109,13 @@ def reporte_publicacion_mp3(inmueble):
 
     text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
 
-    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    audio = gTTS(text=text,lang="es",slow=False)
+    audio.save(filename)
     return filename
 
 def cita_formalidades_mp3(cita):
     filename = f"reportes/mp3/REPORTE_MP3_FORMALIZACION_{cita.pk}.mp3"
-    text =  f"INMUEBLES INCAIBO. {fecha_a_texto(str(datetime.now().date()))}. REPORTE FORMALIZACIÓN FINAL INMUEBLE NÚMERO {cita.compra.inmueble.pk} COMPRA NÚMERO {cita.compra.pk}. " 
+    text =  f"INMUEBLES incaibo. {fecha_a_texto(str(datetime.now().date()))}. REPORTE FORMALIZACIÓN FINAL INMUEBLE NÚMERO {cita.compra.inmueble.pk} COMPRA NÚMERO {cita.compra.pk}. " 
 
     text += f"SECCIÓN 1: DATOS DE LA CITA FINAL.\n"
     text += f"DÍA: {fecha_a_texto(str(cita.fecha_asignada.date()))}"
@@ -145,7 +130,8 @@ def cita_formalidades_mp3(cita):
 
     text += f"FIN DEL REPORTE. LA MODIFICACIÓN DE ESTE DOCUMENTO DIGITAL ESTÁ PROHIBIDA."
 
-    TextToSpeech(None, 200, 100).text_to_speech(text, filename)
+    audio = gTTS(text=text,lang="es",slow=False)
+    audio.save(filename)
     return filename
 
 def fecha_a_texto(fecha):

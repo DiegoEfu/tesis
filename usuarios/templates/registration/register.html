@@ -238,7 +238,12 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false;
                     console.log("LISTO");
@@ -257,7 +262,12 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false;
                     console.log("LISTO");
@@ -266,15 +276,16 @@
             }
         }
 
-        if({{errores|length}} === 0)
-            window.onbeforeunload = function () {
+        window.onbeforeunload = function () {
             synthesis.cancel();
             recognition.stop();
         }
-        
-        bienvenida();
+
+        if({{errores|length}} === 0)
+            bienvenida();
         else
             bienvenida(1);
+
     </script>
 </head>
 <body>

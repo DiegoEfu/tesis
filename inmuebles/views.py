@@ -148,7 +148,12 @@ def resultados(request):
 def detallar_inmueble(request, pk):
     inmueble = Inmueble.objects.get(pk=pk)
     if(request.method == 'GET'):
-        return render(request, "detalle_inmueble.html", context={'inmueble': inmueble, 'busqueda': request.session['busqueda'], 'puede_cita': not Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "E").exists(), 'puede_comprar': Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "F").exists()})
+        if(request.user.is_authenticated):
+            context={'inmueble': inmueble, 'busqueda': request.session['busqueda'], 'puede_cita': not Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "E").exists(), 'puede_comprar': Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "F").exists()}
+        else:
+            context={'inmueble': inmueble, 'busqueda': request.session['busqueda'], 'puede_cita': False, 'puede_comprar': False}
+        
+        return render(request, "detalle_inmueble.html", context=context)
     elif(request.method == 'POST'):
         if(request.POST.get('busqueda')):
             busqueda = request.POST.get('busqueda').strip().lower()
@@ -492,6 +497,26 @@ def cancelar_compra(request,pk):
             compra.estado = 'C'
             compra.save()
             return render(request, 'cancelacion/espera_cancelacion_compra.html', context={'compra': compra})
+
+def cancelar_publicacion(request,pk):
+    publicacion = Inmueble.objects.get(pk=pk)
+    if(request.method == 'GET'):
+        return render(request, 'cancelacion/cancelacion_publicacion.html', context={'publicacion': publicacion})
+    elif(request.method == 'POST'):
+        if(publicacion.estado == 'A' or publicacion.estado == 'R'):
+            publicacion.estado = 'C'
+            publicacion.save()
+            return render(request, 'cancelacion/espera_cancelacion_publicacion.html', context={'publicacion': publicacion})
+
+def cancelar_venta(request,pk):
+    venta = Compra.objects.get(pk=pk)
+    if(request.method == 'GET'):
+        return render(request, 'cancelacion/cancelacion_venta.html', context={'venta': venta})
+    elif(request.method == 'POST'):
+        if(venta.estado == 'E'):
+            venta.estado = 'C'
+            venta.save()
+            return render(request, 'cancelacion/espera_cancelacion_venta.html', context={'venta': venta})
 
 # Funciones Auxiliares:
 

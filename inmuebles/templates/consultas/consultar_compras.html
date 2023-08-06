@@ -55,7 +55,9 @@
                                 }
                                 break;
                             
+                            // {% if request.user.is_authenticated %}
                             case "consultar compras":
+
                                 hablar("Redirigiendo a la pantalla de compras.");
                                 location.replace("/inmuebles/consultar/compras/");
                                 break;
@@ -74,6 +76,7 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
+// {%endif%}
                                                         
                             case "leer pantalla":
                                 hablar(`Esta es la pantalla de consultas de compras. Usted ha realizado {{compras.count}} compras. La pantalla está dividida en las siguientes secciones:
@@ -235,7 +238,12 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false;
                     console.log("LISTO");
@@ -254,7 +262,12 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false;
                     console.log("LISTO");
@@ -295,6 +308,7 @@
         <button type="submit" id="mp3_{{compra.pk}}" name="tipo" value="mp3">Comprobante MP3</button>
         <button type="submit" id="pdf_{{compra.pk}}" name="tipo" value="pdf">Comprobante PDF</button>
     </form>
+    <a href="{% url 'formulario_registro_pago' pk=compra.pk %}">Pagar</a>
     {% endif %}
 
     {% endfor %}

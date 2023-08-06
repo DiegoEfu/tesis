@@ -51,7 +51,9 @@
                                 }
                                 break;
                             
+                            // {% if request.user.is_authenticated %}
                             case "consultar compras":
+
                                 hablar("Redirigiendo a la pantalla de compras.");
                                 location.replace("/inmuebles/consultar/compras/");
                                 break;
@@ -70,6 +72,7 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
+// {%endif%}
 
                             case "iniciar sesión":
                                 hablar("Redirigiendo a la pantalla de inicio de sesión.");
@@ -129,7 +132,7 @@
                                 break;
                             
                             case "resultado":
-                                const numero = speech.split(" ")[speech.split(" ").indexOf("resultado") + 2].replace(/[.,]/g,"");
+                                const numero = speech.split(" ")[speech.split(" ").indexOf("resultado") + 1].replace(/[.,]/g,"");
                                 let pasado = false;
                                 console.log(numero);
                                 // {% for resultado in resultados %}
@@ -186,7 +189,12 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false;
                     console.log("LISTO");
@@ -205,7 +213,12 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false;
                     console.log("LISTO");
