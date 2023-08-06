@@ -49,7 +49,7 @@
 
         function formulario_p1(event){
             for (var i = event.resultIndex; i < event.results.length; i++) {
-                if (event.results[i].isFinal){
+                if (event.results[i].isFinal && !speaking){
                    speech = event.results[i][0].transcript;
                    console.log(speech);
                     
@@ -369,6 +369,8 @@
                 utterance.rate = 1;
                 utterance.volume = 1;
                 utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false;
                     console.log("LISTO");
@@ -377,13 +379,13 @@
             }
         }
 
-        if({{errores|length}} === 0)
-            window.onbeforeunload = function () {
+        window.onbeforeunload = function () {
             synthesis.cancel();
             recognition.stop();
         }
-        
-        bienvenida();
+
+        if({{errores|length}} === 0)        
+            bienvenida();
         else
             bienvenida(1);
 

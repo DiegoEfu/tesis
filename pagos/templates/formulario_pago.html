@@ -8,7 +8,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 
-    <script> <!--HAY QUE EDITAR EL FORMULARIO-->
+    <script> 
         const synthesis = window.speechSynthesis;
         const campos = [
             ['Emisor', 'emisor', ''], 
@@ -29,7 +29,7 @@
 
         function formulario_p1(event){
             for (var i = event.resultIndex; i < event.results.length; i++) {
-                if (event.results[i].isFinal){
+                if (event.results[i].isFinal && !speaking){
                    speech = event.results[i][0].transcript;
                    console.log(speech);
                     
@@ -97,7 +97,11 @@
                                     break;
 
                                 case "listo":
-                                    hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    if(campo === 1)
+                                        hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + ", los cuales al cambio corresponden a " + redondeoFinanciero(('#'+campos[campo][1]).val()/tasa) + " dólares. Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    else
+                                        hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + ". Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    
                                     escribiendo = false;
                                     dictando = false;
                                     break;
@@ -133,8 +137,6 @@
                          .replaceAll('cinco','5').replaceAll('seis','6').replaceAll('siete','7').replaceAll('ocho','8')
                          .replaceAll('nueve','9').replaceAll('cero','0').replaceAll("punto",".").replaceAll("coma",",")
                          .replaceAll(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replaceAll(/.$/g,"").replaceAll(",",".").replaceAll(" ", "");
-                        
-                        speech = speech.slice(0,-1);
                         
                         console.log(speech);
                         
@@ -232,7 +234,12 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false;
                     console.log("LISTO");
@@ -251,7 +258,12 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false;
                     console.log("LISTO");
@@ -260,13 +272,13 @@
             }
         }
 
-        if({{errores|length}} === 0)
-            window.onbeforeunload = function () {
+        window.onbeforeunload = function () {
             synthesis.cancel();
             recognition.stop();
         }
-        
-        bienvenida();
+
+        if({{errores|length}} === 0)        
+            bienvenida();
         else
             bienvenida(1);
 
