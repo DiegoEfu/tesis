@@ -7,7 +7,7 @@
 
     <script>
         const synthesis = window.speechSynthesis;
-        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        let speaking = true, escribiendo = false, dictando = false, reporte = false, campo = 0;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -132,7 +132,7 @@
                                 break;
 
                             case "descargar pdf":
-                                const pdf = speech.split(" ")[speech.split(" ").indexOf("pdf") + 1].replace(/[.,]/g,"")
+                                const pdf = speech.toLowerCase().split(" ")[speech.toLowerCase().split(" ").indexOf("pdf") + 1].replace(/[.,]/g,"")
                                 .replace("dos","2").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
@@ -143,7 +143,8 @@
                                 if(pdf == '{{forloop.counter}}'){
                                     // {% if compra.estado == 'E' %}
                                     hablar("Descargando comprobante de la compra en formato pdf.");
-                                    document.getElementById('pdf_{{compra.pk}}').click();
+                                    reporte = true;
+                                document.getElementById('pdf_{{compra.pk}}').click();
                                     // {% else %}
                                     hablar("La compra especificada no tiene disponible un comprobante debido a su estado: {{compra.estado_largo}}");
                                     // {% endif %}
@@ -153,13 +154,14 @@
 
                                 if(!final){
                                     hablar("Descargando reporte de compras en formato pdf.");
-                                    document.getElementById('pdf').click();
+                                    reporte = true;
+                                document.getElementById('pdf').click();
                                 }
 
                                 break;
                             
                             case "descargar mp3":
-                                const mp3 = speech.split(" ")[speech.split(" ").indexOf("mp3") + 1].replace(/[.,]/g,"")
+                                const mp3 = speech.toLowerCase().split(" ")[speech.toLowerCase().split(" ").indexOf("mp3") + 1].replace(/[.,]/g,"")
                                 .replace("dos","2").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
@@ -169,7 +171,8 @@
                                 if(mp3 == '{{forloop.counter}}'){
                                     // {% if compra.estado == 'E' %}
                                     hablar("Descargando comprobante de la compra en formato MP3.");
-                                    document.getElementById('mp3_{{compra.pk}}').click();
+                                    reporte = true;
+                                document.getElementById('mp3').click();_{{compra.pk}}').click();
                                     // {% else %}
                                     hablar("La compra especificada no tiene disponible un comprobante debido a su estado: {{compra.estado_largo}}");
                                     // {% endif %}
@@ -179,7 +182,8 @@
 
                                 if(!completo){
                                     hablar("Descargando reporte de compras en formato MP3.");
-                                    document.getElementById('mp3').click();
+                                    reporte = true;
+                                document.getElementById('mp3').click();
                                 }
 
                                 break;
@@ -245,7 +249,7 @@
                     if(!speaking)
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
-                    speaking = false;
+                    speaking = false, reporte = false;
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -269,7 +273,7 @@
                     if(!speaking)
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
-                    speaking = false;
+                    speaking = false, reporte = false;
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -277,8 +281,10 @@
         }
         
         window.onbeforeunload = function () {
-            synthesis.cancel();
-            recognition.stop();
+            if(!reporte){
+                synthesis.cancel();
+                recognition.stop();
+            }
         }
         
         bienvenida();

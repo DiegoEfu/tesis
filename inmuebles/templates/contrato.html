@@ -6,7 +6,7 @@
     <title>Contrato de Compra del Inmueble "{{inmueble.nombre}}"</title>
     <script>
         const synthesis = window.speechSynthesis;
-        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        let speaking = true, escribiendo = false, dictando = false, reporte = false, campo = 0;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -126,7 +126,7 @@
                     if(!speaking)
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
-                    speaking = false;
+                    speaking = false, reporte = false;
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -150,7 +150,7 @@
                     if(!speaking)
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
-                    speaking = false;
+                    speaking = false, reporte = false;
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -158,8 +158,10 @@
         }
         
         window.onbeforeunload = function () {
-            synthesis.cancel();
-            recognition.stop();
+            if(!reporte){
+                synthesis.cancel();
+                recognition.stop();
+            }
         }
         
         bienvenida();
