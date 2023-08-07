@@ -354,7 +354,7 @@
                 utterance.volume = 1;
                 utterance.onend = async (evt) => {
                     await new Promise(resolve => setTimeout(resolve, 500));
-                    speaking = false;
+                    speaking = false, reporte = false;
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -375,7 +375,7 @@
                     if(!speaking)
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
-                    speaking = false;
+                    speaking = false, reporte = false;
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -383,8 +383,10 @@
         }
 
         window.onbeforeunload = function () {
-            synthesis.cancel();
-            recognition.stop();
+            if(!reporte){
+                synthesis.cancel();
+                recognition.stop();
+            }
         }
 
         if({{errores|length}} === 0)        
