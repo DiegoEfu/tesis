@@ -25,4 +25,5 @@ urlpatterns = [
     path('', bienvenida, name='bienvenida'),
     path('inmuebles/', include('inmuebles.urls')),
     path('pagos/', include('pagos.urls')),
+    path('', include('pwa.urls')), 
 ]
