@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sin conexión</title>
+
+    <script>
+        const synthesis = window.speechSynthesis;
+        let utterance = undefined;
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+
+        window.onbeforeunload = function () {
+            synthesis.cancel();
+        }
+
+        function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                synthesis.speak(utterance);
+            }
+        }
+        
+        hablar("Estimado usuario, justo ahora no tiene conexión a internet. Conéctese a internet y vuelva a intentar ingresar.");
+        hablar("Atentamente, Inmuebles Incaibo.");
+    </script>
+</head>
+<body>
+    <p>Estimado usuario, justo ahora no tiene conexión a internet. Conéctese a internet y vuelva a intentar ingresar. Puede presionar F5 para refrescar página.</p>
+    <p>Atentamente, Inmuebles Incaibo.</p>
+</body>
+</html>
