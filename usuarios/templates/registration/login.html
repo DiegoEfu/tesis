@@ -30,7 +30,7 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
                    console.log(speech);
-                   if(dictando){
+                   if(dictando && !speaking){
                         $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
                     }  
 
@@ -99,12 +99,12 @@
                                         break;
                                     } else if(campo == 0){
                                         if($(id).val().indexOf('@') === -1){
-                                            hablar(`Usted ha escrito: ${$(ampos[campo][1]).val()}. El correo electrónico debe contener el símbolo: @. Vuelva a escribir o dictarlo.`);
-                                            $(campos[campo][1]).val("");
+                                            hablar(`Usted ha escrito: ${$(id).val()}. El correo electrónico debe contener el símbolo: @. Vuelva a escribir o dictarlo.`);
+                                            $(id).val("");
                                             break;
                                         } else if($(id).val().split("@").length !== 2) {
-                                            hablar(`Usted ha escrito: ${$(ampos[campo][1]).val()}. El correo electrónico debe estar separado en dos partes por el símbolo @.`);
-                                            $(campos[campo][1]).val("");
+                                            hablar(`Usted ha escrito: ${$(id).val()}. El correo electrónico debe estar separado en dos partes por el símbolo @.`);
+                                            $(id).val("");
                                             break;
                                         }
                                     }
@@ -141,8 +141,7 @@
                             break;
 
                             case "iniciar sesión":
-                                hablar("Usted ha dicho iniciar sesión. Diga 'salir' para salir del formulario. Formulario:");
-                                hablar("Campo #1: Correo Electrónico. Si desea escribirlo en teclado, diga 'teclado'. Si desea dictar su correo electrónico, diga 'dictado'. Si desea salir, diga 'salir'.");
+                                hablar("Usted ha dicho iniciar sesión. Diga 'salir' para salir del formulario. Campo #1: Correo Electrónico. Si desea escribirlo en teclado, diga 'teclado'. Si desea dictar su correo electrónico, diga 'dictado'. Si desea salir, diga 'salir'.");
                                 
                                 recognition.onresult = formulario_p1;
                                 
@@ -193,7 +192,6 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -218,7 +216,6 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);

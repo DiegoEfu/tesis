@@ -107,15 +107,28 @@
                                 }
                                 break;
 
-                            case "listo":
+                           case "listo":
+                                dictando = false;
+                                if(document.getElementById('busqueda').value == ''){
+                                    hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
+                                    break;
+                                }
                                 hablar(`Usted ha escrito: ${document.getElementById('busqueda').value}. Diga "continuar" para buscar inmuebles, o diga "editar" para editar.`);
+                                campo = 2;
+                                break;
                                 campo = 2;
                                 dictando = false;
                                 break;
                             
                             case "continuar":
-                                if(campo === 2)
+                                if(campo === 2){
+                                    if(document.getElementById('busqueda').value == ''){
+                                        hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
+                                        break;
+                                    }
                                     document.getElementById('form_busqueda').submit();
+                                }
+                                break;                                    document.getElementById('form_busqueda').submit();
                                 break;
                             
                             case "leer pantalla":
@@ -179,7 +192,7 @@
                       }    
                    });
 
-                   if(dictando && speech.indexOf("dictado") == -1)
+                   if(dictando && !speaking && speech.indexOf("dictado") == -1)
                         document.getElementById('busqueda').value += " " + speech.toLowerCase().slice(0,-1);
                 }
             }
@@ -217,7 +230,6 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -242,7 +254,6 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
