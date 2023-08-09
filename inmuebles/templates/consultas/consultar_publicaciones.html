@@ -33,13 +33,19 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
+                   speech = event.results[i][0].transcript.toLowerCase().replace(/[,.]/g,'').replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");
                    console.log(speech);
                    ["crear nueva publicación", "ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "cancelar publicación","cerrar sesión", "leer pantalla", "leer publicación", "salir"].forEach(comando => {
+                   "cancelar publicación","regresar inicio","cerrar sesión", "leer pantalla", "leer publicación", "regresar inicio"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
+                            case "regresar inicio":
+                                window.location.replace("/");
+                                break;
+                                
                             case "ayuda":
                                 if ('speechSynthesis' in window) {
                                     const crear_utterance = () => {
@@ -147,6 +153,10 @@
                                     if(!fin)
                                         hablar(`No hay publicacion con el número '${cancelar}'.`)
                                     break;
+                        
+                            case "regresar inicio":
+                                window.location.replace("/");
+                                break;
                         }
                       }    
                    });
@@ -187,6 +197,8 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
+                    recognition.start();
+                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -211,6 +223,7 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
+                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);

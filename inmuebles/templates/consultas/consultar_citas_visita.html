@@ -33,13 +33,19 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length  && !speaking; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer cita", "salir"].forEach(comando => {
+                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer cita", "regresar inicio"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
+                            case "regresar inicio":
+                                window.location.replace("/");
+                                break;
+                                
                             case "ayuda":
                                 if ('speechSynthesis' in window) {
                                     const crear_utterance = () => {
@@ -123,7 +129,7 @@
                                     if(["E","P"].indexOf(("{{cita.estado}}")) !== -1){
                                         hablar("Descargando comprobante de cita en formato PDF.");
                                         reporte = true;
-                                document.getElementById('pdf_{{cita.pk}}').click();
+                                        document.getElementById('pdf_{{cita.pk}}').click();
                                     } else
                                         hablar("La cita especificada no permite la descarga de su comprobante.");
                                     break;
@@ -141,7 +147,7 @@
                                     if(["E","P"].indexOf(("{{cita.estado}}")) !== -1){
                                         hablar("Descargando comprobante de cita en formato MP3.");
                                         reporte = true;
-                                document.getElementById('mp3').click();_{{cita.pk}}').click();
+                                        document.getElementById('mp3_{{cita.pk}}').click();
                                     } else
                                         hablar("La cita especificada no permite la descarga de su comprobante.");
                                     break;
@@ -159,7 +165,7 @@
                                     if(["E","P"].indexOf(("{{cita.estado}}")) !== -1){
                                         hablar("Descargando comprobante de cita en formato MP3.");
                                         reporte = true;
-                                document.getElementById('mp3').click();_{{cita.pk}}').click();
+                                        document.getElementById('mp3_{{cita.pk}}').click();
                                     } else
                                         hablar("La cita especificada no permite la descarga de su comprobante.");
                                     break;
@@ -208,6 +214,7 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
+                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -232,6 +239,7 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
+                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);

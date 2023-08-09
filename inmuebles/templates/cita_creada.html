@@ -73,7 +73,7 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
-// {%endif%}
+                            // {%endif%}
                                                         
                             case "leer pantalla":
                                 hablar(`Esta es la pantalla de detalle de cita agendada. La pantalla está dividida en las siguientes secciones:
@@ -156,6 +156,7 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
+                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -180,6 +181,7 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
+                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);

@@ -35,13 +35,19 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').toLowerCase().replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer pago", "salir"].forEach(comando => {
+                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer pago", "regresar inicio"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
+                            case "regresar inicio":
+                                window.location.replace("/");
+                                break;
+                                
                             case "ayuda":
                                 if ('speechSynthesis' in window) {
                                     const crear_utterance = () => {
@@ -115,19 +121,19 @@
                             // {% if pagos.count %}
 
                             case "descargar pdf":
-                                hablar("Descargando reporte de pagos en formato PDF.");
+                                hablar("Descargando reporte de pagos de la venta en formato PDF.");
                                 reporte = true;
                                 document.getElementById('pdf').click();
                                 break;
                             
                             case "descargar mp3":
-                                hablar("Descargando reporte de pagos en formato MP3.");
+                                hablar("Descargando reporte de pagos de la venta en formato MP3.");
                                 reporte = true;
                                 document.getElementById('mp3').click();
                                 break;
                             
                             case "descargar mp 3": 
-                                hablar("Descargando reporte de pagos en formato MP3.");
+                                hablar("Descargando reporte de pagos de la venta en formato MP3.");
                                 reporte = true;
                                 document.getElementById('mp3').click();
                                 break;
@@ -174,6 +180,7 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
+                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -198,6 +205,7 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
+                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);

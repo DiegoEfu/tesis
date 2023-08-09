@@ -178,6 +178,7 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
+                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -202,6 +203,7 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
+                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -232,7 +234,7 @@
             {% csrf_token %}
             <input type="hidden" name="formulario" value="busqueda">
             <h3>Busca tu nuevo hogar...</h3>
-            <input type="text" name="busqueda" id="busqueda" maxlength="120" placeholder="Escribe aquí tu búsqueda...">
+            <input type="text" required name="busqueda" id="busqueda" maxlength="120" placeholder="Escribe aquí tu búsqueda...">
             <input type="submit">
         </form>
     </div>
