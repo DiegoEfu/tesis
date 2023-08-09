@@ -35,7 +35,7 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript;
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
                    console.log(speech);
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
                     "buscar inmueble", "cerrar sesión", "leer pantalla", "dictado", "salir", "listo","continuar", "editar"].forEach(comando => {

@@ -16,8 +16,6 @@
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
             "leer publicación": "Lee la publicación del número especificado.",
-            "descargar pdf": "Descarga el reporte PDF de la publicación especificada.",
-            "descargar mp3": "Descarga el reporte MP3 de la publicación especificada.",
             "crear nueva publicación": "Lleva al formulario de creación de nueva publicación",
             "cancelar publicación": "Lleva a la pantalla de cancelación si la publicación está activa o en revisión",
             // {% if not request.user.is_authenticated %}
@@ -38,7 +36,7 @@
                    speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
                    console.log(speech);
                    ["crear nueva publicación", "ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "cancelar publicación", "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer publicación", "salir"].forEach(comando => {
+                   "cancelar publicación","cerrar sesión", "leer pantalla", "leer publicación", "salir"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -56,7 +54,6 @@
                             
                             // {% if request.user.is_authenticated %}
                             case "consultar compras":
-
                                 hablar("Redirigiendo a la pantalla de compras.");
                                 location.replace("/inmuebles/consultar/compras/");
                                 break;
@@ -75,7 +72,7 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
-// {%endif%}
+                            // {%endif%}
 
                             // {% if request.user.is_authenticated %}
                             case "iniciar sesión":
@@ -127,51 +124,6 @@
                                     hablar(`No hay una publicación con el número '${numero}'.`)
                                 break;
 
-                            case "descargar pdf": // Tanto cita por comprobante como general
-                                const cita = speech.split(" ")[speech.split(" ").indexOf("PDF") + 1].replace(/[.,]/g,"");
-                                console.log(cita);
-                                // {% for publicacion in publicaciones %}
-                                if(cita == '{{forloop.counter}}'){
-                                    hablar("Descargando reporte de publicación en formato PDF.");
-                                    reporte = true;
-                                document.getElementById('pdf_{{publicacion.pk}}').click();
-                                    
-                                    break;
-                                }
-                                // {% endfor %}
-
-                                hablar(`No hay publicaciones con el número ${cita}.`);
-                                break;
-                            
-                            case "descargar mp3": // Tanto cita por comprobante como general
-                                const mp3 = speech.split(" ")[speech.split(" ").indexOf("MP3") + 1].replace(/[.,]/g,"");
-                                console.log(mp3);
-                                // {% for publicacion in publicaciones %}
-                                if(cita == '{{forloop.counter}}'){
-                                    hablar("Descargando comprobante de cita en formato MP3.");
-                                    reporte = true;
-                                document.getElementById('mp3').click();_{{cita.pk}}').click();
-                                }
-                                // {% endfor %}
-
-                                hablar(`No hay publicaciones con el número ${mp3}.`);
-                                break;
-                            
-                            case "descargar mp 3":
-                                const mp_3 = speech.split(" ")[speech.split(" ").indexOf("MP") + 1].replace(/[.,]/g,"").replace(/^3/g, "");
-                                console.log(mp_3);
-                                // {% for publicacion in publicaciones %}
-                                if(mp_3 == '{{forloop.counter}}'){
-                                    hablar("Descargando reporte de publicación en formato MP3.");
-                                    reporte = true;
-                                document.getElementById('mp3').click();_{{publicacion.pk}}').click();
-                                    break;
-                                }
-                                // {% endfor %}
-
-                                hablar(`No hay una publicación con el número ${mp_3}.`);
-                                break;
-                        
                             case "cancelar publicación":
                                     const cancelar = speech.split(" ")[speech.split(" ").indexOf("publicación") + 1].replace(/[.,]/g,"")
                                     .replace("dos","2").replace("tres","3").replace("cuatro","4")
