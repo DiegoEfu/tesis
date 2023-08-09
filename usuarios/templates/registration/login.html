@@ -92,9 +92,25 @@
                                     break;
 
                                 case "listo":
+                                    dictando = false;
+                                    let id = `#${campos[campo][1]}`;
+                                    if($(id).val() == ''){
+                                        hablar(`El campo ${campos[campo][0]} no puede estar vacío.`)
+                                        break;
+                                    } else if(campo == 0){
+                                        if($(id).val().indexOf('@') === -1){
+                                            hablar(`Usted ha escrito: ${$(ampos[campo][1]).val()}. El correo electrónico debe contener el símbolo: @. Vuelva a escribir o dictarlo.`);
+                                            $(campos[campo][1]).val("");
+                                            break;
+                                        } else if($(id).val().split("@").length !== 2) {
+                                            hablar(`Usted ha escrito: ${$(ampos[campo][1]).val()}. El correo electrónico debe estar separado en dos partes por el símbolo @.`);
+                                            $(campos[campo][1]).val("");
+                                            break;
+                                        }
+                                    }
+                                    
                                     hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
                                     escribiendo = false;
-                                    dictando = false;
                                     break;
                             }
                         }
