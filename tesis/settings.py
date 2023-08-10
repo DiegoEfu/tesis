@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'usuarios',
     'inmuebles',
-    'pagos'
+    'pagos',
+    'pwa',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,47 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+PWA_APP_NAME = 'Inmuebles Incaibo'
+PWA_APP_DESCRIPTION = "Aplicación web progresiva para la comercialización de inmuebles con soporte para personas con discapacidad visual mediante comandos de voz"
+PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/img/logoCasa.png',
+        'sizes': '160x160'
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/static/img/logoCasa.png',
+        'sizes': '160x160'
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': '/static/img/icons/logoCasa.png',
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'es-VE'
+PWA_APP_SHORTCUTS = [
+    {
+        'name': 'Incaibo',
+        'url': '/target',
+        'description': 'Acceso directo a Incaibo.'
+    }
+]
+PWA_APP_SCREENSHOTS = [
+    {
+      'src': '/static/img/logoCasa.png',
+      'sizes': '750x1334',
+      "type": "image/png"
+    }
+]

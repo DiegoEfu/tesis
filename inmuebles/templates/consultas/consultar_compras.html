@@ -35,7 +35,10 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.toLowerCase().replace(/[,.]/g,'').replace("cuatro", "4").replace("mp 3", "mp3 ");
+                   speech = event.results[i][0].transcript.toLowerCase().replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio")
+                                .replace("mp 3", "mp3 ");
                    console.log(speech);
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
                    "descargar mp3", "descargar pdf","cerrar sesión", "leer pantalla", "pagos compra",
@@ -43,6 +46,10 @@
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
+                            case "regresar inicio":
+                                window.location.replace("/");
+                                break;
+                                
                             case "ayuda":
                                 if ('speechSynthesis' in window) {
                                     const crear_utterance = () => {
@@ -132,7 +139,10 @@
                                 break;
 
                             case "descargar pdf":
-                                const pdf = speech.toLowerCase().split(" ")[speech.toLowerCase().split(" ").indexOf("pdf") + 1].replace(/[.,]/g,"")
+                                console.log(speech);
+                                let pdf = speech.toLowerCase().split(" ")[speech.toLowerCase().split(" ").indexOf("pdf") + 1];
+                                if(pdf)
+                                    pdf = pdf.replace(/[.,]/g,"")
                                 .replace("dos","2").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
@@ -144,7 +154,7 @@
                                     // {% if compra.estado == 'E' %}
                                     hablar("Descargando comprobante de la compra en formato pdf.");
                                     reporte = true;
-                                document.getElementById('pdf_{{compra.pk}}').click();
+                                    document.getElementById('pdf_{{compra.pk}}').click();
                                     // {% else %}
                                     hablar("La compra especificada no tiene disponible un comprobante debido a su estado: {{compra.estado_largo}}");
                                     // {% endif %}
@@ -155,7 +165,7 @@
                                 if(!final){
                                     hablar("Descargando reporte de compras en formato pdf.");
                                     reporte = true;
-                                document.getElementById('pdf').click();
+                                    document.getElementById('pdf').click();
                                 }
 
                                 break;
@@ -172,7 +182,7 @@
                                     // {% if compra.estado == 'E' %}
                                     hablar("Descargando comprobante de la compra en formato MP3.");
                                     reporte = true;
-                                document.getElementById('mp3').click();_{{compra.pk}}').click();
+                                    document.getElementById('mp3_{{compra.pk}}').click();
                                     // {% else %}
                                     hablar("La compra especificada no tiene disponible un comprobante debido a su estado: {{compra.estado_largo}}");
                                     // {% endif %}

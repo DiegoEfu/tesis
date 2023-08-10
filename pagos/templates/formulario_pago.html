@@ -11,7 +11,7 @@
     <script> 
         const synthesis = window.speechSynthesis;
         const campos = [
-            ['Emisor', 'emisor', ''], 
+            ['Cuenta Receptora', 'Receptora', ''], 
             ['Monto', 'monto', 'Ingrese el monto transferido en bolívares. Diga dictado para dictar.'],
             ['Número de Referencia', 'referencia', 'Ingrese el número de referencia de la transacción dado por el banco. Diga dictado para dictar.'],
             ['Fecha de la transacción', 'fecha_transaccion', 'Ingrese la fecha de la transacción.'],
@@ -30,7 +30,7 @@
         function formulario_p1(event){
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal && !speaking){
-                   speech = event.results[i][0].transcript;
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
                    console.log(speech);
                     
                     if(campo === 0)
@@ -97,13 +97,29 @@
                                     break;
 
                                 case "listo":
-                                    if(campo === 1)
-                                        hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + ", los cuales al cambio corresponden a " + redondeoFinanciero(('#'+campos[campo][1]).val()/tasa) + " dólares. Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    let id = `#${campos[campo][1]}`;
+                                    dictando = false;
+                                    if(campo >= 1 && campo < 4){
+                                        if($(id).val() == ''){
+                                            hablar(`El campo ${campos[campo][0]} no puede estar vacío.`);
+                                            break;
+                                        }
+
+                                        if(campo == 1 && $(id).val() == 0){
+                                            hablar("El monto no puede ser 0.");
+                                            $(id).val("");
+                                            break;
+                                        }
+                                    }
+
+                                    if(campo === 1){
+                                        $('#'+campos[campo][1]).val(redondeoFinanciero($('#'+campos[campo][1]).val()));
+                                        hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + ", los cuales al cambio corresponden a " + redondeoFinanciero($('#'+campos[campo][1]).val()/tasa) + " dólares. Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.");
+                                    }
                                     else
                                         hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + ". Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
                                     
                                     escribiendo = false;
-                                    dictando = false;
                                     break;
                                 
                                 case 'opciones':
@@ -178,7 +194,7 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript;
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
                    console.log(speech);
                    Object.keys(comandos).forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
