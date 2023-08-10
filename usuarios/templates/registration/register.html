@@ -14,7 +14,7 @@
             ['Identificación', 'identificacion', 'Ingrese su número de identificación. Solo se aceptan números. Diga dictado para dictar.'],
             ['Nombre', 'nombre', 'Ingrese su nombre. Separe con un espacio en caso de tener más de un nombre. Diga dictado para dictar.'],
             ['Apellido', 'apellido', 'Ingrese su apellido. Puede tener un máximo de dos apellidos. Separe con espacios. Diga dictado para dictar.'],
-            ['Fecha de Nacimiento', 'fecha_nacimiento', 'Ingrese su fecha de nacimiento. Debe tener al menos de 18 años. Diga dictado para dictar.'],
+            ['Fecha de Nacimiento', 'fecha_nacimiento', 'Ingrese su fecha de nacimiento. Debe tener al menos 21 años. Diga dictado para dictar.'],
             ['Número Telefónico', 'telefono', 'Ingrese su número telefónico. Debe ser un número telefónico venezolano. Diga dictado para dictar.'],
             ['¿Es usted ciego?', 'ciego', 'Responda a la pregunta con un "sí" o un "no".'],
             ['Correo Electrónico', 'email', 'Ingrese su correo electrónico. Debe ser un correo electrónico válido.'],
@@ -98,20 +98,123 @@
                                     break;
 
                                 case "listo":
+                                    dictando = false;
+                                    if(campo >= 1 && campo <= 5 || campo >= 7 && campo <= 8){
+                                        let id = `#${campos[campo][1]}`;
+                                        if($(id).val() == ''){
+                                            hablar(`El campo ${campos[campo][0]} no puede estar vacío. Por favor, escríbalo o díctelo nuevamente.`);
+                                            break;
+                                        }
+
+                                        if(campo === 1){
+                                            let existe = false;
+                                            $.ajax({
+                                                url: "comprobar/cedula",
+                                                contentType: "application/json",
+                                                dataType: "json",
+                                                type: "GET",
+                                                cache: true,
+                                                async: false,
+                                                data: {
+                                                    'tipo': $('#tipo').val(),
+                                                    'cedula': $('#identificacion').val()
+                                                },
+                                                success: (res) => {
+                                                    console.log(res);
+                                                    existe = res.existe;
+                                                },
+                                                error: (e) => console.log(e)
+                                            });
+
+                                            if(existe){
+                                                hablar(`La cédula ${$(id).val()} ya está registrada en la base de datos. Por favo, intente ingresando una nueva.`);
+                                                $(id).val("");
+                                                break;
+                                            }
+                                        }
+                                        
+                                        if(campo === 2 || campo === 3){
+                                            console.log($(id).val());
+                                            console.log(/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test($(id).val()));
+                                            if(!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test($(id).val())){
+                                                hablar("Los nombres y apellidos deben estar conformados únicamente por letras.");
+                                                $(id).val("");
+                                                break;
+                                            }
+                                        }
+
+                                        if(campo === 4){
+                                            console.log($(id).val());
+                                            if(getAge($(id).val()) < 21){
+                                                hablar("Debe de ser mayor a 21 años para participar en la comercialización de inmuebles.");
+                                                $(id).val("");
+                                                break;
+                                            }
+                                        }
+
+                                        if(campo === 5)
+                                            if(!/^[0-9]+$/.test($(id).val())){
+                                                hablar("El número de teléfono debe ser enteramente numérico.");
+                                                $(id).val("");
+                                                break;
+                                            }
+
+                                        if(campo === 7){
+                                            let existe = false;
+                                            $.ajax({
+                                                url: "comprobar/correo",
+                                                contentType: "application/json",
+                                                dataType: "json",
+                                                type: "GET",
+                                                cache: true,
+                                                async: false,
+                                                data: {
+                                                    'email': $('#email').val()
+                                                },
+                                                success: (res) => {
+                                                    console.log(res);
+                                                    existe = res.existe;
+                                                },
+                                                error: (e) => console.log(e)
+                                            });
+
+                                            if(existe){
+                                                hablar(`El correo electrónico ${$(id).val()} ya está registrado en la base de datos. Por favo, intente ingresando uno nuevo.`);
+                                                $(id).val("");
+                                                break;
+                                            }
+
+                                            if($(id).val().indexOf('@') === -1){
+                                                hablar(`Usted ha escrito: ${$(id).val()}. El correo electrónico debe contener el símbolo: @. Vuelva a escribir o dictarlo.`);
+                                                $(id).val("");
+                                                break;
+                                            } else if($(id).val().split("@").length !== 2) {
+                                                hablar(`Usted ha escrito: ${$(id).val()}. El correo electrónico debe estar separado en dos partes por el símbolo @.`);
+                                                $(id).val("");
+                                                break;
+                                            }
+                                        }
+                                        
+                                        if(campo === 8){
+                                            if($(id).val("").length < 5){
+                                                hablar("La longitud de la contraseña debe ser mayor o igual 5.");
+                                                break;
+                                            }
+                                        }
+                                    }
                                     hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
                                     escribiendo = false;
-                                    dictando = false;
                                     break;
                                 
                                 case "1":
-                                    if(campo === 0){
+                                    if(campo === 0 && !speaking){
                                         hablar("Usted ha seleccionado la opción 'venezolano'. Si quiso decir extranjero, diga 2. Si quiere continuar, diga continuar.");
                                         $('#tipo').val("V");                                
                                     }
                                     break;
                                 
                                 case "2":
-                                    if(campo === 0){
+                                    if(campo === 0 && !speaking){
                                         hablar("Usted ha seleccionado la opción 'extranjero'. Si quiso decir venezolano, diga 1. Diga listo para continuar.");
                                         $('#tipo').val("E");
                                     }
@@ -136,40 +239,39 @@
 
                     console.log(dictando);
                     console.log(campo)
-
-                    if(dictando && (campo === 1 || campo === 5)){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
-                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
-                        
-                        if(!isNaN(speech)) // Esto verifica que el string sea numérico
-                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
-
-                    } else if(dictando && campo === 4){
-                        speech = speech.toLowerCase().replaceAll("del","").replaceAll("de","").replaceAll(/\s+/g, " ");
-                        let nuevo = speech.replace("enero","01").replace("febrero","02").replace("marzo","03")
-                        .replace("abril","04").replace("mayo","05").replace("junio","06")
-                        .replace("julio","07").replace("agosto","08").replace("septiembre","09")
-                        .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
-                        $('#fecha_nacimiento').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
-                    }
-                    else if(dictando && campo === 5){
-                        if(/[0-9]+/.test(speech.replaceAll(" ", "")))
-                            $('#telefono').val($('#telefono').val() + speech.replaceAll(" ", ""));
-                    }                        
-                    else if(dictando && campo === 7){
-                        if(speech.toLowerCase().indexOf("dictado") === -1)
-                            $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
-                    }
-                    else if(dictando){
-                        if(speech.indexOf("Dictado") === -1){
-                            console.log("A");
-                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + " " + speech.toLowerCase().split(' ').map((word) => 
-                                (word.charAt(0).toUpperCase() + word.slice(1))).join(" ").replace('.',''));
-                        }
-                    }
-                        
+                    if(!speaking){
+                        if(dictando && (campo === 1 || campo === 5)){
+                            speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                            .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
                             
+                            if(!isNaN(speech)) // Esto verifica que el string sea numérico
+                                $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
+
+                        } else if(dictando && campo === 4){
+                            speech = speech.toLowerCase().replaceAll("del","").replaceAll("de","").replaceAll(/\s+/g, " ");
+                            let nuevo = speech.replace("enero","01").replace("febrero","02").replace("marzo","03")
+                            .replace("abril","04").replace("mayo","05").replace("junio","06")
+                            .replace("julio","07").replace("agosto","08").replace("septiembre","09")
+                            .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
+                            $('#fecha_nacimiento').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
+                        }
+                        else if(dictando && campo === 5){
+                            if(/[0-9]+/.test(speech.replaceAll(" ", "")))
+                                $('#telefono').val($('#telefono').val() + speech.replaceAll(" ", ""));
+                        }                        
+                        else if(dictando && campo === 7){
+                            if(speech.toLowerCase().indexOf("dictado") === -1)
+                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                        }
+                        else if(dictando){
+                            if(speech.indexOf("Dictado") === -1){
+                                console.log("A");
+                                $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + " " + speech.toLowerCase().split(' ').map((word) => 
+                                    (word.charAt(0).toUpperCase() + word.slice(1))).join(" ").replace('.',''));
+                            }
+                        }
+                    }    
                 }
             }
         }
@@ -201,8 +303,7 @@
                                 break;
                             
                             case "crear nuevo usuario":
-                                hablar("Usted ha dicho crear nuevo usuario. Diga 'salir' para salir del formulario. Formulario:");
-                                hablar("Campo #1: Tipo de Persona. Diga 1 para venezolano. Diga 2 para extranjero.");
+                                hablar("Usted ha dicho crear nuevo usuario. Diga 'salir' para salir del formulario. Campo #1: Tipo de Persona. Diga 1 para venezolano. Diga 2 para extranjero.");
                                 
                                 recognition.onresult = formulario_p1;
                                 break;
@@ -246,7 +347,6 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -271,7 +371,6 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -289,6 +388,18 @@
             bienvenida();
         else
             bienvenida(1);
+
+        function getAge(dateString) {
+            var today = new Date();
+            var birthDate = new Date(dateString);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
+                age--;
+
+            return age;
+        }
 
     </script>
 </head>
@@ -332,7 +443,7 @@
         <input {% if previo %} value="{{previo.email}}" {% endif %} required type="email" name="email" id="email"><br>
 
         <label>Contraseña</label>
-        <input required type="password" name="password" id="password"><br>
+        <input required type="password" minlength="5" name="password" id="password"><br>
 
         <input required type="submit" value="Registrar">
         ¿Ya tiene cuenta? <a href="login/">Regresar</a>.

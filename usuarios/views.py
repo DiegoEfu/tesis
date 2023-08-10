@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.contrib.auth import logout
 from .models import Persona, Usuario
 from inmuebles.models import Sector, Parroquia, Inmueble
@@ -19,6 +20,13 @@ def bienvenida(request):
         return redirect('/usuarios/login/')
 
     return render(request, 'registration/bienvenida.html', {})
+
+def comprobacion_cedula(request):
+    print(request.GET)
+    return JsonResponse({'existe': Persona.objects.filter(tipo=request.GET['tipo'], identificacion = request.GET['cedula']).exists()})
+
+def comprobacion_correo(request):
+    return JsonResponse({'existe': Usuario.objects.filter(email = request.GET['email']).exists()})
 
 def register_user(request):
     if request.method == 'POST':

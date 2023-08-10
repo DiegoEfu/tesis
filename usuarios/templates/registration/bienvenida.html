@@ -75,13 +75,17 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
-// {%endif%}
 
+                            case "cerrar sesión":
+                                document.getElementById('cerrar_sesion').click();
+                                break;
+                            // {% else %}
                             case "iniciar sesión":
                                 hablar("Redirigiendo a la pantalla de inicio de sesión.");
                                 location.replace("/usuarios/login/");
                                 
                                 break;
+                            // {%endif%}
                             
                             case "buscar inmueble":
                                 hablar("Escriba la descripción del inmueble que desea. Diga dictado para dictarla. Diga salir para no buscar. Diga listo una vez haya finalizado.");
@@ -108,14 +112,23 @@
                                 break;
 
                             case "listo":
+                                dictando = false;
+                                if(document.getElementById('busqueda').value == ''){
+                                    hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
+                                    break;
+                                }
                                 hablar(`Usted ha escrito: ${document.getElementById('busqueda').value}. Diga "continuar" para buscar inmuebles, o diga "editar" para editar.`);
                                 campo = 2;
-                                dictando = false;
                                 break;
                             
                             case "continuar":
-                                if(campo === 2)
+                                if(campo === 2){
+                                    if(document.getElementById('busqueda').value == ''){
+                                        hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
+                                        break;
+                                    }
                                     document.getElementById('form_busqueda').submit();
+                                }
                                 break;
                             
                             case "leer pantalla":
@@ -141,7 +154,7 @@
                       }    
                    });
 
-                   if(dictando && speech.toLowerCase().indexOf("dictado") == -1)
+                   if(dictando && !speaking && speech.toLowerCase().indexOf("dictado") == -1)
                         document.getElementById('busqueda').value += " " + speech.toLowerCase().slice(0,-1);
                 }
             }
@@ -178,7 +191,6 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -203,7 +215,6 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -225,7 +236,7 @@
     {% if request.user.is_authenticated %}
     <form method='POST' action="">
         {% csrf_token %}
-        <button>CERRAR SESIÓN</button>
+        <button id="cerrar_sesion" value="" name="cerrar_sesion">CERRAR SESIÓN</button>
     </form>
     {% endif %}
 

@@ -122,7 +122,6 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
@@ -147,7 +146,6 @@
                         speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
