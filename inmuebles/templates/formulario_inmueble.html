@@ -63,6 +63,7 @@
                         console.log(comando);
                         switch (comando) {
                                 case "salir":
+                                    campo = 0;
                                     hablar("Usted ha dicho salir. Saliendo del formulario.");
                                     dictando = false;
                                     recognition.onresult = inicial;
@@ -90,7 +91,14 @@
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
                                             input2.focus();
-                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. Diga listo una vez la haya ingresado.`);
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`);
+                                            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                            
+                                            if(campo >= 1 && campo <= 3)
+                                                hablar($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo, diga listo y luego editar." : "Diga listo una vez la haya ingresado.");
+                                            else
+                                                hablar($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]).val() + ". Si quiere editarlo, diga listo y luego editar." : "Diga listo una vez la haya ingresado.");
+                                            
                                             escribiendo = true;
                                         } else{
                                             campo = 0;
@@ -297,8 +305,11 @@
                             break;
                             
                             case "crear inmueble":
-                                hablar("Usted ha dicho crear inmueble. Diga 'salir' para salir del formulario. Formulario:");
-                                hablar("Campo #1: Nombre del Inmueble. Diga dictado para dictar.");
+                                escribiendo = true;
+                                hablar("Usted ha dicho crear inmueble. Diga 'salir' para salir del formulario. Campo #1: Nombre del Inmueble. Diga dictado para dictar.");
+                                
+                                if($(`#${campos[campo][1]}`).val() != '')
+                                    hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Diga listo y luego editar para editarlo.");
                                 
                                 recognition.onresult = formulario_p1;
                                 break;

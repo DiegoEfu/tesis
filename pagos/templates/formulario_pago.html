@@ -43,6 +43,7 @@
                         console.log(comando);
                         switch (comando) {
                                 case "salir":
+                                    campo = 0;
                                     hablar("Usted ha dicho salir. Saliendo del formulario.");
                                     dictando = false;
                                     recognition.onresult = inicial;
