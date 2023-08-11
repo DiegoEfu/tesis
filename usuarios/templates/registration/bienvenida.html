@@ -90,6 +90,7 @@
                             case "buscar inmueble":
                                 hablar("Escriba la descripción del inmueble que desea. Diga dictado para dictarla. Diga salir para no buscar. Diga listo una vez haya finalizado.");
                                 const input = document.getElementById('busqueda');
+                                input.value = "";
                                 input.focus();
                                 campo = 1;
 
@@ -234,7 +235,7 @@
 <body>
     {% include 'nav.html' %}
     {% if request.user.is_authenticated %}
-    <form method='POST' action="">
+    <form method='POST'>
         {% csrf_token %}
         <button id="cerrar_sesion" value="" name="cerrar_sesion">CERRAR SESIÓN</button>
     </form>

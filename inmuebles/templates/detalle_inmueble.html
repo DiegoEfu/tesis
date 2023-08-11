@@ -86,6 +86,7 @@
                             case "buscar inmueble":
                                 hablar("Escriba la descripción del inmueble que desea. Diga dictado para dictarla. Diga salir para no buscar. Diga listo una vez haya finalizado.");
                                 const input = document.getElementById('busqueda');
+                                input.value = "";
                                 input.focus();
                                 campo = 1;
 
@@ -271,7 +272,7 @@
     </script>
 </head>
 <body>
-    <form method="post">
+    <form method="post" id="form_busqueda">
         {% csrf_token %}
         <input type="text" id="busqueda" name="busqueda" value="{{busqueda}}">
         <input type="submit" value="Buscar">
