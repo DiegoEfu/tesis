@@ -76,7 +76,10 @@
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
                                             input2.focus();
-                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. Diga listo una vez la haya ingresado.`);
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`);
+                                            if(campo !== 6 && $(`#${campos[campo][1]}`).val() != '')
+                                                hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Diga listo y luego editar para editarlo.");
+                                            
                                             escribiendo = true;
                                         } else{
                                             campo = 0;
@@ -203,8 +206,13 @@
                                             }
                                         }
                                     }
-                                    hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
-                                    escribiendo = false;
+
+                                    if(campo <= 7)
+                                        hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    else
+                                        hablar("Usted ha escrito su contraseña secreta. Diga continuar para enviar el formulario.")
+                                    
+                                        escribiendo = false;
                                     break;
                                 
                                 case "1":
@@ -305,7 +313,8 @@
                             
                             case "crear nuevo usuario":
                                 hablar("Usted ha dicho crear nuevo usuario. Diga 'salir' para salir del formulario. Campo #1: Tipo de Persona. Diga 1 para venezolano. Diga 2 para extranjero.");
-                                
+                                if($(`#${campos[campo][1]}`).val() != '')
+                                    hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción.");
                                 recognition.onresult = formulario_p1;
                                 break;
                         }

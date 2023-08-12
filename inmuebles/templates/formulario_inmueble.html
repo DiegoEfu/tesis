@@ -95,7 +95,7 @@
                                             
                                             if(campo >= 1 && campo <= 3)
                                                 hablar($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : "Diga listo una vez la haya ingresado.");
-                                            else
+                                            else if(campo !== 11 && campo < 14)
                                                 hablar($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]).val() + ". Si quiere editarlo, diga listo y luego editar." : "Diga listo una vez la haya ingresado.");
                                             
                                             escribiendo = true;
