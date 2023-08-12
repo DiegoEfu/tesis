@@ -31,13 +31,20 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                         .replace('nueve','9').replace('cero','0').replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");
                    console.log(speech);
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "cerrar sesión", "leer pantalla", "leer contrato", "yo acepto los términos mencionados", "salir"].forEach(comando => {
+                   "cerrar sesión", "leer pantalla", "leer contrato", "yo acepto los términos mencionados", "salir",
+                    "regresar inicio"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
+                            case "regresar inicio":
+                                window.location.replace("/");
+                                break;
+
                             case "ayuda":
                                 if ('speechSynthesis' in window) {
                                     const crear_utterance = () => {

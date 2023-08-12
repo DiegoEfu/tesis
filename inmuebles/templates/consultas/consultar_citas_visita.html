@@ -35,10 +35,10 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("dos","2").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
-                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
+                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");
                    console.log(speech);
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer cita", "regresar inicio"].forEach(comando => {
+                   "regresar inicio", "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer cita", "regresar inicio"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -173,6 +173,10 @@
                                 // {% endfor %}
 
                                 hablar(`No hay citas con el número ${mp_3}.`);
+                                break;
+                            
+                            case "regresar inicio":
+                                window.location.replace("/");
                                 break;
                         }
                       }    

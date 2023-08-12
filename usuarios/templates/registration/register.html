@@ -27,7 +27,8 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "iniciar sesión": "Llevar a la página de inicio de sesión",
-            "crear nuevo usuario": "Permite crear un nuevo usuario con el formulario"
+            "crear nuevo usuario": "Permite crear un nuevo usuario con el formulario",
+            "regresar inicio": "Regresa a la pantalla de inicio"
         };
 
         function formulario_p1(event){
@@ -290,12 +291,16 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
                    Object.keys(comandos).forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
+                            case "regresar inicio":
+                                window.location.replace("/");
+                                break;
+                                
                             case "ayuda":
                                 if ('speechSynthesis' in window) {
                                     const crear_utterance = () => {
