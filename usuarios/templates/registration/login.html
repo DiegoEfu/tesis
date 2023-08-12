@@ -30,15 +30,16 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
                    console.log(speech);
-                   if(dictando && !speaking){
+                   if(dictando && !speaking)
                         $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
-                    }  
 
-                    ["dictado", "teclado", "salir", "JAMMU", "continuar", "editar", "listo"].forEach(comando => {
+
+                    ["dictado", "teclado", "salir", "continuar", "editar", "listo"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
                                 case "salir":
+                                    campo = 0;
                                     hablar("Usted ha dicho salir. Saliendo del formulario.");
                                     dictando = false;
                                     recognition.onresult = inicial;
@@ -50,17 +51,6 @@
                                         escribiendo = true;
                                         dictando = true;
                                     }
-                                    break;
-                                
-                                case "jammu":
-                                    hablar("Jammu es la Diosa Planta.");
-                                    break;
-
-                                case "teclado":
-                                    hablar("Usted ha dicho teclado. Escriba su correo electrónico y presione la tecla enter o tabulador, o diga 'listo'.");
-                                    escribiendo = true;
-                                    const input = document.getElementById('id_username');
-                                    input.focus();
                                     break;
 
                                 case "continuar":
@@ -94,6 +84,7 @@
                                 case "listo":
                                     dictando = false;
                                     let id = `#${campos[campo][1]}`;
+                                    $(id).val($(id).val().trim().replace(/\s+/g,' '));
                                     if($(id).val() == ''){
                                         hablar(`El campo ${campos[campo][0]} no puede estar vacío.`)
                                         break;
@@ -109,7 +100,10 @@
                                         }
                                     }
                                     
-                                    hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    if(campo === 0)
+                                        hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    else
+                                        hablar("Usted ha escrito su contraseña secreta. Diga continuar para continuar.");
                                     escribiendo = false;
                                     break;
                             }
@@ -141,8 +135,10 @@
                             break;
 
                             case "iniciar sesión":
-                                hablar("Usted ha dicho iniciar sesión. Diga 'salir' para salir del formulario. Campo #1: Correo Electrónico. Si desea escribirlo en teclado, diga 'teclado'. Si desea dictar su correo electrónico, diga 'dictado'. Si desea salir, diga 'salir'.");
-                                
+                                hablar("Usted ha dicho iniciar sesión. Diga 'salir' para salir del formulario. Campo #1: Correo Electrónico. Si desea dictar su correo electrónico, diga 'dictado'. Si desea salir, diga 'salir'.");
+                                $("#id_username").focus();
+                                if($("#id_username").val() != '')
+                                    hablar("El campo actualmente tiene el valor: " + $("#id_username").val() + ". Si quiere editarlo diga listo y luego editar.");
                                 recognition.onresult = formulario_p1;
                                 
                                 break;
@@ -305,5 +301,15 @@
             <p>© Copyright 2023 incaibo.com</p>
         </div>
     </footer>
+
+    <script>
+        let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
+        console.log(elements);
+        elements.map((x) => {
+            x.addEventListener('change', (e) => {
+                e.target.value = e.target.value.trim().replace(/\s+/g,' ');
+            });
+        });
+    </script>
 </body>
 </html>

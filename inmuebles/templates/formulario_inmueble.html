@@ -63,6 +63,7 @@
                         console.log(comando);
                         switch (comando) {
                                 case "salir":
+                                    campo = 0;
                                     hablar("Usted ha dicho salir. Saliendo del formulario.");
                                     dictando = false;
                                     recognition.onresult = inicial;
@@ -90,7 +91,13 @@
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
                                             input2.focus();
-                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. Diga listo una vez la haya ingresado.`);
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`);
+                                            
+                                            if(campo >= 1 && campo <= 3)
+                                                hablar($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : "Diga listo una vez la haya ingresado.");
+                                            else if(campo !== 11 && campo < 14)
+                                                hablar($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]).val() + ". Si quiere editarlo, diga listo y luego editar." : "Diga listo una vez la haya ingresado.");
+                                            
                                             escribiendo = true;
                                         } else{
                                             campo = 0;
@@ -148,6 +155,8 @@
                                             break;
                                         }
                                     }
+
+                                    $(id).val($(id).val().trim().replace(/\s+/g,' '));
                                     hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
                                     escribiendo = false;
                                     break;
@@ -229,13 +238,13 @@
                             $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
-                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
+                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
                     }
 
                     if(campo === 1 && !speaking){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace('.','').replace(",","");
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
                         
                         // {% for parroquia in parroquias %}
 
@@ -249,7 +258,7 @@
                     } else if(campo === 2 && !speaking){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace('.','').replace(",","");
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
                         
                         for(let i = 1; i <= sectores_actuales.length; i++){
                             if(i === Number(speech)){
@@ -260,7 +269,7 @@
                     } else if(campo === 3 && !speaking){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace('.','').replace(",","");
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
                         
                         // {% for construccion in construcciones %}
 
@@ -297,8 +306,11 @@
                             break;
                             
                             case "crear inmueble":
-                                hablar("Usted ha dicho crear inmueble. Diga 'salir' para salir del formulario. Formulario:");
-                                hablar("Campo #1: Nombre del Inmueble. Diga dictado para dictar.");
+                                escribiendo = true;
+                                hablar("Usted ha dicho crear inmueble. Diga 'salir' para salir del formulario. Campo #1: Nombre del Inmueble. Diga dictado para dictar.");
+                                
+                                if($(`#${campos[campo][1]}`).val() != '')
+                                    hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Diga listo y luego editar para editarlo.");
                                 
                                 recognition.onresult = formulario_p1;
                                 break;
@@ -500,5 +512,15 @@
 
         <input type="submit" value="Enviar Formulario">
     </form>
+
+    <script>
+        let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
+        console.log(elements);
+        elements.map((x) => {
+            x.addEventListener('change', (e) => {
+                e.target.value = e.target.value.trim().replace(/\s+/g,' ');
+            });
+        });
+    </script>
 </body>
 </html>
