@@ -56,7 +56,6 @@
                             
                             // {% if request.user.is_authenticated %}
                             case "consultar compras":
-
                                 hablar("Redirigiendo a la pantalla de compras.");
                                 location.replace("/inmuebles/consultar/compras/");
                                 break;
@@ -90,6 +89,7 @@
                             case "buscar inmueble":
                                 hablar("Escriba la descripción del inmueble que desea. Diga dictado para dictarla. Diga salir para no buscar. Diga listo una vez haya finalizado.");
                                 const input = document.getElementById('busqueda');
+                                input.value = "";
                                 input.focus();
                                 campo = 1;
 
@@ -117,6 +117,7 @@
                                     hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
                                     break;
                                 }
+                                document.getElementById('busqueda').value = document.getElementById('busqueda').value.trim().replace(/\s+/g,' ');
                                 hablar(`Usted ha escrito: ${document.getElementById('busqueda').value}. Diga "continuar" para buscar inmuebles, o diga "editar" para editar.`);
                                 campo = 2;
                                 break;
@@ -193,6 +194,7 @@
                     speaking = false, reporte = false;
                     console.log("LISTO");
                 };
+
                 synthesis.speak(utterance);
                 recognition.start();
                 recognition.addEventListener('end', recognition.start);
@@ -234,7 +236,7 @@
 <body>
     {% include 'nav.html' %}
     {% if request.user.is_authenticated %}
-    <form method='POST' action="">
+    <form method='POST'>
         {% csrf_token %}
         <button id="cerrar_sesion" value="" name="cerrar_sesion">CERRAR SESIÓN</button>
     </form>
@@ -279,5 +281,15 @@
            Footer
         -->        
     </footer>
+
+    <script>
+        let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
+        console.log(elements);
+        elements.map((x) => {
+            x.addEventListener('change', (e) => {
+                e.target.value = e.target.value.trim().replace(/\s+/g,' ');
+            });
+        });
+    </script>
 </body>
 </html>

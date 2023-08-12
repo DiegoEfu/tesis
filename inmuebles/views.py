@@ -522,6 +522,7 @@ def cancelar_venta(request,pk):
 
 def buscar_coincidencias(busqueda):
     posibles_inmuebles = None
+    busqueda = busqueda.lower().replace("metros cuadrados", "m2")
 
     # Por Ubicación
 
@@ -534,14 +535,17 @@ def buscar_coincidencias(busqueda):
                 if parroquia.nombre in busqueda:
                     posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector__parroquia__nombre = parroquia.pk)
 
+    if(not posibles_inmuebles):
+        posibles_inmuebles = Inmueble.objects.filter(estado = "A")
+
     # Por metros cuadrados
-    if "metros cuadrados" in busqueda:
+    if "m2" in busqueda:
         separado = busqueda.split(" ")
-        indice = encuentra_coincidencia(separado, "metros")
+        indice = encuentra_coincidencia(separado, "m2")
         
         if indice != -1:
             if separado[indice - 1].isnumeric():
-                posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tamano__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tamano__gte = separado[indice-1])
+                posibles_inmuebles = posibles_inmuebles.filter(tamano__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(tamano__gte = separado[indice-1])
 
     # Por baños
     if "baños" in busqueda:
@@ -550,14 +554,14 @@ def buscar_coincidencias(busqueda):
             
         if indice != -1:
             if separado[indice - 1].isnumeric():
-                posibles_inmuebles = posibles_inmuebles.filter(estado = "A", banos__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", banos__gte = separado[indice-1])
+                posibles_inmuebles = posibles_inmuebles.filter(banos__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(banos__gte = separado[indice-1])
     elif "baño" in busqueda:
         separado = busqueda.split(" ")
         indice = encuentra_coincidencia(separado, "baño")
             
         if indice != -1:
             if separado[indice - 1].isnumeric():
-                posibles_inmuebles = posibles_inmuebles.filter(estado = "A", banos__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", banos__gte = separado[indice-1])
+                posibles_inmuebles = posibles_inmuebles.filter(banos__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(banos__gte = separado[indice-1])
 
     # Por baños
     if "habitaciones" in busqueda:
@@ -566,36 +570,78 @@ def buscar_coincidencias(busqueda):
             
         if indice != -1:
             if separado[indice - 1].isnumeric():
-                posibles_inmuebles = posibles_inmuebles.filter(estado = "A", habitaciones__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", habitaciones__gte = separado[indice-1])
+                posibles_inmuebles = posibles_inmuebles.filter(habitaciones__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(habitaciones__gte = separado[indice-1])
     elif "habitacion" in busqueda:
         separado = busqueda.split(" ")
         indice = encuentra_coincidencia(separado, "habitacion")
             
         if indice != -1:
             if separado[indice - 1].isnumeric():
-                posibles_inmuebles = posibles_inmuebles.filter(estado = "A", habitaciones__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", habitaciones__gte = separado[indice-1])
+                posibles_inmuebles = posibles_inmuebles.filter(habitaciones__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(habitaciones__gte = separado[indice-1])
 
     # Amueblado
-    if "amueblado" in busqueda:
-        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", amueblado = True) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", amueblado = True)
-    elif "no amueblado" in busqueda:
-        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", amueblado = False) if posibles_inmuebles else Inmueble.objects.filter(estado = "A", amueblado = False)
+    if ("amueblado" in busqueda or "amoblado" in busqueda) and not ("no amueblado" in busqueda or "no amoblado" in busqueda):
+        posibles_inmuebles = posibles_inmuebles.filter(amueblado = True)
+    elif "no amueblado" in busqueda or "no amoblado" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(amueblado = False)
 
     # Tipo de vivienda:
     if "casa" in busqueda:
-        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "casa") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "casa")
+        posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "casa")
     elif "apartamento" in busqueda:
-        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "apartamento") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "apartamento")
+        posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "apartamento")
     elif "individual" in busqueda:
-        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "individual") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "individual")
+        posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "individual")
     elif "dúplex" in busqueda:
-        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "dúplex") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "dúplex")
+        posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "dúplex")
     elif "tríplex" in busqueda:
-        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "tríplex") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "tríplex")
+        posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "tríplex")
     elif "villa" in busqueda:
-        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "villa") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "villa")
+        posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "villa")
     elif "penthouse" in busqueda:
-        posibles_inmuebles = posibles_inmuebles.filter(estado = "A", tipo_construccion__icontains = "penthouse") if posibles_inmuebles else Inmueble.objects.filter(estado = "A", tipo_construccion__icontains = "penthouse")
+        posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "penthouse")
+
+    # Precio
+    if "dólares" in busqueda:
+        separado = busqueda.split(" ")
+        indice = encuentra_coincidencia(separado, "dólares")
+            
+        if indice != -1:
+            if separado[indice-1].isnumeric():
+                posibles_inmuebles = posibles_inmuebles.filter(precio__lte = separado[indice-1])
+
+    # Ubicación detallada
+    if "calle" in busqueda or "avenida" in busqueda:
+        separado = busqueda.split(" ")
+        indice = encuentra_coincidencia(separado, "calle")
+            
+        if indice != -1:
+            posibles_inmuebles = posibles_inmuebles.filter(ubicacion_detallada__icontains = separado[indice])
+
+    # Pisos
+    if "pisos" in busqueda:
+        separado = busqueda.split(" ")
+        indice = encuentra_coincidencia(separado, "pisos")
+        
+        if indice != -1:
+            if separado[indice - 1].isnumeric():
+                posibles_inmuebles = posibles_inmuebles.filter(tamano__gte = separado[indice-1])
+
+    # Servicios
+    if "agua" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(agua = True)
+
+    if "electricidad" in busqueda or "luz" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(electricidad = True)
+
+    if "aseo" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(aseo = True)
+
+    if "internet" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(internet = True)
+
+    if "gas" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(gas = True)
 
     return posibles_inmuebles
 

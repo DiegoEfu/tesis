@@ -15,11 +15,9 @@ def formulario_pago(request, pk):
     # Vista del formulario de registro de pago
 
     compra = Compra.objects.get(pk=pk)
-
-    # Redirigir si no está autenticado
-    # ! Una vez esté listo el formulario hay que eliminar esta y descomentar las siguientes dos líneas:
-    # if(not request.user.is_authenticated):
-    #     return redirect('/usuarios/login/')
+    
+    if(not request.user.is_authenticated):
+        return redirect('/usuarios/login/')
 
     if(request.method == 'GET'):
         # Construcción del formulario a partir de la plantilla

@@ -11,7 +11,7 @@
     <script> 
         const synthesis = window.speechSynthesis;
         const campos = [
-            ['Cuenta Receptora', 'Receptora', ''], 
+            ['Cuenta Receptora', 'receptora', ''], 
             ['Monto', 'monto', 'Ingrese el monto transferido en bolívares. Diga dictado para dictar.'],
             ['Número de Referencia', 'referencia', 'Ingrese el número de referencia de la transacción dado por el banco. Diga dictado para dictar.'],
             ['Fecha de la transacción', 'fecha_transaccion', 'Ingrese la fecha de la transacción.'],
@@ -43,6 +43,7 @@
                         console.log(comando);
                         switch (comando) {
                                 case "salir":
+                                    campo = 0;
                                     hablar("Usted ha dicho salir. Saliendo del formulario.");
                                     dictando = false;
                                     recognition.onresult = inicial;
@@ -72,9 +73,14 @@
                                         campo++;
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
-                                            console.log(input2);
                                             input2.focus();
-                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. Diga listo una vez la haya ingresado.`);
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`);
+                                            
+                                            if($(`#${campos[campo][1]}`).val() != '')
+                                                hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Si quiere editarlo diga listo y luego editar.");
+                                            else
+                                                hablar("Diga listo una vez la haya ingresado.");
+                                            
                                             escribiendo = true;
                                         } else{
                                             campo = 0;
@@ -105,12 +111,13 @@
                                             break;
                                         }
 
-                                        if(campo == 1 && $(id).val() == 0){
-                                            hablar("El monto no puede ser 0.");
+                                        if(campo == 1 && $(id).val() == 1){
+                                            hablar("El monto debe ser mayor o igual a 1.");
                                             $(id).val("");
                                             break;
                                         }
                                     }
+                                    $(id).val($(id).val().trim().replace(/\s+/g,' '));
 
                                     if(campo === 1){
                                         $('#'+campos[campo][1]).val(redondeoFinanciero($('#'+campos[campo][1]).val()));
@@ -125,7 +132,7 @@
                                 case 'opciones':
                                     if(campo === 0){
                                         // {% for cuenta in cuentas_empresa %}
-                                        hablar("Diga {{forloop.counter}} para " +'{{cuenta.banco}}'.slice(6))
+                                        hablar("Diga {{forloop.counter}} para " +'{{cuenta.banco}}'.slice(6) + ', de número: {{cuenta.numero}}')
                                         // {% endfor %}
                                     }
                                     break;
@@ -140,7 +147,7 @@
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
-                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace(",",".").replaceAll(" ", "");
+                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(",",".").replaceAll(" ", "");
                         
                         speech = speech.slice(0,-1);
                         
@@ -152,7 +159,7 @@
                         speech = speech.toLowerCase().replaceAll('uno','1').replaceAll('dos','2').replaceAll('tres','3').replaceAll('cuatro','4')
                          .replaceAll('cinco','5').replaceAll('seis','6').replaceAll('siete','7').replaceAll('ocho','8')
                          .replaceAll('nueve','9').replaceAll('cero','0').replaceAll("punto",".").replaceAll("coma",",")
-                         .replaceAll(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replaceAll(/.$/g,"").replaceAll(",",".").replaceAll(" ", "");
+                         .replaceAll(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replaceAll(/.$/g,"").replaceAll(",",".").replaceAll(" ", "");
                         
                         console.log(speech);
                         
@@ -173,7 +180,7 @@
                     if(campo === 0 && !speaking){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace('.','').replace(",","");
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
                         
                         console.log(speech);
                         console.log(Number(speech));
@@ -214,8 +221,11 @@
                             
                             case "registrar pago":
                                 hablar("Usted ha dicho registrar pago. Diga 'salir' para salir del formulario. Formulario:");
-                                hablar("Campo #1: Banco. Diga 'opciones' para tener las opciones de cuentas.");
+                                hablar("Campo #1: Cuenta Receptora. Diga 'opciones' para tener las opciones de cuentas.");
                                 
+                                if($(`#${campos[campo][1]}`).val() != '')
+                                    hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción.");
+
                                 recognition.onresult = formulario_p1;
                                 break;
                         }
@@ -358,6 +368,16 @@
                 monto = redondeoFinanciero(monto/tasa);
             
             document.getElementById('monto_cancelado_usd').value = monto;
+        });
+    </script>
+
+    <script>
+        let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
+        console.log(elements);
+        elements.map((x) => {
+            x.addEventListener('change', (e) => {
+                e.target.value = e.target.value.trim().replace(/\s+/g,' ');
+            });
         });
     </script>
 </body>
