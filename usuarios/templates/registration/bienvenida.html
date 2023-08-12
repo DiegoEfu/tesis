@@ -56,7 +56,6 @@
                             
                             // {% if request.user.is_authenticated %}
                             case "consultar compras":
-
                                 hablar("Redirigiendo a la pantalla de compras.");
                                 location.replace("/inmuebles/consultar/compras/");
                                 break;
@@ -118,6 +117,7 @@
                                     hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
                                     break;
                                 }
+                                document.getElementById('busqueda').value = document.getElementById('busqueda').value.trim().replace(/\s+/g,' ');
                                 hablar(`Usted ha escrito: ${document.getElementById('busqueda').value}. Diga "continuar" para buscar inmuebles, o diga "editar" para editar.`);
                                 campo = 2;
                                 break;
@@ -194,6 +194,7 @@
                     speaking = false, reporte = false;
                     console.log("LISTO");
                 };
+
                 synthesis.speak(utterance);
                 recognition.start();
                 recognition.addEventListener('end', recognition.start);
@@ -280,5 +281,15 @@
            Footer
         -->        
     </footer>
+
+    <script>
+        let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
+        console.log(elements);
+        elements.map((x) => {
+            x.addEventListener('change', (e) => {
+                e.target.value = e.target.value.trim().replace(/\s+/g,' ');
+            });
+        });
+    </script>
 </body>
 </html>

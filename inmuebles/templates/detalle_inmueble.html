@@ -75,7 +75,7 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
-// {%endif%}
+                            // {%endif%}
 
                             case "iniciar sesión":
                                 hablar("Redirigiendo a la pantalla de inicio de sesión.");
@@ -114,6 +114,7 @@
                                     hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
                                     break;
                                 }
+                                document.getElementById('busqueda').value = document.getElementById('busqueda').value.trim().replace(/\s+/g,' ');
                                 hablar(`Usted ha escrito: ${document.getElementById('busqueda').value}. Diga "continuar" para buscar inmuebles, o diga "editar" para editar.`);
                                 campo = 2;
                                 break;

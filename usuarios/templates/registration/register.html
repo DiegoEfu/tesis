@@ -198,6 +198,8 @@
                                                 break;
                                             }
                                         }
+
+                                        $(id).val($(id).val().trim().replace(/\s+/g,' '));
                                         
                                         if(campo === 8){
                                             if($(id).val("").length < 5){
@@ -457,6 +459,16 @@
 
         <input required type="submit" value="Registrar">
         ¿Ya tiene cuenta? <a href="login/">Regresar</a>.
+
+        <script>
+            let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
+            console.log(elements);
+            elements.map((x) => {
+                x.addEventListener('change', (e) => {
+                    e.target.value = e.target.value.trim().replace(/\s+/g,' ');
+                });
+            });
+        </script>
     </form>    
 </body>
 </html>

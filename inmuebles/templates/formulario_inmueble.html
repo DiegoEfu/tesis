@@ -155,6 +155,8 @@
                                             break;
                                         }
                                     }
+
+                                    $(id).val($(id).val().trim().replace(/\s+/g,' '));
                                     hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
                                     escribiendo = false;
                                     break;
@@ -236,13 +238,13 @@
                             $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
-                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
+                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
                     }
 
                     if(campo === 1 && !speaking){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace('.','').replace(",","");
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
                         
                         // {% for parroquia in parroquias %}
 
@@ -256,7 +258,7 @@
                     } else if(campo === 2 && !speaking){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace('.','').replace(",","");
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
                         
                         for(let i = 1; i <= sectores_actuales.length; i++){
                             if(i === Number(speech)){
@@ -267,7 +269,7 @@
                     } else if(campo === 3 && !speaking){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ]+/g,'').replace('.','').replace(",","");
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
                         
                         // {% for construccion in construcciones %}
 
@@ -510,5 +512,15 @@
 
         <input type="submit" value="Enviar Formulario">
     </form>
+
+    <script>
+        let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
+        console.log(elements);
+        elements.map((x) => {
+            x.addEventListener('change', (e) => {
+                e.target.value = e.target.value.trim().replace(/\s+/g,' ');
+            });
+        });
+    </script>
 </body>
 </html>

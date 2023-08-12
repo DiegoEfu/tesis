@@ -84,6 +84,7 @@
                                 case "listo":
                                     dictando = false;
                                     let id = `#${campos[campo][1]}`;
+                                    $(id).val($(id).val().trim().replace(/\s+/g,' '));
                                     if($(id).val() == ''){
                                         hablar(`El campo ${campos[campo][0]} no puede estar vacío.`)
                                         break;
@@ -300,5 +301,15 @@
             <p>© Copyright 2023 incaibo.com</p>
         </div>
     </footer>
+
+    <script>
+        let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
+        console.log(elements);
+        elements.map((x) => {
+            x.addEventListener('change', (e) => {
+                e.target.value = e.target.value.trim().replace(/\s+/g,' ');
+            });
+        });
+    </script>
 </body>
 </html>
