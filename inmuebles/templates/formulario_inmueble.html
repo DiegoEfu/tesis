@@ -436,6 +436,11 @@
             });
         });
 
+        window.onbeforeunload = function () {
+            synthesis.cancel();
+            recognition.stop();
+        }
+
         $(document).on('change', 'input', (e) => {
             e.target.value = e.target.value.trim();
         });
@@ -458,7 +463,9 @@
 
         <label for="sector">Sector:</label>
         <select required name="sector" id="sector">
-            <option value="La Concepción">La Concepción</option>
+            {% for sector in sectores %}
+            <option value="{{forloop.counter}}">{{sector.nombre}}</option>
+            {% endfor %}
         </select><br>
 
         <label for="tipo_construccion">Tipo de Construcción:</label>
