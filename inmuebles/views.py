@@ -12,19 +12,17 @@ import os
 
 def formulario_inmueble(request):
     # Vista del formulario de creación de inmueble
-
-    # Redirigir si no está autenticado
-    # ! Una vez esté listo el formulario hay que eliminar esta y descomentar las siguientes dos líneas:
-    # if(not request.user.is_authenticated):
-    #     return redirect('/usuarios/login/')
+    if(not request.user.is_authenticated):
+        return redirect('/usuarios/login/')
 
     if(request.method == 'GET'):
         # Construcción del formulario a partir de la plantilla
         context = {}
         context['construcciones'] = ["Casa Individual", "Casa Dúplex", "Casa Tríplex",
-            "Casa de Villa", "Apartamento Regular", "Apartamento PentHouse"]
+            "Casa de Villa", "Apartamento Regular", "Apartamento PentHouse", "Terreno", "Oficina",
+            "Edificio"]
         context['parroquias'] = Parroquia.objects.all()
-        context['sectores'] = Sector.objects.filter(parroquia = context['parroquias'].first())
+        context['sectores'] = Sector.objects.filter(parroquia__pk = 1)
         return render(request, "formulario_inmueble.html", context=context)
     elif(request.method == 'POST'):
         # Validación de completitud de datos
@@ -125,7 +123,7 @@ def formulario_inmueble(request):
             internet = bool(internet),
             aseo = bool(aseo),
             pisos = pisos,
-            sector = Sector.objects.get(pk=sector),
+            sector = Sector.objects.filter(parroquia__pk = request.POST['parroquia']).order_by("nombre")[int(sector)-1],
             dueno = request.user.persona if request.user.is_authenticated else Persona.objects.first(),
             agente = Persona.objects.first() #! CAMBIAR PARA UN AGENTE ALEATORIO
         )
@@ -133,7 +131,7 @@ def formulario_inmueble(request):
         return redirect("/")
 
 def get_sectores(request, id):
-    return JsonResponse({'res': list(Sector.objects.filter(parroquia__id = id).values())})
+    return JsonResponse({'res': list(Sector.objects.filter(parroquia__id = id).order_by('nombre').values())})
 
 def resultados(request):
     if request.method == 'GET':
@@ -522,23 +520,29 @@ def cancelar_venta(request,pk):
 
 def buscar_coincidencias(busqueda):
     posibles_inmuebles = None
-    busqueda = busqueda.lower().replace("metros cuadrados", "m2")
+    busqueda = busqueda.lower().replace("metros cuadrados", "m2").replace("á","a").replace("é","e")
+    busqueda = busqueda.replace("í","i").replace("ó", "o").replace("ú","u")
 
     # Por Ubicación
 
     for sector in Sector.objects.all():
         if sector.nombre.lower() in busqueda:
-            posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector = sector.pk) # Se colocan posibles inmuebles en ese sector
+            posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector__nombre__icontains = sector.nombre) # Se colocan posibles inmuebles en ese sector
+            if posibles_inmuebles.count() != 0:
+                break
         
-        if not posibles_inmuebles:
-            for parroquia in Parroquia.objects.all():
-                if parroquia.nombre in busqueda:
-                    posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector__parroquia__nombre = parroquia.pk)
+    if not posibles_inmuebles:
+        for parroquia in Parroquia.objects.all():
+            if parroquia.nombre.lower() in busqueda:
+                posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector__parroquia__pk = parroquia.pk)
+                if posibles_inmuebles.count() != 0:
+                    break
 
     if(not posibles_inmuebles):
         posibles_inmuebles = Inmueble.objects.filter(estado = "A")
 
     # Por metros cuadrados
+    previo = posibles_inmuebles
     if "m2" in busqueda:
         separado = busqueda.split(" ")
         indice = encuentra_coincidencia(separado, "m2")
@@ -547,7 +551,11 @@ def buscar_coincidencias(busqueda):
             if separado[indice - 1].isnumeric():
                 posibles_inmuebles = posibles_inmuebles.filter(tamano__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(tamano__gte = separado[indice-1])
 
+    if(not posibles_inmuebles):
+        posibles_inmuebles = previo
+
     # Por baños
+    previo = posibles_inmuebles
     if "baños" in busqueda:
         separado = busqueda.split(" ")
         indice = encuentra_coincidencia(separado, "baños")
@@ -562,8 +570,12 @@ def buscar_coincidencias(busqueda):
         if indice != -1:
             if separado[indice - 1].isnumeric():
                 posibles_inmuebles = posibles_inmuebles.filter(banos__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(banos__gte = separado[indice-1])
+    
+    if(not posibles_inmuebles):
+        posibles_inmuebles = previo
 
-    # Por baños
+    # Por habitaciones
+    previo = posibles_inmuebles
     if "habitaciones" in busqueda:
         separado = busqueda.split(" ")
         indice = encuentra_coincidencia(separado, "habitaciones")
@@ -578,14 +590,22 @@ def buscar_coincidencias(busqueda):
         if indice != -1:
             if separado[indice - 1].isnumeric():
                 posibles_inmuebles = posibles_inmuebles.filter(habitaciones__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(habitaciones__gte = separado[indice-1])
+    
+    if(not posibles_inmuebles):
+        posibles_inmuebles = previo
 
     # Amueblado
+    previo = posibles_inmuebles
     if ("amueblado" in busqueda or "amoblado" in busqueda) and not ("no amueblado" in busqueda or "no amoblado" in busqueda):
         posibles_inmuebles = posibles_inmuebles.filter(amueblado = True)
     elif "no amueblado" in busqueda or "no amoblado" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(amueblado = False)
 
+    if(not posibles_inmuebles):
+        posibles_inmuebles = previo
+
     # Tipo de vivienda:
+    previo = posibles_inmuebles
     if "casa" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "casa")
     elif "apartamento" in busqueda:
@@ -600,8 +620,16 @@ def buscar_coincidencias(busqueda):
         posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "villa")
     elif "penthouse" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "penthouse")
+    elif "terreno" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "terreno")
+    elif "edificio" in busqueda:
+        posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "edificio")
+
+    if(not posibles_inmuebles):
+        posibles_inmuebles = previo
 
     # Precio
+    previo = posibles_inmuebles
     if "dólares" in busqueda:
         separado = busqueda.split(" ")
         indice = encuentra_coincidencia(separado, "dólares")
@@ -610,7 +638,11 @@ def buscar_coincidencias(busqueda):
             if separado[indice-1].isnumeric():
                 posibles_inmuebles = posibles_inmuebles.filter(precio__lte = separado[indice-1])
 
+    if(not posibles_inmuebles):
+        posibles_inmuebles = previo
+
     # Ubicación detallada
+    previo = posibles_inmuebles
     if "calle" in busqueda or "avenida" in busqueda:
         separado = busqueda.split(" ")
         indice = encuentra_coincidencia(separado, "calle")
@@ -618,7 +650,11 @@ def buscar_coincidencias(busqueda):
         if indice != -1:
             posibles_inmuebles = posibles_inmuebles.filter(ubicacion_detallada__icontains = separado[indice])
 
+    if(not posibles_inmuebles):
+        posibles_inmuebles = previo
+
     # Pisos
+    previo = posibles_inmuebles
     if "pisos" in busqueda:
         separado = busqueda.split(" ")
         indice = encuentra_coincidencia(separado, "pisos")
@@ -627,7 +663,11 @@ def buscar_coincidencias(busqueda):
             if separado[indice - 1].isnumeric():
                 posibles_inmuebles = posibles_inmuebles.filter(tamano__gte = separado[indice-1])
 
+    if(not posibles_inmuebles):
+        posibles_inmuebles = previo
+
     # Servicios
+    previo = posibles_inmuebles
     if "agua" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(agua = True)
 
@@ -642,6 +682,9 @@ def buscar_coincidencias(busqueda):
 
     if "gas" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(gas = True)
+
+    if(not posibles_inmuebles):
+        posibles_inmuebles = previo
 
     return posibles_inmuebles
 

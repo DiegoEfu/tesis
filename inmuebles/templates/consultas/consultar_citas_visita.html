@@ -7,7 +7,7 @@
     
     <script>
         const synthesis = window.speechSynthesis;
-        let speaking = true, escribiendo = false, dictando = false, reporte = false, campo = 0;
+        let speaking = false, escribiendo = false, dictando = false, reporte = false, campo = 0;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -18,6 +18,7 @@
             "leer cita": "Seguido de un número lee los detalles de la cita especificada.",
             "descargar pdf": "Descarga el reporte PDF de la cita",
             "descargar mp3": "Descarga el reporte MP3 de la cita",
+            "desactivar comandos de voz": "Desactiva los comandos de voz",
             // {% if not request.user.is_authenticated %}
             "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
             // {% else %}
@@ -35,13 +36,21 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("dos","2").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
-                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
+                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");
                    console.log(speech);
+
+                   if(localStorage.getItem('comandos') == '1')
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer cita", "regresar inicio"].forEach(comando => {
+                   "regresar inicio", "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer cita", "regresar inicio",
+                   "desactivar comandos de voz"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
+                            case "desactivar comandos de voz":
+                                localStorage.setItem('comandos', 0);
+                                hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                                break;
+
                             case "regresar inicio":
                                 window.location.replace("/");
                                 break;
@@ -79,7 +88,7 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
-// {%endif%}
+                            // {%endif%}
 
                             // {% if request.user.is_authenticated %}
                             case "iniciar sesión":
@@ -87,9 +96,9 @@
                                 location.replace("/usuarios/login/");
                                 
                                 break;
-//{%endif%}
+                            //{%endif%}
                                                         
-                            case "leer pantalla": // ! TODO
+                            case "leer pantalla":
                                 hablar(`Esta es la pantalla de consultas de citas. Usted ha tenido {{citas.count}} citas. La pantalla está dividida en las siguientes secciones:
                                 1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
                                 2. Sección de Citas: Aquí se muestran los detalles de las {{citas.count}} citas que ha tenido. Diga "leer citas", o, "leer cita" seguido del número de cita.
@@ -174,9 +183,19 @@
 
                                 hablar(`No hay citas con el número ${mp_3}.`);
                                 break;
+                            
+                            case "regresar inicio":
+                                window.location.replace("/");
+                                break;
                         }
                       }    
                    });
+
+                   if(!speaking && localStorage.getItem('comandos') == '0' && speech.toLowerCase().includes('activar comandos de voz')){
+                        bienvenida();
+                        localStorage.setItem("comandos", 1);
+                        break;
+                   }
 
                    if(dictando && speech.indexOf("dictado") == -1)
                         document.getElementById('busqueda').value += " " + speech.toLowerCase().slice(0,-1);
@@ -217,8 +236,6 @@
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
-                recognition.start();
-                recognition.addEventListener('end', recognition.start);
             }
         }
 
@@ -251,7 +268,11 @@
             }
         }
         
-        bienvenida();
+        if(localStorage.getItem('comandos') == '1')
+            bienvenida();
+
+        recognition.start();
+        recognition.addEventListener('end', recognition.start);
     </script>
 </head>
 <body>
