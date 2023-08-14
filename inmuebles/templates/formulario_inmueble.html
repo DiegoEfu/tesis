@@ -30,7 +30,7 @@
             ['¿Tiene servicio de aseo?', 'aseo', 'Responda a la pregunta con "sí" o "no".'],
             ['¿Tiene servicio de internet?', 'internet', 'Responda a la pregunta con "sí" o "no".'],
         ];
-        let speaking = true, escribiendo = false, dictando = false, campo = 0;
+        let speaking = false, escribiendo = false, dictando = false, campo = 0;
         let sectores_actuales = [];
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
@@ -45,6 +45,7 @@
             "consultar ventas": "Permite consultar las ventas de sus publicaciones",
             "consultar citas": "Permite consultar las citas que ha solicitado",
             "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            "desactivar comandos de voz": "Desactiva los comandos de voz"
         };
 
         function formulario_p1(event){
@@ -54,9 +55,8 @@
                    speech = speech
                    console.log(speech);
                     
-                    if(campo === 0){
+                    if(campo === 0)
                         speech = speech.toLowerCase().replace("uno", "1").replace("dos", "2");
-                    }
 
                     ["dictado", "teclado", "salir", "continuar", "editar", "opciones", "listo", "sí","no"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
@@ -289,10 +289,16 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
+                   if(localStorage.getItem('comandos') == '1')
                    Object.keys(comandos).forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
+                            case "desactivar comandos de voz":
+                                localStorage.setItem('comandos', 0);
+                                hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                                break;
+
                             case "regresar inicio":
                                 window.location.replace("/");
                                 break;
@@ -351,6 +357,12 @@
                         }
                       }    
                    });
+
+                   if(!speaking && localStorage.getItem('comandos') == '0' && speech.toLowerCase().includes('activar comandos de voz')){
+                        bienvenida();
+                        localStorage.setItem("comandos", 1);
+                        break;
+                   }
                 }
             }
         }
@@ -387,8 +399,6 @@
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
-                recognition.start();
-                recognition.addEventListener('end', recognition.start);
             }
         }
 
@@ -418,10 +428,14 @@
             }
         }
 
-        if({{errores|length}} === 0)        
-            bienvenida();
-        else
-            bienvenida(1);
+        if(localStorage.getItem('comandos') == '1')
+            if({{errores|length}} === 0)        
+                bienvenida();
+            else
+                bienvenida(1);
+
+        recognition.start();
+        recognition.addEventListener('end', recognition.start);
 
         $(document).on('change', '#parroquia', () => {
             $('#sector').empty();

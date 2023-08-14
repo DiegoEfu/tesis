@@ -7,7 +7,7 @@
 
     <script>
         const synthesis = window.speechSynthesis;
-        let speaking = true, escribiendo = false, dictando = false, reporte = false, campo = 0;
+        let speaking = false, escribiendo = false, dictando = false, reporte = false, campo = 0;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -16,6 +16,7 @@
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
             "leer pago": "Seguido de un número lee los detalles del pago especificado.",
+            "desactivar comandos de voz": "Desactiva los comandos de voz",
             // {% if pagos.count %}
             "descargar pdf": "Descarga el reporte PDF de la compra",
             "descargar mp3": "Descarga el reporte MP3 de la compra",
@@ -39,11 +40,19 @@
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
+
+                   if(localStorage.getItem('comandos') == '1')
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer pago", "regresar inicio"].forEach(comando => {
+                   "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer pago", "regresar inicio",
+                   "desactivar comandos de voz"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
+                            case "desactivar comandos de voz":
+                                localStorage.setItem('comandos', 0);
+                                hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                                break;
+
                             case "regresar inicio":
                                 window.location.replace("/");
                                 break;
@@ -81,7 +90,7 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
-// {%endif%}
+                            // {%endif%}
                                                         
                             case "leer pantalla":
                                 hablar(`Esta es la pantalla de consultas de compras. Usted ha realizado {{compras.count}} compras. La pantalla está dividida en las siguientes secciones:
@@ -142,6 +151,12 @@
                         }
                       }    
                    });
+
+                   if(!speaking && localStorage.getItem('comandos') == '0' && speech.toLowerCase().includes('activar comandos de voz')){
+                        bienvenida();
+                        localStorage.setItem("comandos", 1);
+                        break;
+                   }
                 }
             }
         }
@@ -183,8 +198,6 @@
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
-                recognition.start();
-                recognition.addEventListener('end', recognition.start);
             }
         }
 
@@ -217,7 +230,8 @@
             }
         }
         
-        bienvenida();
+        if(localStorage.getItem('comandos') == '1')
+            bienvenida();
     </script>
 </head>
 <body>
