@@ -181,3 +181,25 @@ class Cita(models.Model):
                 return y
         
         return "DESCONOCIDO"
+    
+class Edicion(models.Model):
+    nombre = models.CharField(max_length=100)
+    estado = models.CharField(max_length=1, default="R", choices=estados_inmueble)
+    ano_construccion = models.IntegerField()
+    tipo_construccion = models.CharField(max_length=45, default="Casa Individual", choices=tipos_construccion)
+    estacionamientos = models.IntegerField()
+    tamano = models.DecimalField(decimal_places=2,max_digits=10)
+    habitaciones = models.IntegerField()
+    banos = models.IntegerField()
+    amueblado = models.BooleanField()
+    descripcion = models.TextField()
+    comentarios_internos = models.TextField(default="")
+    ubicacion_detallada = models.TextField()
+    precio = models.DecimalField(decimal_places=2,max_digits=12)
+    pisos = models.IntegerField()
+    agua = models.BooleanField()
+    electricidad = models.BooleanField()
+    internet = models.BooleanField()
+    gas = models.BooleanField()
+    aseo = models.BooleanField()
+    inmueble = models.ForeignKey(Inmueble, on_delete=models.CASCADE)

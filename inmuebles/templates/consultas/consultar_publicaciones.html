@@ -19,6 +19,7 @@
             "crear nueva publicación": "Lleva al formulario de creación de nueva publicación",
             "cancelar publicación": "Lleva a la pantalla de cancelación si la publicación está activa o en revisión",
             "desactivar comandos de voz": "Desactiva los comandos de voz",
+            "editar publicación": "Seguido del número de publicación, lleva al formulario de edición de publicación",
             // {% if not request.user.is_authenticated %}
             "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
             // {% else %}
@@ -28,7 +29,6 @@
             "consultar citas": "Permite consultar las citas que ha solicitado",
             "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
             // {% endif %}
-            
         };
 
         function inicial(event) {
@@ -42,7 +42,7 @@
                    if(localStorage.getItem('comandos') == '1')
                    ["crear nueva publicación", "ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
                    "cancelar publicación","regresar inicio","cerrar sesión", "leer pantalla", "leer publicación", "regresar inicio",
-                   "desactivar comandos de voz"].forEach(comando => {
+                   "desactivar comandos de voz", "editar publicación"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -106,6 +106,15 @@
                             
                             case "crear nueva publicación":
                                 window.location.replace("/inmuebles/creacion/");
+                                break;
+
+                            case "editar publicación":
+                                const edicion = speech.split(" ")[speech.split(" ").indexOf("publicación") + 1]
+                                .replace(/[.,]/g,"").replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
+                                .replace("nueve","9").replace("uno","1");
+                                let listo = false;
+
                                 break;
                             
                             case "leer publicación":
@@ -267,6 +276,9 @@
     <b>Ubicación detallada: </b> {{publicacion.ubicacion_detallada}}
     <b>Agente Asignado:</b> {{publicacion.agente}} ({{publicacion.agente.cedula}})
     <b>Estado de la Publicación:</b> {{publicacion.estado_largo}}
+    {% if publicacion.estado == 'A' %}
+    <a href="{% url 'editar_inmueble' pk=publicacion.pk %}">Editar Publicación</a>
+    {% endif %}
     {% if publicacion.estado == 'A' or publicacion.estado == 'R' %}
     <a href="{% url 'cancelar_publicacion' pk=publicacion.pk %}">Cancelar publicación</a>
     {% endif %}
