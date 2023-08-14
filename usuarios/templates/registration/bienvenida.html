@@ -1,5 +1,5 @@
 {% load pwa %}
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenida</title>
-
+    <link rel="stylesheet" href="{% static 'estilos/inicio/home.css' %}">
     <script>
         const synthesis = window.speechSynthesis;
         let speaking = false, reporte = false, escribiendo = false, dictando = false, campo = 0;
@@ -250,8 +250,8 @@
         recognition.addEventListener('end', recognition.start);
     </script>
 </head>
+        {% include 'nav.html' %}
 <body>
-    {% include 'nav.html' %}
     {% if request.user.is_authenticated %}
     <form method='POST'>
         {% csrf_token %}
@@ -259,7 +259,8 @@
     </form>
     {% endif %}
 
-    <div>
+       <div class="seccionBuscador"><!--Motor de búsqueda-->
+    <div class="container-fluid contenedorSeccionBuscador">
         <form method="post" id="form_busqueda">
             {% csrf_token %}
             <input type="hidden" name="formulario" value="busqueda">
@@ -268,36 +269,195 @@
             <input type="submit">
         </form>
     </div>
-
-    <div>
-        <!--
-            Información General
-        -->
+</div>
+     <div class="generalInfo"><!--Información General-->
+        <div class="container-fluid contenedorGeneralInfo">
+            <h3 class="tituloSeccionGeneralInfo">Con nuestra plataforma online podrás:</h3>
+            <ul class="listaCuadrosInfo">
+                <div class="cuadroInfo">
+                        <h3 class="tituloInfo" id="comprarInmuebles"><v>Comprar</v> Inmuebles</h3>
+                    <p class="parrafoInfo">La opción de comprar un inmueble implica la posibilidad de adquirir una propiedad a un precio determinado dentro de un plazo acordado previamente entre el comprador y el vendedor.</p>
+                </div>
+                <div class="cuadroInfo">
+                    <h3 class="tituloInfo" id="venderInmuebles" ><v>Vender</v> Inmuebles</h3>
+                <p class="parrafoInfo">La opción de vender un inmueble implica otorgar a un comprador potencial el derecho, pero no la obligación, de comprar una propiedad a un precio especificado en un plazo determinado.</p>
+            </div>
+            <div class="cuadroInfo">
+                <h3 class="tituloInfo" id="tituloAgentes"><v>Ver</v> Agentes</h3>
+            <p class="parrafoInfo">Se trata de una opción que generalmente está disponible para cualquier persona que desee comprar o vender un inmueble. Los agentes inmobiliarios son profesionales que tienen conocimientos y experiencia en el mercado inmobiliario y pueden ayudar a los compradores y vendedores a encontrar la propiedad adecuada o el comprador adecuado para su propiedad.</p>
+        </div>
+            </ul>
+            <div class="apartadoBoton"> 
+                <a href=""><button type="button" class="btn btn-success">VER PERFIL</button></a>
+            </div><br><br>
+        </div>
+        
     </div>
 
-    <div>
-        <!--
-            Accesibilidad
-        -->
+    <div class="seccionAccesibilidad"><!--Accesibilidad-->
+        <div class="container-fluid contenedorAccesibilidad">
+            <div class="contenedorTitulo">
+        <h3 id="tituloAccesibilidad">Soporte mediante comandos de voz</h3>
+        <p id="parrafoAccesibilidad">NOS PREOCUPAMOS PORQUE CUALQUIERA PUEDA UTILIZAR NUESTRA PÁGINA WEB</p>
+        </div>
+        <div class="caracteristicas">
+            <ul class="listaAccesibilidad">
+                <div class="caracteristicaContainer">
+                    <img src="../../../static/img/iconosAccesibilidad/Icon1.png" alt="" class="iconoAcc">
+                    <div class="containerInfoAccesibilidad">
+                        <h6 class="tituloCaracteristica">Para cuando tu visión no esté disponible</h6>
+                        <p class="parrafoAcc">Ofrecemos un software que podrás utilizar cuando te encuentres
+                            con tu vista comprometida en otra actividad.
+                        </p>
+                    </div>
+                </div>
+                <div class="caracteristicaContainer">
+                    <img src="../../../static/img/iconosAccesibilidad/Icon2.png" alt="" class="iconoAcc">
+                    <div class="containerInfoAccesibilidad">
+                        <h6 class="tituloCaracteristica">Para personas  ciegas</h6>
+                        <p class="parrafoAcc">Ofrecemos soporto mediante comandos de voz para personas
+                            con discapacidad visual.
+                        </p>
+                    </div>
+                </div>
+                <div class="caracteristicaContainer">
+                    <img src="../../../static/img/iconosAccesibilidad/Icon3.png" alt="" class="iconoAcc">
+                    <div class="containerInfoAccesibilidad">
+                        <h6 class="tituloCaracteristica">Para personas daltónicas</h6>
+                        <p class="parrafoAcc">Utilizamos colores armoniosos para personas con esta condición</p>
+                    </div>
+                    </div>
+                    <div class="caracteristicaContainer">
+                        <img src="../../../static/img/iconosAccesibilidad/Icon4.png" alt="" class="iconoAcc">
+                        <div class="containerInfoAccesibilidad">
+                            <h6 class="tituloCaracteristica">Para personas con astigmatismo</h6>
+                            <p class="parrafoAcc">Ofrecemos una interfaz visualmente agradable para personas con visión limitada.</p>
+                        </div>
+            </ul>
+        </div>
+    </div>
     </div>
 
-    <div>
-        <!--
-            Agentes Calificados
-        -->
+    <div class="seccionAgentes"><!--Agentes Calificados-->
+        <div class="contenedorSeccionAgentes container-fluid">
+            <h3 class="tituloSeccionAgentes">Agentes Calificados</h3>
+            <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-inner container-fluid">
+                  <div class="carousel-item active">
+                    <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente1.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente2.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente3.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="carousel-item active">
+                    <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente1.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente2.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente3.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="carousel-item active">
+                    <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente1.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente2.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente3.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="carousel-item active">
+                    <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente1.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente2.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <img src="../../../static/img/imagenesAgentes/Agente3.png" class="card-img-top" alt="...">
+                        <div class="card-body container-fluid">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+          </div>
+        </div>
     </div>
 
-    <div>
-        <!--
-           Invitación a Registro
-        -->
+    <div class="seccionPerfil"><!--Invitación a ver inmuebles-->
+        <div class="container-fluid contenedorSeccionPerfil">
+            <h3 class="tituloSeccion5">Comienza a comprar Inmuebles</h3>
+            <button type="button" class="btn btn-success">Ver inmuebles</button>
+        </div>
+
     </div>
 
-    <footer>
-        <!--
-           Footer
-        -->        
-    </footer>
+   {% include 'footer.html' %}
 
     <script>
         let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
