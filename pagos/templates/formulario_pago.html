@@ -17,13 +17,15 @@
             ['Fecha de la transacción', 'fecha_transaccion', 'Ingrese la fecha de la transacción.'],
             ['Comentarios', 'comentario', 'Añada un comentario de considerarlo necesario. Este campo es opcional. Diga dictado para dictar.']
         ];
-        let speaking = true, escribiendo = false, dictando = false, campo = 0;;
+        let speaking = false, escribiendo = false, dictando = false, campo = 0;;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
-            "registrar pago": "Inicia el formulario de registro de pago."
+            "registrar pago": "Inicia el formulario de registro de pago.",
+            "regresar inicio": "Regresa a la pantalla de inicio",
+            "desactivar comandos de voz": "Desactiva los comandos de voz"
         };
         const tasa = Number("{{tasa_dolar}}".replace(",","."));
 
@@ -201,12 +203,23 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
+
+                   if(localStorage.getItem('comandos') == '1')
                    Object.keys(comandos).forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
+                            case "desactivar comandos de voz":
+                                localStorage.setItem('comandos', 0);
+                                hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                                break;
+
+                            case "regresar inicio":
+                                window.location.replace("/");
+                                break;
+                                
                             case "ayuda":
                                 if ('speechSynthesis' in window) {
                                     const crear_utterance = () => {
@@ -231,6 +244,12 @@
                         }
                       }    
                    });
+                
+                   if(!speaking && localStorage.getItem('comandos') == '0' && speech.toLowerCase().includes('activar comandos de voz')){
+                        bienvenida();
+                        localStorage.setItem("comandos", 1);
+                        break;
+                   }
                 }
             }
         }
@@ -271,8 +290,6 @@
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
-                recognition.start();
-                recognition.addEventListener('end', recognition.start);
             }
         }
 
@@ -305,10 +322,14 @@
             }
         }
 
-        if({{errores|length}} === 0)        
-            bienvenida();
-        else
-            bienvenida(1);
+        recognition.start();
+        recognition.addEventListener('end', recognition.start);
+
+        if(localStorage.getItem('comandos') == '1')
+            if({{errores|length}} === 0)        
+                bienvenida();
+            else
+                bienvenida(1);
 
         function redondeoFinanciero(num, decimalPlaces = 2) {
             var d = decimalPlaces || 0;

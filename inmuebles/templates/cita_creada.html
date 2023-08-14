@@ -7,7 +7,7 @@
 
     <script>
         const synthesis = window.speechSynthesis;
-        let speaking = true, escribiendo = false, dictando = false, reporte = false, campo = 0;
+        let speaking = false, escribiendo = false, dictando = false, reporte = false, campo = 0;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -18,6 +18,7 @@
             "leer detalles": "Lee los detalles de la cita agendada",
             "descargar pdf": "Descarga el comprobante de cita en formato PDF",
             "descargar mp3": "Descarga el comprobante de cita en formato MP3",
+            "desactivar comandos de voz": "Desactiva los comandos de voz",
             // {% if not request.user.is_authenticated %}
             "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
             // {% else %}
@@ -33,13 +34,22 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("cuatro", "4");
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                         .replace('nueve','9').replace('cero','0').replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");
                    console.log(speech);
+
+                   if(localStorage.getItem('comandos') == '1')
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "regresar inicio", "cerrar sesión", "leer pantalla", "leer detalles", "descargar pdf", "descargar mp 3", "salir"].forEach(comando => {
+                   "regresar inicio", "cerrar sesión", "leer pantalla", "leer detalles", "descargar pdf", "descargar mp 3", "desactivar comandos de voz"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
+                            case "desactivar comandos de voz":
+                                localStorage.setItem('comandos', 0);
+                                hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                                break;
+
                             case "ayuda":
                                 if ('speechSynthesis' in window) {
                                     const crear_utterance = () => {
@@ -54,7 +64,6 @@
                             
                             // {% if request.user.is_authenticated %}
                             case "consultar compras":
-
                                 hablar("Redirigiendo a la pantalla de compras.");
                                 location.replace("/inmuebles/consultar/compras/");
                                 break;
@@ -113,6 +122,12 @@
                         }
                       }    
                    });
+
+                   if(!speaking && localStorage.getItem('comandos') == '0' && speech.toLowerCase().includes('activar comandos de voz')){
+                        bienvenida();
+                        localStorage.setItem("comandos", 1);
+                        break;
+                   }
                 }
             }
         }
@@ -159,8 +174,6 @@
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
-                recognition.start();
-                recognition.addEventListener('end', recognition.start);
             }
         }
 
@@ -193,7 +206,11 @@
             }
         }
         
-        bienvenida();
+        if(localStorage.getItem('comandos') == '1')
+            bienvenida();
+
+        recognition.start();
+        recognition.addEventListener('end', recognition.start);
     </script>
 </head>
 

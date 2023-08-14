@@ -39,6 +39,8 @@ tipos_construccion = [
     ("Apartamento Regular",)*2,
     ("Apartamento PentHouse",)*2,
     ("Terreno",)*2,
+    ("Oficina",)*2,
+    ("Edificio",)*2,
 ]
 
 class Parroquia(models.Model):
