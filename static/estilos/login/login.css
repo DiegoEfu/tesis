@@ -1,0 +1,642 @@
+:root {
+    --negro: #000000;
+    --verdeOscuro: #6EC402;
+    --verdeClaro: #a9f14f;
+    --verdeOscuroFondo: rgb(169, 241, 79, 0.5);
+    --negroFondo: rgb(0, 0, 0, 0.5);
+    --blanco: #FFFFFF;
+ }
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+    /*Nav*/
+    .navegadorPrincipal {
+        align-items: center;
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .linkRegreso {
+        
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        color: var(--negro);
+    }
+    .linkRegreso:hover {
+        color: var(--verdeOscuro);
+    }
+    /*Fondo Login*/
+    .fondoLogin{
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        background-image: linear-gradient(
+            to bottom,
+            var(--verdeOscuroFondo),
+            var(--negroFondo)
+          ), url("../../img/login/fondoLogin.jpg"); 
+        background-size: cover;
+        background-position: center;
+    }
+    .cuadroForm {
+        background-color: white;
+        box-shadow: 8px 8px 8px #000000;
+    }
+
+    .loginTitle {
+        color: var(--verdeOscuro);
+        font-weight: bolder; 
+    }
+    .apartadoBoton {
+        text-align: center;
+        }
+    .btn-success {
+        background-color: var(--verdeOscuro)!important;
+        color: var(--blanco)!important;
+        border: var(--verdeOscuro)!important; }
+    .btn-success:hover {
+        background-color: #325a00!important;
+        color:#000000!important;
+        }
+
+@media(max-width:2000px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 105vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 70vw;
+                height: 45%;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 180px;
+                font-size: 500%;
+            }
+            
+            .form-control{
+                width: 90%!important;
+                margin-left: 5%;
+            }
+        
+            .btn-success {
+                width: 210px;
+                height: 50px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+            
+            .etiquetaLogin {
+                font-size: 25px;
+            }
+            
+            
+        }
+
+@media(max-width:1800px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 105vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 70vw;
+                height: 45%;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 140px;
+                font-size: 400%;
+            }
+            
+            .form-control{
+                width: 90%!important;
+                margin-left: 5%;
+            }
+        
+            .btn-success {
+                width: 210px;
+                height: 50px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+
+            .etiquetaLogin {
+                font-size: 20px;
+            }
+            
+            
+        }
+
+@media(max-width:1320px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 105vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 70vw;
+                height: 55%;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 160px;
+                font-size: 400%;
+            }
+            
+            .form-control{
+                width: 90%!important;
+                margin-left: 5%;
+            }
+        
+            .btn-success {
+                width: 210px;
+                height: 50px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+
+            .etiquetaLogin {
+                font-size: 15px;
+            }
+            
+            
+        }
+
+@media(max-width:1140px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 105vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 80vw;
+                height: 55%;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 140px;
+                font-size: 320%;
+            }
+            
+            .form-control{
+                width: 90%!important;
+                margin-left: 5%;
+            }
+        
+            .btn-success {
+                width: 210px;
+                height: 50px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+            
+            
+        }
+
+@media(max-width:1020px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 105vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 80vw;
+                height: 65vw;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 110px;
+                font-size: 220%;
+            }
+            
+            .form-control{
+                width: 80%!important;
+                margin-left: 10%;
+            }
+        
+            .btn-success {
+                width: 150px;
+                height: 50px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+            
+            
+        }
+
+@media(max-width:920px) {
+
+            #logoJausi {
+                width: 10%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 105vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 50vw;
+                height: 65vw;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 110px;
+                font-size: 220%;
+            }
+            
+            .form-control{
+                width: 80%!important;
+                margin-left: 10%;
+            }
+        
+            .btn-success {
+                width: 150px;
+                height: 50px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+            
+            
+        }
+
+@media(max-width:800px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 130vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 50vw;
+                height: 75vw;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 110px;
+                font-size: 220%;
+            }
+            
+            .form-control{
+                width: 80%!important;
+                margin-left: 10%;
+            }
+        
+            .btn-success {
+                width: 150px;
+                height: 50px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+            
+            
+        }
+
+@media(max-width:720px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 130vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 50vw;
+                height: 75vw;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 60px;
+                font-size: 220%;
+            }
+            
+            .form-control{
+                width: 80%!important;
+                margin-left: 10%;
+            }
+        
+            .btn-success {
+                width: 150px;
+                height: 50px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+            
+            
+        }
+
+
+@media(max-width:600px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 130vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 50vw;
+                height: 90vw;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 60px;
+                font-size: 220%;
+            }
+            
+            .form-control{
+                width: 80%!important;
+                margin-left: 10%;
+            }
+        
+            .btn-success {
+                width: 150px;
+                height: 50px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+            
+            
+        }
+
+@media(max-width:540px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 130vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 50vw;
+                height: 100vw;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 60px;
+                font-size: 220%;
+            }
+            
+            .form-control{
+                width: 80%!important;
+                margin-left: 10%;
+            }
+        
+            .btn-success {
+                width: 150px;
+                height: 50px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+            
+            
+        }
+
+
+@media(max-width:480px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 130vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 50vw;
+                height: 100vw;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 30px;
+                font-size: 220%;
+            }
+            
+            .form-control{
+                width: 80%!important;
+                margin-left: 10%;
+            }
+        
+            .btn-success {
+                width: 150px;
+                height: 40px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+            
+            
+        }
+
+@media(max-width:430px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 160vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 50vw;
+                height: 120vw;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 30px;
+                font-size: 220%;
+            }
+            
+            .form-control{
+                width: 80%!important;
+                margin-left: 10%;
+            }
+        
+            .btn-success {
+                width: 150px;
+                height: 40px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+            
+            
+        }
+    
+@media(max-width:360px) {
+
+            #logoJausi {
+                width: 20%;
+            }
+            .linkRegreso {
+                font-size: 20px;
+            }
+        
+            .fondoLogin {
+                height: 220vw;
+            }
+        
+            .cuadroForm {
+                margin: 0px auto;
+                width: 50vw;
+                height: 160vw;
+                border-radius: 10%;
+            }
+            
+            .loginTitle {
+                padding-top: 60px;
+                font-size: 220%;
+            }
+            
+            .form-control{
+                width: 80%!important;
+                margin-left: 10%;
+            }
+        
+            .btn-success {
+                width: 150px;
+                height: 40px;
+                font-weight: 600!important;
+                border-radius: 100px!important;
+            }
+            
+            
+        }
+
+@media(max-width:320px) {
+
+    #logoJausi {
+        width: 20%;
+    }
+    .linkRegreso {
+        font-size: 20px;
+    }
+
+    .fondoLogin {
+        height: 250vw;
+    }
+
+    .cuadroForm {
+        margin: 0px auto;
+        width: 50vw;
+        height: 192vw;
+        border-radius: 10%;
+    }
+    
+    .loginTitle {
+        padding-top: 60px;
+        font-size: 220%;
+    }
+    
+    .form-control{
+        width: 80%!important;
+        margin-left: 10%;
+    }
+
+    .btn-success {
+        width: 150px;
+        height: 40px;
+        font-weight: 600!important;
+        border-radius: 100px!important;
+    }
+    
+    
+}

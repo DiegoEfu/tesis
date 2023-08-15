@@ -1,0 +1,165 @@
+* {
+    /*border: 1px solid red; */
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+
+}
+
+.logoEmpresa{/*Medida del logo*/
+    width: 10%;
+}
+
+.contenedorNav{/*Contenedor del navegador*/
+    margin-left: 3%;
+}
+
+.opcionNav {
+    margin-right: 150px;
+}
+
+.opcionNav a {
+    color: black!important;
+}
+
+.opcionNav a:hover {
+    color: var(--verdeMusgo)!important;
+    text-decoration: underline;
+}
+
+/*Los media queries para que el navegador se adapte*/
+
+@media (max-width:2000px) {
+    .logoEmpresa{
+       width: 20%!important;
+   }
+   .opcionNav {
+    margin-right: 25px;
+    font-size: 35px;
+} }
+
+
+@media (max-width:1920px) {
+    .logoEmpresa{
+       width: 20%!important;
+   }
+   .opcionNav {
+    margin-right: 25px;
+    font-size: 25px;
+} }
+
+
+
+@media (max-width:1440px) {
+    .logoEmpresa{
+       width: 15%!important;
+   }
+   .opcionNav {
+    margin-right: 20px;
+    font-size: 25px; } 
+    .offcanvas-start {
+    width: 900px!important;
+       } 
+     }
+
+@media (max-width:1280px) {
+    .logoEmpresa{
+       width: 15%!important;
+   }
+   .opcionNav {
+    margin-right: 20px;
+    font-size: 18px;
+}
+.offcanvas-start {
+    width: 800px!important;
+   }
+
+}
+
+@media (max-width:1024px) {
+    .logoEmpresa{
+       width: 15%!important;
+   }
+   .opcionNav {
+    margin-right: 23px;
+    font-size: 12px;
+}
+.offcanvas-start {
+    width: 700px!important;
+   }
+
+}
+
+@media (max-width:800px) {
+    .logoEmpresa{
+       width: 15%!important;
+   }
+   .opcionNav {
+    margin-right: 20px;
+    font-size: 12px;
+}
+.offcanvas-start {
+    width: 600px!important;
+   }
+
+}
+
+@media (max-width:767px) {
+    .logoEmpresa{
+       width: 40%!important;
+   }
+   .navbar-toggler{
+    width: 55%!important;
+   }
+   .offcanvas-start {
+    width: 500px!important;
+   }
+}
+
+@media (max-width:600px) {
+    .logoEmpresa{
+       width: 50%!important;
+   }
+   .navbar-toggler{
+    width: 50%!important;
+   }
+   .offcanvas-start {
+    width: 400px!important;
+   }
+}
+
+@media (max-width:480px) {
+    .logoEmpresa{
+       width: 40%!important;
+   }
+   .navbar-toggler{
+    width: 50%!important;
+   }
+   .offcanvas-start {
+    width: 300px!important;
+   }
+}
+
+@media (max-width:320px) {
+    .logoEmpresa{
+       width: 40%!important;
+   }
+   .navbar-toggler{
+    width: 50%!important;
+   }
+
+   .offcanvas-start {
+    width: 200px!important;
+   }
+
+}
+
+
+
+
+
+
+
+
+
+
+
