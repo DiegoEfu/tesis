@@ -6,7 +6,10 @@ from datetime import datetime, timedelta
 from reportes.mp3 import reporte_cita_mp3, reporte_compra_mp3, reporte_compras_mp3, reporte_pagos_compra_mp3
 from reportes.mp3 import reporte_publicacion_mp3
 from reportes.pdfs import generar_pdf
-import os
+import os, base64, json
+from django.conf import settings
+from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
 
 # Vistas:
 
@@ -176,6 +179,7 @@ def aprobar_inmueble(request, pk):
                                                                     'construcciones': tipos_construccion})
     
     elif request.method == "POST":
+        print(request.POST)
         nombre = request.POST.get('nombre')
         ano_construccion = request.POST.get('ano')
         tipo_construccion = request.POST.get('tipo_construccion')
@@ -188,11 +192,11 @@ def aprobar_inmueble(request, pk):
         ubicacion_detallada = request.POST.get('ubicacion_detallada') 
         precio = request.POST.get('precio')
         comentarios_internos = request.POST.get('comentarios_internos')
-        electricidad = request.POST.get('electricidad')
-        agua = request.POST.get('agua')
-        internet = request.POST.get('internet')
-        aseo = request.POST.get('aseo')
-        gas = request.POST.get('gas')
+        electricidad = bool(request.POST.get('electricidad'))
+        agua = bool(request.POST.get('agua'))
+        internet = bool(request.POST.get('internet'))
+        aseo = bool(request.POST.get('aseo'))
+        gas = bool(request.POST.get('gas'))
         pisos = request.POST.get('pisos')
 
         errores = []
@@ -278,6 +282,22 @@ def aprobar_inmueble(request, pk):
             inmueble.estado = 'D'
 
         inmueble.save()
+
+        # Guardado de Imágenes
+        img = 0
+        for file in request.FILES.values():
+            print(file)
+            ext = "." + file.name.split(".")[1]
+            print(ext)
+            myfile = f"{inmueble.pk}_{img}_" + ext
+            
+            from django.core.files.storage import default_storage
+            if(default_storage.exists(myfile)):
+                default_storage.delete(myfile)
+
+            fs = FileSystemStorage()
+            fs.save(myfile, file)
+            img += 1
 
         return redirect('/')
 
