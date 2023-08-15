@@ -624,7 +624,8 @@ def editar_inmueble(request, pk):
             electricidad = bool(electricidad),
             internet = bool(internet),
             aseo = bool(aseo),
-            pisos = pisos
+            pisos = pisos,
+            inmueble = Inmueble.objects.get(pk=pk)
         )
 
         return redirect("/")

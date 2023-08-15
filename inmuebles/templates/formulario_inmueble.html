@@ -58,7 +58,7 @@
                     if(campo === 0)
                         speech = speech.toLowerCase().replace("uno", "1").replace("dos", "2");
 
-                    ["dictado", "teclado", "salir", "continuar", "editar", "opciones", "listo", "sí","no"].forEach(comando => {
+                    ["dictado", "salir", "continuar", "editar", "opciones", "listo", "sí","no"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -76,13 +76,6 @@
                                         escribiendo = true;
                                         dictando = true;
                                     }
-                                    break;
-                                
-                                case "teclado":
-                                    hablar(`Usted ha dicho teclado. Escriba su ${campos[campo][0]} y diga 'listo' al terminar.`);
-                                    escribiendo = true;
-                                    const input = document.getElementById(campos[campo][1]);
-                                    input.focus();
                                     break;
 
                                 case "continuar":
@@ -154,6 +147,11 @@
                                             hablar(`La cantidad de ${campos[campo][1]} no puede ser ser menor a 0.`);
                                             break;
                                         }
+
+                                        if((campo === 6 || campo === 10 || campo === 13) && $(`#${campos[campo][1]}`).val() == 0){
+                                            hablar(`La cantidad de ${campos[campo][1]} no puede ser ser 0.`);
+                                            break;
+                                        }
                                     }
 
                                     $(id).val($(id).val().trim().replace(/\s+/g,' '));
@@ -211,7 +209,7 @@
                     console.log(dictando);
                     console.log(campo)
 
-                    if(dictando && (campo === 1 || campo === 5 || campo === 12)){
+                    if(dictando && (campo === 1 || campo === 5 || campo === 12 || campo === 13)){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
@@ -228,13 +226,9 @@
                          .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
                         if(/[0-9]+/.test(speech.replaceAll(" ", "")))
                             $(`#${campos[campo][1]}`).val(speech.replaceAll(" ", "").replaceAll(/\D+/g, ""));
-                    }                        
-                    else if(dictando && campo === 7){
-                        if(speech.toLowerCase().indexOf("dictado") === -1)
-                            $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("Listo.","").replace("salir","").replace(" ", ""));
                     }
                     else if(dictando && campo === 10){
-                        if(speech.indexOf("Dictado") === -1)
+                        if(speech.toLowerCase().indexOf("dictado") === -1)
                             $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
@@ -508,7 +502,7 @@
         <textarea required name="descripcion" id="descripcion" cols="30" rows="10"></textarea><br>
 
         <label for="precio">Precio (Dólares):</label>
-        <input required min="0" type="number" name="precio" id="precio"><br>
+        <input required min="0.01" type="number" step=".01" name="precio" id="precio"><br>
 
         <hr>
         <h4>Características Extra</h4>
