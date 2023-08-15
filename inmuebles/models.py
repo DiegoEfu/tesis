@@ -1,5 +1,8 @@
 from django.db import models
 from num2words import num2words
+from django.conf import settings
+from os import listdir
+from os.path import isfile, join
 
 # Create your models here.
 
@@ -120,6 +123,11 @@ class Inmueble(models.Model):
             servicios = "Ninguno."
 
         return servicios
+    
+    def imagenes(self):
+        media_path = settings.MEDIA_ROOT
+        imagenes = ['/media/' + f for f in listdir(media_path) if isfile(join(media_path, f)) and f.startswith(f'{self.pk}_')]
+        return imagenes
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)

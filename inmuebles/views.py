@@ -6,10 +6,9 @@ from datetime import datetime, timedelta
 from reportes.mp3 import reporte_cita_mp3, reporte_compra_mp3, reporte_compras_mp3, reporte_pagos_compra_mp3
 from reportes.mp3 import reporte_publicacion_mp3
 from reportes.pdfs import generar_pdf
-import os, base64, json
-from django.conf import settings
-from django.core.files.base import ContentFile
+import os
 from django.core.files.storage import FileSystemStorage
+from django.db.models import Q
 
 # Vistas:
 
@@ -286,9 +285,7 @@ def aprobar_inmueble(request, pk):
         # Guardado de Imágenes
         img = 0
         for file in request.FILES.values():
-            print(file)
             ext = "." + file.name.split(".")[1]
-            print(ext)
             myfile = f"{inmueble.pk}_{img}_" + ext
             
             from django.core.files.storage import default_storage
@@ -740,6 +737,7 @@ def buscar_coincidencias(busqueda):
 
     # Tipo de vivienda:
     previo = posibles_inmuebles
+    print("K")
     if "casa" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "casa")
     elif "apartamento" in busqueda:
@@ -758,6 +756,9 @@ def buscar_coincidencias(busqueda):
         posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "terreno")
     elif "edificio" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "edificio")
+    elif "mansion" in busqueda:
+        print("AJA???")
+        posibles_inmuebles = posibles_inmuebles.filter(Q(nombre__icontains = 'mansión') | Q(descripcion__icontains = 'mansión'))
 
     if(not posibles_inmuebles):
         posibles_inmuebles = previo

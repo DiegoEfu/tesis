@@ -303,7 +303,12 @@
     
     <h2>{{inmueble.nombre.upper}}</h2>
     <h3>${{inmueble.precio}}</h3>
-    "{{inmueble.descripcion}}"
+    "{{inmueble.descripcion}}"<br>
+    {% for imagen in inmueble.imagenes %}
+        <img class="border border-secondary rounded my-2 mx-3" height="100"
+            src="{{imagen}}"
+            width="100"/>
+    {% endfor %}
     <ul>
         <li><b>Año de Construcción: </b> {{inmueble.ano_construccion}}</li>
         <li><b>Tipo de Construcción: </b> {{inmueble.tipo_construccion}}</li>

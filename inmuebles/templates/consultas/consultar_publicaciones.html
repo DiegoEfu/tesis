@@ -271,7 +271,12 @@
     {% for publicacion in publicaciones %}
     <hr>
     <h5>{{publicacion.nombre}}</h5>
-    <b>Precio:</b> ${{publicacion.precio}}
+    {% for imagen in publicacion.imagenes %}
+        <img class="border border-secondary rounded my-2 mx-3" height="100"
+            src="{{imagen}}"
+            width="100"/>
+    {% endfor %}
+    <br><b>Precio:</b> ${{publicacion.precio}}
     <b>Sector:</b> {{publicacion.sector.nombre}} (Parroquia {{publicacion.sector.parroquia.nombre}})
     <b>Ubicación detallada: </b> {{publicacion.ubicacion_detallada}}
     <b>Agente Asignado:</b> {{publicacion.agente}} ({{publicacion.agente.cedula}})
