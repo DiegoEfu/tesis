@@ -8,6 +8,7 @@ urlpatterns = [
     path("detallar/<int:pk>/", detallar_inmueble, name="detalle_inmueble"),
     path("creacion/sectores/<int:id>/", get_sectores, name="get_sectores"),
     path("aprobar/<int:pk>/", aprobar_inmueble, name="aprobar_inmueble"),
+    path("edicion/<int:pk>/", editar_inmueble, name="editar_inmueble"),
 
     # Citas
     path("cita/dia/<int:pk>/", seleccionar_dia_cita, name="seleccionar_dia_cita"),

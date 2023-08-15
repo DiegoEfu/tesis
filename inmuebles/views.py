@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
-from .models import Parroquia, Sector, Inmueble, Cita, Compra, tipos_construccion
+from .models import Parroquia, Sector, Inmueble, Cita, Compra, Edicion, tipos_construccion
 from usuarios.models import Persona
 from datetime import datetime, timedelta
 from reportes.mp3 import reporte_cita_mp3, reporte_compra_mp3, reporte_compras_mp3, reporte_pagos_compra_mp3
@@ -515,6 +515,120 @@ def cancelar_venta(request,pk):
             venta.estado = 'C'
             venta.save()
             return render(request, 'cancelacion/espera_cancelacion_venta.html', context={'venta': venta})
+
+def editar_inmueble(request, pk):
+    inmueble = Inmueble.objects.get(pk=pk)
+    if(request.method == 'GET'):
+        context = {}
+        context['construcciones'] = ["Casa Individual", "Casa Dúplex", "Casa Tríplex",
+            "Casa de Villa", "Apartamento Regular", "Apartamento PentHouse", "Terreno", "Oficina",
+            "Edificio"]
+        context['parroquias'] = Parroquia.objects.all()
+        context['sectores'] = Sector.objects.filter(parroquia__pk = 1)
+        context['inmueble'] = inmueble
+
+        return render(request,'edicion_inmueble.html',context=context)
+    elif(request.method == 'POST'):
+        # Validación de completitud de datos
+        nombre = request.POST.get('nombre')
+        ano_construccion = request.POST.get('ano')
+        tipo_construccion = request.POST.get('tipo_construccion')
+        estacionamiento = request.POST.get('estacionamiento')
+        tamano = request.POST.get('tamano')
+        habitaciones = request.POST.get('habitaciones')
+        banos = request.POST.get('banos')
+        amueblado = request.POST.get('amueblado')
+        descripcion = request.POST.get('descripcion')
+        ubicacion_detallada = request.POST.get('ubicacion_detallada') 
+        precio = request.POST.get('precio')    
+        electricidad = request.POST.get('electricidad')
+        agua = request.POST.get('agua')
+        internet = request.POST.get('internet')
+        aseo = request.POST.get('aseo')
+        gas = request.POST.get('gas')
+        pisos = request.POST.get('pisos')
+
+        errores = []
+
+        if(not nombre):
+            errores.append("Debe especificar un nombre.")
+        
+        if(not ano_construccion):
+            errores.append("Debe especificar un año.")
+
+        if(not tipo_construccion):
+            errores.append("Debe especificar un tipo seleccionado.")
+
+        if(not tamano):
+            errores.append("Debe especificar tamaño.")
+
+        if(not habitaciones):
+            errores.append("Debe especificar habitaciones.")
+
+        if(not banos):
+            errores.append("Debe especificar baños.")
+
+        if(not descripcion):
+            errores.append("Debe especificar descripción.")
+
+        if(not banos):
+            errores.append("Debe especificar baños.")
+
+        if(not ubicacion_detallada):
+            errores.append("Debe especificar una ubicación detallada.")
+
+        if(not precio):
+            errores.append("Debe especificar un precio.")
+
+        # Validación de correcta estructura de datos
+        
+        if(float(precio) <= 0):
+            errores.append("El precio debe ser mayor a cero.")
+        
+        if(float(tamano) <= 0):
+            errores.append("El tamaño debe ser mayor a 0.")
+        
+        if(float(pisos) <= 0):
+            errores.append("Debe de tener al menos un piso.")
+        
+        if(float(banos) < 0):
+            errores.append("El número de baños debe ser positivo o cero.")
+        
+        if(float(estacionamiento) < 0):
+            errores.append("El número de estacionamientos debe ser positivo o cero.")
+        
+        if(float(habitaciones) < 0):
+            errores.append("El número de habitaciones debe ser positivo o cero.")
+
+        # Creación
+        if(len(errores) != 0):
+            return render(request, 'edicion_inmueble.html', {'errores': errores, 'previo': request.POST})
+
+        inmueble.estado = "E"
+        inmueble.save()
+
+        Edicion.objects.create(
+            nombre = nombre,
+            ano_construccion = ano_construccion,
+            tipo_construccion = tipos_construccion[int(tipo_construccion)-1][0],
+            estacionamientos = estacionamiento,
+            tamano = tamano,
+            banos = banos,
+            habitaciones = habitaciones,
+            amueblado = bool(amueblado),
+            descripcion = descripcion,
+            ubicacion_detallada = ubicacion_detallada,
+            precio = precio,
+            agua = bool(agua),
+            gas = bool(gas),
+            electricidad = bool(electricidad),
+            internet = bool(internet),
+            aseo = bool(aseo),
+            pisos = pisos,
+            inmueble = Inmueble.objects.get(pk=pk)
+        )
+
+        return redirect("/")
 
 # Funciones Auxiliares:
 

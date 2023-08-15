@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    
     {% progressive_web_app_meta %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -269,6 +270,16 @@
             <input type="submit">
         </form>
     </div>
+
+    <div class="seccionBuscador"><!--Motor de búsqueda-->
+    <div class="container-fluid contenedorSeccionBuscador">
+        <form method="post" id="form_busqueda">
+            {% csrf_token %}
+            <input type="hidden" name="formulario" value="busqueda">
+            <h3>Busca tu nuevo hogar...</h3>
+            <input type="text" required name="busqueda" id="busqueda" maxlength="120" placeholder="Escribe aquí tu búsqueda...">
+            <input type="submit">
+        </form>
 </div>
      <div class="generalInfo"><!--Información General-->
         <div class="container-fluid contenedorGeneralInfo">
@@ -291,9 +302,8 @@
                 <a href=""><button type="button" class="btn btn-success">VER PERFIL</button></a>
             </div><br><br>
         </div>
-        
     </div>
-
+</div>
     <div class="seccionAccesibilidad"><!--Accesibilidad-->
         <div class="container-fluid contenedorAccesibilidad">
             <div class="contenedorTitulo">

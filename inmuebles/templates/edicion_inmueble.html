@@ -11,8 +11,6 @@
         const synthesis = window.speechSynthesis;
         const campos = [
             ['Nombre del Inmueble', 'nombre', ''], 
-            ['Parroquia', 'parroquia', 'Parroquia donde se encuentra el inmueble. Diga opciones para escuchar las opciones.'],
-            ['Sector', 'sector', 'Sector donde se encuentra el inmueble. Diga opciones para escuchar las opciones.'],
             ['Tipo de Construcción', 'tipo_construccion', 'Tipo de construcción. Diga opciones para escuchar las opciones.'],
             ['Ubicación detallada', 'ubicacion_detallada', 'Ingrese la ubicación detallada. Diga dictado para dictarla.'],
             ['Año de Construcción', 'ano', 'Ingrese el año de construcción del inmueble. Diga dictado para dictar.'],
@@ -38,7 +36,7 @@
 
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
-            "crear inmueble": "Inicia el formulario de creación de inmueble.",
+            "editar inmueble": "Inicia el formulario de creación de inmueble.",
             "leer pantalla": "Lee el contenido de la pantalla",
             "cerrar sesión": "Cierra la sesión actual",
             "consultar compras": "Permite consultar las compras realizadas por su persona",
@@ -70,14 +68,13 @@
                                 break;
 
                                 case "dictado":
-                                    if([0,4,5,6,7,8,9,10,12,13].indexOf(campo) !== -1 && !dictando){
+                                    if([0,2,3,4,5,6,7,8,10,11].indexOf(campo) !== -1 && !dictando){
                                         hablar(`Usted ha dicho dictado. Deletree o dicte con claridad el ${campos[campo][0]}.`);
-
                                         escribiendo = true;
                                         dictando = true;
                                     }
                                     break;
-
+                                
                                 case "continuar":
                                     if(!escribiendo || campo === 1 || campo === 2 || campo == 3 || campo == 11 || campo >= 14){
                                         campo++;
@@ -101,13 +98,6 @@
                                 
                                 case "opciones":
                                     if(campo === 1){
-                                        // {% for parroquia in parroquias %}
-                                        hablar("Diga {{forloop.counter}} para " +'{{parroquia.nombre}}');
-                                        // {% endfor %} 
-                                    } else if(campo === 2){
-                                        for(let i = 1; i <= sectores_actuales.length; i++)
-                                            hablar(`Diga ${i} para ${sectores_actuales[i-1].nombre}`);
-                                    } else if(campo === 3){
                                         // {% for construccion in construcciones %}
                                         hablar("Diga {{forloop.counter}} para " +'{{construccion}}');
                                         // {% endfor %}
@@ -127,28 +117,28 @@
                                 case "listo":
                                     dictando = false;
                                     let id = `#${campos[campo][1]}`;
-                                    if((campo >= 0 && campo <= 13 && campo != 11) && $(id).val() === ''){
+                                    if((campo === 0 && campo <= 1 && campo != 9) && $(id).val() === ''){
                                         hablar("El campo no puede estar vacío. Diga dictado para dictar, o escriba el " + campos[campo][0] + " del inmueble.")
                                         break;
                                     }
 
-                                    if(campo >= 5){
-                                        if(campo === 5 && $(`#${campos[campo][1]}`).val() > 2023){
+                                    if(campo >= 3){
+                                        if(campo === 3 && $(`#${campos[campo][1]}`).val() > 2023){
                                             hablar("El año de construcción no puede ser mayor al año en curso");
                                             break;
                                         }
 
-                                        if(campo === 5 && $(`#${campos[campo][1]}`).val() < 1529){
+                                        if(campo === 3 && $(`#${campos[campo][1]}`).val() < 1529){
                                             hablar("El año de construcción no puede ser menor a 1529, año de fundación de Maracaibo.");
                                             break;
                                         }
 
-                                        if((campo >=  7 && campo <= 8 || campo == 10 || campo >= 12 && campo <= 13) && $(`#${campos[campo][1]}`).val() < 0){
+                                        if((campo >=  4 && campo <= 6 || campo == 8 || campo >= 10 && campo <= 11) && $(`#${campos[campo][1]}`).val() < 0){
                                             hablar(`La cantidad de ${campos[campo][1]} no puede ser ser menor a 0.`);
                                             break;
                                         }
 
-                                        if((campo === 6 || campo === 10 || campo === 13) && $(`#${campos[campo][1]}`).val() == 0){
+                                        if((campo === 4 || campo === 8 || campo === 11) && $(`#${campos[campo][1]}`).val() == 0){
                                             hablar(`La cantidad de ${campos[campo][1]} no puede ser ser 0.`);
                                             break;
                                         }
@@ -160,44 +150,44 @@
                                     break;
                                 
                                 case "sí":
-                                    if(campo === 11){
+                                    if(campo === 9){
                                         $('#amueblado').prop("checked", true);
                                         hablar("Usted ha dicho que el inmueble está amueblado. Diga no para cambiar esta opción. Diga continuar para continuar.")
-                                    } else if(campo === 14){
+                                    } else if(campo === 12){
                                         $('#agua').prop("checked", true);
                                         hablar("Usted ha dicho que el inmueble tiene el servicio de agua. Diga no para cambiar esta opción. Diga continuar para continuar.")
-                                    } else if(campo === 15){
+                                    } else if(campo === 13){
                                         $('#electricidad').prop("checked", true);
                                         hablar("Usted ha dicho que el inmueble tiene el servicio de electricidad. Diga no para cambiar esta opción. Diga continuar para continuar.")
-                                    } else if(campo === 16){
+                                    } else if(campo === 14){
                                         $('#gas').prop("checked", true);
                                         hablar("Usted ha dicho que el inmueble tiene el servicio de gas. Diga no para cambiar esta opción. Diga continuar para continuar.")
-                                    } else if(campo === 17){
+                                    } else if(campo === 15){
                                         $('#aseo').prop("checked", true);
                                         hablar("Usted ha dicho que el inmueble tiene el servicio de aseo. Diga no para cambiar esta opción. Diga continuar para continuar.")
-                                    } else if(campo === 18){
+                                    } else if(campo === 16){
                                         $('#internet').prop("checked", true);
                                         hablar("Usted ha dicho que el inmueble tiene el servicio de internet. Diga no para cambiar esta opción. Diga continuar para finalizr.")
                                     }        
                                     break;
                                 
                                 case "no":
-                                    if(campo === 11){
+                                    if(campo === 9){
                                         $('#amueblado').prop("checked", false);
                                         hablar("Usted ha dicho que el inmueble no está amueblado. Diga sí para cambiar esta opción. Diga continuar para continuar.")
-                                    } else if(campo === 14){
+                                    } else if(campo === 12){
                                         $('#agua').prop("checked", false);
                                         hablar("Usted ha dicho que el inmueble no tiene el servicio de agua. Diga sí para cambiar esta opción. Diga continuar para continuar.")
-                                    } else if(campo === 15){
+                                    } else if(campo === 13){
                                         $('#electricidad').prop("checked", false);
                                         hablar("Usted ha dicho que el inmueble no tiene el servicio de electricidad. Diga sí para cambiar esta opción. Diga continuar para continuar.")
-                                    } else if(campo === 16){
+                                    } else if(campo === 14){
                                         $('#gas').prop("checked", false);
                                         hablar("Usted ha dicho que el inmueble no tiene el servicio de gas. Diga sí para cambiar esta opción. Diga continuar para continuar.")
-                                    } else if(campo === 17){
+                                    } else if(campo === 15){
                                         $('#aseo').prop("checked", false);
                                         hablar("Usted ha dicho que el inmueble no tiene el servicio de aseo. Diga sí para cambiar esta opción. Diga continuar para continuar.")
-                                    } else if(campo === 18){
+                                    } else if(campo === 16){
                                         $('#internet').prop("checked", false);
                                         hablar("Usted ha dicho que el inmueble no tiene el servicio de internet. Diga sí para cambiar esta opción. Diga continuar para finalizr.")
                                     }
@@ -209,7 +199,7 @@
                     console.log(dictando);
                     console.log(campo)
 
-                    if(dictando && (campo === 1 || campo === 5 || campo === 12 || campo === 13)){
+                    if(dictando && (campo === 5 || campo === 3 || campo === 5 || campo === 6 || campo === 10 || campo === 11)){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
@@ -217,18 +207,11 @@
                          if(!isNaN(speech)) // Esto verifica que el string sea numérico
                             $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
 
-                    } else if(dictando && (campo === 0 || campo === 4 || campo === 9)){
+                    } else if(dictando && (campo === 0 || campo === 2 || campo === 8)){
                         $(`#${campos[campo][1]}`).val($(`#${campos[campo][1]}`).val() + " " + speech.toLowerCase().replace(".","").replace("dictado", "").replace("m2", "metros cuadrados").replace("/4", " cuartos"))
                     }
-                    else if(dictando && (campo === 5 || campo === 6 || campo === 7 || campo === 8)){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
-                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
-                        if(/[0-9]+/.test(speech.replaceAll(" ", "")))
-                            $(`#${campos[campo][1]}`).val(speech.replaceAll(" ", "").replaceAll(/\D+/g, ""));
-                    }
-                    else if(dictando && campo === 10){
-                        if(speech.toLowerCase().indexOf("dictado") === -1)
+                    else if(dictando && campo === 4 || campo === 8){
+                        if(speech.indexOf("Dictado") === -1)
                             $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
@@ -236,31 +219,6 @@
                     }
 
                     if(campo === 1 && !speaking){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
-                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
-                        
-                        // {% for parroquia in parroquias %}
-
-                        if({{forloop.counter}} === Number(speech)){
-                            $('#parroquia').val("{{parroquia.id}}");
-                            $('#parroquia').change();
-                            hablar("Usted ha dicho {{forloop.counter}}. Se ha escogido " + '{{parroquia.nombre}} Diga continuar para continuar, o diga opciones para escuchar todas las opciones.')
-                        }
-
-                        // {% endfor %}
-                    } else if(campo === 2 && !speaking){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
-                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
-                        
-                        for(let i = 1; i <= sectores_actuales.length; i++){
-                            if(i === Number(speech)){
-                                $('#sector').val(`${sectores_actuales[i-1].id}`);
-                                hablar(`Usted ha dicho ${i}. Se ha escogido ` + `${sectores_actuales[i-1].nombre}. Diga continuar para continuar, o diga opciones para escuchar todas las opciones.`)
-                            }
-                        }
-                    } else if(campo === 3 && !speaking){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                             .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
@@ -309,9 +267,9 @@
                                 }
                             break;
                             
-                            case "crear inmueble":
+                            case "editar inmueble":
                                 escribiendo = true;
-                                hablar("Usted ha dicho crear inmueble. Diga 'salir' para salir del formulario. Campo #1: Nombre del Inmueble. Diga dictado para dictar.");
+                                hablar("Usted ha dicho editar inmueble. Diga 'salir' para salir del formulario. Campo #1: Nombre del Inmueble. Diga dictado para dictar.");
                                 
                                 if($(`#${campos[campo][1]}`).val() != '')
                                     hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Diga listo y luego editar para editarlo.");
@@ -456,78 +414,78 @@
 </head>
 
 <body>
-    <h2>Formulario de Inmueble</h2>
+    <h2>Edición del Inmueble {{inmueble.nombre}}</h2>
     <form method="post">
         {% csrf_token %}
         <label for="nombre">Nombre del Inmueble:</label>
-        <input required type="text" name="nombre" id="nombre"> <br>
+        <input required type="text" name="nombre" value="{{inmueble.nombre}}" id="nombre"> <br>
 
         <label for="parroquia">Parroquia:</label>
-        <select required name="parroquia" id="parroquia">
-            {% for parroquia in parroquias %}
-            <option value="{{parroquia.id}}">{{parroquia.nombre}}</option>
-            {% endfor %}
+        <select required name="parroquia" id="parroquia" disabled>
+            <option value="{{inmueble.sector.parroquia.id}}">{{inmueble.sector.parroquia.nombre}}</option>
         </select><br>
 
         <label for="sector">Sector:</label>
-        <select required name="sector" id="sector">
-            {% for sector in sectores %}
-            <option value="{{forloop.counter}}">{{sector.nombre}}</option>
-            {% endfor %}
+        <select required name="sector" id="sector" disabled>
+            <option value="{{inmueble.sector.pk}}">{{inmueble.sector.nombre}}</option>
         </select><br>
 
         <label for="tipo_construccion">Tipo de Construcción:</label>
         <select required name="tipo_construccion" id="tipo_construccion">
             {% for construccion in construcciones %}
-            <option value="{{forloop.counter}}">{{construccion}}</option>
+            <option value="{{forloop.counter}}" {% if inmueble.tipo_construccion == construccion %}selected{% endif %}>{{construccion}}</option>
             {% endfor %}
         </select><br>
 
         <label for="ubicacion_detallada">Ubicación Detallada:</label>
-        <textarea required name="ubicacion_detallada" id="ubicacion_detallada" cols="30" rows="10"></textarea><br>
+        <textarea required name="ubicacion_detallada" id="ubicacion_detallada" cols="30" rows="10">
+{{inmueble.ubicacion_detallada}}
+        </textarea><br>
 
         <label for="ano">Año de Construcción:</label>
-        <input required max="2023" min="1529" type="number" name="ano" id="ano"><br>
+        <input value="{{inmueble.ano_construccion}}" required max="2023" min="1529" type="number" name="ano" id="ano"><br>
 
         <label for="tamano">Tamaño (en metros cuadrados):</label>
-        <input required type="number" name="tamano" id="tamano" step=".01"><br>
+        <input value="{{inmueble.tamano_input}}" required type="number" name="tamano" id="tamano" step=".01"><br>
 
         <label for="habitaciones">Número de Habitaciones:</label>
-        <input required min="0" type="number" name="habitaciones" id="habitaciones"><br>
+        <input value="{{inmueble.habitaciones}}" required min="0" type="number" name="habitaciones" id="habitaciones"><br>
 
         <label for="banos">Número de Baños:</label>
-        <input required min="0" type="number" name="banos" id="banos"><br>
+        <input value="{{inmueble.banos}}" required min="0" type="number" name="banos" id="banos"><br>
 
         <label for="descripcion">Descripción (será editada para optimizarse para personas con discapacidad visual):</label>
-        <textarea required name="descripcion" id="descripcion" cols="30" rows="10"></textarea><br>
+        <textarea required name="descripcion" id="descripcion" cols="30" rows="10">
+{{inmueble.descripcion}}
+        </textarea><br>
 
         <label for="precio">Precio (Dólares):</label>
-        <input required min="0.01" type="number" step=".01" name="precio" id="precio"><br>
+        <input value="{{inmueble.precio_input}}" min="0.01" step=".01" type="number" name="precio" id="precio"><br>
 
         <hr>
         <h4>Características Extra</h4>
 
         <label for="amueblado">Está amueblado:</label>
-        <input type="checkbox" name="amueblado" id="amueblado"><br>
+        <input {%if inmueble.amueblado%}checked{%endif%} type="checkbox" name="amueblado" id="amueblado"><br>
 
         <label for="estacionamiento">Puestos de Estacionamiento:</label>
-        <input required type="number" min="0" value="0" required name="estacionamiento" id="estacionamiento"><br>
+        <input value="{{inmueble.estacionamientos}}" required type="number" min="0" required name="estacionamiento" id="estacionamiento"><br>
 
         <label for="pisos">Número de Pisos:</label>
-        <input required type="number" min="1" value="1" required name="pisos" id="pisos"><br>
+        <input value="{{inmueble.pisos}}" required type="number" min="1" required name="pisos" id="pisos"><br>
 
         <hr>
         <h4>Servicios</h4>
         <label for="agua">Servicio de agua:</label>
-        <input type="checkbox" name="agua" id="agua"><br>
+        <input {%if inmueble.agua%}checked{%endif%} type="checkbox" name="agua" id="agua"><br>
         <label for="electricidad">Servicio de electricidad:</label>
-        <input type="checkbox" name="electricidad" id="electricidad"><br>
+        <input {%if inmueble.electricidad%}checked{%endif%} type="checkbox" name="electricidad" id="electricidad"><br>
         <label for="gas">Servicio de gas:</label>
-        <input type="checkbox" name="gas" id="gas"><br>
+        <input {%if inmueble.gas%}checked{%endif%} type="checkbox" name="gas" id="gas"><br>
         <label for="aseo">Servicio de aseo:</label>
-        <input type="checkbox" name="aseo" id="aseo"><br>
+        <input {%if inmueble.aseo%}checked{%endif%} type="checkbox" name="aseo" id="aseo"><br>
         <label for="internet">Servicio de Internet:</label>
-        <input type="checkbox" name="internet" id="internet"><br>
+        <input {%if inmueble.internet%}checked{%endif%} type="checkbox" name="internet" id="internet"><br>
 
         <input type="submit" value="Enviar Formulario">
     </form>
