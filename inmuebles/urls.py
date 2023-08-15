@@ -29,5 +29,16 @@ urlpatterns = [
     path('consultar/citas/', consultar_citas, name="consultar_citas"),
     path('consultar/ventas/', consultar_ventas, name="consultar_ventas"),
     path('consultar/pagos/ventas/<int:pk>/', consultar_pagos_ventas, name="consultar_pagos_ventas"),
-    path('consultar/pagos/compras/<int:pk>/', consultar_pagos_compras, name="consultar_pagos_compra")
+    path('consultar/pagos/compras/<int:pk>/', consultar_pagos_compras, name="consultar_pagos_compra"),
+
+    # Agentes
+    path('agente/consultar/asignadas/', consultar_asignadas, name="consultar_asignadas"),
+    path('agente/consultar/finalizadas/', consultar_finalizadas, name="consultar_finalizadas"),
+    path('agente/consultar/revision/', consultar_revision, name="consultar_revision"),
+
+    path('agente/citas/asignadas/', consultar_citas_pendientes, name="consultar_citas_pendientes"),
+    path('agente/citas/finalizadas/', consultar_citas_finalizadas, name="consultar_citas_finalizadas"),
+
+    path('agente/ventas/asignadas/', consultar_ventas_revision, name="consultar_ventas_revision"),
+    path('agente/ventas/finalizadas/', consultar_ventas_cerradas, name="consultar_ventas_cerradas"),
 ]

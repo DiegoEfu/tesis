@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas en Revisión</title>
+</head>
+<body>
+    <a href="{% url 'bienvenida_agente' %}">Regresar al Menú Principal</a><br>
+
+    {% for compra in ventas %}
+    <hr>
+    <h5>{{compra.inmueble.nombre}}</h5>
+    <b>Precio:</b> ${{compra.inmueble.precio}} <br>
+    <b>Sector:</b> {{compra.inmueble.sector.nombre}} (Parroquia {{compra.inmueble.sector.parroquia.nombre}})<br>
+    <b>Ubicación detallada: </b> {{compra.inmueble.ubicacion_detallada}}<br>
+    <b>Agente Asignado:</b> {{compra.inmueble.agente}} ({{compra.inmueble.agente.cedula}})<br>
+    <b>Email del Agente:</b> {{compra.inmueble.agente.usuario_persona.email}}<br>
+    <b>Teléfono del Agente:</b> {{compra.inmueble.agente.numero_telefono}}<br>
+    <b>Comprador:</b> {{compra.comprador}} ({{compra.comprador.cedula}})<br>
+    <b>Email del Comprador:</b> {{compra.comprador.usuario_persona.email}}<br>
+    <b>Teléfono del Comprador:</b> {{compra.comprador.numero_telefono}} <br>
+    <b>Estado de la Compra:</b> {{compra.estado_largo}}<br>
+    <b>Fecha de la Compra:</b> {{compra.fecha}}<br>
+    <b>Monto cancelado ($):</b> $ {{compra.monto_cancelado|floatformat:2}} / $ {{compra.inmueble.precio}}<br>
+
+    {% if compra.estado == 'E' %}
+    <a href="{% url 'cancelar_venta' pk=compra.pk %}">Cancelar</a>
+    {% endif %}
+    {% endfor %}
+</body>
+</html>

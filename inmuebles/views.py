@@ -647,6 +647,61 @@ def editar_inmueble(request, pk):
 
         return redirect("/")
 
+def consultar_asignadas(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_asignadas.html', context={'publicaciones': Inmueble.objects.filter(agente = request.user.persona, estado__in = ["A","T","S"])})
+
+def consultar_revision(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_revision.html', context={'publicaciones': Inmueble.objects.filter(agente = request.user.persona, estado__in = ['R','E','C'])})
+
+def consultar_finalizadas(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_finalizadas.html', context={'publicaciones': Inmueble.objects.filter(agente = request.user.persona, estado__in = ["X","V","D"])})
+
+def consultar_citas_pendientes(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_citas_pendientes.html', 
+        context={'citas': Cita.objects.filter((Q(inmueble__agente = request.user.persona) | Q(compra__inmueble__agente = request.user.persona))
+            & Q(estado__in = ["E","P"])).order_by('fecha_asignada')})
+
+def consultar_citas_finalizadas(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_citas_finalizadas.html', 
+        context={'citas': Cita.objects.filter(Q(inmueble__agente = request.user.persona) | Q(compra__inmueble__agente = request.user.persona)
+            & Q(estado__in = ["F","X","C"])).order_by('-fecha_asignada')})
+
+def consultar_ventas_cerradas(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_ventas_cerradas.html', 
+        context={'ventas': Compra.objects.filter(inmueble__agente = request.user.persona, estado__in = ["F","X"]).order_by('fecha')})
+
+def consultar_ventas_revision(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_ventas_revision.html', 
+        context={'ventas': Compra.objects.filter(inmueble__agente = request.user.persona, estado__in = ["C"]).order_by('fecha')})
+
 # Funciones Auxiliares:
 
 def buscar_coincidencias(busqueda):

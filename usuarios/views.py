@@ -97,3 +97,10 @@ def register_user(request):
         return redirect('login/')
     else:
         return render(request, 'registration/register.html', {})
+    
+def bienvenida_agente(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, "bienvenida_agente.html")

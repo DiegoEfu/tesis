@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido, {{request.user.persona}}</title>
+</head>
+<body>
+    <a href="{% url 'consultar_asignadas' %}">Consultar Publicaciones Asignadas Activas</a><br>
+    <a href="{% url 'consultar_revision' %}">Consultar Publicaciones en Revisión</a><br>
+    <a href="{% url 'consultar_finalizadas' %}">Consultar Publicaciones Finalizadas</a><br>
+    <hr>
+    <a href="{% url 'consultar_citas_pendientes' %}">Consultar Citas Pendientes</a><br>
+    <a href="{% url 'consultar_citas_finalizadas' %}">Consultar Citas Finalizadas</a>
+    <hr>
+    <a href="{% url 'consultar_ventas_revision' %}">Consultar Ventas Revisión</a><br>
+    <a href="{% url 'consultar_ventas_cerradas' %}">Consultar Ventas cerradas</a>
+</body>
+</html>
