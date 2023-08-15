@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenida</title>
     <link rel="stylesheet" href="{% static 'estilos/inicio/home.css' %}">
-
     <script>
         const synthesis = window.speechSynthesis;
         let speaking = false, reporte = false, escribiendo = false, dictando = false, campo = 0;
@@ -252,8 +251,8 @@
         recognition.addEventListener('end', recognition.start);
     </script>
 </head>
+        {% include 'nav.html' %}
 <body>
-    {% include 'nav.html' %}
     {% if request.user.is_authenticated %}
     <form method='POST'>
         {% csrf_token %}
@@ -261,7 +260,8 @@
     </form>
     {% endif %}
 
-    <div>
+       <div class="seccionBuscador"><!--Motor de búsqueda-->
+    <div class="container-fluid contenedorSeccionBuscador">
         <form method="post" id="form_busqueda">
             {% csrf_token %}
             <input type="hidden" name="formulario" value="busqueda">
@@ -280,10 +280,8 @@
             <input type="text" required name="busqueda" id="busqueda" maxlength="120" placeholder="Escribe aquí tu búsqueda...">
             <input type="submit">
         </form>
-    </div>
 </div>
-
-    <div class="generalInfo"><!--Información General-->
+     <div class="generalInfo"><!--Información General-->
         <div class="container-fluid contenedorGeneralInfo">
             <h3 class="tituloSeccionGeneralInfo">Con nuestra plataforma online podrás:</h3>
             <ul class="listaCuadrosInfo">
@@ -304,9 +302,8 @@
                 <a href=""><button type="button" class="btn btn-success">VER PERFIL</button></a>
             </div><br><br>
         </div>
-        
     </div>
-
+</div>
     <div class="seccionAccesibilidad"><!--Accesibilidad-->
         <div class="container-fluid contenedorAccesibilidad">
             <div class="contenedorTitulo">
@@ -462,7 +459,7 @@
         </div>
     </div>
 
-    <div class="seccionPerfil"><!--Invitación a ver inmuebles -->
+    <div class="seccionPerfil"><!--Invitación a ver inmuebles-->
         <div class="container-fluid contenedorSeccionPerfil">
             <h3 class="tituloSeccion5">Comienza a comprar Inmuebles</h3>
             <button type="button" class="btn btn-success">Ver inmuebles</button>

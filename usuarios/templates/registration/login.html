@@ -267,7 +267,7 @@
         </nav>
         <a href="/" class="linkRegreso col-xs-10" >Volver al inicio</a>
     </header>
-        <div class="fondoLogin container-fluid">
+     <div class="fondoLogin container-fluid">
         <div class="cuadroForm container-fluid">
             <h3 class="loginTitle">Inicio de Sesión</h3> <br>
             {% for key, value in form.errors.items %}
@@ -289,7 +289,6 @@
     <footer>
         {% include 'footer.html' %}
     </footer>
-
     <script>
         let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
         console.log(elements);
