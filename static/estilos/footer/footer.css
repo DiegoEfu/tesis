@@ -1,0 +1,548 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+}
+
+/*Sección Footer*/
+
+.contenedorHileras ul{
+    list-style: none;
+    padding-left: 0px;
+  }
+
+  .contenedorHileras h3 {
+    font-weight: 300;
+  }
+
+.copyrightContainer {
+    background-color: var(--verdeMusgo);
+}
+
+.hilera1Footer li a {
+    color: black;
+}
+
+.hilera2Footer li a {
+    color: var(--verdeMusgo);
+}
+
+.hilera3Footer li a {
+    color: black;
+}
+
+.copyrightContainer p {
+    color: white;  }
+
+@media (max-width:2100px) {
+    /*Footer */
+
+.contenedorHileras {
+    padding-top: 30px;
+    }
+    
+    .contenedorHileras {
+    display: flex;
+    justify-content: left;
+    }
+    
+    
+    .copyrightContainer {
+    padding-top: 30px;
+    height: 110px;
+    }
+    
+    .copyrightContainer p {
+    font-size: 40px;
+    }
+    
+    .contenedorHileras h3 { 
+    padding-top: 20px;
+    padding-bottom: 40px;
+    font-size: 30px;
+    }
+    
+    .contenedorHileras li a {
+    font-size: 22px;
+    }
+    
+    .contenedorHileras li {
+    padding-bottom: 30px;
+    }
+    #tituloAgentes {
+    display: block;
+    flex-direction: column;
+    width: max-content;
+    }
+    #comprarInmuebles {
+    display: block;
+    flex-direction: column;
+    width: max-content;
+    }
+    
+    #venderInmuebles {
+    display: block;
+    flex-direction: column;
+    width: max-content;
+    }
+}
+
+@media (max-width:2000px) {
+     /*Footer */
+
+  .contenedorHileras {
+    padding-top: 30px;
+}
+
+  .contenedorHileras {
+    display: flex;
+    justify-content: left;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 30px;
+    height: 110px;
+  }
+
+  .copyrightContainer p {
+    font-size: 40px;
+  }
+
+  .contenedorHileras h3 { 
+    padding-top: 20px;
+    padding-bottom: 40px;
+    font-size: 30px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 22px;
+    }
+
+    .contenedorHileras li {
+        padding-bottom: 30px;
+    }
+    #tituloAgentes {
+        display: block;
+        flex-direction: column;
+        width: max-content;
+    }
+    #comprarInmuebles {
+        display: block;
+        flex-direction: column;
+        width: max-content;
+    }
+    
+    #venderInmuebles {
+        display: block;
+        flex-direction: column;
+        width: max-content;
+    }
+
+}
+
+@media (max-width:1920px) {
+    /*Footer */
+
+  .contenedorHileras {
+    padding-top: 30px;
+}
+
+  .contenedorHileras {
+    display: flex;
+    justify-content: left;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 30px;
+    height: 110px;
+  }
+
+  .copyrightContainer p {
+    font-size: 40px;
+  }
+
+  .contenedorHileras h3 { 
+    padding-top: 20px;
+    padding-bottom: 40px;
+    font-size: 30px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 22px;
+    }
+
+    .contenedorHileras li {
+        padding-bottom: 30px;
+    }
+    #tituloAgentes {
+        display: block;
+        flex-direction: column;
+        width: max-content;
+    }
+    #comprarInmuebles {
+        display: block;
+        flex-direction: column;
+        width: max-content;
+    }
+    
+    #venderInmuebles {
+        display: block;
+        flex-direction: column;
+        width: max-content;
+    }
+
+}
+
+@media (max-width:1800px) {
+  .contenedorHileras {
+    padding-top: 30px;
+}
+
+  .contenedorHileras {
+    display: flex;
+    justify-content: left;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 30px;
+    height: 110px;
+  }
+
+  .copyrightContainer p {
+    font-size: 40px;
+  }
+
+  .contenedorHileras h3 { 
+    padding-top: 20px;
+    padding-bottom: 40px;
+    font-size: 30px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 22px;
+    }
+
+    .contenedorHileras li {
+        padding-bottom: 30px;
+    }
+}
+
+@media (max-width:1324px){
+ /*Footer */
+
+ .contenedorHileras {
+    padding-top: 30px;
+}
+
+  .contenedorHileras {
+    display: flex;
+    justify-content: left;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 30px;
+    height: 110px;
+  }
+
+  .copyrightContainer p {
+    font-size: 40px;
+  }
+
+  .contenedorHileras h3 { 
+    padding-top: 20px;
+    padding-bottom: 40px;
+    font-size: 30px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 22px;
+    }
+
+    .contenedorHileras li {
+        padding-bottom: 30px;
+    }
+}
+
+@media (max-width:1246px) {
+    /*Footer */
+
+  .contenedorHileras {
+    padding-top: 30px;
+}
+
+  .contenedorHileras {
+    display: flex;
+    justify-content: left;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 30px;
+    height: 110px;
+  }
+
+  .copyrightContainer p {
+    font-size: 40px;
+  }
+
+  .contenedorHileras h3 { 
+    padding-top: 20px;
+    padding-bottom: 40px;
+    font-size: 30px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 22px;
+    }
+
+    .contenedorHileras li {
+        padding-bottom: 30px;
+    }
+
+}
+
+@media (max-width:1024px) {
+/*Footer */
+
+.contenedorHileras {
+    padding-top: 30px;
+}
+
+  .contenedorHileras {
+    display: flex;
+    justify-content: left;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 30px;
+    height: 110px;
+  }
+
+  .copyrightContainer p {
+    font-size: 40px;
+  }
+
+  .contenedorHileras h3 { 
+    padding-top: 20px;
+    padding-bottom: 10px;
+    font-size: 35px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 22px;
+    }
+
+    .contenedorHileras li {
+        padding-bottom: 10px;
+    }
+    }
+
+@media (max-width:946px) {
+    /*Footer */
+
+  .contenedorHileras {
+    padding-top: 30px;
+}
+
+  .contenedorHileras {
+    display: flex;
+    justify-content: left;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 30px;
+    height: 90px;
+  }
+
+  .copyrightContainer p {
+    font-size: 30px;
+  }
+
+  .contenedorHileras h3 { 
+    padding-top: 20px;
+    padding-bottom: 10px;
+    font-size: 30px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 15px;
+    }
+
+    .contenedorHileras li {
+        padding-bottom: 10px;
+    }
+
+}
+
+@media (max-width:800px) {
+    /*Footer */
+
+  .contenedorHileras {
+    padding-top: 30px;
+}
+
+  .contenedorHileras {
+    display: flex;
+    justify-content: left;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 30px;
+    height: 90px;
+  }
+
+  .copyrightContainer p {
+    font-size: 25px;
+  }
+
+  .contenedorHileras h3 { 
+    padding-top: 20px;
+    padding-bottom: 10px;
+    font-size: 25px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 15px;
+    }
+
+
+}
+
+@media (max-width:768px) {
+  .contenedorHileras {
+    padding-top: 40px;
+}
+
+  .contenedorHileras {
+    display: block;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 30px;
+    height: 90px;
+  }
+
+  .copyrightContainer p {
+    font-size: 25px;
+  }
+
+  .contenedorHileras h3 { 
+    padding-top: 30px;
+    padding-bottom: 10px;
+    font-size: 45px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 25px;
+    }
+
+}
+
+
+@media (max-width:600px) {
+/*Footer */
+
+.contenedorHileras {
+    padding-top: 40px;
+}
+
+  .contenedorHileras {
+    display: block;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 30px;
+    height: 90px;
+  }
+
+  .copyrightContainer p {
+    font-size: 25px;
+  }
+
+  .contenedorHileras h3 { 
+    padding-top: 30px;
+    padding-bottom: 10px;
+    font-size: 45px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 25px;
+    }
+
+
+}
+
+@media (max-width:480px) {  
+  .contenedorHileras {
+    padding-top: 30px;
+}
+
+  .contenedorHileras {
+    display: block;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 20px;
+    height: 60px;
+  }
+
+  .copyrightContainer p {
+    font-size: 16px;
+  }
+ 
+  .contenedorHileras h3 { 
+    font-size: 31px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 22px;
+    }
+ }
+
+
+@media (max-width:320px) {
+     /*Footer */
+
+  .contenedorHileras {
+    padding-top: 30px;
+}
+
+  .contenedorHileras {
+    display: block;
+  }
+
+
+  .copyrightContainer {
+    padding-top: 10px;
+    height: 40px;
+  }
+
+  .copyrightContainer p {
+    font-size: 15px;
+  }
+
+  .contenedorHileras h3 { 
+    font-size: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    }
+
+    .contenedorHileras li a {
+        font-size: 16px;
+    }
+}

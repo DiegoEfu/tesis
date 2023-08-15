@@ -1,0 +1,2615 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+}
+
+/*Contenedor de sección del buscador */
+.seccionBuscador {
+    background-image: url("../../img/imagenBuscador.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.contenedorSeccionBuscador{
+    padding-top: 70px;
+}
+
+.TituloSeccionBuscador {
+    font-weight: 700;
+    color: white;
+    text-align: center;
+}
+
+/*Sección de búsqueda */
+.box {
+    display: flex;
+    cursor: pointer;
+    background: white;
+    border-radius: 40px;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.box input{
+    width: 0;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    transition: 0.8s;
+    background: transparent;
+}
+
+.box a {
+    background-color: var(--verdeMusgo);
+    text-align: center;
+    border-radius: 10px;
+    margin-right: 30px;
+}
+
+.box a .bi{
+    color: white;
+    font-weight: 900;
+    
+}
+
+/*Sección de información general    */
+
+
+.tituloSeccionGeneralInfo {
+    color: var(--verdeMusgo);
+    font-weight: 400;
+}
+
+.tituloInfo{
+    font-weight: 600;
+}
+
+.tituloInfo v{
+    color: var(--verdeMusgo);
+}
+
+.parrafoInfo {
+    line-height: 200%;
+    text-align: justify;
+}
+
+.apartadoBoton button {
+    background-color: var(--verdeMusgo);
+    border-radius: 100px!important;
+    border: var(--verdeMusgo);
+    color: black;
+}
+
+.apartadoBoton button:hover {
+    background-color: var(--verdeMusgo);
+    color: white;
+}
+
+/* Sección de Accesibilidad */
+
+.seccionAccesibilidad {
+    color: white;
+    background-color: black;
+}
+
+#parrafoAccesibilidad {
+    color: var(--verdeClaro);
+ }
+
+ .tituloCaracteristica {
+    color: var(--verdeClaro);
+ }
+
+/* Sección de Agentes */
+.seccionAgentes {
+    background-color: black;
+}
+
+.tituloSeccionAgentes {
+    color: var(--verdeClaro);
+    font-weight: 600;
+}
+
+/*Seccion de Perfil*/
+.contenedorSeccionPerfil {
+    background-image: url("../../img/imagenSeccion5.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.tituloSeccion5 {
+    text-align: center;
+    font-weight: 600;
+    color: white;
+}
+
+.contenedorSeccionPerfil button {
+    background-color: var(--verdeMusgo);
+    border-radius: 100px!important;
+    border: var(--verdeMusgo);
+    color: white;
+}
+
+.contenedorSeccionPerfil button:hover {
+    background-color: var(--verdeClaro);
+    color: black;
+}
+
+@media (max-width:2100px) {
+    /*Responsive sección buscador*/
+  /*Responsive sección buscador*/
+  .seccionBuscador {
+    height: 500px;
+}
+
+.contenedorSeccionBuscador {
+    width: 480px;
+}
+
+.TituloSeccionBuscador {
+    font-size: 60px;
+}
+
+.box {
+    margin-top: 10px;
+    height: 85px;
+    margin-left: 110px;
+    margin-right: 110px;
+}
+
+.box:hover input {
+    width: 400px;
+
+}
+
+.box a {
+    width: 140px;
+    height: 85px;
+    padding-top: 25px;
+}
+
+.box a .bi {
+    font-size: 30px;
+}
+/*Responsive sección información*/
+.contenedorGeneralInfo {
+    margin-top: 40px;
+}
+.tituloSeccionGeneralInfo { 
+    margin-left: 28px;
+    margin-bottom: 40px;
+}
+.cuadroInfo {
+    margin-bottom: 30px;
+    margin-left: 15px;
+    margin-right: 20px;
+}
+.parrafoInfo {
+    margin-right: 10px;
+ }
+.apartadoBoton {
+    text-align: center;
+}
+.listaCuadrosInfo {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+}
+#tituloAgentes {
+display: flex;
+flex-direction: column;
+width: max-content;
+}
+/*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+height: 1380px;
+}
+
+.contenedorAccesibilidad {
+padding-top: 50px;
+display:flex;
+}
+
+.contenedorTitulo {
+padding-top: 250px;
+display:block;
+justify-content: center;
+}
+
+#tituloAccesibilidad {
+font-weight: 600;
+text-align: left;
+font-size: 80px;
+margin-left: 25px;
+margin-right: 0px;
+}
+
+#parrafoAccesibilidad {
+text-decoration: underline;
+text-align: justify;
+font-size: 14px;
+margin-left: 0px;
+padding-left: 30px;
+margin-right: 0px;
+padding-right: 300px;
+}
+
+.caracteristicas {
+display: block;
+}
+
+.listaAccesibilidad {
+display: block;
+}
+
+.caracteristicaContainer {
+display: flex;
+justify-content: justify;
+margin-top: 10px;
+margin-bottom: 0px;
+}
+
+.iconoAcc {
+width: 120px;
+height: 120px;
+margin-top: 150px;
+}
+
+.containerInfoAccesibilidad {
+margin-top: 120px;
+margin-left: 10px;
+margin-right: 10px;
+}
+
+.tituloCaracteristica {
+font-size: 30px;
+}
+
+.parrafoAcc {
+font-size: 20px;
+text-align:justify;
+}
+/*Sección de Agentes*/
+.contenedorSeccionAgentes {
+padding-top: 30px;
+height: 920px;
+}
+
+.tituloSeccionAgentes {
+font-size: 55px;
+margin-left: 50px;
+}
+
+.carousel-inner {
+display: flex;
+padding-top: 10px;
+padding-bottom: 10px;
+}
+
+
+.card {
+margin-bottom: 20px;
+margin-left: 35px;
+margin-right: 35px;
+}
+
+.card-title {
+color: var(--verdeMusgo)!important;
+font-weight: 600;
+font-size: 30px;
+
+}
+
+.card-text {
+font-size: 15px;
+}
+
+.carousel-item {
+display: flex!important;
+justify-content: center;
+padding-left: 50px;
+padding-right: 50px;
+
+}
+
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+height: 550px;
+padding-top: 180px;
+text-align: center;
+}
+
+.tituloSeccion5 {
+font-size: 80px;
+margin-right: 10px;
+}
+
+.contenedorSeccionPerfil button {
+width: 340px;
+height: 50px;
+}
+    }
+
+@media (max-width:2000px) {
+    /*Responsive sección buscador*/
+        .seccionBuscador {
+            height: 500px;
+        }
+    
+        .contenedorSeccionBuscador {
+            width: 480px;
+        }
+    
+        .TituloSeccionBuscador {
+            font-size: 60px;
+        }
+    
+        .box {
+            margin-top: 10px;
+            height: 85px;
+            margin-left: 110px;
+            margin-right: 110px;
+        }
+    
+        .box:hover input {
+            width: 400px;
+        
+        }
+    
+        .box a {
+            width: 140px;
+            height: 85px;
+            padding-top: 25px;
+        }
+    
+        .box a .bi {
+            font-size: 30px;
+        }
+        /*Responsive sección información*/
+        .contenedorGeneralInfo {
+            margin-top: 40px;
+        }
+        .tituloSeccionGeneralInfo { 
+            margin-left: 28px;
+            margin-bottom: 40px;
+        }
+        .cuadroInfo {
+            margin-bottom: 30px;
+            margin-left: 15px;
+            margin-right: 20px;
+        }
+        .parrafoInfo {
+            margin-right: 10px;
+         }
+        .apartadoBoton {
+            text-align: center;
+        }
+        .listaCuadrosInfo {
+            list-style: none;
+            display: flex;
+            justify-content: space-evenly;
+    }
+    #tituloAgentes {
+        display: flex;
+        flex-direction: column;
+        width: max-content;
+    }
+    /*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+    height: 1380px;
+    }
+    
+    .contenedorAccesibilidad {
+    padding-top: 50px;
+    display:flex;
+    }
+    
+    .contenedorTitulo {
+    padding-top: 250px;
+    display:block;
+    justify-content: center;
+    }
+    
+    #tituloAccesibilidad {
+    font-weight: 600;
+    text-align: left;
+    font-size: 80px;
+    margin-left: 25px;
+    margin-right: 0px;
+    }
+    
+    #parrafoAccesibilidad {
+    text-decoration: underline;
+    text-align: justify;
+    font-size: 14px;
+    margin-left: 0px;
+    padding-left: 30px;
+    margin-right: 0px;
+    padding-right: 300px;
+    }
+    
+    .caracteristicas {
+    display: block;
+    }
+    
+    .listaAccesibilidad {
+    display: block;
+    }
+    
+    .caracteristicaContainer {
+    display: flex;
+    justify-content: justify;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    }
+    
+    .iconoAcc {
+    width: 120px;
+    height: 120px;
+    margin-top: 150px;
+    }
+    
+    .containerInfoAccesibilidad {
+    margin-top: 120px;
+    margin-left: 10px;
+    margin-right: 10px;
+    }
+    
+    .tituloCaracteristica {
+    font-size: 30px;
+    }
+    
+    .parrafoAcc {
+    font-size: 20px;
+    text-align:justify;
+    }
+    /*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    padding-top: 30px;
+    height: 920px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 55px;
+    margin-left: 50px;
+}
+
+.carousel-inner {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 35px;
+    margin-right: 35px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 30px;
+
+}
+
+.card-text {
+    font-size: 15px;
+}
+
+.carousel-item {
+    display: flex!important;
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+
+}
+
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 550px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 80px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 340px;
+    height: 50px;
+  }
+    }
+
+
+@media (max-width:1920px) {
+    /*Responsive sección buscador*/
+        .seccionBuscador {
+            height: 500px;
+        }
+    
+        .contenedorSeccionBuscador {
+            width: 480px;
+        }
+    
+        .TituloSeccionBuscador {
+            font-size: 60px;
+        }
+    
+        .box {
+            margin-top: 10px;
+            height: 85px;
+            margin-left: 110px;
+            margin-right: 110px;
+        }
+    
+        .box:hover input {
+            width: 400px;
+        
+        }
+    
+        .box a {
+            width: 140px;
+            height: 85px;
+            padding-top: 25px;
+        }
+    
+        .box a .bi {
+            font-size: 30px;
+        }
+        /*Responsive sección información*/
+        .contenedorGeneralInfo {
+            margin-top: 40px;
+        }
+        .tituloSeccionGeneralInfo { 
+            margin-left: 28px;
+            margin-bottom: 40px;
+        }
+        .cuadroInfo {
+            margin-bottom: 30px;
+            margin-left: 15px;
+            margin-right: 20px;
+        }
+        .parrafoInfo {
+            margin-right: 10px;
+         }
+        .apartadoBoton {
+            text-align: center;
+        }
+        .listaCuadrosInfo {
+            list-style: none;
+            display: flex;
+            justify-content: space-evenly;
+    }
+    #tituloAgentes {
+        display: flex;
+        flex-direction: column;
+        width: max-content;
+    }
+    /*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+    height: 1380px;
+    }
+    
+    .contenedorAccesibilidad {
+    padding-top: 50px;
+    display:flex;
+    }
+    
+    .contenedorTitulo {
+    padding-top: 250px;
+    display:block;
+    justify-content: center;
+    }
+    
+    #tituloAccesibilidad {
+    font-weight: 600;
+    text-align: left;
+    font-size: 80px;
+    margin-left: 25px;
+    margin-right: 0px;
+    }
+    
+    #parrafoAccesibilidad {
+    text-decoration: underline;
+    text-align: justify;
+    font-size: 14px;
+    margin-left: 0px;
+    padding-left: 30px;
+    margin-right: 0px;
+    padding-right: 300px;
+    }
+    
+    .caracteristicas {
+    display: block;
+    }
+    
+    .listaAccesibilidad {
+    display: block;
+    }
+    
+    .caracteristicaContainer {
+    display: flex;
+    justify-content: justify;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    }
+    
+    .iconoAcc {
+    width: 120px;
+    height: 120px;
+    margin-top: 150px;
+    }
+    
+    .containerInfoAccesibilidad {
+    margin-top: 120px;
+    margin-left: 10px;
+    margin-right: 10px;
+    }
+    
+    .tituloCaracteristica {
+    font-size: 30px;
+    }
+    
+    .parrafoAcc {
+    font-size: 20px;
+    text-align:justify;
+    }
+    /*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    padding-top: 30px;
+    height: 920px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 55px;
+    margin-left: 50px;
+}
+
+.carousel-inner {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 65px;
+    margin-right: 65px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 30px;
+
+}
+
+.card-text {
+    font-size: 15px;
+}
+
+.carousel-item {
+    display: flex!important;
+    justify-content: center;
+    padding-left: 90px;
+    padding-right: 90px;
+
+}
+
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 550px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 80px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 340px;
+    height: 50px;
+  }
+    }
+
+
+
+@media (max-width:1800px) {
+/*Responsive sección buscador*/
+    .seccionBuscador {
+        height: 500px;
+    }
+
+    .contenedorSeccionBuscador {
+        width: 480px;
+    }
+
+    .TituloSeccionBuscador {
+        font-size: 60px;
+    }
+
+    .box {
+        margin-top: 10px;
+        height: 85px;
+        margin-left: 110px;
+        margin-right: 110px;
+    }
+
+    .box:hover input {
+        width: 400px;
+    
+    }
+
+    .box a {
+        width: 140px;
+        height: 85px;
+        padding-top: 25px;
+    }
+
+    .box a .bi {
+        font-size: 30px;
+    }
+    /*Responsive sección información*/
+    .contenedorGeneralInfo {
+        margin-top: 40px;
+    }
+    .tituloSeccionGeneralInfo { 
+        margin-left: 28px;
+        margin-bottom: 40px;
+    }
+    .cuadroInfo {
+        margin-bottom: 30px;
+        margin-left: 15px;
+        margin-right: 20px;
+    }
+    .parrafoInfo {
+        margin-right: 10px;
+     }
+    .apartadoBoton {
+        text-align: center;
+    }
+    .listaCuadrosInfo {
+        list-style: none;
+        display: flex;
+        justify-content: space-evenly;
+}
+#tituloAgentes {
+    display: block;
+    flex-direction: column;
+    width: max-content;
+}
+#comprarInmuebles {
+    display: block;
+    flex-direction: column;
+    width: max-content;
+}
+
+#venderInmuebles {
+    display: block;
+    flex-direction: column;
+    width: max-content;
+}
+/*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+    height: 1380px;
+    }
+    
+    .contenedorAccesibilidad {
+    padding-top: 50px;
+    display:flex;
+    }
+    
+    .contenedorTitulo {
+    padding-top: 250px;
+    display:block;
+    justify-content: center;
+    }
+    
+    #tituloAccesibilidad {
+    font-weight: 600;
+    text-align: left;
+    font-size: 80px;
+    margin-left: 25px;
+    margin-right: 0px;
+    }
+    
+    #parrafoAccesibilidad {
+    text-decoration: underline;
+    text-align: justify;
+    font-size: 14px;
+    margin-left: 0px;
+    padding-left: 30px;
+    margin-right: 0px;
+    padding-right: 300px;
+    }
+    
+    .caracteristicas {
+    display: block;
+    }
+    
+    .listaAccesibilidad {
+    display: block;
+    }
+    
+    .caracteristicaContainer {
+    display: flex;
+    justify-content: justify;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    }
+    
+    .iconoAcc {
+    width: 120px;
+    height: 120px;
+    margin-top: 150px;
+    }
+    
+    .containerInfoAccesibilidad {
+    margin-top: 120px;
+    margin-left: 10px;
+    margin-right: 10px;
+    }
+    
+    .tituloCaracteristica {
+    font-size: 30px;
+    }
+    
+    .parrafoAcc {
+    font-size: 20px;
+    text-align:justify;
+    }
+    /*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    padding-top: 30px;
+    height: 920px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 55px;
+    margin-left: 50px;
+}
+
+.carousel-inner {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 55px;
+    margin-right: 55px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 30px;
+
+}
+
+.card-text {
+    font-size: 15px;
+}
+
+.carousel-item {
+    display: flex!important;
+    justify-content: center;
+    padding-left: 80px;
+    padding-right: 80px;
+
+}
+
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 550px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 80px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 340px;
+    height: 50px;
+  }
+  
+}
+
+
+
+
+@media (max-width:1324px) {
+    #tituloAgentes {
+        display: block;
+        flex-direction: column;
+        width: max-content;
+    }
+    #comprarInmuebles {
+        display: block;
+        flex-direction: column;
+        width: max-content;
+    }
+    .generalInfo {
+        height: 520px;
+    }
+    /*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+    height: 1380px;
+    }
+    
+    .contenedorAccesibilidad {
+    padding-top: 50px;
+    display:flex;
+    }
+    
+    .contenedorTitulo {
+    padding-top: 250px;
+    display:block;
+    justify-content: center;
+    }
+    
+    #tituloAccesibilidad {
+    font-weight: 600;
+    text-align: left;
+    font-size: 80px;
+    margin-left: 25px;
+    margin-right: 0px;
+    }
+    
+    #parrafoAccesibilidad {
+    text-decoration: underline;
+    text-align: justify;
+    font-size: 14px;
+    margin-left: 0px;
+    padding-left: 30px;
+    margin-right: 0px;
+    padding-right: 300px;
+    }
+    
+    .caracteristicas {
+    display: block;
+    }
+    
+    .listaAccesibilidad {
+    display: block;
+    }
+    
+    .caracteristicaContainer {
+    display: flex;
+    justify-content: justify;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    }
+    
+    .iconoAcc {
+    width: 120px;
+    height: 120px;
+    margin-top: 150px;
+    }
+    
+    .containerInfoAccesibilidad {
+    margin-top: 120px;
+    margin-left: 10px;
+    margin-right: 10px;
+    }
+    
+    .tituloCaracteristica {
+    font-size: 30px;
+    }
+    
+    .parrafoAcc {
+    font-size: 20px;
+    text-align:justify;
+    }
+    /*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    padding-top: 30px;
+    height: 620px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 55px;
+    margin-left: 50px;
+}
+
+.carousel-inner {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 55px;
+    margin-right: 55px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 30px;
+
+}
+
+.card-text {
+    font-size: 15px;
+}
+
+.carousel-item {
+    display: flex!important;
+    justify-content: center;
+    padding-left: 60px;
+    padding-right: 60px;
+
+}
+
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 550px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 80px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 340px;
+    height: 50px;
+  }
+}
+
+@media (max-width:1246px) {
+    /*Responsive sección información*/
+    .generalInfo {
+        height: 620px;
+    }
+    .contenedorGeneralInfo {
+        margin-top: 40px;
+    }
+    .tituloSeccionGeneralInfo { 
+        margin-left: 28px;
+        margin-bottom: 40px;
+    }
+    .cuadroInfo {
+        margin-bottom: 30px;
+        margin-left: 15px;
+        margin-right: 20px;
+    }
+    .parrafoInfo {
+        margin-right: 10px;
+     }
+    .apartadoBoton {
+        text-align: center;
+    }
+    .listaCuadrosInfo {
+        list-style: none;
+        display: flex;
+        justify-content: space-evenly;
+
+}
+#tituloAgentes {
+    display: flex;
+    flex-direction: column;
+    width: min-content;
+}
+#comprarInmuebles {
+    display: flex;
+    flex-direction: column;
+    width: min-content;
+}
+#venderInmuebles {
+    display: flex;
+    flex-direction: column;
+    width: min-content;
+}
+/*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+    height: 1480px;
+    }
+    
+    .contenedorAccesibilidad {
+    padding-top: 50px;
+    display:flex;
+    }
+    
+    .contenedorTitulo {
+    padding-top: 250px;
+    display:block;
+    justify-content: center;
+    }
+    
+    #tituloAccesibilidad {
+    font-weight: 600;
+    text-align: left;
+    font-size: 80px;
+    margin-left: 25px;
+    margin-right: 0px;
+    }
+    
+    #parrafoAccesibilidad {
+    text-decoration: underline;
+    text-align: justify;
+    font-size: 14px;
+    margin-left: 0px;
+    padding-left: 30px;
+    margin-right: 0px;
+    padding-right: 90px;
+    }
+    
+    .caracteristicas {
+    display: block;
+    }
+    
+    .listaAccesibilidad {
+    display: block;
+    }
+    
+    .caracteristicaContainer {
+    display: flex;
+    justify-content: justify;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    }
+    
+    .iconoAcc {
+    width: 120px;
+    height: 120px;
+    margin-top: 150px;
+    }
+    
+    .containerInfoAccesibilidad {
+    margin-top: 120px;
+    margin-left: 10px;
+    margin-right: 10px;
+    }
+    
+    .tituloCaracteristica {
+    font-size: 30px;
+    }
+    
+    .parrafoAcc {
+    font-size: 20px;
+    text-align:justify;
+    }
+    /*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    padding-top: 70px;
+    height: 620px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 55px;
+    margin-left: 50px;
+}
+
+.carousel-inner {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 45px;
+    margin-right: 45px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 30px;
+
+}
+
+.card-text {
+    font-size: 15px;
+}
+
+.carousel-item {
+    display: flex!important;
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+
+}
+
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 550px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 80px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 340px;
+    height: 50px;
+  }
+}
+
+@media (max-width:1024px) {
+    /*Responsive sección información*/
+    .generalInfo {
+        height: 720px;
+    }
+ .contenedorGeneralInfo {
+    margin-top: 40px;
+}
+.tituloSeccionGeneralInfo { 
+    margin-left: 28px;
+    margin-bottom: 30px;
+}
+.cuadroInfo {
+    margin-bottom: 30px;
+}
+.parrafoInfo {
+    margin-right: 10px;
+ }
+.apartadoBoton {
+    margin-left:28px;
+}
+.listaCuadrosInfo {
+    list-style: none;
+    display: block;
+    justify-content: center;
+
+}
+#tituloAgentes {
+    display: block;
+    flex-direction: column;
+    width: max-content;
+}
+
+#venderInmuebles {
+    display: block;
+    flex-direction: column;
+    width: max-content;
+}
+
+#comprarInmuebles {
+    display: block;
+    flex-direction: column;
+    width: max-content;
+}
+/*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+    height: 2050px;
+    }
+    
+    .contenedorAccesibilidad {
+        display:block;
+    justify-content: center;
+    padding-top: 50px;
+    }
+    
+    .contenedorTitulo {
+    display:block;
+    justify-content: center;
+    padding-top: 0px;
+    }
+    
+    #tituloAccesibilidad {
+    font-weight: 600;
+    text-align: left;
+    font-size: 100px;
+    margin-left: 25px;
+    margin-right: 0px;
+    }
+    
+    #parrafoAccesibilidad {
+    text-decoration: underline;
+    text-align: justify;
+    font-size: 25px;
+    padding-left: 0px;
+    margin-left: 30px;
+    margin-right: 290px;
+    padding-right: 0px;
+    }
+    
+    .caracteristicas {
+    display: block;
+    }
+    
+    .listaAccesibilidad {
+    display: block;
+    }
+    
+    .caracteristicaContainer {
+    display: flex;
+    justify-content: justify;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    }
+    
+    .iconoAcc {
+    width: 200px;
+    height: 200px;
+    margin-top: 100px;
+    margin-right: 40px;
+    }
+    
+    .containerInfoAccesibilidad {
+    margin-top: 120px;
+    margin-left: 0px;
+    }
+    
+    .tituloCaracteristica {
+    font-size: 40px;
+    margin-right: 30px;
+    }
+    
+    .parrafoAcc {
+    font-size: 25px;
+    margin-right: 50px;
+    text-align:justify;
+    }
+    /*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    padding-top: 30px;
+    height: 620px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 55px;
+    margin-left: 50px;
+}
+
+.carousel-inner {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 30px;
+
+}
+
+.card-text {
+    font-size: 15px;
+}
+
+.carousel-item {
+    display: flex!important;
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+
+}
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 550px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 80px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 340px;
+    height: 50px;
+  }
+}
+
+@media (max-width:964px) {
+    /*Responsive sección buscador*/
+    .seccionBuscador {
+        height: 440px;
+    }
+
+    .contenedorSeccionBuscador {
+        width: 480px;
+    }
+
+    .TituloSeccionBuscador {
+        font-size: 60px;
+    }
+
+    .box {
+        height: 70px;
+        margin-left: 120px;
+        margin-right: 120px;
+    }
+
+    .box:hover input {
+        width: 400px;
+    
+    }
+
+    .box a {
+        width: 100px;
+        height: 70px;
+        padding-top: 20px;
+    }
+
+    .box a .bi {
+        font-size: 25px;
+    }
+    /*Responsive sección información*/
+    .generalInfo {
+        height: 700px;
+    }
+ .contenedorGeneralInfo {
+    margin-top: 40px;
+}
+.tituloSeccionGeneralInfo { 
+    margin-left: 28px;
+    margin-bottom: 30px;
+}
+.cuadroInfo {
+    margin-bottom: 30px;
+}
+.parrafoInfo {
+    margin-right: 10px;
+ }
+.apartadoBoton {
+    margin-left:28px;
+}
+.listaCuadrosInfo {
+    list-style: none;
+    display: block;
+    justify-content: center;
+
+}
+#tituloAgentes {
+    display: block;
+    flex-direction: column;
+    width: max-content;
+}
+/*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+    height: 1650px;
+    }
+    
+    .contenedorAccesibilidad {
+    padding-top: 50px;
+    }
+    
+    .contenedorTitulo {
+    display:block;
+    justify-content: center;
+    }
+    
+    #tituloAccesibilidad {
+    font-weight: 600;
+    text-align: left;
+    font-size: 80px;
+    margin-left: 25px;
+    }
+    
+    #parrafoAccesibilidad {
+    text-decoration: underline;
+    text-align: justify;
+    font-size: 20px;
+    margin-left: 30px;
+    margin-right: 100px;
+    }
+    
+    .caracteristicas {
+    display: block;
+    }
+    
+    .listaAccesibilidad {
+    display: block;
+    }
+    
+    .caracteristicaContainer {
+    display: flex;
+    justify-content: justify;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    }
+    
+    .iconoAcc {
+    width: 200px;
+    height: 200px;
+    margin-top: 80px;
+    margin-right: 40px;
+    }
+    
+    .containerInfoAccesibilidad {
+    margin-top: 120px;
+    }
+    
+    .tituloCaracteristica {
+    font-size: 30px;
+    margin-right: 30px;
+    }
+    
+    .parrafoAcc {
+    font-size: 20px;
+    margin-right: 30px;
+    text-align:justify;
+    }
+        /*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    padding-top: 120px;
+    height: 720px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 55px;
+    margin-left: 50px;
+}
+
+.carousel-inner {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 30px;
+
+}
+
+.card-text {
+    font-size: 15px;
+}
+
+.carousel-item {
+    display: flex!important;
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+
+}
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 550px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 80px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 340px;
+    height: 50px;
+  }
+}
+
+@media (max-width:800px) {
+    /*Responsive sección buscador*/
+    .seccionBuscador {
+        height: 400px;
+    }
+
+    .contenedorSeccionBuscador {
+        width: 480px;
+    }
+
+    .TituloSeccionBuscador {
+        font-size: 60px;
+    }
+
+    .box {
+        height: 70px;
+        margin-left: 60px;
+        margin-right: 60px;
+    }
+
+    .box:hover input {
+        width: 400px;
+    
+    }
+
+    .box a {
+        width: 140px;
+        height: 70px;
+        padding-top: 20px;
+    }
+
+    .box a .bi {
+        font-size: 27px;
+    }
+ /*Responsive sección información*/
+ .generalInfo {
+    height: 750px;
+}
+ .contenedorGeneralInfo {
+    margin-top: 40px;
+}
+.tituloSeccionGeneralInfo { 
+    margin-left: 28px;
+    margin-bottom: 30px;
+}
+.cuadroInfo {
+    margin-bottom: 30px;
+}
+.parrafoInfo {
+    margin-right: 10px;
+ }
+.apartadoBoton {
+    margin-left:28px;
+}
+.listaCuadrosInfo {
+    list-style: none;
+    display: block;
+    justify-content: center;
+
+}
+/*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+    height: 1950px;
+    }
+    
+    .contenedorAccesibilidad {
+    padding-top: 50px;
+    }
+    
+    .contenedorTitulo {
+    display:block;
+    justify-content: center;
+    }
+    
+    #tituloAccesibilidad {
+    font-weight: 600;
+    text-align: left;
+    font-size: 80px;
+    margin-left: 25px;
+    }
+    
+    #parrafoAccesibilidad {
+    text-decoration: underline;
+    text-align: justify;
+    font-size: 20px;
+    margin-left: 30px;
+    margin-right: 100px;
+    }
+    
+    .caracteristicas {
+    display: block;
+    }
+    
+    .listaAccesibilidad {
+    display: block;
+    }
+    
+    .caracteristicaContainer {
+    display: flex;
+    justify-content: justify;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    }
+    
+    .iconoAcc {
+    width: 200px;
+    height: 200px;
+    margin-top: 80px;
+    margin-right: 40px;
+    }
+    
+    .containerInfoAccesibilidad {
+    margin-top: 120px;
+    }
+    
+    .tituloCaracteristica {
+    font-size: 30px;
+    margin-right: 30px;
+    }
+    
+    .parrafoAcc {
+    font-size: 20px;
+    margin-right: 30px;
+    text-align:justify;
+    }
+    /*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    padding-top: 50px;
+    height: 2850px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 85px;
+    margin-left: 35px;
+}
+
+.carousel-inner {
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.carousel-item {
+    display: block;
+}
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 65px;
+    margin-right: 65px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 45px;
+
+}
+
+.card-text {
+    font-size: 25px;
+}
+
+.carousel-item {
+    display: block!important;
+    justify-content: center;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 550px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 70px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 280px;
+    height: 50px;
+  }
+}
+
+@media (max-width:768px) {
+    /*Responsive sección buscador*/
+    .seccionBuscador {
+        height: 360px;
+    }
+
+    .contenedorSeccionBuscador {
+        width: 480px;
+    }
+
+    .TituloSeccionBuscador {
+        font-size: 50px;
+    }
+
+    .box {
+        height: 65px;
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+
+    .box:hover input {
+        width: 400px;
+    
+    }
+
+    .box a {
+        width: 100px;
+        height: 65px;
+        padding-top: 20px;
+    }
+
+    .box a .bi {
+        font-size: 25px;
+    }
+    /*Responsive sección información*/
+    .generalInfo {
+        height: 610px;
+    }
+    .contenedorGeneralInfo {
+        margin-top: 30px;
+    }
+    .tituloSeccionGeneralInfo { 
+        margin-left: 28px;
+        margin-bottom: 30px;
+    }
+    .cuadroInfo {
+        margin-bottom: 30px;
+    }
+    .parrafoInfo {
+        margin-right: 10px;
+     }
+    .apartadoBoton {
+        margin-left:28px;
+    }
+    .listaCuadrosInfo {
+        list-style: none;
+        display: block;
+        justify-content: center;
+
+}
+ /*Responsive sección buscador*/
+ .seccionBuscador {
+    height: 320px;
+}
+
+.contenedorSeccionBuscador {
+    width: 480px;
+}
+
+.TituloSeccionBuscador {
+    font-size: 45px;
+}
+
+.box {
+    height: 55px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.box:hover input {
+    width: 400px;
+
+}
+
+.box a {
+    width: 70px;
+    height: 55px;
+    padding-top: 15px;
+}
+
+.box a .bi {
+    font-size: 20px;
+}
+/*Responsive sección información*/
+.generalInfo {
+    height: 950px;
+}
+.contenedorGeneralInfo {
+    margin-top: 30px;
+}
+.tituloSeccionGeneralInfo { 
+    margin-left: 28px;
+    margin-bottom: 25px;
+}
+.cuadroInfo {
+    margin-bottom: 30px;
+}
+.parrafoInfo {
+    margin-right: 10px;
+ }
+.apartadoBoton {
+    margin-left:28px;
+}
+.listaCuadrosInfo {
+    list-style: none;
+    display: block;
+    justify-content: center;
+
+}
+/*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+height: 1350px;
+}
+
+.contenedorAccesibilidad {
+padding-top: 50px;
+}
+
+.contenedorTitulo {
+display:block;
+justify-content: center;
+}
+
+#tituloAccesibilidad {
+font-weight: 600;
+text-align: left;
+font-size: 65px;
+margin-left: 25px;
+}
+
+#parrafoAccesibilidad {
+text-decoration: underline;
+text-align: justify;
+font-size: 15px;
+margin-left: 30px;
+margin-right: 30px;
+}
+
+.caracteristicas {
+display: block;
+}
+
+.listaAccesibilidad {
+display: block;
+}
+
+.caracteristicaContainer {
+display: flex;
+justify-content: justify;
+margin-top: 20px;
+margin-bottom: 20px;
+}
+
+.iconoAcc {
+width: 150px;
+height: 150px;
+margin-top: 40px;
+margin-right: 20px;
+}
+
+.containerInfoAccesibilidad {
+margin-top: 80px;
+}
+
+.tituloCaracteristica {
+font-size: 20px;
+margin-right: 30px;
+}
+
+.parrafoAcc {
+font-size: 15px;
+margin-right: 30px;
+text-align:justify;
+}
+/*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    padding-top: 50px;
+    height: 2800px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 75px;
+    margin-left: 35px;
+}
+
+.carousel-inner {
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 55px;
+    margin-right: 55px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 45px;
+
+}
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 550px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 70px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 280px;
+    height: 50px;
+  }
+}
+
+@media (max-width:600px) {
+    /*Responsive sección buscador*/
+    .seccionBuscador {
+        height: 320px;
+    }
+
+    .contenedorSeccionBuscador {
+        width: 480px;
+    }
+
+    .TituloSeccionBuscador {
+        font-size: 45px;
+    }
+
+    .box {
+        height: 55px;
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+
+    .box:hover input {
+        width: 400px;
+    
+    }
+
+    .box a {
+        width: 70px;
+        height: 55px;
+        padding-top: 15px;
+    }
+
+    .box a .bi {
+        font-size: 20px;
+    }
+    /*Responsive sección información*/
+    .generalInfo {
+        height: 950px;
+    }
+    .contenedorGeneralInfo {
+        margin-top: 30px;
+    }
+    .tituloSeccionGeneralInfo { 
+        margin-left: 28px;
+        margin-bottom: 25px;
+    }
+    .cuadroInfo {
+        margin-bottom: 30px;
+    }
+    .parrafoInfo {
+        margin-right: 10px;
+     }
+    .apartadoBoton {
+        margin-left:28px;
+    }
+    .listaCuadrosInfo {
+        list-style: none;
+        display: block;
+        justify-content: center;
+
+}
+/*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+    height: 2550px;
+ }
+
+.contenedorAccesibilidad {
+    padding-top: 50px;
+}
+.contenedorTitulo {
+    display:block;
+    justify-content: center;
+}
+
+#tituloAccesibilidad {
+    font-weight: 600;
+    text-align: left;
+    font-size: 65px;
+    margin-left: 25px;
+}
+
+#parrafoAccesibilidad {
+    text-decoration: underline;
+    text-align: justify;
+    font-size: 17px;
+    margin-left: 30px;
+    margin-right: 20px;
+}
+
+.caracteristicas {
+    display: block;
+}
+
+.listaAccesibilidad {
+    display: block;
+}
+
+.caracteristicaContainer {
+    display: block;
+}
+
+.iconoAcc {
+    width: 300px;
+    height: 300px;
+    margin-top: 40px;
+}
+
+.containerInfoAccesibilidad {
+    margin-top: 20px;
+}
+
+.tituloCaracteristica {
+    font-size: 30px;
+    margin-right: 30px;
+}
+
+.parrafoAcc {
+    font-size: 20px;
+    margin-right: 30px;
+    text-align:justify;
+}
+
+/*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    padding-top: 50px;
+    height: 2450px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 65px;
+    margin-left: 35px;
+}
+
+.carousel-inner {
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 45px;
+    margin-right: 45px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 45px;
+
+}
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 500px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 50px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 240px;
+    height: 50px;
+  }
+
+
+}
+
+@media (max-width:497px) {
+    .TituloSeccionBuscador {
+        font-size: 40px;
+    }
+
+}
+
+@media (max-width:480px) {
+    /*Responsive sección buscador*/
+    .seccionBuscador {
+        height: 280px;
+    }
+
+    .contenedorSeccionBuscador {
+        width: 480px;
+    }
+
+    .TituloSeccionBuscador {
+        font-size: 35px;
+    }
+
+    .box {
+        height: 50px;
+        padding: 20px 0px;
+        margin-left: 40px;
+        margin-right: 40px;
+        
+    }
+
+    .box:hover input {
+        width: 400px;
+    
+    }
+
+    .box a {
+        width: 60px;
+        height: 50px;
+        padding-top: 15px;
+    }
+
+    .box a .bi {
+        font-size: 20px;
+    }
+    /*Responsive sección información*/
+    .generalInfo {
+        height: 1350px;
+    }
+    .contenedorGeneralInfo {
+        margin-top: 40px;
+    }
+    .tituloSeccionGeneralInfo { 
+        margin-left: 28px;
+        margin-bottom: 25px;
+    }
+    .cuadroInfo {
+        margin-bottom: 30px;
+    }
+    .parrafoInfo {
+        margin-right: 10px;
+     }
+    .apartadoBoton {
+        margin-left:28px;
+    }
+    .listaCuadrosInfo {
+        list-style: none;
+        display: block;
+        justify-content: center;
+
+}
+/*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+    height: 1950px;
+ }
+
+.contenedorAccesibilidad {
+    padding-top: 50px;
+}
+.contenedorTitulo {
+    display:block;
+    justify-content: center;
+}
+
+#tituloAccesibilidad {
+    font-weight: 600;
+    text-align: left;
+    font-size: 35px;
+    margin-left: 25px;
+}
+
+#parrafoAccesibilidad {
+    text-decoration: underline;
+    text-align: justify;
+    font-size: 10px;
+    margin-left: 30px;
+    margin-right: 20px;
+}
+
+.caracteristicas {
+    display: block;
+}
+
+.listaAccesibilidad {
+    display: block;
+}
+
+.caracteristicaContainer {
+    display: block;
+}
+
+.iconoAcc {
+    width: 200px;
+    height: 200px;
+    margin-top: 40px;
+}
+
+.containerInfoAccesibilidad {
+    margin-top: 20px;
+}
+
+.tituloCaracteristica {
+    font-size: 20px;
+    margin-right: 20px;
+}
+
+.parrafoAcc {
+    font-size: 15px;
+    margin-right: 20px;
+    text-align:justify;
+}
+/*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    padding-top: 50px;
+    height: 2100px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 45px;
+    margin-left: 15px;
+}
+
+.carousel-inner {
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 35px;
+    margin-right: 35px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 35px;
+}
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 500px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 40px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 150px;
+    height: 50px;
+  }
+
+}
+
+
+@media (max-width:399px) {
+    /*Responsive sección buscador*/
+    .seccionBuscador {
+        height: 280px;
+    }
+    .contenedorSeccionBuscador {
+        width: 480px;
+    }
+
+    .TituloSeccionBuscador {
+        font-size: 30px;
+    }
+
+    .box {
+        height: 50px;
+        padding: 20px 0px;
+        margin-left: 20px;
+        margin-right: 20px;
+        
+    }
+
+    .box:hover input {
+        width: 400px;
+    
+    }
+
+    .box a {
+        width: 60px;
+        height: 50px;
+        padding-top: 15px;
+    }
+
+    .box a .bi {
+        font-size: 20px;
+    }
+    .listaCuadrosInfo {
+        list-style: none;
+        display: block;
+        justify-content: center;
+
+}
+
+}
+
+
+@media (max-width:347px) {
+    /*Responsive sección buscador*/
+    .TituloSeccionBuscador {
+        font-size: 25px;
+        
+    }
+    .listaCuadrosInfo {
+        list-style: none;
+        display: block;
+        justify-content: center;
+
+}
+
+}
+
+@media (max-width:320px) {
+    /*Responsive sección buscador*/
+    .seccionBuscador {
+        height: 250px;
+    }
+    .contenedorSeccionBuscador {
+        width: 317px;
+    }
+
+    .TituloSeccionBuscador {
+        font-size: 26px;
+    }
+
+    .box {
+        height: 30px;
+        padding: 20px 0px;
+    }
+
+    .box:hover input {
+        width: 400px;
+    
+    }
+
+    .box a {
+        width: 50px;
+        height: 40px;
+        padding-top: 10px;
+    }
+
+    .box a .bi {
+        font-size: 18px;
+    }
+    /*Responsive sección información*/
+    .generalInfo {
+        height: 1650px;
+    }
+    
+    .contenedorGeneralInfo {
+        margin-top: 25px;
+    }
+    .tituloSeccionGeneralInfo { 
+        margin-left: 20px;
+        margin-bottom: 25px;
+    }
+    .cuadroInfo {
+        margin-bottom: 30px;
+    }
+    .parrafoInfo {
+        margin-right: 10px;
+     }
+    .apartadoBoton {
+        margin-left:28px;
+    }
+    .listaCuadrosInfo {
+        list-style: none;
+        display: block;
+        justify-content: center;
+
+}
+/*Sección de Accesibilidad*/
+.seccionAccesibilidad {
+    height: 1850px;
+ }
+
+.contenedorAccesibilidad {
+    padding-top: 50px;
+}
+.contenedorTitulo {
+    display:block;
+    justify-content: center;
+}
+
+#tituloAccesibilidad {
+    font-weight: 600;
+    text-align: center;
+    font-size: 24px;
+    margin-left: 0px;
+}
+
+#parrafoAccesibilidad {
+    text-decoration: underline;
+    text-align: center;
+    font-size: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.caracteristicas {
+    display: block;
+}
+
+.listaAccesibilidad {
+    display: block;
+}
+
+.caracteristicaContainer {
+    display: block;
+}
+
+.iconoAcc {
+    width: 200px;
+    margin-top: 40px;
+}
+
+.containerInfoAccesibilidad {
+    margin-top: 20px;
+}
+
+.tituloCaracteristica {
+    font-size: 20px;
+    margin-right: 20px;
+}
+
+.parrafoAcc {
+    font-size: 15px;
+    margin-right: 20px;
+    text-align:justify;
+}
+/*Sección de Agentes*/
+.contenedorSeccionAgentes {
+    height: 2650px;
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.tituloSeccionAgentes {
+    font-size: 40px;
+    margin-left: 15px;
+}
+
+.carousel-inner {
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.card {
+    margin-bottom: 20px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.card-title {
+    color: var(--verdeMusgo)!important;
+    font-weight: 600;
+    font-size: 25px;
+
+}
+/* Seccion 5 */
+.contenedorSeccionPerfil { 
+    height: 500px;
+    padding-top: 180px;
+    text-align: center;
+  }
+
+  .tituloSeccion5 {
+    font-size: 40px;
+    margin-right: 10px;
+  }
+
+  .contenedorSeccionPerfil button {
+    width: 150px;
+    height: 50px;
+  }
+
+}

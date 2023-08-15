@@ -254,34 +254,27 @@
         {% include 'nav.html' %}
 <body>
     {% if request.user.is_authenticated %}
-    <form method='POST'>
+    <form method='POST' action="">
         {% csrf_token %}
-        <button id="cerrar_sesion" value="" name="cerrar_sesion">CERRAR SESIÓN</button>
+        <button>CERRAR SESIÓN</button>
     </form>
     {% endif %}
-
-       <div class="seccionBuscador"><!--Motor de búsqueda-->
-    <div class="container-fluid contenedorSeccionBuscador">
-        <form method="post" id="form_busqueda">
-            {% csrf_token %}
-            <input type="hidden" name="formulario" value="busqueda">
-            <h3>Busca tu nuevo hogar...</h3>
-            <input type="text" required name="busqueda" id="busqueda" maxlength="120" placeholder="Escribe aquí tu búsqueda...">
-            <input type="submit">
-        </form>
-    </div>
 
     <div class="seccionBuscador"><!--Motor de búsqueda-->
     <div class="container-fluid contenedorSeccionBuscador">
         <form method="post" id="form_busqueda">
             {% csrf_token %}
             <input type="hidden" name="formulario" value="busqueda">
-            <h3>Busca tu nuevo hogar...</h3>
-            <input type="text" required name="busqueda" id="busqueda" maxlength="120" placeholder="Escribe aquí tu búsqueda...">
-            <input type="submit">
+            <h3 class="TituloSeccionBuscador">ADQUIERE TU <br>VIVIENDA SOÑADA</h3><br>
+            <div class="box">
+            <a href="#"><i class="bi bi-search"></i></a>
+            <input type="text" required id="busqueda"  name="busqueda" placeholder="Escribe aquí su búsqueda...">
+        </div>
         </form>
+    </div>
 </div>
-     <div class="generalInfo"><!--Información General-->
+
+    <div class="generalInfo"><!--Información General-->
         <div class="container-fluid contenedorGeneralInfo">
             <h3 class="tituloSeccionGeneralInfo">Con nuestra plataforma online podrás:</h3>
             <ul class="listaCuadrosInfo">
@@ -302,8 +295,9 @@
                 <a href=""><button type="button" class="btn btn-success">VER PERFIL</button></a>
             </div><br><br>
         </div>
+        
     </div>
-</div>
+
     <div class="seccionAccesibilidad"><!--Accesibilidad-->
         <div class="container-fluid contenedorAccesibilidad">
             <div class="contenedorTitulo">
@@ -459,7 +453,9 @@
         </div>
     </div>
 
-    <div class="seccionPerfil"><!--Invitación a ver inmuebles-->
+    <div class="seccionPerfil">        <!--
+        Invitación a ver inmuebles
+     -->
         <div class="container-fluid contenedorSeccionPerfil">
             <h3 class="tituloSeccion5">Comienza a comprar Inmuebles</h3>
             <button type="button" class="btn btn-success">Ver inmuebles</button>
