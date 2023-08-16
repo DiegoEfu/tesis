@@ -24,7 +24,7 @@
     <b>Estado de la Publicación:</b> {{publicacion.estado_largo}} <br>
     {% if publicacion.estado == 'A' %}
     <a href="{% url 'edicion_inmueble_agente' pk=publicacion.pk %}">Editar Publicación</a>
-    <a href="{% url 'cancelar_publicacion' pk=publicacion.pk %}">Cancelar publicación</a>
+    <a href="{% url 'cancelacion_inmueble_agente' pk=publicacion.pk %}">Cancelar publicación</a>
     {% endif %}
 
     {% if publicacion.compra_activa %}
@@ -33,7 +33,7 @@
     <b>Email del Comprador: </b> {{publicacion.compra_activa.comprador.usuario_persona.email}}
 
     {% if publicacion.estado == 'T' %}
-    <a href="#">Consultar Pagos</a>
+    <a href="{% url 'consultar_pagos_venta_activa' pk=publicacion.compra_activa.pk %}">Consultar Pagos</a>
     {% else %}
     <b>Esta publicación tiene una cita de formalidades dado que el pago fue completado.</b>
     {% endif %}

@@ -810,6 +810,27 @@ def edicion_inmueble_agente(request, pk):
 
         return redirect('/usuarios/agente/')
 
+def cancelacion_inmueble_agente(request, pk):
+    inmueble = Inmueble.objects.get(pk=pk)
+    if(request.method == 'GET'):
+        return render(request, 'agentes/cancelacion/cancelacion_inmueble.html', context={'inmueble': inmueble})
+    elif(request.method == 'POST'):
+        inmueble.estado = 'X'
+        inmueble.save()
+        return redirect('/usuarios/agente/')
+
+def consultar_pagos_venta_activa(request,pk):
+    compra = Compra.objects.get(pk=pk)
+    pagos = compra.pagos.order_by('-fecha')
+
+    if(request.method == 'GET'):
+        return render(request, 'agentes/consultar_pagos_venta_activa.html', context={'pagos': pagos.order_by('-fecha'), 'compra': compra})
+    elif(request.method == 'POST'):
+        if(request.POST['tipo'] == 'pdf'):
+            response = generar_pdf(request, 'reporte_pagos', pagos, "REPORTE DE PAGOS")
+            response['Content-Disposition'] = f'attachment; filename=REPORTE_PAGOS_{compra.pk}.pdf'
+            return response
+
 # Funciones Auxiliares:
 
 def buscar_coincidencias(busqueda):
