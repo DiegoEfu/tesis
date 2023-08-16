@@ -96,7 +96,7 @@ class Inmueble(models.Model):
         return "DESCONOCIDO"
     
     def compra_activa(self):
-        return Compra.objects.get(inmueble=self,estado="E")
+        return Compra.objects.get(inmueble=self,estado__in= ["E", "S"])
 
     def formalidades(self):
         if(self.estado == 'S'):

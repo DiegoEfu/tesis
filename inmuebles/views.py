@@ -175,7 +175,7 @@ def detallar_inmueble(request, pk):
 def aprobar_inmueble(request, pk):
     if request.method == "GET":
         return render(request, 'aprobacion_inmueble.html', context={'inmueble': Inmueble.objects.get(pk = pk),
-                                                                    'construcciones': tipos_construccion})
+            'construcciones': tipos_construccion, 'titulo': 'Aprobación del Inmueble'})
     
     elif request.method == "POST":
         print(request.POST)
@@ -253,7 +253,8 @@ def aprobar_inmueble(request, pk):
         # Creación
 
         if(len(errores) != 0):
-            return render(request, 'aprobacion_inmuebles.html', {'errores': errores, 'inmueble': Inmueble.objects.get(pk=pk)})
+            return render(request, 'aprobacion_inmuebles.html', 
+                {'errores': errores, 'inmueble': Inmueble.objects.get(pk=pk), 'titulo': "Aprobación del Inmueble"})
 
         inmueble = Inmueble.objects.get(pk=pk)
         inmueble.nombre = nombre
@@ -701,6 +702,113 @@ def consultar_ventas_revision(request):
     
     return render(request, 'agentes/consultar_ventas_revision.html', 
         context={'ventas': Compra.objects.filter(inmueble__agente = request.user.persona, estado__in = ["C"]).order_by('fecha')})
+
+def edicion_inmueble_agente(request, pk):
+    if(request.method == 'GET'):
+        return render(request, 'aprobacion_inmueble.html', context={'inmueble': Inmueble.objects.get(pk = pk),
+            'construcciones': tipos_construccion, 'titulo': "Edición del Inmueble"})
+    elif(request.method == 'POST'):
+        nombre = request.POST.get('nombre')
+        ano_construccion = request.POST.get('ano')
+        tipo_construccion = request.POST.get('tipo_construccion')
+        estacionamientos = bool(request.POST.get('estacionamiento'))
+        tamano = request.POST.get('tamano')
+        habitaciones = request.POST.get('habitaciones')
+        banos = request.POST.get('banos')
+        amueblado = bool(request.POST.get('amueblado'))
+        descripcion = request.POST.get('descripcion')
+        ubicacion_detallada = request.POST.get('ubicacion_detallada') 
+        precio = request.POST.get('precio')
+        comentarios_internos = request.POST.get('comentarios_internos')
+        electricidad = bool(request.POST.get('electricidad'))
+        agua = bool(request.POST.get('agua'))
+        internet = bool(request.POST.get('internet'))
+        aseo = bool(request.POST.get('aseo'))
+        gas = bool(request.POST.get('gas'))
+        pisos = request.POST.get('pisos')
+
+        print(request.POST)
+
+        errores = []
+
+        if(not nombre):
+            errores.append("Debe especificar un nombre.")
+        
+        if(not ano_construccion):
+            errores.append("Debe especificar un año.")
+
+        if(not tipo_construccion):
+            errores.append("Debe especificar un tipo seleccionado.")
+
+        if(not tamano):
+            errores.append("Debe especificar tamaño.")
+
+        if(not habitaciones):
+            errores.append("Debe especificar habitaciones.")
+
+        if(not banos):
+            errores.append("Debe especificar baños.")
+
+        if(not descripcion):
+            errores.append("Debe especificar descripción.")
+
+        if(not banos):
+            errores.append("Debe especificar baños.")
+
+        if(not ubicacion_detallada):
+            errores.append("Debe especificar una ubicación detallada.")
+
+        if(not precio):
+            errores.append("Debe especificar un precio.")
+
+        # Validación de correcta estructura de datos
+        
+        if(float(precio) <= 0):
+            errores.append("El precio debe ser mayor a cero.")
+        
+        if(float(tamano) <= 0):
+            errores.append("El tamaño debe ser mayor a 0.")
+        
+        if(float(pisos) <= 0):
+            errores.append("Debe de tener al menos un piso.")
+        
+        if(float(banos) < 0):
+            errores.append("El número de baños debe ser positivo o cero.")
+        
+        if(float(estacionamientos) < 0):
+            errores.append("El número de estacionamientos debe ser positivo o cero.")
+        
+        if(float(habitaciones) < 0):
+            errores.append("El número de habitaciones debe ser positivo o cero.")
+
+        # Creación
+
+        if(len(errores) != 0):
+            return render(request, 'aprobacion_inmuebles.html', 
+                {'errores': errores, 'inmueble': Inmueble.objects.get(pk=pk), 'titulo': "Aprobación del Inmueble"})
+
+        inmueble = Inmueble.objects.get(pk=pk)
+        inmueble.nombre = nombre
+        inmueble.ano_construccion = ano_construccion
+        inmueble.tipo_construccion = tipo_construccion
+        inmueble.estacionamientos = estacionamientos
+        inmueble.tamano = tamano
+        inmueble.habitaciones = habitaciones
+        inmueble.banos = banos
+        inmueble.amueblado = amueblado
+        inmueble.descripcion = descripcion
+        inmueble.comentarios_internos = comentarios_internos
+        inmueble.ubicacion_detallada = ubicacion_detallada
+        inmueble.precio = precio
+        inmueble.agua = agua
+        inmueble.electricidad = electricidad
+        inmueble.gas = gas
+        inmueble.aseo = aseo
+        inmueble.internet = internet
+        inmueble.pisos = pisos
+        inmueble.save()
+
+        return redirect('/usuarios/agente/')
 
 # Funciones Auxiliares:
 

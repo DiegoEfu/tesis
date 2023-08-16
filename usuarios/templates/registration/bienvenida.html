@@ -267,8 +267,8 @@
             <input type="hidden" name="formulario" value="busqueda">
             <h3 class="TituloSeccionBuscador">ADQUIERE TU <br>VIVIENDA SOÑADA</h3><br>
             <div class="box">
-            <a href="#"><i class="bi bi-search"></i></a>
-            <input type="text" required id="busqueda"  name="busqueda" placeholder="Escribe aquí su búsqueda...">
+            <a id="buscar"><i class="bi bi-search"></i></a>
+            <input type="text" required id="busqueda" name="busqueda" placeholder="Escriba aquí su búsqueda...">
         </div>
         </form>
     </div>
@@ -319,7 +319,7 @@
                     <img src="../../../static/img/iconosAccesibilidad/Icon2.png" alt="" class="iconoAcc">
                     <div class="containerInfoAccesibilidad">
                         <h6 class="tituloCaracteristica">Para personas  ciegas</h6>
-                        <p class="parrafoAcc">Ofrecemos soporto mediante comandos de voz para personas
+                        <p class="parrafoAcc">Ofrecemos soporte mediante comandos de voz para personas
                             con discapacidad visual.
                         </p>
                     </div>
@@ -472,6 +472,11 @@
             x.addEventListener('change', (e) => {
                 e.target.value = e.target.value.trim().replace(/\s+/g,' ');
             });
+        });
+
+        document.getElementById('buscar').addEventListener('click', (e) => {
+            if(document.getElementById('form_busqueda').checkValidity())
+                document.getElementById('form_busqueda').submit();
         });
     </script>
 </body>

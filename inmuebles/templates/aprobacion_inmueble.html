@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aprobación del Inmueble "{{inmueble.nombre}}"</title>
+    <title>{{titulo}}</title>
 </head>
 <body>
-    <h1>Aprobación del Inmueble</h1>
+    <h1>{{titulo}}</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
@@ -76,7 +76,7 @@
         <input type="number" min="1" value="{{inmueble.pisos}}" required name="pisos" id="pisos"><br>
 
         <label for="comentarios_internos">Comentarios Internos:</label>
-        <textarea name="comentarios_internos" id="comentarios_internos" cols="30" rows="10"></textarea>
+        <textarea name="comentarios_internos" id="comentarios_internos" cols="30" rows="10">{{inmueble.comentarios_internos}}</textarea>
 
         <h4>Servicios</h4>
         <label for="agua">Servicio de agua:</label>
@@ -90,6 +90,7 @@
         <label for="internet">Servicio de Internet:</label>
         <input type="checkbox" name="internet" id="internet" {% if inmueble.internet %}checked{% endif %}><br>
 
+        {% if 'Aprobación' in titulo %}
         <h4>Imágenes</h4>
         <div id="imagenes">
             <input type="file" id="img_0" name="img_0" accept="image/*" required> <br>
@@ -104,8 +105,12 @@
         la información dada por el cliente de forma responsable y adecuada para todos los tipos de clientes.<br>
         <input type="submit" id="aprobado" name="aprobado" value="Aprobar" disabled>
         <input type="submit" id="rechazado" name="rechazado" value="Rechazar">
+        {% else %}
+        <input type="submit" id="enviar" name="enviar" value="Enviar Edición">
+        {% endif %}
     </form>
 
+    {% if 'Aprobación' in titulo %}
     <script>
         let cuenta = 1;
         document.getElementById('duplicar').addEventListener('click', (e) => {
@@ -151,5 +156,6 @@
             }
         });
     </script>
+    {%endif%}
 </body>
 </html>

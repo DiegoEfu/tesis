@@ -41,4 +41,6 @@ urlpatterns = [
 
     path('agente/ventas/asignadas/', consultar_ventas_revision, name="consultar_ventas_revision"),
     path('agente/ventas/finalizadas/', consultar_ventas_cerradas, name="consultar_ventas_cerradas"),
+
+    path('agente/edicion/<int:pk>/', edicion_inmueble_agente, name="edicion_inmueble_agente"),
 ]
