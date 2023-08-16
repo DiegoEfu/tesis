@@ -659,8 +659,13 @@ def consultar_revision(request):
     if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
         print("Acceso No autorizado")
         return redirect('/')
-    
-    return render(request, 'agentes/consultar_revision.html', context={'publicaciones': Inmueble.objects.filter(agente = request.user.persona, estado__in = ['R','E','C'])})
+
+    if(request.method == 'GET'):    
+        return render(request, 'agentes/consultar_revision.html', context={'publicaciones': Inmueble.objects.filter(agente = request.user.persona, estado__in = ['R','E','C'])})
+    elif(request.method == 'POST'):
+        inmueble = Inmueble.objects.get(pk=request.POST['pk'])
+        inmueble.estado = 'X'
+        return redirect('/usuarios/agente')
 
 def consultar_finalizadas(request):
     if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
@@ -830,6 +835,41 @@ def consultar_pagos_venta_activa(request,pk):
             response = generar_pdf(request, 'reporte_pagos', pagos, "REPORTE DE PAGOS")
             response['Content-Disposition'] = f'attachment; filename=REPORTE_PAGOS_{compra.pk}.pdf'
             return response
+
+def revision_edicion_inmueble(request, pk):
+    inmueble = Inmueble.objects.get(pk=pk)
+    edicion = inmueble.edicion()
+
+    if(request.method == 'GET'):
+        context = {'inmueble': inmueble, 'edicion': edicion}
+        return render(request, 'agentes/revision/revision_edicion_inmueble.html', context=context)
+    elif(request.method == 'POST'):
+        if(request.POST['cambios'] == 'aprobar'):
+            inmueble.nombre = edicion.nombre
+            inmueble.ano_construccion = edicion.ano_construccion
+            inmueble.tipo_construccion = edicion.tipo_construccion
+            inmueble.estacionamientos = edicion.estacionamientos
+            inmueble.tamano = edicion.tamano
+            inmueble.habitaciones = edicion.habitaciones
+            inmueble.banos = edicion.banos
+            inmueble.amueblado = edicion.amueblado
+            inmueble.descripcion = edicion.descripcion
+            inmueble.precio = edicion.precio
+            inmueble.pisos = edicion.pisos
+            inmueble.agua = edicion.agua
+            inmueble.electricidad = edicion.electricidad
+            inmueble.internet = edicion.internet
+            inmueble.gas = edicion.gas
+            inmueble.aseo = edicion.aseo
+            edicion.estado = 'A'
+        else:
+            edicion.estado = 'R'
+
+        inmueble.estado = 'A'
+        inmueble.save()
+        edicion.save()
+
+        return redirect('/usuarios/agente/')
 
 # Funciones Auxiliares:
 

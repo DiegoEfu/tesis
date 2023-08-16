@@ -18,14 +18,20 @@
     <br><b>Precio:</b> ${{publicacion.precio}}
     <b>Sector:</b> {{publicacion.sector.nombre}} (Parroquia {{publicacion.sector.parroquia.nombre}})
     <b>Ubicación detallada: </b> {{publicacion.ubicacion_detallada}}
-    <b>Agente Asignado:</b> {{publicacion.agente}} ({{publicacion.agente.cedula}})
+    <b>Dueño:</b> {{publicacion.dueno}} ({{publicacion.dueno.cedula}})
+    <b>Teléfono del Dueño:</b> {{publicacion.dueno.numero_telefono}}
+    <b>Email del Dueño:</b> {{publicacion.dueno.usuario_persona.email}}
     <b>Estado de la Publicación:</b> {{publicacion.estado_largo}}
     {% if publicacion.estado == 'R' %}
     <a href="{% url 'aprobar_inmueble' pk=publicacion.pk %}">Revisar</a>
     {% elif publicacion.estado == 'E' %}
-    <a href="{% url 'aprobar_inmueble' pk=publicacion.pk %}">Revisar Edición</a>
+    <a href="{% url 'revision_edicion_inmueble' pk=publicacion.pk %}">Revisar Edición</a>
     {% else %}
-    <a href="{% url 'aprobar_inmueble' pk=publicacion.pk %}">Aprobar Cancelación</a>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="inmueble" value="{{publicacion.pk}}">
+        <button type="submit" name="tipo" value="cancelar">Aprobar Cancelación</button>
+    </form>
     {% endif %}
     {% empty %}
     Actualmente no tiene publicaciones asignadas para revisar.

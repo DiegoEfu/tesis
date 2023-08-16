@@ -128,6 +128,9 @@ class Inmueble(models.Model):
         media_path = settings.MEDIA_ROOT
         imagenes = ['/media/' + f for f in listdir(media_path) if isfile(join(media_path, f)) and f.startswith(f'{self.pk}_')]
         return imagenes
+    
+    def edicion(self):
+        return Edicion.objects.get(pk=self.pk, estado = 'P')
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
@@ -211,3 +214,9 @@ class Edicion(models.Model):
     gas = models.BooleanField()
     aseo = models.BooleanField()
     inmueble = models.ForeignKey(Inmueble, on_delete=models.CASCADE)
+
+    def precio_input(self):
+        return str(self.precio).replace(",",".")
+    
+    def tamano_input(self):
+        return str(self.tamano).replace(",",".")
