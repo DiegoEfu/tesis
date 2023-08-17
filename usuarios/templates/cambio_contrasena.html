@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambio de Contraseña</title>
+</head>
+<body>
+    {{error}}
+    <form id="form" method="post">
+        {% csrf_token %}
+        <label for="contrasena">Contraseña:</label>
+        <input minlength="5" required type="password" name="contrasena" id="contrasena">
+
+        <label for="repetir">Repetir Contraseña:</label>
+        <input minlength="5" required type="password" name="repetir" id="repetir">
+
+        <button type="submit">Cambiar Contraseña</button>
+    </form>
+
+    <script>
+        document.getElementById('form').addEventListener('submit', (e) => {
+            if(document.getElementById('contrasena').value === document.getElementById('repetir').value)
+                return true;
+            else
+                alert("Las contraseñas no coinciden.");
+        })
+    </script>
+</body>
+</html>

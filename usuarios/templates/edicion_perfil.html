@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edición del Perfil</title>
+</head>
+<body>
+    <ul>
+        {% for error in errores %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+    
+    <form method="post">
+        {% csrf_token %}
+        <label for="email">Correo Electrónico:</label>
+        <input required type="email" name="email" id="email" value="{{request.user.email}}"> <br>
+
+        <label for="numero_telefono">Numero de Teléfono:</label>
+        <input required type="tel" name="numero_telefono" id="numero_telefono" value="{{request.user.persona.numero_telefono}}"><br>
+        <button type="submit">Enviar cambios</button>
+    </form>
+</body>
+</html>

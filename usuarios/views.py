@@ -14,10 +14,6 @@ def bienvenida(request):
         request.session['busqueda'] = busqueda
 
         return redirect('/inmuebles/resultados/')
-        
-    elif request.method == 'POST':
-        logout(request)
-        return redirect('/usuarios/login/')
 
     return render(request, 'registration/bienvenida.html', {})
 
@@ -104,3 +100,44 @@ def bienvenida_agente(request):
         return redirect('/')
     
     return render(request, "bienvenida_agente.html")
+
+def perfil(request):
+    return render(request, 'perfil.html')
+
+def edicion_perfil(request):
+    if(request.method == 'GET'):
+        return render(request, 'edicion_perfil.html')
+    elif(request.method == 'POST'):
+        errores = []
+        if(Persona.objects.filter(numero_telefono = request.POST['numero_telefono']).exists() and request.POST['numero_telefono'] != request.user.persona.numero_telefono):
+            errores.append('El número de teléfono ya está registrado.')
+        
+        if(Usuario.objects.filter(email = request.POST['email']).exists() and request.POST['email'] != request.user.email):
+            errores.append('El correo electrónico ingresado ya está registrado')
+
+        if(len(errores)):
+            return render(request, 'edicion_perfil.html', {'previo': request.POST, 'errores': errores})
+        else:
+            request.user.email = request.POST['email']
+            request.user.save()
+
+            request.user.persona.numero_telefono = request.user.persona.numero_telefono
+            request.user.persona.save()
+
+            return redirect('/usuarios/perfil/')
+
+def cambio_contrasena(request):
+    if(request.method == 'GET'):
+        return render(request, 'cambio_contrasena.html')
+    elif(request.method == 'POST'):
+        if(request.POST['contrasena'] != request.POST['repetir']):
+            return render(request, 'cambio_contrasena.html', {'error': 'Las contraseñas no coinciden.'})
+
+        request.user.password = make_password(request.POST['contrasena'])
+        request.user.save()
+
+        return redirect('/')
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('/')

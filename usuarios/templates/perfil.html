@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{request.user.persona}}</title>
+</head>
+<body>
+    <h3>Perfil del Usuario</h3>
+    <ul>
+        <li><b>Nombre Completo:</b> {{request.user.persona}}</li>
+        <li><b>Cédula de Identidad:</b> {{request.user.persona.cedula}}</li>
+        <li><b>Fecha de Nacimiento:</b> {{request.user.persona.fecha_nacimiento}}</li>
+        <li><b>Tipo de Usuario:</b> {% if request.user.persona.cargo == 'A' %} Agente {% else %} Cliente {% endif %}</li>
+        <li><b>Número de Teléfono:</b> {{request.user.persona.numero_telefono}}</li>
+        <li><b>Correo Electrónico:</b> {{request.user.persona.usuario_persona.email}}</li>
+    </ul>   
+    
+    <a href="{% url 'edicion_perfil' %}">Cambiar Información</a> <br>
+    <a href="{% url 'cambio_contrasena' %}">Cambiar Contraseña</a> <br>
+
+    <small>
+        Solo podrás cambiar por tu cuenta el número telefónico, tu correo electrónico o tu contraseña.
+        En caso de necesitar editar nombre, cédula de identidad o fecha de nacimiento 
+        debe enviar los copia de su documento de identidad al correo soporte.incaibo@gmail.com 
+    </small>
+</body>
+</html>
