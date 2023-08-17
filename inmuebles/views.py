@@ -411,19 +411,21 @@ def resultados_cita(request, pk):
         return render(request, 'resultados_cita.html', context={'cita': cita})    
     elif(request.method == "POST"):
         resultados = request.POST.get('resultados')
+        print(request.POST)
         errores = []
 
-        if(resultados):
+        if(not resultados):
             errores.append("Debe de registrarse un resultado de la cita.")
 
         if(len(errores)):
+            print(errores)
             return render(request, 'resultados_cita.html', context={'cita': cita, 'errores': errores})
 
-        cita.estado = 'F' if request.POST.get('bien') else 'X'
+        cita.estado = 'F' if request.POST.get('visto') == 'bien' else 'X'
         cita.resultados = request.POST['resultados']
         cita.save()
 
-        return redirect("/")
+        return redirect("/usuarios/agente/")
 
 def consultar_compras(request):
     compras = Compra.objects.filter(comprador=request.user.persona)
@@ -705,8 +707,16 @@ def consultar_ventas_revision(request):
         print("Acceso No autorizado")
         return redirect('/')
     
-    return render(request, 'agentes/consultar_ventas_revision.html', 
-        context={'ventas': Compra.objects.filter(inmueble__agente = request.user.persona, estado__in = ["C"]).order_by('fecha')})
+    if(request.method == 'GET'):    
+        return render(request, 'agentes/consultar_ventas_revision.html', 
+            context={'ventas': Compra.objects.filter(inmueble__agente = request.user.persona, estado = "C").order_by('fecha')})
+    elif(request.method == 'POST'):
+        compra = Compra.objects.get(pk=request.POST['compra'])
+        compra.estado = 'X'
+        compra.save()
+
+        return redirect('/usuarios/agente/')
+
 
 def edicion_inmueble_agente(request, pk):
     if(request.method == 'GET'):

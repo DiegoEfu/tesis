@@ -24,8 +24,12 @@
     <b>Fecha de la Compra:</b> {{compra.fecha}}<br>
     <b>Monto cancelado ($):</b> $ {{compra.monto_cancelado|floatformat:2}} / $ {{compra.inmueble.precio}}<br>
 
-    {% if compra.estado == 'E' %}
-    <a href="{% url 'cancelar_venta' pk=compra.pk %}">Cancelar</a>
+    {% if compra.estado == 'C' %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="compra" value="{{compra.pk}}">
+        <button type="submit">Cancelar</button>
+    </form>
     {% endif %}
     {% endfor %}
 </body>

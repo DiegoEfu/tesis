@@ -14,7 +14,7 @@ urlpatterns = [
     path("cita/dia/<int:pk>/", seleccionar_dia_cita, name="seleccionar_dia_cita"),
     path("cita/hora/<int:pk>/", seleccionar_hora_cita, name="seleccionar_hora_cita"),
     path("cita/creada/<int:pk>/", cita_creada, name="cita_creada"),
-    path("cita/resultados/<int:pk>/", resultados_cita, name="consultar_citas_agente"), # TODO
+    path("cita/resultados/<int:pk>/", resultados_cita, name="resultados_cita_agente"),
     
     # Comprar
     path("comprar/<int:pk>/", comprar_inmueble, name="comprar_inmueble"),

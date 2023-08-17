@@ -30,8 +30,8 @@ estados_cita = [
     ("E", "En Espera"),
     ("C", "Cancelada"),
     ("P", "Pendiente por Resultado"),
-    ("F", "Finalizada - Visto Bueno"),
-    ("X", "Finalizada - Visto Malo"),
+    ("F", "Finalizada - Visto Bueno Para Compra"),
+    ("X", "Finalizada - No Habilitado para Compra"),
 ]
 
 tipos_construccion = [

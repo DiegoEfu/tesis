@@ -15,10 +15,8 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
-            "leer compra": "Seguido de un número lee los detalles de la compra especificada.",
-            "pagos compra": "Seguido de un número redirige a la pantalla de pagos de la compra especificada.",
-            "descargar pdf": "Descarga el reporte PDF de la compra",
-            "descargar mp3": "Descarga el reporte MP3 de la compra",
+            "leer venta": "Seguido de un número lee los detalles de la venta especificada.",
+            "pagos venta": "Seguido de un número redirige a la pantalla de pagos de la venta especificada.",
             "cancelar venta": "Seguido del número en la lista de la venta, puede cancelarla si está en espera",
             "desactivar comandos de voz": "Desactiva los comandos de voz",
             // {% if not request.user.is_authenticated %}
@@ -43,7 +41,7 @@
 
                    if(localStorage.getItem('comandos') == '1')
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "cancelar venta", "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "pagos venta", "leer venta",
+                   "cancelar venta", "cerrar sesión", "leer pantalla", "pagos venta", "leer venta",
                    "regresar inicio", "desactivar comandos de voz"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
@@ -146,78 +144,6 @@
                                 hablar(``);
                                 break;
 
-                            case "descargar pdf":
-                                const pdf = speech.split(" ")[speech.split(" ").indexOf("pdf") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
-                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
-                                .replace("nueve","9").replace("uno","1").replace("una","1");
-                                let listo = false;
-                                console.log(pdf);
-                                // {% for compra in ventas %}
-                                if(pdf == '{{forloop.counter}}'){
-                                    hablar(`Descargando comprobante PDF de la venta {{forloop.counter}}.`);
-                                    reporte = true;
-                                    document.getElementById('pdf_{{forloop.counter}}').click();
-                                    listo = true;
-                                }
-                                // {% endfor %}
-
-                                if(!listo){
-                                    hablar("Descargando reporte de ventas en formato PDF.");
-                                    reporte = true;
-                                    document.getElementById('pdf').click();
-                                }
-                                
-                                break;
-                            
-                            case "descargar mp3":
-                                const mp3 = speech.split(" ")[speech.split(" ").indexOf("mp3") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
-                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
-                                .replace("nueve","9").replace("uno","1").replace("una","1");
-                                let encontrado = false;
-                                console.log(mp3);
-                                // {% for compra in ventas %}
-                                if(mp3 == '{{forloop.counter}}'){
-                                    hablar(`Descargando comprobante mp3 de la venta {{forloop.counter}}.`);
-                                    reporte = true;
-                                    document.getElementById('mp3_{{forloop.counter}}').click();
-                                    encontrado = true;
-                                }
-                                // {% endfor %}
-
-                                if(!encontrado){
-                                    hablar("Descargando reporte de ventas en formato MP3.");
-                                    reporte = true;
-                                    document.getElementById('mp3').click();
-                                }
-                                
-                                break;
-                            
-                            case "descargar mp 3":
-                                const mp_3 = speech.split(" ")[speech.split(" ").indexOf("3") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
-                                .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
-                                .replace("nueve","9").replace("uno","1").replace("una","1");
-                                let hecho = false;
-                                console.log(mp_3);
-                                // {% for compra in ventas %}
-                                if(mp_3 == '{{forloop.counter}}'){
-                                    hablar(`Descargando comprobante mp3 de la venta {{forloop.counter}}.`);
-                                    reporte = true;
-                                    document.getElementById('mp3_{{forloop.counter}}').click();
-                                    hecho = true;
-                                }
-                                // {% endfor %}
-
-                                if(!hecho){
-                                    hablar("Descargando reporte de ventas en formato mp3.");
-                                    reporte = true;
-                                    ocument.getElementById('mp3').click();
-                                }
-                                
-                                break;
-                        
                             case "cancelar venta":
                                     const cancelar = speech.split(" ")[speech.split(" ").indexOf("venta") + 1].replace(/[.,]/g,"")
                                     .replace("dos","2").replace("tres","3").replace("cuatro","4")
@@ -340,8 +266,8 @@
     <b>Comprador:</b> {{compra.comprador}} ({{compra.comprador.cedula}})<br>
     <b>Email del Comprador:</b> {{compra.comprador.usuario_persona.email}}<br>
     <b>Teléfono del Comprador:</b> {{compra.comprador.numero_telefono}} <br>
-    <b>Estado de la Compra:</b> {{compra.estado_largo}}<br>
-    <b>Fecha de la Compra:</b> {{compra.fecha}}<br>
+    <b>Estado de la Venta:</b> {{compra.estado_largo}}<br>
+    <b>Fecha de la Venta:</b> {{compra.fecha}}<br>
     <b>Monto cancelado ($):</b> $ {{compra.monto_cancelado|floatformat:2}} / $ {{compra.inmueble.precio}}<br>
 
     {% if compra.estado == 'E' %}
@@ -351,11 +277,6 @@
     {% if compra.pagos.all.count %}
     <a href="{% url 'consultar_pagos_ventas' pk=compra.pk %}">Consultar Pagos</a>
     {% endif %}
-
-    <form method="post">
-        <button id="pdf_{{forloop.counter}}" type="submit">Reporte PDF</button>
-        <button id="mp3_{{forloop.counter}}" type="submit">Reporte MP3</button>
-    </form>
     {% endfor %}
 </body>
 </html>
