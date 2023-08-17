@@ -7,5 +7,7 @@ urlpatterns = [
     path("comprobar/cedula/", comprobacion_cedula, name="comprobar_cedula"),
     path("agente/", bienvenida_agente, name="bienvenida_agente"),
     path("perfil/", perfil, name="perfil"),
+    path("perfil/editar/", edicion_perfil, name="edicion_perfil"),
+    path("perfil/cambio_contrasena/", cambio_contrasena, name="cambio_contrasena"),
     path("cerrar_sesion", cerrar_sesion, name="cerrar_sesion")
 ]

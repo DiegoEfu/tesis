@@ -31,7 +31,8 @@
             "consultar compras": "Permite consultar las compras realizadas por su persona",
             "consultar ventas": "Permite consultar las ventas de sus publicaciones",
             "consultar citas": "Permite consultar las citas que ha solicitado",
-            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles"
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            "ver perfil": "Permite ver sus datos personales"
             // {% endif %}
         };
 
@@ -44,7 +45,7 @@
                    if(localStorage.getItem('comandos') == '1')
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
                     "buscar inmueble", "cerrar sesión", "leer pantalla", "dictado", "salir", "listo","continuar", "editar",
-                    "desactivar comandos de voz", "registrarse"].forEach(comando => {
+                    "desactivar comandos de voz", "registrarse", "ver perfil"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -88,6 +89,10 @@
 
                             case "cerrar sesión":
                                 document.getElementById('cerrar_sesion').click();
+                                break;
+
+                            case "ver perfil":
+                                window.location.replace('/usuarios/perfil/');
                                 break;
                             // {% else %}
                             case "iniciar sesión":
@@ -198,7 +203,7 @@
 
         function bienvenida(){
             if ('speechSynthesis' in window) {
-                utterance = new SpeechSynthesisUtterance('{% if request.user.is_aunthenticated %}Bienvenido, {{request.user.persona.nombre}}. {% endif %}' + 'Justo ahora está en la pantalla de bienvenida.' 
+                utterance = new SpeechSynthesisUtterance('{% if request.user.is_authenticated %}Bienvenido {{request.user.persona}}. {% endif %}' + 'Justo ahora está en la pantalla de bienvenida.' 
                     + ' Si quiere saber los comandos disponibles diga "ayuda".');
                 
                 utterance.voice = voice;
@@ -256,8 +261,8 @@
         recognition.addEventListener('end', recognition.start);
     </script>
 </head>
-        {% include 'nav.html' %}
 <body>
+    {% include 'nav.html' %}
     <div class="seccionBuscador"><!--Motor de búsqueda-->
     <div class="container-fluid contenedorSeccionBuscador">
         <form method="post" id="form_busqueda">
