@@ -25,6 +25,7 @@
             "desactivar comandos de voz": "Desactiva los comandos de voz para personas con disca",
             // {% if not request.user.is_authenticated %}
             "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
+            "registrarse": "Lleva a la pantalla de inicio de registro.",
             // {% else %}
             "cerrar sesión": "Cierra la sesión actual",
             "consultar compras": "Permite consultar las compras realizadas por su persona",
@@ -43,7 +44,7 @@
                    if(localStorage.getItem('comandos') == '1')
                    ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
                     "buscar inmueble", "cerrar sesión", "leer pantalla", "dictado", "salir", "listo","continuar", "editar",
-                    "desactivar comandos de voz"].forEach(comando => {
+                    "desactivar comandos de voz", "registrarse"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -90,9 +91,11 @@
                                 break;
                             // {% else %}
                             case "iniciar sesión":
-                                hablar("Redirigiendo a la pantalla de inicio de sesión.");
                                 location.replace("/usuarios/login/");
-                                
+                                break;
+
+                            case "registrarse":
+                                location.replace("{% url 'registro' %}");
                                 break;
                             // {%endif%}
                             
@@ -146,16 +149,18 @@
                                 hablar(`Esta es la pantalla principal, la cual se encuentra integrada por las siguientes secciones:
                                 1. Barra de Navegación: Aquí se encuentran las opciones básicas de navegación por el sistema.
                                 2. Sección de Búsqueda: Aquí se encuentra el campo de búsqueda.
-                                3. Sección de Información: Aquí hay información general de la empresa. Hay un párrafo que indica "".
-                                4. Sección de Soporte: Aquí se explica el soporte de comandos de voz de la aplicación.
-                                5. Sección de Agentes Calificados: Aquí se exhiben los agentes destacados y calificados que trabajan para nostros.
-                                6. Sección de Registro: Aquí puede registrarse.
-                                7. Sección de Fúter: Aquí se encuentra información básica de la aplicación por motivos estéticos.
+                                3. Sección de Información: Aquí hay información general de la aplicación web.Principalmente usted puede comprar y vender, así como buscarlos y también buscar agentes inmuebles.
+                                4. Sección de Soporte: Aquí se explica el soporte de comandos de voz de la aplicación, creado para momentos en los cuales el usuario no pueda ver o sea ciego. Además el diseño
+                                visual de las pantallas tomó en cuenta el contraste para personas con daltonismo, así como también interfaces simples.
+                                5. Sección de Agentes Calificados: Aquí se exhiben los agentes destacados y calificados que trabajan para nostros. Entre ellos:
+                                Diego Faria, Fernando Ochoa y Winderson Villarreal.
+                                6. Sección de Footer: Contiene enlaces básicos y enlaces a las redes sociales de la compañía.
                                 `);
                                 break;
                             
                             case "editar":
                                 if(campo === 2){
+                                    hablar("Escriba de nuevo o diga dictado para dictar.")
                                     campo = 1;
                                     document.getElementById('busqueda').value = "";
                                     document.getElementById('busqueda').focus();
@@ -253,13 +258,6 @@
 </head>
         {% include 'nav.html' %}
 <body>
-    {% if request.user.is_authenticated %}
-    <form method='POST' action="">
-        {% csrf_token %}
-        <button>CERRAR SESIÓN</button>
-    </form>
-    {% endif %}
-
     <div class="seccionBuscador"><!--Motor de búsqueda-->
     <div class="container-fluid contenedorSeccionBuscador">
         <form method="post" id="form_busqueda">
@@ -462,7 +460,7 @@
      -->
         <div class="container-fluid contenedorSeccionPerfil">
             <h3 class="tituloSeccion5">Comienza a comprar Inmuebles</h3>
-            <button type="button" class="btn btn-success">Ver inmuebles</button>
+            <a href="{% url 'resultados' %}" class="btn btn-success">Ver inmuebles</a>
         </div>
 
     </div>
