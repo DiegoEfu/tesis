@@ -14,10 +14,6 @@ def bienvenida(request):
         request.session['busqueda'] = busqueda
 
         return redirect('/inmuebles/resultados/')
-        
-    elif request.method == 'POST':
-        logout(request)
-        return redirect('/usuarios/login/')
 
     return render(request, 'registration/bienvenida.html', {})
 
@@ -104,3 +100,10 @@ def bienvenida_agente(request):
         return redirect('/')
     
     return render(request, "bienvenida_agente.html")
+
+def perfil(request):
+    pass
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('/')
