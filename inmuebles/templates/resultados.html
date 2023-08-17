@@ -288,7 +288,13 @@
     {% if resultados %}
         {% for inmueble in resultados %}
             {{inmueble.id}}
-            <a href="{% url 'detalle_inmueble' pk=inmueble.pk %}">{{inmueble.nombre}}</a>
+            <a href="{% url 'detalle_inmueble' pk=inmueble.pk %}">{{inmueble.nombre}}</a><br>
+            {% for imagen in inmueble.imagenes %}
+            <img class="border border-secondary rounded my-2 mx-3" height="100"
+                src="{{imagen}}"
+                width="100"/>
+            {% endfor %}
+            <hr>
         {% empty %}
             <b>No hay inmuebles que coincidan con la descripción proporcionada.</b>
         {% endfor %}

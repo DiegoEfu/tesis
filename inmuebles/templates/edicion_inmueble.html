@@ -83,9 +83,9 @@
                                             input2.focus();
                                             hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`);
                                             
-                                            if(campo >= 1 && campo <= 3)
+                                            if(campo == 1)
                                                 hablar($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : "Diga listo una vez la haya ingresado.");
-                                            else if(campo !== 11 && campo < 14)
+                                            else if(campo !== 9 && campo < 12)
                                                 hablar($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]).val() + ". Si quiere editarlo, diga listo y luego editar." : "Diga listo una vez la haya ingresado.");
                                             
                                             escribiendo = true;

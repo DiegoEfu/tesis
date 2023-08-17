@@ -211,7 +211,13 @@ def reporte_pagos(request, pagos):
 def reporte_publicacion(inmueble):
     t, tabla = [], []
 
-    t.append(Paragraph(f'<b>PUBLICACIÓN DEL INMUEBLE "{inmueble.nombre}"</b>',ParagraphStyle("", alignment=TA_CENTER, fontSize=16)))
+    try:
+        imagen = Image('.' + inmueble.imagenes()[0],4*inch, 3*inch)
+        t.append(imagen)
+    except:
+        print("No se pudo añadir imagen al PDF.")
+
+    t.append(Paragraph(f'<b>PUBLICACIÓN DEL INMUEBLE <br></br>"{inmueble.nombre}"</b>',ParagraphStyle("", alignment=TA_CENTER, fontSize=16)))
     t.append(Spacer(0,15))
     tabla.append(['CAMPO', 'VALOR'])
     tabla.append(['PRECIO', Paragraph(f"${inmueble.precio}")])

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aprobación del Inmueble "{{inmueble.nombre}}"</title>
+    <title>{{titulo}}</title>
 </head>
 <body>
-    <h1>Aprobación del Inmueble</h1>
-    <form method="post">
+    <h1>{{titulo}}</h1>
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
         <label for="dueno">Dueño del Inmueble:</label>
@@ -76,7 +76,7 @@
         <input type="number" min="1" value="{{inmueble.pisos}}" required name="pisos" id="pisos"><br>
 
         <label for="comentarios_internos">Comentarios Internos:</label>
-        <textarea name="comentarios_internos" id="comentarios_internos" cols="30" rows="10"></textarea>
+        <textarea name="comentarios_internos" id="comentarios_internos" cols="30" rows="10">{{inmueble.comentarios_internos}}</textarea>
 
         <h4>Servicios</h4>
         <label for="agua">Servicio de agua:</label>
@@ -90,8 +90,72 @@
         <label for="internet">Servicio de Internet:</label>
         <input type="checkbox" name="internet" id="internet" {% if inmueble.internet %}checked{% endif %}><br>
 
-        <input type="submit" name="aprobado" value="Aprobar">
-        <input type="submit" name="rechazado" value="Rechazar">
+        {% if 'Aprobación' in titulo %}
+        <h4>Imágenes</h4>
+        <div id="imagenes">
+            <input type="file" id="img_0" name="img_0" accept="image/*" required> <br>
+        </div>
+        <button id="duplicar">+</button>
+        <button id="quitar" hidden>-</button>
+
+        <h4>Legalidades</h4>
+        <input type="checkbox" name="acuerdo" id="acuerdo"> 
+        Yo, agente inmobiliario {{request.user.persona}}, me he puesto en contacto con el dueño, he visitado el inmueble, he revisado la documentación del mismo
+        y considero ENTENDIENDO LAS CONSECUENCIAS DE UNA EQUIVOCACIÓN que el presente inmueble es APTO para su venta en INMUEBLES INCAIBO. Además, he editado y optimizado
+        la información dada por el cliente de forma responsable y adecuada para todos los tipos de clientes.<br>
+        <input type="submit" id="aprobado" name="aprobado" value="Aprobar" disabled>
+        <input type="submit" id="rechazado" name="rechazado" value="Rechazar">
+        {% else %}
+        <input type="submit" id="enviar" name="enviar" value="Enviar Edición">
+        {% endif %}
     </form>
+
+    {% if 'Aprobación' in titulo %}
+    <script>
+        let cuenta = 1;
+        document.getElementById('duplicar').addEventListener('click', (e) => {
+            e.preventDefault();
+
+            var target = document.querySelector('#imagenes');
+            var div = document.createElement('div');
+
+            div.innerHTML = `<input type="file" id="img_${cuenta}" name="img_${cuenta}" accept="image/*"> <br>`;
+
+            target.parentNode.insertBefore( div, target );
+
+            target.parentNode.insertBefore( div, target.nextSibling );
+            cuenta++;
+            if(cuenta == 10)
+                document.getElementById('duplicar').hidden = true;
+            else if(cuenta > 1)
+                document.getElementById('quitar').hidden = false;
+        });
+
+        document.getElementById('quitar').addEventListener('click', (e) => {
+            e.preventDefault();
+
+            document.getElementById(`img_${cuenta-1}`).parentElement.remove();
+
+            cuenta--;
+            if(cuenta < 10)
+                document.getElementById('duplicar').hidden = false;
+
+            if(cuenta == 1)
+                e.target.hidden = true;
+        });
+
+        document.getElementById('acuerdo').addEventListener('click', (e) => {
+            console.log(e.target.checked);
+            if(e.target.checked){
+                document.getElementById('aprobado').removeAttribute('disabled');
+                document.getElementById('rechazado').setAttribute('disabled', true);
+            }
+            else{
+                document.getElementById('aprobado').setAttribute('disabled', true);
+                document.getElementById('rechazado').removeAttribute('disabled');
+            }
+        });
+    </script>
+    {%endif%}
 </body>
 </html>
