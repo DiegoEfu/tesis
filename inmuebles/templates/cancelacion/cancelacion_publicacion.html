@@ -17,16 +17,12 @@
             "leer pantalla": "Lee el contenido de la pantalla",
             "yo quiero cancelar esta publicacion": "Envía la cancelación de la publicacion {{publicacion.nombre}} al agente",
             "desactivar comandos de voz": "Desactiva los comandos de voz",
-            // {% if not request.user.is_authenticated %}
-            "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
-            // {% else %}
             "cerrar sesión": "Cierra la sesión actual",
             "consultar compras": "Permite consultar las compras realizadas por su persona",
             "consultar ventas": "Permite consultar las ventas de sus publicaciones",
             "consultar citas": "Permite consultar las citas que ha solicitado",
             "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
-            // {% endif %}
-            
+            "ver perfil": "Permite ver sus datos personales"
         };
 
         function inicial(event) {
@@ -36,7 +32,7 @@
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')
-                   ["ayuda","iniciar sesión","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   ["ayuda","ver perfil","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
                    "cerrar sesión", "leer pantalla", "yo quiero cancelar esta publicación", "desactivar comandos de voz"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
@@ -60,7 +56,6 @@
                             
                             // {% if request.user.is_authenticated %}
                             case "consultar compras":
-
                                 hablar("Redirigiendo a la pantalla de compras.");
                                 location.replace("/inmuebles/consultar/compras/");
                                 break;
@@ -79,7 +74,15 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
-// {%endif%}
+
+                            case "cerrar sesión":
+                                document.getElementById('cerrar_sesion').click();
+                                break;
+
+                            case "ver perfil":
+                                window.location.replace('/usuarios/perfil/');
+                                break;
+                            // {%endif%}
                                                         
                             case "leer pantalla":
                                 hablar(`Esta es la pantalla de cancelación de la publicación {{inmueble.nombre}} en el sector {{inmueble.sector.nombre}}.

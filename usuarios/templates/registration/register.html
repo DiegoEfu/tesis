@@ -27,7 +27,7 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "iniciar sesión": "Llevar a la página de inicio de sesión",
-            "crear nuevo usuario": "Permite crear un nuevo usuario con el formulario",
+            "registrarse": "Permite iniciar el formulario de registro",
             "regresar inicio": "Regresa a la pantalla de inicio",
             "desactivar comandos de voz": "Desactiva los comandos de voz"
         };
@@ -325,8 +325,8 @@
                                 location.replace("/usuarios/login/");
                                 break;
                             
-                            case "crear nuevo usuario":
-                                hablar("Usted ha dicho crear nuevo usuario. Diga 'salir' para salir del formulario. Campo #1: Tipo de Persona. Diga 1 para venezolano. Diga 2 para extranjero.");
+                            case "registrarse":
+                                hablar("Usted ha dicho registrarse. Diga 'salir' para salir del formulario. Campo #1: Tipo de Persona. Diga 1 para venezolano. Diga 2 para extranjero.");
                                 if($(`#${campos[campo][1]}`).val() != '')
                                     hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción.");
                                 recognition.onresult = formulario_p1;

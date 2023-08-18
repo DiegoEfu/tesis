@@ -43,6 +43,7 @@
             "consultar ventas": "Permite consultar las ventas de sus publicaciones",
             "consultar citas": "Permite consultar las citas que ha solicitado",
             "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            "ver perfil": "Permite ver sus datos personales",  
             "desactivar comandos de voz": "Desactiva los comandos de voz"
         };
 
@@ -279,7 +280,6 @@
 
                             // {% if request.user.is_authenticated %}
                             case "consultar compras":
-
                                 hablar("Redirigiendo a la pantalla de compras.");
                                 location.replace("/inmuebles/consultar/compras/");
                                 break;
@@ -297,6 +297,14 @@
                             case "consultar publicaciones":
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+
+                            case "cerrar sesión":
+                                document.getElementById('cerrar_sesion').click();
+                                break;
+
+                            case "ver perfil":
+                                window.location.replace('/usuarios/perfil/');
                                 break;
                             // {%endif%}
                                                         

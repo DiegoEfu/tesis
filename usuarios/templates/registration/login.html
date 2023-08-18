@@ -22,7 +22,7 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "iniciar sesión": "Da inicio al formulario de inicio de sesión",
-            "crear nuevo usuario": "Lleva a la pantalla de nuevo usuario",
+            "registrarse": "Lleva a la pantalla de registro",
             "regresar inicio": "Regresa a la pantalla de inicio",
             "desactivar comandos de voz": "Desactiva los comandos de voz"
         };
@@ -156,8 +156,8 @@
                                 
                                 break;
                             
-                            case "crear nuevo usuario":
-                                hablar("Usted ha dicho crear nuevo usuario. Redirigiendo.");
+                            case "registrarse":
+                                hablar("Usted ha dicho registrarse. Redirigiendo.");
                                 location.replace("/usuarios/register");
                                 break;
                         }

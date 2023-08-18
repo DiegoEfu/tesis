@@ -25,7 +25,13 @@
             "ayuda": "Indica todos los comandos con su descripción.",
             "registrar pago": "Inicia el formulario de registro de pago.",
             "regresar inicio": "Regresa a la pantalla de inicio",
-            "desactivar comandos de voz": "Desactiva los comandos de voz"
+            "desactivar comandos de voz": "Desactiva los comandos de voz",
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            "ver perfil": "Permite ver sus datos personales"
         };
         const tasa = Number("{{tasa_dolar}}".replace(",","."));
 
@@ -240,6 +246,34 @@
                                     hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción.");
 
                                 recognition.onresult = formulario_p1;
+                                break;
+                            
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+
+                            case "cerrar sesión":
+                                document.getElementById('cerrar_sesion').click();
+                                break;
+
+                            case "ver perfil":
+                                window.location.replace('/usuarios/perfil/');
                                 break;
                         }
                       }    
