@@ -169,70 +169,12 @@
                     console.log(dictando);
                     console.log(campo)
 
-                    if(dictando && (campo === 1 || campo === 5 || campo === 12 || campo === 13)){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
-                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
-
-                         if(!isNaN(speech)) // Esto verifica que el string sea numérico
-                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
-
-                    } else if(dictando && (campo === 0 || campo === 4 || campo === 9)){
-                        $(`#${campos[campo][1]}`).val($(`#${campos[campo][1]}`).val() + " " + speech.toLowerCase().replace(".","").replace("dictado", "").replace("m2", "metros cuadrados").replace("/4", " cuartos"))
-                    }
-                    else if(dictando && (campo === 5 || campo === 6 || campo === 7 || campo === 8)){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
-                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
-                        if(/[0-9]+/.test(speech.replaceAll(" ", "")))
-                            $(`#${campos[campo][1]}`).val(speech.replaceAll(" ", "").replaceAll(/\D+/g, ""));
-                    }
-                    else if(dictando && campo === 10){
+                    if(dictando && (campo === 0)){
                         if(speech.toLowerCase().indexOf("dictado") === -1)
-                            $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
-                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
-                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
-                    }
-
-                    if(campo === 1 && !speaking){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
-                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
-                        
-                        // {% for parroquia in parroquias %}
-
-                        if({{forloop.counter}} === Number(speech)){
-                            $('#parroquia').val("{{parroquia.id}}");
-                            $('#parroquia').change();
-                            hablar("Usted ha dicho {{forloop.counter}}. Se ha escogido " + '{{parroquia.nombre}} Diga continuar para continuar, o diga opciones para escuchar todas las opciones.')
-                        }
-
-                        // {% endfor %}
-                    } else if(campo === 2 && !speaking){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
-                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
-                        
-                        for(let i = 1; i <= sectores_actuales.length; i++){
-                            if(i === Number(speech)){
-                                $('#sector').val(`${sectores_actuales[i-1].id}`);
-                                hablar(`Usted ha dicho ${i}. Se ha escogido ` + `${sectores_actuales[i-1].nombre}. Diga continuar para continuar, o diga opciones para escuchar todas las opciones.`)
-                            }
-                        }
-                    } else if(campo === 3 && !speaking){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
-                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
-                        
-                        // {% for construccion in construcciones %}
-
-                        if({{forloop.counter}} === Number(speech)){
-                            $('#tipo_construccion').val("{{forloop.counter}}");
-                            hablar("Usted ha dicho {{forloop.counter}}. Se ha escogido " + '{{construccion}} Diga continuar para continuar, o diga opciones para escuchar todas las opciones.')
-                        }
-
-                        // {% endfor %}
+                            $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                    } else if(dictando && campo === 1){
+                        if(/[0-9]+/g.test(speech.replaceAll(" ", "")))
+                                $('#numero_telefono').val($('#numero_telefono').val() + speech.replaceAll(" ", ""));
                     }
                 }
             }
