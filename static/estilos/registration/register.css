@@ -1,0 +1,30 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+
+}
+
+.contenedorElementos {
+    background-image: url("../../img/Login.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.tituloRegistro {
+    font-weight: 300;
+    
+}
+
+@media(max-width:320px) {
+    .contenedorElementos {
+        height: 1000px;
+    }
+}
