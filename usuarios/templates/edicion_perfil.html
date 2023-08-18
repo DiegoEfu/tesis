@@ -4,6 +4,422 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edición del Perfil</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <script>
+        const synthesis = window.speechSynthesis;
+        const campos = [
+            ['Correo Electrónico', 'email', ''], 
+            ['Número de Teléfono', 'numero_telefono', 'Escriba su número de teléfono o diga dictado para dictarlo.'],
+        ];
+        let speaking = false, escribiendo = false, dictando = false, campo = 0;
+        let sectores_actuales = [];
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "editar información": "Inicia el formulario de edición de información del perfil.",
+            "leer pantalla": "Lee el contenido de la pantalla",
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            "ver perfil": "Permite ver sus datos personales",  
+            "desactivar comandos de voz": "Desactiva los comandos de voz"
+        };
+
+        function formulario_p1(event){
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal && !speaking){
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
+                   speech = speech
+                   console.log(speech);
+                    
+                    if(campo === 0)
+                        speech = speech.toLowerCase().replace("uno", "1").replace("dos", "2");
+
+                    ["dictado", "salir", "continuar", "editar", "listo"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                                case "salir":
+                                    campo = 0;
+                                    hablar("Usted ha dicho salir. Saliendo del formulario.");
+                                    dictando = false;
+                                    recognition.onresult = inicial;
+                                break;
+
+                                case "dictado":
+                                    if(!dictando){
+                                        hablar(`Usted ha dicho dictado. Deletree o dicte con claridad el ${campos[campo][0]}.`);
+
+                                        escribiendo = true;
+                                        dictando = true;
+                                    }
+                                    break;
+
+                                case "continuar":
+                                    if(!escribiendo){
+                                        campo++;
+                                        if(campo < campos.length){
+                                            const input2 = document.getElementById(campos[campo][1]);
+                                            input2.focus();
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`);
+                                            hablar($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]).val() + ". Si quiere editarlo, diga listo y luego editar." : "Diga listo una vez la haya ingresado.");
+                                            
+                                            escribiendo = true;
+                                        } else{
+                                            campo = 0;
+                                            $('form').submit();
+                                        }
+                                    }
+                                    break;
+                                
+                                case "editar":
+                                    if(campo >= 0){
+                                        hablar(`Usted ha dicho 'editar'. Vuelva a escribir su ${campos[campo][0]}.`)
+                                        $(`#${campos[campo][1]}`).val("");
+                                        const input2 = document.getElementById(campos[campo][1]);
+                                        input2.focus();
+                                        escribiendo = true;
+                                    }                               
+                                    break;
+
+                                case "listo":
+                                    dictando = false;
+                                    let id = `#${campos[campo][1]}`;
+                                    
+                                    if(campo === 0){
+                                        let existe = false;
+                                        $.ajax({
+                                            url: "comprobar/correo",
+                                            contentType: "application/json",
+                                            dataType: "json",
+                                            type: "GET",
+                                            cache: true,
+                                            async: false,
+                                            data: {
+                                                'email': $('#email').val()
+                                            },
+                                            success: (res) => {
+                                                console.log(res);
+                                                existe = res.existe;
+                                            },
+                                            error: (e) => console.log(e)
+                                        });
+
+                                        if(existe){
+                                            hablar(`El correo electrónico ${$(id).val()} ya está registrado en la base de datos. Por favor, intente ingresando uno nuevo.`);
+                                            $(id).val("");
+                                            break;
+                                        }
+
+                                        if($(id).val().indexOf('@') === -1){
+                                            hablar(`Usted ha escrito: ${$(id).val()}. El correo electrónico debe contener el símbolo: @. Vuelva a escribir o dictarlo.`);
+                                            $(id).val("");
+                                            break;
+                                        } else if($(id).val().split("@").length !== 2) {
+                                            hablar(`Usted ha escrito: ${$(id).val()}. El correo electrónico debe estar separado en dos partes por el símbolo @.`);
+                                            $(id).val("");
+                                            break;
+                                        }
+                                    } else if(campo === 1){
+                                        let tlf = false;
+                                        if(!/^[0-9]+$/.test($(id).val())){
+                                            hablar("El número de teléfono debe ser enteramente numérico.");
+                                            $(id).val("");
+                                            break;
+                                        }
+
+                                        $.ajax({
+                                            url: "comprobar/telefono",
+                                            contentType: "application/json",
+                                            dataType: "json",
+                                            type: "GET",
+                                            cache: true,
+                                            async: false,
+                                            data: {
+                                                'numero_telefono': $('#numero_telefono').val()
+                                            },
+                                            success: (res) => {
+                                                console.log(res);
+                                                tlf = res.existe;
+                                            },
+                                            error: (e) => console.log(e)
+                                        });
+
+                                        if(tlf){
+                                            hablar(`El número de teléfono ${$(id).val()} ya está registrado en la base de datos. Por favor, intente ingresando uno nuevo.`);
+                                            $(id).val("");
+                                            break;
+                                        }
+                                    }
+
+                                    $(id).val($(id).val().trim().replace(/\s+/g,' '));
+                                    hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    escribiendo = false;
+                                    break;
+                            }
+                        }
+                    });
+
+                    console.log(dictando);
+                    console.log(campo)
+
+                    if(dictando && (campo === 1 || campo === 5 || campo === 12 || campo === 13)){
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
+
+                         if(!isNaN(speech)) // Esto verifica que el string sea numérico
+                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
+
+                    } else if(dictando && (campo === 0 || campo === 4 || campo === 9)){
+                        $(`#${campos[campo][1]}`).val($(`#${campos[campo][1]}`).val() + " " + speech.toLowerCase().replace(".","").replace("dictado", "").replace("m2", "metros cuadrados").replace("/4", " cuartos"))
+                    }
+                    else if(dictando && (campo === 5 || campo === 6 || campo === 7 || campo === 8)){
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
+                        if(/[0-9]+/.test(speech.replaceAll(" ", "")))
+                            $(`#${campos[campo][1]}`).val(speech.replaceAll(" ", "").replaceAll(/\D+/g, ""));
+                    }
+                    else if(dictando && campo === 10){
+                        if(speech.toLowerCase().indexOf("dictado") === -1)
+                            $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                         .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
+                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
+                    }
+
+                    if(campo === 1 && !speaking){
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
+                        
+                        // {% for parroquia in parroquias %}
+
+                        if({{forloop.counter}} === Number(speech)){
+                            $('#parroquia').val("{{parroquia.id}}");
+                            $('#parroquia').change();
+                            hablar("Usted ha dicho {{forloop.counter}}. Se ha escogido " + '{{parroquia.nombre}} Diga continuar para continuar, o diga opciones para escuchar todas las opciones.')
+                        }
+
+                        // {% endfor %}
+                    } else if(campo === 2 && !speaking){
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
+                        
+                        for(let i = 1; i <= sectores_actuales.length; i++){
+                            if(i === Number(speech)){
+                                $('#sector').val(`${sectores_actuales[i-1].id}`);
+                                hablar(`Usted ha dicho ${i}. Se ha escogido ` + `${sectores_actuales[i-1].nombre}. Diga continuar para continuar, o diga opciones para escuchar todas las opciones.`)
+                            }
+                        }
+                    } else if(campo === 3 && !speaking){
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                            .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
+                        
+                        // {% for construccion in construcciones %}
+
+                        if({{forloop.counter}} === Number(speech)){
+                            $('#tipo_construccion').val("{{forloop.counter}}");
+                            hablar("Usted ha dicho {{forloop.counter}}. Se ha escogido " + '{{construccion}} Diga continuar para continuar, o diga opciones para escuchar todas las opciones.')
+                        }
+
+                        // {% endfor %}
+                    }
+                }
+            }
+        }
+
+        function inicial(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
+                   console.log(speech);
+                   if(localStorage.getItem('comandos') == '1')
+                   Object.keys(comandos).forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "desactivar comandos de voz":
+                                localStorage.setItem('comandos', 0);
+                                hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                                break;
+
+                            case "regresar inicio":
+                                window.location.replace("/");
+                                break;
+                                
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                            break;
+                            
+                            case "crear inmueble":
+                                escribiendo = true;
+                                hablar("Usted ha dicho crear inmueble. Diga 'salir' para salir del formulario. Campo #1: Nombre del Inmueble. Diga dictado para dictar.");
+                                
+                                if($(`#${campos[campo][1]}`).val() != '')
+                                    hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Diga listo y luego editar para editarlo.");
+                                
+                                recognition.onresult = formulario_p1;
+                                break;
+
+                            // {% if request.user.is_authenticated %}
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+
+                            case "cerrar sesión":
+                                document.getElementById('cerrar_sesion').click();
+                                break;
+
+                            case "ver perfil":
+                                window.location.replace('/usuarios/perfil/');
+                                break;
+                            // {%endif%}
+                                                        
+                            case "leer pantalla":
+                                hablar(`Esta es la pantalla de consultas de compras. Usted ha realizado {{compras.count}} compras. La pantalla está dividida en las siguientes secciones:
+                                    1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
+                                    2. Sección de Formulario: Aquí se encuenta el formulario de creación de inmueble y todos sus campos, diga "crear inmueble" para iniciarlo por voz.
+                                `);
+                                break;
+                        }
+                      }    
+                   });
+
+                   if(!speaking && (localStorage.getItem('comandos') == '0' || !localStorage.getItem('comandos')) && speech.toLowerCase().includes('activar comandos de voz')){
+                        bienvenida();
+                        localStorage.setItem("comandos", 1);
+                        break;
+                   }
+                }
+            }
+        }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
+
+        recognition.onerror = (event) => {
+            console.log(event);
+        }
+
+        async function bienvenida(tipo = 0){
+            if ('speechSynthesis' in window) {
+                var utterance = undefined;
+                
+                if(tipo === 0)
+                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de creación de inmueble. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
+                else
+                    utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
+                
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = async (evt) => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false, reporte = false;
+                    recognition.start();
+                    console.log("LISTO");
+                };
+                synthesis.speak(utterance);
+            }
+        }
+
+        async function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false, reporte = false;
+                    console.log("LISTO");
+                };
+                synthesis.speak(utterance);
+            }
+        }
+
+        window.onbeforeunload = function () {
+            if(!reporte){
+                synthesis.cancel();
+                recognition.stop();
+            }
+        }
+
+        if(localStorage.getItem('comandos') == '1')
+            if({{errores|length}} === 0)        
+                bienvenida();
+            else
+                bienvenida(1);
+
+        recognition.start();
+        recognition.addEventListener('end', recognition.start);
+
+        $(document).on('change', '#parroquia', () => {
+            $('#sector').empty();
+            let opciones = $.ajax(`sectores/${$('#parroquia').val()}`, {
+                async: false,
+                success: ({res}) => {
+                    for(let i = 1; i <= res.length; i++)
+                       $('#sector').append(`<option value="${i}">${res[i-1].nombre}</option>`)
+
+                    sectores_actuales = res;
+                }
+            });
+        });
+
+        window.onbeforeunload = function () {
+            synthesis.cancel();
+            recognition.stop();
+        }
+
+        $(document).on('change', 'input', (e) => {
+            e.target.value = e.target.value.trim();
+        });
+    </script>
 </head>
 <body>
     <ul>

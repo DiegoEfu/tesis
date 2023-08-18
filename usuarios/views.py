@@ -24,6 +24,9 @@ def comprobacion_cedula(request):
 def comprobacion_correo(request):
     return JsonResponse({'existe': Usuario.objects.filter(email = request.GET['email']).exists()})
 
+def comprobacion_telefono(request):
+    return JsonResponse({'existe': Persona.objects.filter(email = request.GET['numero_telefono']).exists()})
+
 def register_user(request):
     if request.method == 'POST':
         print(request.POST)

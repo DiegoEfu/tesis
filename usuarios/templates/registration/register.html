@@ -133,7 +133,7 @@
                                             });
 
                                             if(existe){
-                                                hablar(`La cédula ${$(id).val()} ya está registrada en la base de datos. Por favo, intente ingresando una nueva.`);
+                                                hablar(`La cédula ${$(id).val()} ya está registrada en la base de datos. Por favor, intente ingresando una nueva.`);
                                                 $(id).val("");
                                                 break;
                                             }
@@ -158,12 +158,37 @@
                                             }
                                         }
 
-                                        if(campo === 5)
+                                        if(campo === 5){
+                                            let tlf = false;
+                                            $.ajax({
+                                                url: "comprobar/telefono",
+                                                contentType: "application/json",
+                                                dataType: "json",
+                                                type: "GET",
+                                                cache: true,
+                                                async: false,
+                                                data: {
+                                                    'numero_telefono': $('#numero_telefono').val()
+                                                },
+                                                success: (res) => {
+                                                    console.log(res);
+                                                    tlf = res.existe;
+                                                },
+                                                error: (e) => console.log(e)
+                                            });
+
+                                            if(tlf){
+                                                hablar(`El número de teléfono ${$(id).val()} ya está registrado en la base de datos. Por favor, intente ingresando uno nuevo.`);
+                                                $(id).val("");
+                                                break;
+                                            }
+
                                             if(!/^[0-9]+$/.test($(id).val())){
                                                 hablar("El número de teléfono debe ser enteramente numérico.");
                                                 $(id).val("");
                                                 break;
                                             }
+                                        }
 
                                         if(campo === 7){
                                             let existe = false;
@@ -185,7 +210,7 @@
                                             });
 
                                             if(existe){
-                                                hablar(`El correo electrónico ${$(id).val()} ya está registrado en la base de datos. Por favo, intente ingresando uno nuevo.`);
+                                                hablar(`El correo electrónico ${$(id).val()} ya está registrado en la base de datos. Por favor, intente ingresando uno nuevo.`);
                                                 $(id).val("");
                                                 break;
                                             }
