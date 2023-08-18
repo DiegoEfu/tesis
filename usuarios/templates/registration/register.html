@@ -380,8 +380,6 @@
                     console.log("LISTO");
                 };
                 synthesis.speak(utterance);
-                recognition.start();
-                recognition.addEventListener('end', recognition.start);
             }
         }
 
@@ -432,6 +430,8 @@
             return age;
         }
 
+        recognition.start();
+        recognition.addEventListener('end', recognition.start);
     </script>
 </head>
 <body>
