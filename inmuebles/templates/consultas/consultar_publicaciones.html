@@ -179,7 +179,7 @@
                       }    
                    });
 
-                   if(!speaking && localStorage.getItem('comandos') == '0' && speech.toLowerCase().includes('activar comandos de voz')){
+                   if(!speaking && (localStorage.getItem('comandos') == '0' || !localStorage.getItem('comandos')) && speech.toLowerCase().includes('activar comandos de voz')){
                         bienvenida();
                         localStorage.setItem("comandos", 1);
                         break;
