@@ -27,7 +27,7 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "iniciar sesión": "Llevar a la página de inicio de sesión",
-            "crear nuevo usuario": "Permite crear un nuevo usuario con el formulario",
+            "registrarse": "Permite iniciar el formulario de registro",
             "regresar inicio": "Regresa a la pantalla de inicio",
             "desactivar comandos de voz": "Desactiva los comandos de voz"
         };
@@ -91,13 +91,13 @@
                                     break;
                                 
                                 case "editar":
-                                    if(campo >= 1){
+                                    if(campo >= 1 && !escribiendo){
                                         hablar(`Usted ha dicho 'editar'. Vuelva a escribir su ${campos[campo][0]}.`)
                                         $(`#${campos[campo][1]}`).val("");
                                         const input2 = document.getElementById(campos[campo][1]);
                                         input2.focus();
                                         escribiendo = true;
-                                    } else{
+                                    } else if(!escribiendo){
                                         hablar("Usted ha dicho 'editar'. Diga 'teclado' para escribir el campo con teclado, o diga 'dictado' para dictarlo.")
                                         $('#id_username').val("");
                                     }                                
@@ -133,7 +133,7 @@
                                             });
 
                                             if(existe){
-                                                hablar(`La cédula ${$(id).val()} ya está registrada en la base de datos. Por favo, intente ingresando una nueva.`);
+                                                hablar(`La cédula ${$(id).val()} ya está registrada en la base de datos. Por favor, intente ingresando una nueva.`);
                                                 $(id).val("");
                                                 break;
                                             }
@@ -158,12 +158,37 @@
                                             }
                                         }
 
-                                        if(campo === 5)
+                                        if(campo === 5){
+                                            let tlf = false;
+                                            $.ajax({
+                                                url: "comprobar/telefono",
+                                                contentType: "application/json",
+                                                dataType: "json",
+                                                type: "GET",
+                                                cache: true,
+                                                async: false,
+                                                data: {
+                                                    'numero_telefono': $('#numero_telefono').val()
+                                                },
+                                                success: (res) => {
+                                                    console.log(res);
+                                                    tlf = res.existe;
+                                                },
+                                                error: (e) => console.log(e)
+                                            });
+
+                                            if(tlf){
+                                                hablar(`El número de teléfono ${$(id).val()} ya está registrado en la base de datos. Por favor, intente ingresando uno nuevo.`);
+                                                $(id).val("");
+                                                break;
+                                            }
+
                                             if(!/^[0-9]+$/.test($(id).val())){
                                                 hablar("El número de teléfono debe ser enteramente numérico.");
                                                 $(id).val("");
                                                 break;
                                             }
+                                        }
 
                                         if(campo === 7){
                                             let existe = false;
@@ -185,7 +210,7 @@
                                             });
 
                                             if(existe){
-                                                hablar(`El correo electrónico ${$(id).val()} ya está registrado en la base de datos. Por favo, intente ingresando uno nuevo.`);
+                                                hablar(`El correo electrónico ${$(id).val()} ya está registrado en la base de datos. Por favor, intente ingresando uno nuevo.`);
                                                 $(id).val("");
                                                 break;
                                             }
@@ -275,7 +300,7 @@
                         }                        
                         else if(dictando && campo === 7){
                             if(speech.toLowerCase().indexOf("dictado") === -1)
-                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
                         }
                         else if(dictando){
                             if(speech.indexOf("Dictado") === -1){
@@ -325,8 +350,8 @@
                                 location.replace("/usuarios/login/");
                                 break;
                             
-                            case "crear nuevo usuario":
-                                hablar("Usted ha dicho crear nuevo usuario. Diga 'salir' para salir del formulario. Campo #1: Tipo de Persona. Diga 1 para venezolano. Diga 2 para extranjero.");
+                            case "registrarse":
+                                hablar("Usted ha dicho registrarse. Diga 'salir' para salir del formulario. Campo #1: Tipo de Persona. Diga 1 para venezolano. Diga 2 para extranjero.");
                                 if($(`#${campos[campo][1]}`).val() != '')
                                     hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción.");
                                 recognition.onresult = formulario_p1;
@@ -335,7 +360,7 @@
                       }    
                    });
                 
-                   if(!speaking && localStorage.getItem('comandos') == '0' && speech.toLowerCase().includes('activar comandos de voz')){
+                   if(!speaking && (localStorage.getItem('comandos') == '0' || !localStorage.getItem('comandos')) && speech.toLowerCase().includes('activar comandos de voz')){
                         bienvenida();
                         localStorage.setItem("comandos", 1);
                         break;
