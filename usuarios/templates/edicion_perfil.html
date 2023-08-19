@@ -171,7 +171,7 @@
 
                     if(dictando && (campo === 0)){
                         if(speech.toLowerCase().indexOf("dictado") === -1)
-                            $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(".","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                            $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
                     } else if(dictando && campo === 1){
                         if(/[0-9]+/g.test(speech.replaceAll(" ", "")))
                                 $('#numero_telefono').val($('#numero_telefono').val() + speech.replaceAll(" ", ""));
@@ -193,6 +193,15 @@
                             case "desactivar comandos de voz":
                                 localStorage.setItem('comandos', 0);
                                 hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                                break;
+
+                            case "editar información":
+                                document.getElementById('email').focus();
+                                let texto = "Usted ha dicho editar información. Campo #1 correo electrónico. Diga dictado para dictarlo, o escríbalo. Diga listo una vez haya finalizado.";
+                                texto += document.getElementById('email').value  !== '' ? `Actualmente el campo tiene el valor: ${document.getElementById('email').value.toUpperCase()} Si quiere editarlo diga listo y luego editar.` : "";
+                                hablar(texto);
+
+                                recognition.onresult = formulario_p1;
                                 break;
 
                             case "regresar inicio":
@@ -287,7 +296,7 @@
                 var utterance = undefined;
                 
                 if(tipo === 0)
-                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de creación de inmueble. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
+                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de cambio de información del perfil. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
                 else
                     utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
                 
@@ -295,7 +304,12 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
                     await new Promise(resolve => setTimeout(resolve, 500));
                     speaking = false, reporte = false;
                     recognition.start();
@@ -313,6 +327,9 @@
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
                 utterance.onend = async (evt) => {
                     if(!speaking)
                         speaking = true

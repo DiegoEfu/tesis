@@ -22,10 +22,14 @@ def comprobacion_cedula(request):
     return JsonResponse({'existe': Persona.objects.filter(tipo=request.GET['tipo'], identificacion = request.GET['cedula']).exists()})
 
 def comprobacion_correo(request):
-    return JsonResponse({'existe': Usuario.objects.filter(email = request.GET['email']).exists()})
+    if(not request.user.is_authenticated):
+        return JsonResponse({'existe': Usuario.objects.filter(email = request.GET['email']).exists()})
+    return JsonResponse({'existe': Usuario.objects.filter(email = request.GET['email']).exclude(pk = request.user.pk).exists()})
 
 def comprobacion_telefono(request):
-    return JsonResponse({'existe': Persona.objects.filter(email = request.GET['numero_telefono']).exists()})
+    if(not request.user.is_authenticated):
+        return JsonResponse({'existe': Persona.objects.filter(numero_telefono = request.GET['numero_telefono']).exists()})
+    return JsonResponse({'existe': Persona.objects.filter(numero_telefono = request.GET['numero_telefono']).exclude(pk=request.user.persona.pk).exists()})
 
 def register_user(request):
     if request.method == 'POST':
@@ -124,7 +128,8 @@ def edicion_perfil(request):
             request.user.email = request.POST['email']
             request.user.save()
 
-            request.user.persona.numero_telefono = request.user.persona.numero_telefono
+            persona = request.user.persona
+            persona.numero_telefono = request.POST['numero_telefono']
             request.user.persona.save()
 
             return redirect('/usuarios/perfil/')
