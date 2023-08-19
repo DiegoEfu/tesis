@@ -71,13 +71,13 @@
                                     break;
                                 
                                 case "editar":
-                                    if(campo == 1){
+                                    if(campo == 1 && !escribiendo){
                                         hablar("Usted ha dicho 'editar'. Vuelva a escribir su contraseña.")
                                         $('#id_password').val("");
                                         const input2 = document.getElementById(campos[campo][1]);
                                         input2.focus();
                                         escribiendo = true;
-                                    } else{
+                                    } else if(!escribiendo){
                                         hablar("Usted ha dicho 'editar'. Diga 'teclado' para escribir el campo con teclado, o diga 'dictado' para dictarlo.")
                                         $('#id_username').val("");
                                     }                                

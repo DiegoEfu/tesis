@@ -79,7 +79,7 @@
                                     break;
                                 
                                 case "editar":
-                                    if(campo >= 0){
+                                    if(campo >= 0 && !escribiendo){
                                         hablar(`Usted ha dicho 'editar'. Vuelva a escribir su ${campos[campo][0]}.`)
                                         $(`#${campos[campo][1]}`).val("");
                                         const input2 = document.getElementById(campos[campo][1]);

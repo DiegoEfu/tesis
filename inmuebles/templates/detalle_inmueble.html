@@ -179,7 +179,7 @@
                                 break;
                             
                             case "editar":
-                                if(campo === 2){
+                                if(campo === 2 && !escribiendo){
                                     campo = 1;
                                     document.getElementById('busqueda').value = "";
                                     document.getElementById('busqueda').focus();
