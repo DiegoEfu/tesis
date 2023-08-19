@@ -41,4 +41,6 @@ class Usuario(AbstractUser):
     def __str__(self):
         return self.email
     
+    def tipo_usuario(self):
+        return "Agente" if self.usuario_persona.cargo == 'A' else "Cliente"   
     
