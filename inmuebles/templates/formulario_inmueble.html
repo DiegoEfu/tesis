@@ -310,11 +310,12 @@
                             
                             case "crear inmueble":
                                 escribiendo = true;
-                                document.getElementById('nombre').focus();
-                                hablar("Usted ha dicho crear inmueble. Diga 'salir' para salir del formulario. Campo #1: Nombre del Inmueble. Diga dictado para dictar.");
-                                
+                                let texto = "";
                                 if($(`#${campos[campo][1]}`).val() != '')
-                                    hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Diga listo y luego editar para editarlo.");
+                                    texto = "El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Diga listo y luego editar para editarlo.";
+
+                                document.getElementById('nombre').focus();
+                                hablar("Usted ha dicho crear inmueble. Diga 'salir' para salir del formulario. Campo #1: Nombre del Inmueble. Diga dictado para dictar." + texto);
                                 
                                 recognition.onresult = formulario_p1;
                                 break;

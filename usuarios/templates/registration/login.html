@@ -36,7 +36,7 @@
                         $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(" ", ""));
 
 
-                    ["dictado", "teclado", "salir", "continuar", "editar", "listo", "regresar inicio"].forEach(comando => {
+                    ["dictado", "salir", "continuar", "editar", "listo", "regresar inicio"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -60,6 +60,7 @@
                                         campo++;
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
+                                            input2.value = "";
                                             input2.focus();
                                             hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. Diga listo una vez la haya ingresado.`);
                                             escribiendo = true;
@@ -78,7 +79,7 @@
                                         input2.focus();
                                         escribiendo = true;
                                     } else if(!escribiendo){
-                                        hablar("Usted ha dicho 'editar'. Diga 'teclado' para escribir el campo con teclado, o diga 'dictado' para dictarlo.")
+                                        hablar("Usted ha dicho 'editar'. Diga 'dictado' para dictarlo.")
                                         $('#id_username').val("");
                                     }                                
                                     break;
@@ -148,10 +149,13 @@
                             break;
 
                             case "iniciar sesión":
-                                hablar("Usted ha dicho iniciar sesión. Diga 'salir' para salir del formulario. Campo #1: Correo Electrónico. Si desea dictar su correo electrónico, diga 'dictado'. Si desea salir, diga 'salir'.");
-                                $("#id_username").focus();
+                                let texto = "";
+
                                 if($("#id_username").val() != '')
-                                    hablar("El campo actualmente tiene el valor: " + $("#id_username").val() + ". Si quiere editarlo diga listo y luego editar.");
+                                    texto = "El campo actualmente tiene el valor: " + $("#id_username").val() + ". Si quiere editarlo diga listo y luego editar.";
+
+                                hablar("Usted ha dicho iniciar sesión. Diga 'salir' para salir del formulario. Campo #1: Correo Electrónico. Si desea dictar su correo electrónico, diga 'dictado'. Si desea salir, diga 'salir'." + texto);
+                                $("#id_username").focus();
                                 recognition.onresult = formulario_p1;
                                 
                                 break;
