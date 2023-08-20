@@ -1,0 +1,375 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+
+}
+
+.tituloRegistroPago {
+    font-weight: 700;
+    color: var(--verdeMusgo);
+}
+
+.contenedorFormPago {
+    background-image: url("../../img/formPago.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+.contenedorForm {
+    background-color: white;
+    color: black;
+    box-shadow: 5px 10px 8px rgb(62, 62, 62);
+}
+
+.btn-success {
+    background-color: var(--verdeMusgo)!important;
+    color: white!important;
+    border-color: var(--verdeMusgo)!important;
+}
+
+.btn-success:hover {
+    background-color: #59a102!important;
+    color: black!important;
+}
+
+@media(max-width:2000px) {
+    .contenedorFormPago {
+        padding: 5% 20% 5% 20%;
+    }
+
+    .contenedorForm {
+        padding: 5% 5% 5% 10%;
+        border-radius: 1%;
+    }
+
+    .selectBsD {
+        display: flex;
+        justify-content: left;
+        width: 80%!important;
+    }
+
+    .form-label {
+        font-size: 160%;
+    }
+
+    .form-control {
+        width: 80%!important
+    }
+
+    .form-select {
+        width: 80%!important;
+    }
+
+    .tituloRegistroPago {
+        font-size: 340%;
+        text-align: left;
+} 
+    .btn-success {
+    width: 15%;
+}
+}
+
+@media(max-width:1440px) {
+    .contenedorFormPago {
+        padding: 5% 20% 5% 20%;
+    }
+
+    .contenedorForm {
+        padding: 5% 5% 5% 10%;
+        border-radius: 1%;
+    }
+
+    .selectBsD {
+        display: flex;
+        justify-content: left;
+        width: 90%!important;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .form-control {
+        width: 90%!important
+    }
+
+    .form-select {
+        width: 90%!important;
+    }
+
+    .tituloRegistroPago {
+        font-size: 340%;
+        text-align: left;
+} 
+    .btn-success {
+    width: 35%;
+}
+}
+
+@media(max-width:1280px) {
+    .contenedorFormPago {
+        padding: 10% 10% 10% 10%;
+    }
+
+    .contenedorForm {
+        padding: 5% 5% 10% 10%;
+        border-radius: 1%;
+    }
+
+    .selectBsD {
+        display: flex;
+        justify-content: left;
+        width: 90%!important;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .form-control {
+        width: 90%!important
+    }
+
+    .form-select {
+        width: 90%!important;
+    }
+
+    .tituloRegistroPago {
+        font-size: 340%;
+        text-align: left;
+} 
+    .btn-success {
+    width: 35%;
+}
+}
+
+@media(max-width:1024px) {
+    .contenedorFormPago {
+        padding: 10% 10% 10% 10%;
+    }
+
+    .contenedorForm {
+        padding: 5% 5% 10% 10%;
+        border-radius: 1%;
+    }
+
+    .selectBsD {
+        display: flex;
+        justify-content: left;
+        width: 90%!important;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .form-control {
+        width: 90%!important
+    }
+
+    .form-select {
+        width: 90%!important;
+    }
+
+    .tituloRegistroPago {
+        font-size: 320%;
+        text-align: left;
+} 
+    .btn-success {
+    width: 35%;
+}
+}
+
+@media(max-width:800px) {
+    .contenedorFormPago {
+        padding: 20% 10% 20% 10%;
+    }
+
+    .contenedorForm {
+        padding: 5% 10% 10% 10%;
+        border-radius: 1%;
+    }
+
+    .selectBsD {
+        display: flex;
+        justify-content: left;
+        width: 80%!important;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .form-control {
+        width: 80%!important
+    }
+
+    .form-select {
+        width: 80%!important;
+    }
+
+    .tituloRegistroPago {
+        font-size: 320%;
+        text-align: left;
+} 
+    .btn-success {
+    width: 45%;
+}
+}
+
+@media(max-width:768px) {
+    .contenedorFormPago {
+        padding: 20% 10% 20% 10%;
+    }
+
+    .contenedorForm {
+        padding: 5% 10% 10% 10%;
+        border-radius: 1%;
+    }
+
+    .selectBsD {
+        display: flex;
+        justify-content: left;
+        width: 80%!important;
+    }
+
+
+    .select
+
+    .form-label {
+        font-size: 120%;
+    }
+
+    .form-control {
+        width: 80%!important
+    }
+
+    .form-select {
+        width: 80%!important;
+    }
+
+    .tituloRegistroPago {
+        font-size: 280%;
+        text-align: left;
+} 
+    .btn-success {
+    width: 45%;
+}
+}
+
+@media(max-width:600px) {
+    .contenedorFormPago {
+        padding: 20% 10% 20% 10%;
+    }
+
+    .contenedorForm {
+        padding: 10% 10% 10% 10%;
+        border-radius: 1%;
+    }
+
+    .selectBsD {
+        display: flex;
+        justify-content: left;
+        width: 100%!important;
+    }
+
+    .form-label {
+        font-size: 100%;
+    }
+
+    .form-control {
+        width: 100%!important
+    }
+
+    .form-select {
+        width: 100%!important;
+    }
+
+    .tituloRegistroPago {
+        font-size: 220%;
+        text-align: left;
+} 
+    .btn-success {
+    width: 65%;
+}
+}
+
+@media(max-width:480px) {
+    .contenedorFormPago {
+        padding: 20% 10% 20% 10%;
+    }
+
+    .contenedorForm {
+        padding: 10% 10% 20% 10%;
+        border-radius: 1%;
+    }
+
+    .selectBsD {
+        display: flex;
+        justify-content: left;
+    }
+
+    .form-label {
+        font-size: 100%;
+    }
+
+    .form-control {
+        width: 100%!important
+    }
+
+    .form-select {
+        width: 100%!important;
+    }
+
+    .tituloRegistroPago {
+        font-size: 220%;
+        text-align: center;
+} 
+    .btn-success {
+        width: 75%;
+    }
+}
+
+@media(max-width:320px) {
+    .contenedorFormPago {
+        padding: 20% 10% 20% 10%;
+    }
+
+    .contenedorForm {
+        padding: 20% 10% 20% 10%;
+        border-radius: 1%;
+    }
+
+    .selectBsD {
+        display: flex;
+        justify-content: left;
+    }
+
+    .form-label {
+        font-size: 100%;
+    }
+
+    .form-control {
+        width: 100%!important
+    }
+
+    .form-select {
+        width: 100%!important;
+    }
+
+    .tituloRegistroPago {
+        font-size: 150%;
+        text-align: center;
+    }
+    .btn-success {
+        width: 90%;
+    }
+}
