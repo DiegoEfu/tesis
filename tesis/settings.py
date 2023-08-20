@@ -186,3 +186,4 @@ PWA_APP_SCREENSHOTS = [
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+PWA_SERVICE_WORKER_PATH  = os.path.join(BASE_DIR, 'static', 'serviceworker.js')
