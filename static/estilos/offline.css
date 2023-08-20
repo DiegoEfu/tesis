@@ -1,0 +1,390 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+
+}
+ /*Nav*/
+ .navegadorPrincipal {
+    align-items: center;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tituloAdvertencia {
+    color: var(--Rojorubi);
+    font-weight: 700;
+    
+}
+
+.copyrightContainer {
+    background-color: var(--verdeMusgo);
+    color: white;
+}
+
+.contenedorElementos {
+    text-align: center;
+}
+
+#firma {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--verdeMusgo);
+}
+
+
+@media(max-width: 2000px) {
+
+    #logoJausi {
+        width: 8%;
+    }
+
+    #logoAdvertencia {
+        width: 20%;
+    }
+
+    .tituloAdvertencia {
+        font-size: 350%;
+    }
+    .contenedorMensajes {
+        text-align: center;
+        height: 190px;
+        margin-left: 15px;
+        margin-right: 30px;
+        font-size: 35px;
+    }
+    .textoFooter {
+        padding-top: 20px;
+        font-size: 17px;
+        padding-bottom: 20px;
+    }
+    
+
+}
+
+@media(max-width: 1800px) {
+
+    #logoJausi {
+        width: 10%;
+    }
+
+    #logoAdvertencia {
+        width: 25%;
+    }
+
+    .tituloAdvertencia {
+        font-size: 330%;
+    }
+    .contenedorMensajes {
+        text-align: center;
+        height: 190px;
+        margin-left: 15px;
+        margin-right: 30px;
+        font-size: 35px;
+    }
+    .textoFooter {
+        padding-top: 20px;
+        font-size: 17px;
+        padding-bottom: 20px;
+    }
+    .copyrightContainer p {
+        font-size: 50px;
+    }
+    
+
+}
+
+@media(max-width: 1320px) {
+
+    #logoJausi {
+        width: 20%;
+    }
+
+    #logoAdvertencia {
+        width: 30%;
+    }
+
+    .tituloAdvertencia {
+        font-size: 310%;
+    }
+    .contenedorMensajes {
+        text-align: center;
+        height: 190px;
+        margin-left: 15px;
+        margin-right: 30px;
+        font-size: 25px;
+    }
+    .textoFooter {
+        padding-top: 20px;
+        font-size: 17px;
+        padding-bottom: 20px;
+    }
+    .copyrightContainer p {
+        font-size: 45px;
+    }
+    
+
+}
+
+@media(max-width: 1140px) {
+
+    #logoJausi {
+        width: 20%;
+    }
+
+    #logoAdvertencia {
+        width: 40%;
+    }
+
+    .tituloAdvertencia {
+        font-size: 290%;
+    }
+    .contenedorMensajes {
+        text-align: center;
+        height: 190px;
+        margin-left: 15px;
+        margin-right: 30px;
+        font-size: 25px;
+    }
+    .textoFooter {
+        padding-top: 20px;
+        font-size: 17px;
+        padding-bottom: 20px;
+    }
+    .copyrightContainer p {
+        font-size: 45px;
+    }
+    
+
+}
+
+@media(max-width: 1020px) {
+
+    #logoJausi {
+        width: 20%;
+    }
+
+    #logoAdvertencia {
+        width: 40%;
+    }
+
+    .tituloAdvertencia {
+        font-size: 270%;
+    }
+    .contenedorMensajes {
+        text-align: center;
+        height: 190px;
+        margin-left: 15px;
+        margin-right: 30px;
+        font-size: 25px;
+    }
+    .textoFooter {
+        padding-top: 20px;
+        font-size: 17px;
+        padding-bottom: 20px;
+    }
+    .copyrightContainer p {
+        font-size: 40px;
+    }
+    
+
+}
+
+@media(max-width: 920px) {
+
+    #logoJausi {
+        width: 20%;
+    }
+
+    #logoAdvertencia {
+        width: 50%;
+    }
+
+    .tituloAdvertencia {
+        font-size: 270%;
+    }
+    .contenedorMensajes {
+        text-align: center;
+        height: 190px;
+        margin-left: 15px;
+        margin-right: 30px;
+        font-size: 25px;
+    }
+    .textoFooter {
+        padding-top: 20px;
+        font-size: 17px;
+        padding-bottom: 20px;
+    }
+    .copyrightContainer p {
+        font-size: 35px;
+    }
+    
+
+}
+
+@media(max-width: 800px) {
+
+    #logoJausi {
+        width: 20%;
+    }
+
+    #logoAdvertencia {
+        width: 50%;
+    }
+
+    .tituloAdvertencia {
+        font-size: 270%;
+    }
+    .contenedorMensajes {
+        text-align: center;
+        height: 190px;
+        margin-left: 15px;
+        margin-right: 30px;
+        font-size: 25px;
+    }
+    .textoFooter {
+        padding-top: 20px;
+        font-size: 17px;
+        padding-bottom: 20px;
+    }
+    .copyrightContainer p {
+        font-size: 35px;
+    }
+
+}
+
+@media(max-width: 720px) {
+
+    #logoJausi {
+        width: 25%;
+    }
+
+    #logoAdvertencia {
+        width: 60%;
+    }
+
+    .tituloAdvertencia {
+        font-size: 270%;
+    }
+    .contenedorMensajes {
+        text-align: center;
+        height: 190px;
+        margin-left: 15px;
+        margin-right: 30px;
+        font-size: 25px;
+    }
+    .textoFooter {
+        padding-top: 20px;
+        font-size: 17px;
+        padding-bottom: 20px;
+    }
+    .copyrightContainer p {
+        font-size: 30px;
+    }
+    
+
+}
+
+@media(max-width: 600px) {
+
+    #logoJausi {
+        width: 40%;
+    }
+
+    #logoAdvertencia {
+        width: 70%;
+    }
+
+    .tituloAdvertencia {
+        font-size: 260%;
+    }
+    .contenedorMensajes {
+        text-align: center;
+        height: 190px;
+        margin-left: 15px;
+        margin-right: 30px;
+        font-size: 22px;
+    }
+    .textoFooter {
+        padding-top: 20px;
+        font-size: 17px;
+        padding-bottom: 20px;
+    }
+    .copyrightContainer p {
+        font-size: 25px;
+    }
+
+}
+
+@media(max-width: 480px) {
+
+    #logoJausi {
+        width: 70%;
+    }
+
+    #logoAdvertencia {
+        width: 70%;
+    }
+
+    .tituloAdvertencia {
+        font-size: 230%;
+    }
+    .contenedorMensajes {
+        text-align: center;
+        height: 190px;
+        margin-left: 15px;
+        margin-right: 30px;
+        font-size: 20px;
+    }
+    .textoFooter {
+        padding-top: 20px;
+        font-size: 17px;
+        padding-bottom: 20px;
+    }
+    
+    .copyrightContainer p {
+        font-size: 20px;
+    }
+
+}
+
+
+@media(max-width: 320px) {
+
+    #logoJausi {
+        width: 90%;
+    }
+
+    #logoAdvertencia {
+        width: 90%;
+    }
+
+    .tituloAdvertencia {
+        font-size: 180%;
+    }
+    .contenedorMensajes {
+        height: 190px;
+        margin-left: 15px;
+        margin-right: 30px;
+        font-size: 15px;
+    }
+
+    .textoFooter {
+        padding-top: 20px;
+        font-size: 17px;
+    }
+
+    .copyrightContainer p {
+        font-size: 15px;
+    }
+    
+
+}

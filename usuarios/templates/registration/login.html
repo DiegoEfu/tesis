@@ -243,10 +243,10 @@
         recognition.addEventListener('end', recognition.start);
 
         if(localStorage.getItem('comandos') == '1')
-            if({{form.errors|length}} === 0)
-                bienvenida();
-            else
-                bienvenida(1);
+            if(form.errors|length === 0) {
+                bienvenida(); }
+            else {
+                bienvenida(1); }
         
         window.onbeforeunload = function () {
             if(!reporte){
