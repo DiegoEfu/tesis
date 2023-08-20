@@ -27,7 +27,7 @@
             "consultar ventas": "Permite consultar las ventas de sus publicaciones",
             "consultar citas": "Permite consultar las citas que ha solicitado",
             "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
-            "ver perfil": "Permite ver sus datos personales",  s
+            "ver perfil": "Permite ver sus datos personales",
         };
 
         function inicial(event) {
@@ -200,10 +200,11 @@
                 Diga "registrar nuevo pago" para ir al formulario de registro de pago.
                 {% endif %}`);
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }
@@ -260,8 +261,6 @@
         <button id="mp3" type="submit" name="tipo" value="mp3">DESCARGAR REPORTE MP3</button>
         <button id="pdf" type="submit" name="tipo" value="pdf">DESCARGAR REPORTE PDF</button>
     </form>
-    {% else %}
-    No hay pagos para esta compra.
     {% endif %}
     {% for pago in pagos %}
     <hr>

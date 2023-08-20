@@ -127,10 +127,11 @@
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance('Usted ha dicho que desea cancelar la venta de código interno {{compra.pk}}. Para regresar diga "consultar ventas", para proseguir con la cancelación diga "yo quiero cancelar esta venta".');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

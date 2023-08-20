@@ -186,10 +186,11 @@
                 {% else %} Se han cancelado {{compra.monto_cancelado_texto}} dólares de los {{compra.inmueble.precio_texto}} dólares del costo del inmueble. {% endif %}
                 Diga "leer pago" seguido del número de pago para obtener una lectura del mismo.`);
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

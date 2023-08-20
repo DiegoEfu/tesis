@@ -154,17 +154,17 @@
                         console.log(speech);
                         
                         if(!isNaN(speech)) // Esto verifica que el string sea numérico
-                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
+                            $('#'+campos[campo][1]).val(speech)
                     }else if(dictando && campo === 2){
                         speech = speech.toLowerCase().replaceAll('uno','1').replaceAll('dos','2').replaceAll('tres','3').replaceAll('cuatro','4')
                          .replaceAll('cinco','5').replaceAll('seis','6').replaceAll('siete','7').replaceAll('ocho','8')
                          .replaceAll('nueve','9').replaceAll('cero','0').replaceAll("punto",".").replaceAll("coma",",")
-                         .replaceAll(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replaceAll(/.$/g,"").replaceAll(",",".").replaceAll(" ", "");
+                         .replaceAll(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replaceAll(/.$/g,"").replaceAll(",","").replaceAll(" ", "");
                         
                         console.log(speech);
                         
                         if(!isNaN(speech)) // Esto verifica que el string sea numérico
-                            $('#'+campos[campo][1]).val(speech)
+                            $('#'+campos[campo][1]).val( $('#'+campos[campo][1]) + speech)
                     } else if(dictando && campo === 3){
                         speech = speech.toLowerCase().replaceAll("del","").replaceAll("de","").replaceAll(/\s+/g, " ");
                         let nuevo = speech.replace("enero","01").replace("febrero","02").replace("marzo","03")
@@ -232,7 +232,7 @@
                             
                             case "registrar pago":
                                 hablar("Usted ha dicho registrar pago. Diga 'salir' para salir del formulario. Campo #1: Cuenta Receptora. Diga 'opciones' para tener las opciones de cuentas."
-                                + ($(`#${campos[campo][1]}`).val() != '') ? "El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : "");
+                                + ($(`#${campos[campo][1]}`).val() != '' ? "El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : ""));
 
                                 recognition.onresult = formulario_p1;
                                 break;
@@ -298,10 +298,11 @@
                 else
                     utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

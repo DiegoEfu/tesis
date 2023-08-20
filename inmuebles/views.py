@@ -108,7 +108,7 @@ def formulario_inmueble(request):
             return render(request, 'formulario_inmueble.html', {'errores': errores, 'previo': request.POST})
 
         Inmueble.objects.create(
-            nombre = nombre,
+            nombre = nombre.upper(),
             ano_construccion = ano_construccion,
             tipo_construccion = tipos_construccion[int(tipo_construccion)-1][0],
             estacionamientos = estacionamiento,
@@ -716,7 +716,6 @@ def consultar_ventas_revision(request):
         compra.save()
 
         return redirect('/usuarios/agente/')
-
 
 def edicion_inmueble_agente(request, pk):
     if(request.method == 'GET'):

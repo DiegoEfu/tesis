@@ -201,10 +201,11 @@
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de ventas. Usted tiene {{ventas.count}} ventas. Diga "leer venta" seguido del número de venta para obtener una lectura de la misma.');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

@@ -206,10 +206,11 @@
                 utterance = new SpeechSynthesisUtterance('{% if request.user.is_authenticated %}Bienvenido {{request.user.persona}}. {% endif %}' + 'Justo ahora está en la pantalla de bienvenida.' 
                     + ' Si quiere saber los comandos disponibles diga "ayuda".');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

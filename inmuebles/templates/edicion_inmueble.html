@@ -50,7 +50,7 @@
         function formulario_p1(event){
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal && !speaking){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replaceAll("m2","");
                    speech = speech
                    console.log(speech);
                     
@@ -200,7 +200,7 @@
                     if(dictando && (campo === 5 || campo === 3 || campo === 5 || campo === 6 || campo === 10 || campo === 11)){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
+                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(/\s+/g,"");
 
                          if(!isNaN(speech)) // Esto verifica que el string sea numérico
                             $('#'+campos[campo][1]).val(speech)
@@ -346,10 +346,11 @@
                 else
                     utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

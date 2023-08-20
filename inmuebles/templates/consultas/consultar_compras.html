@@ -265,10 +265,11 @@
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de compras. Usted tiene {{compras.count}} compras. Diga "leer compra" seguido del número de compra para obtener una lectura de la misma.');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }
@@ -336,6 +337,14 @@
     <a href="{% url 'consultar_pagos_compra' pk=compra.pk %}">Consultar Pagos</a>
 
     {% if compra.estado == 'E' %}
+    <b>Nombre del Agente:</b> {{compra.inmueble.agente}}
+    <b>Teléfono del Agente:</b> {{compra.inmueble.agente.numero_telefono}}
+    <b>Correo del Agente:</b> {{compra.inmueble.agente.usuario_persona.email}}
+
+    <b>Nombre del Dueño:</b> {{compra.inmueble.dueno}}
+    <b>Teléfono del Dueño:</b> {{compra.inmueble.dueno.numero_telefono}}
+    <b>Correo del Dueño:</b> {{compra.inmueble.dueno.usuario_persona.email}}
+
     <a href="{% url 'cancelar_compra' pk=compra.pk %}">Cancelar Compra</a>
     <form method="post">
         {% csrf_token %}
@@ -343,7 +352,6 @@
         <button type="submit" id="mp3_{{compra.pk}}" name="tipo" value="mp3">Comprobante MP3</button>
         <button type="submit" id="pdf_{{compra.pk}}" name="tipo" value="pdf">Comprobante PDF</button>
     </form>
-    <a href="{% url 'formulario_registro_pago' pk=compra.pk %}">Pagar</a>
     {% endif %}
 
     {% endfor %}

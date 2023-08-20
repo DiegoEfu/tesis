@@ -88,6 +88,9 @@ class Inmueble(models.Model):
     def precio_texto(self):
         return num2words(self.precio, lang="es")
     
+    def tamano_texto(self):
+        return num2words(self.tamano, lang="es")
+    
     def estado_largo(self):
         for (x,y) in estados_inmueble:
             if(x == self.estado):
@@ -134,7 +137,7 @@ class Inmueble(models.Model):
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
-    estado = models.CharField(max_length=1,choices=estados_compra,default='C')
+    estado = models.CharField(max_length=1,choices=estados_compra,default='E')
     comprador = models.ForeignKey(to='usuarios.Persona', on_delete=models.CASCADE)
     inmueble = models.ForeignKey(to=Inmueble, on_delete=models.CASCADE)
 

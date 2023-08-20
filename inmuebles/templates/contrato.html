@@ -29,7 +29,7 @@
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
-                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8').replace('menciona2','mencionados')
                          .replace('nueve','9').replace('cero','0').replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");
                    console.log(speech);
 
@@ -139,10 +139,11 @@
                 Justo ahora está en la pantalla de contrato. Diga "leer contrato" para escucharlo.
                 `);
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

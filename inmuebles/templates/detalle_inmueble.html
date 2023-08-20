@@ -169,7 +169,7 @@
                             case "leer detalles":
                                 hablar(`La publicación del inmueble se llama '{{inmueble.nombre}}'. Tiene un costo de {{inmueble.precio_texto}} dólares.
                                     Fue construido en el año {{inmueble.ano_construccion}}. Es del tipo {{inmueble.tipo_construccion}}. 
-                                    Tiene {{inmueble.estacionamientos}} puestos de estacionamiento. Tiene un área de {{inmueble.tamano}} metros cuadrados.
+                                    Tiene {{inmueble.estacionamientos}} puestos de estacionamiento. Tiene un área de {{inmueble.tamano_texto}} metros cuadrados.
                                     Tiene {{inmueble.habitaciones}} habitaciones. Consta de {{inmueble.pisos}} pisos. Tiene {{inmueble.banos}} baños. {% if inmueble.amueblado %} Está {% else %} No está {% endif %} amoblado.
                                     Se encuentra en el sector {{inmueble.sector.nombre}} de la parroquia {{inmueble.sector.parroquia.nombre}}, Maracaibo.
                                     en la siguiente ubicación detallada: {{inmueble.ubicacion_detallada}}.
@@ -251,10 +251,11 @@
                     + 'Diga "leer detalles" para escuchar los detalles del inmueble. {% if puede_cita and request.user.persona.pk != inmueble.dueno.pk %} Puede agendar una cita diciendo "agendar cita". {% endif %}.'
                     + '{% if puede_comprar and request.user.persona.pk != inmueble.dueno.pk %} Puede tramitar la compra del inmueble diciendo "yo quiero comprar este inmueble". {% elif request.user.persona.pk != inmueble.dueno.pk %} Para poder tramitar una compra, deberá agendar una cita de visita y recibir un visto bueno primero. {% else %} Este inmueble es de su propiedad. Puede consultar su estado en la consulta de inmuebles. {% endif %}');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

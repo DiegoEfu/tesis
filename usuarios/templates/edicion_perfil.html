@@ -290,10 +290,11 @@
                 else
                     utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }
