@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprobación de la Edición del Inmueble</title>
+</head>
+<body>
+    <h1>Aprobación de la Edición del Inmueble</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="dueno">Dueño del Inmueble:</label>
+        <input type="text" name="dueno" id="dueno" disabled value="{{inmueble.dueno.nombre}}">
+
+        <label for="dueno">Cédula del Dueño:</label>
+        <input type="text" name="cedula" id="cedula" disabled value="{{inmueble.dueno.cedula}}">
+
+        <label for="dueno">Teléfono del Dueño:</label>
+        <input type="text" name="cedula" id="cedula" disabled value="{{inmueble.dueno.numero_telefono}}">
+
+        <label for="dueno">Puede Ver:</label>
+        <input type="text" name="puede_ver" id="puede_ver" disabled value="{% if inmueble.dueno.puede_ver %}Sí{% else %}No{% endif %}.">
+
+        <label for="dueno">Correo del Dueño:</label>
+        <input type="text" name="cedula" id="cedula" disabled value="{{inmueble.dueno.usuario_persona.email}}">
+
+        <label for="parroquia">Parroquia:</label>
+        <select name="parroquia" id="parroquia" disabled>
+            <option value="{{inmueble.sector.parroquia.pk}}">{{inmueble.sector.parroquia.nombre}}</option>
+        </select><br>
+
+        <label for="sector">Sector:</label>
+        <select name="sector" id="sector" disabled>
+            <option value="{{inmueble.sector.pk}}">{{inmueble.sector.nombre}}</option>
+        </select><br>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre" value="{{edicion.nombre}}" disabled><br>
+
+        <label for="tipo_construccion">Tipo de Construcción:</label>
+        <select name="tipo_construccion" id="tipo_construccion" disabled>
+            <option>{{edicion.tipo_construccion}}</option>
+        </select><br>
+
+        <label for="ubicacion_detallada">Ubicación Detallada:</label>
+        <textarea disabled name="ubicacion_detallada" id="ubicacion_detallada" cols="30" rows="10">{{edicion.ubicacion_detallada}}</textarea><br>
+
+        <label for="ano">Año de Construcción:</label>
+        <input disabled type="number" name="ano" id="ano" value="{{edicion.ano_construccion}}"><br>
+
+        <label for="tamano">Tamaño (en metros cuadrados):</label>
+        <input disabled type="number" name="tamano" id="tamano" step=".01" value="{{edicion.tamano_input}}"><br>
+
+        <label for="habitaciones">Número de Habitaciones:</label>
+        <input disabled type="number" name="habitaciones" id="habitaciones" value="{{edicion.habitaciones}}"><br>
+
+        <label for="banos">Número de Baños:</label>
+        <input disabled type="number" name="banos" id="banos" value="{{edicion.banos}}"><br>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea disabled name="descripcion" id="descripcion" cols="30" rows="10">{{edicion.descripcion}}</textarea><br>
+
+        <label for="precio">Precio:</label>
+        <input disabled type="number" name="precio" id="precio" value="{{edicion.precio_input}}"><br>
+
+        <label for="amueblado">Está amueblado:</label>
+        <input disabled type="checkbox" name="amueblado" id="amueblado" {% if edicion.amueblado %}checked{% endif %}><br>
+
+        <label for="estacionamiento">Puestos de estacionamiento:</label>
+        <input disabled type="number" min="0" value="{{edicion.estacionamientos}}" name="estacionamiento" id="estacionamiento"><br>
+
+        <label for="pisos">Número de Pisos:</label>
+        <input disabled type="number" min="1" value="{{edicion.pisos}}" required name="pisos" id="pisos"><br>
+        <h4>Servicios</h4>
+        <label for="agua">Servicio de agua:</label>
+        <input disabled type="checkbox" name="agua" id="agua" {% if edicion.agua %}checked{% endif %}><br>
+        <label for="electricidad">Servicio de electricidad:</label>
+        <input disabled type="checkbox" name="electricidad" id="electricidad" {% if edicion.electricidad %}checked{% endif %}><br>
+        <label for="gas">Servicio de gas:</label>
+        <input disabled type="checkbox" name="gas" id="gas" {% if edicion.gas %}checked{% endif %}><br>
+        <label for="aseo">Servicio de aseo:</label>
+        <input disabled type="checkbox" name="aseo" id="aseo" {% if edicion.aseo %}checked{% endif %}><br>
+        <label for="internet">Servicio de Internet:</label>
+        <input disabled type="checkbox" name="internet" id="internet" {% if edicion.internet %}checked{% endif %}><br>
+
+        <button type="submit" name="cambios" value="aprobar">Aprobar Cambios</button>
+        <button type="submit" name="cambios" value="rechazar">Rechazar Cambios</button>
+    </form>
+</body>
+</html>

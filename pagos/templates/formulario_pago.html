@@ -25,7 +25,13 @@
             "ayuda": "Indica todos los comandos con su descripción.",
             "registrar pago": "Inicia el formulario de registro de pago.",
             "regresar inicio": "Regresa a la pantalla de inicio",
-            "desactivar comandos de voz": "Desactiva los comandos de voz"
+            "desactivar comandos de voz": "Desactiva los comandos de voz",
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            "ver perfil": "Permite ver sus datos personales"
         };
         const tasa = Number("{{tasa_dolar}}".replace(",","."));
 
@@ -62,13 +68,6 @@
                                         dictando = true;
                                     }
                                     break;
-                                
-                                case "teclado":
-                                    hablar(`Usted ha dicho teclado. Escriba su ${campos[campo][0]} y diga 'listo' al terminar.`);
-                                    escribiendo = true;
-                                    const input = document.getElementById('id_username');
-                                    input.focus();
-                                    break;
 
                                 case "continuar":
                                     if(!escribiendo){
@@ -76,13 +75,12 @@
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
                                             input2.focus();
-                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`);
+
+                                            let texto = $(`#${campos[campo][1]}`).val() != '' ? ("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Si quiere editarlo diga listo y luego editar.")
+                                            : "Diga listo una vez la haya ingresado.";
                                             
-                                            if($(`#${campos[campo][1]}`).val() != '')
-                                                hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Si quiere editarlo diga listo y luego editar.");
-                                            else
-                                                hablar("Diga listo una vez la haya ingresado.");
-                                            
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. ${texto}`);
+
                                             escribiendo = true;
                                         } else{
                                             campo = 0;
@@ -92,14 +90,14 @@
                                     break;
                                 
                                 case "editar":
-                                    if(campo >= 1){
+                                    if(campo >= 1 && !escribiendo){
                                         hablar(`Usted ha dicho 'editar'. Vuelva a escribir su ${campos[campo][0]}.`)
                                         $(`#${campos[campo][1]}`).val("");
                                         const input2 = document.getElementById(campos[campo][1]);
                                         input2.focus();
                                         escribiendo = true;
-                                    } else{
-                                        hablar("Usted ha dicho 'editar'. Diga 'teclado' para escribir el campo con teclado, o diga 'dictado' para dictarlo.")
+                                    } else if(!escribiendo){
+                                        hablar("Usted ha dicho 'editar'. Diga 'dictado' para dictarlo.")
                                         $('#id_username').val("");
                                     }                                
                                     break;
@@ -166,7 +164,7 @@
                         console.log(speech);
                         
                         if(!isNaN(speech)) // Esto verifica que el string sea numérico
-                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
+                            $('#'+campos[campo][1]).val(speech)
                     } else if(dictando && campo === 3){
                         speech = speech.toLowerCase().replaceAll("del","").replaceAll("de","").replaceAll(/\s+/g, " ");
                         let nuevo = speech.replace("enero","01").replace("febrero","02").replace("marzo","03")
@@ -233,19 +231,44 @@
                             break;
                             
                             case "registrar pago":
-                                hablar("Usted ha dicho registrar pago. Diga 'salir' para salir del formulario. Formulario:");
-                                hablar("Campo #1: Cuenta Receptora. Diga 'opciones' para tener las opciones de cuentas.");
-                                
-                                if($(`#${campos[campo][1]}`).val() != '')
-                                    hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción.");
+                                hablar("Usted ha dicho registrar pago. Diga 'salir' para salir del formulario. Campo #1: Cuenta Receptora. Diga 'opciones' para tener las opciones de cuentas."
+                                + ($(`#${campos[campo][1]}`).val() != '') ? "El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : "");
 
                                 recognition.onresult = formulario_p1;
+                                break;
+                            
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+
+                            case "cerrar sesión":
+                                document.getElementById('cerrar_sesion').click();
+                                break;
+
+                            case "ver perfil":
+                                window.location.replace('/usuarios/perfil/');
                                 break;
                         }
                       }    
                    });
                 
-                   if(!speaking && localStorage.getItem('comandos') == '0' && speech.toLowerCase().includes('activar comandos de voz')){
+                   if(!speaking && (localStorage.getItem('comandos') == '0' || !localStorage.getItem('comandos')) && speech.toLowerCase().includes('activar comandos de voz')){
                         bienvenida();
                         localStorage.setItem("comandos", 1);
                         break;

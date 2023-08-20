@@ -7,6 +7,8 @@ from reportes.mp3 import reporte_cita_mp3, reporte_compra_mp3, reporte_compras_m
 from reportes.mp3 import reporte_publicacion_mp3
 from reportes.pdfs import generar_pdf
 import os
+from django.core.files.storage import FileSystemStorage
+from django.db.models import Q
 
 # Vistas:
 
@@ -173,9 +175,10 @@ def detallar_inmueble(request, pk):
 def aprobar_inmueble(request, pk):
     if request.method == "GET":
         return render(request, 'aprobacion_inmueble.html', context={'inmueble': Inmueble.objects.get(pk = pk),
-                                                                    'construcciones': tipos_construccion})
+            'construcciones': tipos_construccion, 'titulo': 'Aprobación del Inmueble'})
     
     elif request.method == "POST":
+        print(request.POST)
         nombre = request.POST.get('nombre')
         ano_construccion = request.POST.get('ano')
         tipo_construccion = request.POST.get('tipo_construccion')
@@ -188,11 +191,11 @@ def aprobar_inmueble(request, pk):
         ubicacion_detallada = request.POST.get('ubicacion_detallada') 
         precio = request.POST.get('precio')
         comentarios_internos = request.POST.get('comentarios_internos')
-        electricidad = request.POST.get('electricidad')
-        agua = request.POST.get('agua')
-        internet = request.POST.get('internet')
-        aseo = request.POST.get('aseo')
-        gas = request.POST.get('gas')
+        electricidad = bool(request.POST.get('electricidad'))
+        agua = bool(request.POST.get('agua'))
+        internet = bool(request.POST.get('internet'))
+        aseo = bool(request.POST.get('aseo'))
+        gas = bool(request.POST.get('gas'))
         pisos = request.POST.get('pisos')
 
         errores = []
@@ -250,7 +253,8 @@ def aprobar_inmueble(request, pk):
         # Creación
 
         if(len(errores) != 0):
-            return render(request, 'aprobacion_inmuebles.html', {'errores': errores, 'inmueble': Inmueble.objects.get(pk=pk)})
+            return render(request, 'aprobacion_inmuebles.html', 
+                {'errores': errores, 'inmueble': Inmueble.objects.get(pk=pk), 'titulo': "Aprobación del Inmueble"})
 
         inmueble = Inmueble.objects.get(pk=pk)
         inmueble.nombre = nombre
@@ -278,6 +282,20 @@ def aprobar_inmueble(request, pk):
             inmueble.estado = 'D'
 
         inmueble.save()
+
+        # Guardado de Imágenes
+        img = 0
+        for file in request.FILES.values():
+            ext = "." + file.name.split(".")[1]
+            myfile = f"{inmueble.pk}_{img}_" + ext
+            
+            from django.core.files.storage import default_storage
+            if(default_storage.exists(myfile)):
+                default_storage.delete(myfile)
+
+            fs = FileSystemStorage()
+            fs.save(myfile, file)
+            img += 1
 
         return redirect('/')
 
@@ -393,19 +411,21 @@ def resultados_cita(request, pk):
         return render(request, 'resultados_cita.html', context={'cita': cita})    
     elif(request.method == "POST"):
         resultados = request.POST.get('resultados')
+        print(request.POST)
         errores = []
 
-        if(resultados):
+        if(not resultados):
             errores.append("Debe de registrarse un resultado de la cita.")
 
         if(len(errores)):
+            print(errores)
             return render(request, 'resultados_cita.html', context={'cita': cita, 'errores': errores})
 
-        cita.estado = 'F' if request.POST.get('bien') else 'X'
+        cita.estado = 'F' if request.POST.get('visto') == 'bien' else 'X'
         cita.resultados = request.POST['resultados']
         cita.save()
 
-        return redirect("/")
+        return redirect("/usuarios/agente/")
 
 def consultar_compras(request):
     compras = Compra.objects.filter(comprador=request.user.persona)
@@ -630,6 +650,237 @@ def editar_inmueble(request, pk):
 
         return redirect("/")
 
+def consultar_asignadas(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_asignadas.html', context={'publicaciones': Inmueble.objects.filter(agente = request.user.persona, estado__in = ["A","T","S"])})
+
+def consultar_revision(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+
+    if(request.method == 'GET'):    
+        return render(request, 'agentes/consultar_revision.html', context={'publicaciones': Inmueble.objects.filter(agente = request.user.persona, estado__in = ['R','E','C'])})
+    elif(request.method == 'POST'):
+        inmueble = Inmueble.objects.get(pk=request.POST['pk'])
+        inmueble.estado = 'X'
+        return redirect('/usuarios/agente')
+
+def consultar_finalizadas(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_finalizadas.html', context={'publicaciones': Inmueble.objects.filter(agente = request.user.persona, estado__in = ["X","V","D"])})
+
+def consultar_citas_pendientes(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_citas_pendientes.html', 
+        context={'citas': Cita.objects.filter((Q(inmueble__agente = request.user.persona) | Q(compra__inmueble__agente = request.user.persona))
+            & Q(estado__in = ["E","P"])).order_by('fecha_asignada')})
+
+def consultar_citas_finalizadas(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_citas_finalizadas.html', 
+        context={'citas': Cita.objects.filter(Q(inmueble__agente = request.user.persona) | Q(compra__inmueble__agente = request.user.persona)
+            & Q(estado__in = ["F","X","C"])).order_by('-fecha_asignada')})
+
+def consultar_ventas_cerradas(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    return render(request, 'agentes/consultar_ventas_cerradas.html', 
+        context={'ventas': Compra.objects.filter(inmueble__agente = request.user.persona, estado__in = ["F","X"]).order_by('fecha')})
+
+def consultar_ventas_revision(request):
+    if(not request.user.is_authenticated or request.user.persona.cargo != 'A'):
+        print("Acceso No autorizado")
+        return redirect('/')
+    
+    if(request.method == 'GET'):    
+        return render(request, 'agentes/consultar_ventas_revision.html', 
+            context={'ventas': Compra.objects.filter(inmueble__agente = request.user.persona, estado = "C").order_by('fecha')})
+    elif(request.method == 'POST'):
+        compra = Compra.objects.get(pk=request.POST['compra'])
+        compra.estado = 'X'
+        compra.save()
+
+        return redirect('/usuarios/agente/')
+
+
+def edicion_inmueble_agente(request, pk):
+    if(request.method == 'GET'):
+        return render(request, 'aprobacion_inmueble.html', context={'inmueble': Inmueble.objects.get(pk = pk),
+            'construcciones': tipos_construccion, 'titulo': "Edición del Inmueble"})
+    elif(request.method == 'POST'):
+        nombre = request.POST.get('nombre')
+        ano_construccion = request.POST.get('ano')
+        tipo_construccion = request.POST.get('tipo_construccion')
+        estacionamientos = bool(request.POST.get('estacionamiento'))
+        tamano = request.POST.get('tamano')
+        habitaciones = request.POST.get('habitaciones')
+        banos = request.POST.get('banos')
+        amueblado = bool(request.POST.get('amueblado'))
+        descripcion = request.POST.get('descripcion')
+        ubicacion_detallada = request.POST.get('ubicacion_detallada') 
+        precio = request.POST.get('precio')
+        comentarios_internos = request.POST.get('comentarios_internos')
+        electricidad = bool(request.POST.get('electricidad'))
+        agua = bool(request.POST.get('agua'))
+        internet = bool(request.POST.get('internet'))
+        aseo = bool(request.POST.get('aseo'))
+        gas = bool(request.POST.get('gas'))
+        pisos = request.POST.get('pisos')
+
+        print(request.POST)
+
+        errores = []
+
+        if(not nombre):
+            errores.append("Debe especificar un nombre.")
+        
+        if(not ano_construccion):
+            errores.append("Debe especificar un año.")
+
+        if(not tipo_construccion):
+            errores.append("Debe especificar un tipo seleccionado.")
+
+        if(not tamano):
+            errores.append("Debe especificar tamaño.")
+
+        if(not habitaciones):
+            errores.append("Debe especificar habitaciones.")
+
+        if(not banos):
+            errores.append("Debe especificar baños.")
+
+        if(not descripcion):
+            errores.append("Debe especificar descripción.")
+
+        if(not banos):
+            errores.append("Debe especificar baños.")
+
+        if(not ubicacion_detallada):
+            errores.append("Debe especificar una ubicación detallada.")
+
+        if(not precio):
+            errores.append("Debe especificar un precio.")
+
+        # Validación de correcta estructura de datos
+        
+        if(float(precio) <= 0):
+            errores.append("El precio debe ser mayor a cero.")
+        
+        if(float(tamano) <= 0):
+            errores.append("El tamaño debe ser mayor a 0.")
+        
+        if(float(pisos) <= 0):
+            errores.append("Debe de tener al menos un piso.")
+        
+        if(float(banos) < 0):
+            errores.append("El número de baños debe ser positivo o cero.")
+        
+        if(float(estacionamientos) < 0):
+            errores.append("El número de estacionamientos debe ser positivo o cero.")
+        
+        if(float(habitaciones) < 0):
+            errores.append("El número de habitaciones debe ser positivo o cero.")
+
+        # Creación
+
+        if(len(errores) != 0):
+            return render(request, 'aprobacion_inmuebles.html', 
+                {'errores': errores, 'inmueble': Inmueble.objects.get(pk=pk), 'titulo': "Aprobación del Inmueble"})
+
+        inmueble = Inmueble.objects.get(pk=pk)
+        inmueble.nombre = nombre
+        inmueble.ano_construccion = ano_construccion
+        inmueble.tipo_construccion = tipo_construccion
+        inmueble.estacionamientos = estacionamientos
+        inmueble.tamano = tamano
+        inmueble.habitaciones = habitaciones
+        inmueble.banos = banos
+        inmueble.amueblado = amueblado
+        inmueble.descripcion = descripcion
+        inmueble.comentarios_internos = comentarios_internos
+        inmueble.ubicacion_detallada = ubicacion_detallada
+        inmueble.precio = precio
+        inmueble.agua = agua
+        inmueble.electricidad = electricidad
+        inmueble.gas = gas
+        inmueble.aseo = aseo
+        inmueble.internet = internet
+        inmueble.pisos = pisos
+        inmueble.save()
+
+        return redirect('/usuarios/agente/')
+
+def cancelacion_inmueble_agente(request, pk):
+    inmueble = Inmueble.objects.get(pk=pk)
+    if(request.method == 'GET'):
+        return render(request, 'agentes/cancelacion/cancelacion_inmueble.html', context={'inmueble': inmueble})
+    elif(request.method == 'POST'):
+        inmueble.estado = 'X'
+        inmueble.save()
+        return redirect('/usuarios/agente/')
+
+def consultar_pagos_venta_activa(request,pk):
+    compra = Compra.objects.get(pk=pk)
+    pagos = compra.pagos.order_by('-fecha')
+
+    if(request.method == 'GET'):
+        return render(request, 'agentes/consultar_pagos_venta_activa.html', context={'pagos': pagos.order_by('-fecha'), 'compra': compra})
+    elif(request.method == 'POST'):
+        if(request.POST['tipo'] == 'pdf'):
+            response = generar_pdf(request, 'reporte_pagos', pagos, "REPORTE DE PAGOS")
+            response['Content-Disposition'] = f'attachment; filename=REPORTE_PAGOS_{compra.pk}.pdf'
+            return response
+
+def revision_edicion_inmueble(request, pk):
+    inmueble = Inmueble.objects.get(pk=pk)
+    edicion = inmueble.edicion()
+
+    if(request.method == 'GET'):
+        context = {'inmueble': inmueble, 'edicion': edicion}
+        return render(request, 'agentes/revision/revision_edicion_inmueble.html', context=context)
+    elif(request.method == 'POST'):
+        if(request.POST['cambios'] == 'aprobar'):
+            inmueble.nombre = edicion.nombre
+            inmueble.ano_construccion = edicion.ano_construccion
+            inmueble.tipo_construccion = edicion.tipo_construccion
+            inmueble.estacionamientos = edicion.estacionamientos
+            inmueble.tamano = edicion.tamano
+            inmueble.habitaciones = edicion.habitaciones
+            inmueble.banos = edicion.banos
+            inmueble.amueblado = edicion.amueblado
+            inmueble.descripcion = edicion.descripcion
+            inmueble.precio = edicion.precio
+            inmueble.pisos = edicion.pisos
+            inmueble.agua = edicion.agua
+            inmueble.electricidad = edicion.electricidad
+            inmueble.internet = edicion.internet
+            inmueble.gas = edicion.gas
+            inmueble.aseo = edicion.aseo
+            edicion.estado = 'A'
+        else:
+            edicion.estado = 'R'
+
+        inmueble.estado = 'A'
+        inmueble.save()
+        edicion.save()
+
+        return redirect('/usuarios/agente/')
+
 # Funciones Auxiliares:
 
 def buscar_coincidencias(busqueda):
@@ -720,6 +971,7 @@ def buscar_coincidencias(busqueda):
 
     # Tipo de vivienda:
     previo = posibles_inmuebles
+    print("K")
     if "casa" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "casa")
     elif "apartamento" in busqueda:
@@ -738,6 +990,9 @@ def buscar_coincidencias(busqueda):
         posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "terreno")
     elif "edificio" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "edificio")
+    elif "mansion" in busqueda:
+        print("AJA???")
+        posibles_inmuebles = posibles_inmuebles.filter(Q(nombre__icontains = 'mansión') | Q(descripcion__icontains = 'mansión'))
 
     if(not posibles_inmuebles):
         posibles_inmuebles = previo

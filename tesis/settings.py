@@ -183,3 +183,6 @@ PWA_APP_SCREENSHOTS = [
       "type": "image/png"
     }
 ]
+
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

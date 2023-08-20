@@ -20,13 +20,15 @@
             "desactivar comandos de voz": "Desactiva los comandos de voz",
             // {% if not request.user.is_authenticated %}
             "iniciar sesión": "Lleva a la pantalla de inicio de sesión.",
+            "registrarse": "Lleva a la pantalla de inicio de registro.",
             // {% else %}
             "cerrar sesión": "Cierra la sesión actual",
             "consultar compras": "Permite consultar las compras realizadas por su persona",
             "consultar ventas": "Permite consultar las ventas de sus publicaciones",
             "consultar citas": "Permite consultar las citas que ha solicitado",
-            // {% endif %}
             "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            "ver perfil": "Permite ver sus datos personales",
+            // {% endif %}
             "resultado": "Seguido del número de resultado le llevará a los detalles del inmueble"
         };
 
@@ -40,7 +42,7 @@
                    if(localStorage.getItem('comandos') == '1')
                    ["ayuda","iniciar sesión","leer resultados","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
                     "buscar inmueble", "resultado", "cerrar sesión", "leer pantalla", "dictado", "salir", "listo","continuar", "editar",
-                    "regresar inicio", "desactivar comandos de voz"].forEach(comando => {
+                    "regresar inicio", "desactivar comandos de voz", "ver perfil", "registrarse"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -85,13 +87,23 @@
                                 hablar("Redirigiendo a la pantalla de publicaciones.");
                                 location.replace("/inmuebles/consultar/publicaciones/");
                                 break;
-                            // {%endif%}
 
-                            case "iniciar sesión":
-                                hablar("Redirigiendo a la pantalla de inicio de sesión.");
-                                location.replace("/usuarios/login/");
-                                
+                            case "cerrar sesión":
+                                document.getElementById('cerrar_sesion').click();
                                 break;
+
+                            case "ver perfil":
+                                window.location.replace('/usuarios/perfil/');
+                                break;
+                            // {% else %}
+                            case "iniciar sesión":
+                                location.replace("/usuarios/login/");
+                                break;
+
+                            case "registrarse":
+                                location.replace("{% url 'registro' %}");
+                                break;
+                            // {%endif%}
                             
                             case "buscar inmueble":
                                 hablar("Escriba la descripción del inmueble que desea. Diga dictado para dictarla. Diga salir para no buscar. Diga listo una vez haya finalizado.");
@@ -183,7 +195,7 @@
                                 break;
                             
                             case "editar":
-                                if(campo === 2){
+                                if(campo === 2 && !escribiendo){
                                     campo = 1;
                                     document.getElementById('busqueda').value = "";
                                     document.getElementById('busqueda').focus();
@@ -193,7 +205,7 @@
                       }    
                    });
 
-                   if(!speaking && localStorage.getItem('comandos') == '0' && speech.toLowerCase().includes('activar comandos de voz')){
+                   if(!speaking && (localStorage.getItem('comandos') == '0' || !localStorage.getItem('comandos')) && speech.toLowerCase().includes('activar comandos de voz')){
                         bienvenida();
                         localStorage.setItem("comandos", 1);
                         break;
@@ -288,7 +300,13 @@
     {% if resultados %}
         {% for inmueble in resultados %}
             {{inmueble.id}}
-            <a href="{% url 'detalle_inmueble' pk=inmueble.pk %}">{{inmueble.nombre}}</a>
+            <a href="{% url 'detalle_inmueble' pk=inmueble.pk %}">{{inmueble.nombre}}</a><br>
+            {% for imagen in inmueble.imagenes %}
+            <img class="border border-secondary rounded my-2 mx-3" height="100"
+                src="{{imagen}}"
+                width="100"/>
+            {% endfor %}
+            <hr>
         {% empty %}
             <b>No hay inmuebles que coincidan con la descripción proporcionada.</b>
         {% endfor %}

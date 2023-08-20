@@ -166,15 +166,12 @@ def formulario_aprobar_pago(request, pk):
 
             return render(request, "pago_completado.html", context={'cita': cita_formalidades})
 
-        return redirect("/")
+        return redirect("/usuarios/agente/")
 
 def formulario_cuenta(request):
     # Vista del formulario de registro de pago
-
-    # Redirigir si no está autenticado
-    # ! Una vez esté listo el formulario hay que eliminar esta y descomentar las siguientes dos líneas:
-    # if(not request.user.is_authenticated):
-    #     return redirect('/usuarios/login/')
+    if(not request.user.is_authenticated):
+        return redirect('/usuarios/login/')
 
     if(request.method == 'GET'):
         # Construcción del formulario a partir de la plantilla

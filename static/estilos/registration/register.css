@@ -1,0 +1,546 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+
+}
+
+.contenedorElementos {
+    background-image: url("../../img/Login.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: black;
+    display: flex;
+    justify-content: center;
+}
+
+.cuadroLogin {
+    background-color: white;
+    
+}
+
+.tituloRegistro {
+    font-weight: 700;
+    color: var(--verdeMusgo);
+}
+
+.tituloDatos {
+    color: var(--Rojorubi);
+    font-weight: 500;
+}
+
+.btn-success {
+    color: black!important;
+    background-color: var(--verdeMusgo)!important;
+    border-color: var(--verdeMusgo)!important;
+}
+
+.btn-success:hover {
+    background-color: #3d6f01!important;
+    color: white!important;
+}
+@media(max-width:2000px) {
+    .contenedorElementos {
+        height: 1250px;
+        padding-top: 90px;
+        padding-bottom: 70px;
+        padding-left: 80px!important;
+        padding-right: 80px!important;
+    }
+
+    .cuadroLogin {
+       width: 290%;
+       border-radius: 20px;
+    }
+
+    .tituloRegistro {
+        font-size: 340%;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .grupoCedula {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenedorFormulario {
+        margin-left: 15px;
+        margin-right: 10px;
+    }
+
+    .form-control {
+        width: 70%!important;
+        margin-right: 50%!important;
+    }
+
+    .form-select {
+        width: 10%!important;
+    }
+
+    .tituloDatos {
+        font-size: 230%;
+    }
+
+    .tituloInput {
+        font-size: 150%;
+    }
+
+    .reminder {
+        font-size: 150%;
+    }
+
+    .btn-success {
+        width: 15%!important;
+    }
+}
+
+@media(max-width:1440px) {
+    .contenedorElementos {
+        height: 1250px;
+        padding-top: 90px;
+        padding-bottom: 70px;
+        padding-left: 75px!important;
+        padding-right: 75px!important;
+    }
+
+    .cuadroLogin {
+       width: 290%;
+       border-radius: 20px;
+    }
+
+    .tituloRegistro {
+        font-size: 300%;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .grupoCedula {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenedorFormulario {
+        margin-left: 15px;
+        margin-right: 10px;
+    }
+
+    .form-control {
+       width: 70%!important;
+       margin-right: 50%!important;
+    }
+
+    .form-select {
+        width: 10%!important;
+    }
+
+    .tituloDatos {
+        font-size: 230%;
+    }
+
+    .tituloInput {
+        font-size: 150%;
+    }
+
+    .reminder {
+        font-size: 150%;
+    }
+
+    .btn-success {
+        width: 15%!important;
+    }
+}
+
+@media(max-width:1280px) {
+    .contenedorElementos {
+        height: 1240px;
+        padding-top: 90px;
+        padding-bottom: 70px;
+        padding-left: 55px!important;
+        padding-right: 55px!important;
+    }
+
+    .cuadroLogin {
+       width: 290%;
+       border-radius: 20px;
+    }
+
+    .tituloRegistro {
+        font-size: 320%;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .grupoCedula {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenedorFormulario {
+        margin-left: 15px;
+        margin-right: 10px;
+    }
+
+    .form-control {
+       width: 70%!important;
+       margin-right: 50%!important;
+    }
+
+    .form-select {
+        width: 15%!important;
+    }
+
+    .tituloDatos {
+        font-size: 220%;
+    }
+
+    .tituloInput {
+        font-size: 140%;
+    }
+
+    .reminder {
+        font-size: 150%;
+    }
+
+    .btn-success {
+        width: 30%!important;
+    }
+}
+
+@media(max-width:1024px) {
+    .contenedorElementos {
+        height: 1200px;
+        padding-top: 90px;
+        padding-bottom: 70px;
+        padding-left: 40px!important;
+        padding-right: 40px!important;
+    }
+
+    .cuadroLogin {
+       width: 290%;
+       border-radius: 20px;
+    }
+
+    .tituloRegistro {
+        font-size: 300%;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .grupoCedula {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenedorFormulario {
+        margin-left: 15px;
+        margin-right: 10px;
+    }
+
+    .form-control {
+       width: 80%!important;
+       margin-right: 50%!important;
+    }
+
+    .form-select {
+        width: 15%!important;
+    }
+
+    .tituloDatos {
+        font-size: 200%;
+    }
+
+    .tituloInput {
+        font-size: 120%;
+    }
+
+    .reminder {
+        font-size: 150%;
+    }
+
+    .btn-success {
+        width: 30%!important;
+    }
+}
+
+@media(max-width:800px) {
+    .contenedorElementos {
+        height: 1180px;
+        padding-top: 90px;
+        padding-bottom: 70px;
+        padding-left: 35px!important;
+        padding-right: 35px!important;
+    }
+
+    .cuadroLogin {
+       width: 290%;
+       border-radius: 20px;
+    }
+
+    .tituloRegistro {
+        font-size: 260%;
+        text-align: center;
+        padding-top: 30px;
+    }
+
+    .grupoCedula {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenedorFormulario {
+        margin-left: 15px;
+        margin-right: 10px;
+    }
+
+    .form-control {
+       width: 80%!important;
+       margin-right: 50%!important;
+    }
+
+    .form-select {
+        width: 20%!important;
+    }
+
+    .tituloDatos {
+        font-size: 200%;
+    }
+
+    .tituloInput {
+        font-size: 120%;
+    }
+
+    .reminder {
+        font-size: 150%;
+    }
+
+    .btn-success {
+        width: 40%!important;
+    }
+}
+
+@media(max-width:768px) {
+    .contenedorElementos {
+        height: 1180px;
+        padding-top: 90px;
+        padding-bottom: 70px;
+        padding-left: 30px!important;
+        padding-right: 30px!important;
+    }
+
+    .cuadroLogin {
+       width: 290%;
+       border-radius: 20px;
+    }
+
+    .tituloRegistro {
+        font-size: 230%;
+        text-align: center;
+        padding-top: 30px;
+    }
+
+    .grupoCedula {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenedorFormulario {
+        margin-left: 15px;
+        margin-right: 10px;
+    }
+
+    .form-control {
+       width: 100%!important;
+       margin-right: 0%!important;
+    }
+
+    .form-select {
+        width: 28%!important;
+    }
+
+    .tituloDatos {
+        font-size: 200%;
+    }
+
+    .tituloInput {
+        font-size: 120%;
+    }
+
+    .reminder {
+        font-size: 150%;
+    }
+
+    .btn-success {
+        width: 50%!important;
+    }
+}
+
+@media(max-width:600px) {
+    .contenedorElementos {
+        height: 1120px;
+        padding-top: 90px;
+        padding-bottom: 70px;
+        padding-left: 20px!important;
+        padding-right: 20px!important;
+    }
+
+    .cuadroLogin {
+       width: 280%;
+       border-radius: 20px;
+    }
+
+    .tituloRegistro {
+        font-size: 205%;
+        text-align: center;
+        padding-top: 30px;
+    }
+
+    .grupoCedula {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenedorFormulario {
+        margin-left: 15px;
+        margin-right: 10px;
+    }
+
+    .form-control {
+       width: 100%!important;
+    }
+
+    .form-select {
+        width: 28%!important;
+    }
+
+    .tituloDatos {
+        font-size: 160%;
+    }
+
+    .tituloInput {
+        font-size: 100%;
+    }
+
+    .reminder {
+        font-size: 120%;
+    }
+
+    .btn-success {
+        width: 50%!important;
+    }
+}
+
+@media(max-width:480px) {
+    .contenedorElementos {
+        height: 1120px;
+        padding-top: 90px;
+        padding-bottom: 70px;
+        padding-left: 15px!important;
+        padding-right: 15px!important;
+    }
+
+    .cuadroLogin {
+       width: 280%;
+       border-radius: 20px;
+    }
+
+    .tituloRegistro {
+        font-size: 155%;
+        text-align: center;
+        padding-top: 30px;
+    }
+
+    .grupoCedula {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenedorFormulario {
+        margin-left: 15px;
+        margin-right: 10px;
+    }
+
+    .form-control {
+       width: 100%!important;
+    }
+
+    .form-select {
+        width: 28%!important;
+    }
+
+    .tituloDatos {
+        font-size: 160%;
+    }
+
+    .tituloInput {
+        font-size: 100%;
+    }
+
+    .reminder {
+        font-size: 120%;
+    }
+
+    .btn-success {
+        width: 60%!important;
+    }
+}
+
+@media(max-width:320px) {
+    .contenedorElementos {
+        height: 1220px;
+        padding-top: 90px;
+        padding-bottom: 60px;
+        padding-left: 10px!important;
+        padding-right: 5px!important;
+    }
+
+    .cuadroLogin {
+       width: 250px;
+       border-radius: 20px;
+    }
+
+    .grupoCedula {
+        display: block;
+        justify-content: center;
+    }
+
+    .tituloRegistro {
+        font-size: 200%;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .contenedorFormulario {
+        margin-left: 15px;
+        margin-right: 10px;
+    }
+
+    .form-control {
+       width: 200px!important;
+       margin-right: 0px;
+    }
+
+    .form-select {
+        width: 90px!important;
+    }
+
+    .tituloDatos {
+        font-size: 22px;
+    }
+
+    .tituloInput {
+        font-size: 15px;
+    }
+
+    .reminder {
+        font-size: 15px;
+    }
+}

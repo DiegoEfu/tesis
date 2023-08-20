@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambio de Contraseña</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <script>
+        const synthesis = window.speechSynthesis;
+        const campos = [
+            ['Contraseña', 'contrasena', ''], 
+            ['Repetir Contraseña', 'repetir', 'Vuelva a escribir su contraseña en teclado.'],
+        ];
+        let speaking = false, escribiendo = false, dictando = false, campo = 0;
+        let sectores_actuales = [];
+        const voice = synthesis.getVoices().filter(function (voice) {
+            return voice.lang === 'es';
+        })[2];
+
+        const comandos = {
+            "ayuda": "Indica todos los comandos con su descripción.",
+            "cambiar contraseña": "Inicia el formulario de cambio de contraseñ.",
+            "leer pantalla": "Lee el contenido de la pantalla",
+            "cerrar sesión": "Cierra la sesión actual",
+            "consultar compras": "Permite consultar las compras realizadas por su persona",
+            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
+            "consultar citas": "Permite consultar las citas que ha solicitado",
+            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
+            "ver perfil": "Permite ver sus datos personales",  
+            "desactivar comandos de voz": "Desactiva los comandos de voz"
+        };
+
+        function formulario_p1(event){
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal && !speaking){
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
+                   speech = speech
+                   console.log(speech);
+                    
+                    if(campo === 0)
+                        speech = speech.toLowerCase().replace("uno", "1").replace("dos", "2");
+
+                    ["salir", "continuar", "editar", "listo"].forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                                case "salir":
+                                    campo = 0;
+                                    hablar("Usted ha dicho salir. Saliendo del formulario.");
+                                    $('#contrasena').val("");
+                                    $('#repetir').val("");
+                                    dictando = false;
+                                    recognition.onresult = inicial;
+                                break;
+
+                                case "continuar":
+                                    if(!escribiendo){
+                                        campo++;
+                                        if(campo < campos.length){
+                                            const input2 = document.getElementById(campos[campo][1]);
+                                            input2.focus();
+                                            input2.val = "";
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`);
+                                            
+                                            escribiendo = true;
+                                        } else{
+                                            campo = 0;
+                                            $('form').submit();
+                                        }
+                                    }
+                                    break;
+                                
+                                case "editar":
+                                    if(campo >= 0 && !escribiendo){
+                                        hablar(`Usted ha dicho 'editar'. Vuelva a escribir su ${campos[campo][0]}.`)
+                                        $(`#${campos[campo][1]}`).val("");
+                                        const input2 = document.getElementById(campos[campo][1]);
+                                        input2.focus();
+                                        escribiendo = true;
+                                    }                               
+                                    break;
+
+                                case "listo":
+                                    let id = `#${campos[campo][1]}`;
+                                    $(id).val($(id).val().trim().replace(/\s+/g,' '));
+                                    
+                                    if(campo === 0){
+                                        if($(id).val().length < 5){
+                                            $(id).val("");
+                                            hablar("La contraseña debe de tener al menos 5 caracteres. Por favor vuelva a ingresarla.")
+                                            break;
+                                        }
+                                    } else if(campo === 1){
+                                        if($(id).val().length < 5){
+                                            $(id).val("");
+                                            hablar("La contraseña debe de tener al menos 5 caracteres. Por favor vuelva a ingresarla.")
+                                            break;
+                                        } else if($(id).val() !== $('#contrasena').val()){
+                                            $(id).val("");
+                                            hablar("La repetición de la contraseña no coincide. Por favor escriba de nuevo la repetición o diga salir para reiniciar el formulario.");
+                                            break;
+                                        }
+                                    }
+                                    if(campo === 0)
+                                        hablar("Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
+                                    else
+                                        hablar("Diga 'editar' para editar o 'continuar' para enviar el formulario. Se cerrará sesión una vez cambie la contraseña.")
+                                    
+                                    escribiendo = false;
+                                    break;
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        function inicial(event) {
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal){
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
+                   console.log(speech);
+                   if(localStorage.getItem('comandos') == '1')
+                   Object.keys(comandos).forEach(comando => {
+                      if(!speaking && speech.toLowerCase().includes(comando)){
+                        console.log(comando);
+                        switch (comando) {
+                            case "desactivar comandos de voz":
+                                localStorage.setItem('comandos', 0);
+                                hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                                break;
+
+                            case "cambiar contraseña":
+                                document.getElementById('contrasena').value = "";
+                                document.getElementById('contrasena').focus();
+                                let texto = "Usted ha dicho cambiar contraseña. Campo #1 contraseña. Escriba su contraseña secreta nueva. Diga listo una vez haya finalizado.";
+                                hablar(texto);
+                                recognition.onresult = formulario_p1;
+                                break;
+
+                            case "regresar inicio":
+                                window.location.replace("/");
+                                break;
+                                
+                            case "ayuda":
+                                if ('speechSynthesis' in window) {
+                                    const crear_utterance = () => {
+                                        let x = "";
+                                        Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
+                                        return x;
+                                    };        
+                                    
+                                    hablar("Usted ha dicho ayuda. " + crear_utterance());
+                                }
+                            break;
+
+                            // {% if request.user.is_authenticated %}
+                            case "consultar compras":
+                                hablar("Redirigiendo a la pantalla de compras.");
+                                location.replace("/inmuebles/consultar/compras/");
+                                break;
+
+                            case "consultar ventas":
+                                hablar("Redirigiendo a la pantalla de ventas.");
+                                location.replace("/inmuebles/consultar/ventas/");
+                                break;
+
+                            case "consultar citas":
+                                hablar("Redirigiendo a la pantalla de citas.");
+                                location.replace("/inmuebles/consultar/citas/");
+                                break;
+                            
+                            case "consultar publicaciones":
+                                hablar("Redirigiendo a la pantalla de publicaciones.");
+                                location.replace("/inmuebles/consultar/publicaciones/");
+                                break;
+
+                            case "cerrar sesión":
+                                document.getElementById('cerrar_sesion').click();
+                                break;
+
+                            case "ver perfil":
+                                window.location.replace('/usuarios/perfil/');
+                                break;
+                            // {%endif%}
+                                                        
+                            case "leer pantalla":
+                                hablar(`Esta es la pantalla de consultas de compras. Usted ha realizado {{compras.count}} compras. La pantalla está dividida en las siguientes secciones:
+                                    1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
+                                    2. Sección de Formulario: Aquí se encuenta el formulario de creación de inmueble y todos sus campos, diga "crear inmueble" para iniciarlo por voz.
+                                `);
+                                break;
+                        }
+                      }    
+                   });
+
+                   if(!speaking && (localStorage.getItem('comandos') == '0' || !localStorage.getItem('comandos')) && speech.toLowerCase().includes('activar comandos de voz')){
+                        bienvenida();
+                        localStorage.setItem("comandos", 1);
+                        break;
+                   }
+                }
+            }
+        }
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = "es-VE";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = inicial;
+
+        recognition.onerror = (event) => {
+            console.log(event);
+        }
+
+        async function bienvenida(tipo = 0){
+            if ('speechSynthesis' in window) {
+                var utterance = undefined;
+                
+                if(tipo === 0)
+                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de cambio de contraseña. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
+                else
+                    utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
+                
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
+                utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false, reporte = false;
+                    recognition.start();
+                    console.log("LISTO");
+                };
+                synthesis.speak(utterance);
+            }
+        }
+
+        async function hablar(texto){
+            if ('speechSynthesis' in window) {
+                speaking = true;
+                var utterance = new SpeechSynthesisUtterance(texto);
+                utterance.voice = voice;
+                utterance.pitch = 1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                utterance.onstart = () => {
+                    speaking = true
+                }
+                utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    speaking = false, reporte = false;
+                    console.log("LISTO");
+                };
+                synthesis.speak(utterance);
+            }
+        }
+
+        window.onbeforeunload = function () {
+            if(!reporte){
+                synthesis.cancel();
+                recognition.stop();
+            }
+        }
+
+        if(localStorage.getItem('comandos') == '1')
+            if({{errores|length}} === 0)        
+                bienvenida();
+            else
+                bienvenida(1);
+
+        recognition.start();
+        recognition.addEventListener('end', recognition.start);
+
+        window.onbeforeunload = function () {
+            synthesis.cancel();
+            recognition.stop();
+        }
+
+        $(document).on('change', 'input', (e) => {
+            e.target.value = e.target.value.trim();
+        });
+    </script>
+</head>
+<body>
+    {{error}}
+    <form id="form" method="post">
+        {% csrf_token %}
+        <label for="contrasena">Contraseña:</label>
+        <input minlength="5" required type="password" name="contrasena" id="contrasena">
+
+        <label for="repetir">Repetir Contraseña:</label>
+        <input minlength="5" required type="password" name="repetir" id="repetir">
+
+        <button type="submit">Cambiar Contraseña</button>
+    </form>
+
+    <script>
+        document.getElementById('form').addEventListener('submit', (e) => {
+            if(document.getElementById('contrasena').value === document.getElementById('repetir').value)
+                return true;
+            else
+                alert("Las contraseñas no coinciden.");
+        })
+    </script>
+</body>
+</html>

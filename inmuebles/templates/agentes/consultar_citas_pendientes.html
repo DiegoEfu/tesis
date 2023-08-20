@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Citas Pendientes</title>
+</head>
+<body>
+    <a href="{% url 'bienvenida_agente' %}">Regresar al Menú Principal</a><br>
+    {% for cita in citas %}
+    <hr>
+    {% if cita.inmueble %}
+    
+    <h5><a href="{% url 'detalle_inmueble' pk=cita.inmueble.pk%}">{{cita.inmueble.nombre}}</a></h5>
+    <b>Fecha:</b> {{cita.fecha_asignada.date}} {{cita.fecha_asignada.hour}}:00
+    <b>Agente:</b> {{cita.inmueble.agente}} (Teléfono: {{cita.inmueble.agente.numero_telefono}})
+    <b>Sector:</b> {{cita.inmueble.sector.nombre}} 
+    <b>Ubicación detallada: </b> {{cita.inmueble.ubicacion_detallada}}
+    
+    {% else %}
+
+    <h5><a href="{% url 'detalle_inmueble' pk=cita.compra.inmueble.pk %}">{{cita.compra.inmueble.nombre}}</a></h5>
+    <b>Fecha:</b> {{cita.fecha_asignada.date}} {{cita.fecha_asignada.hour}}:00
+    <b>Agente:</b> {{cita.compra.inmueble.agente}} (Teléfono: {{cita.compra.inmueble.agente.numero_telefono}})
+    <b>Sector:</b> {{cita.compra.inmueble.sector.nombre}} 
+    <b>Ubicación detallada: </b> {{cita.compra.inmueble.ubicacion_detallada}}
+
+    {% endif %}
+    <b>Estado de la Cita:</b> {{cita.estado_largo}} <br>
+    <a href="{% url 'resultados_cita_agente' pk=cita.pk %}">Registrar resultados</a>
+
+    {% empty %}
+    No hay citas pendientes por los momentos.
+    {% endfor %}
+</body>
+</html>
