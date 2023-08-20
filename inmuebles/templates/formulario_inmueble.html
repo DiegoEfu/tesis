@@ -52,7 +52,7 @@
         function formulario_p1(event){
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal && !speaking){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replaceAll("m2","");
                    speech = speech
                    console.log(speech);
                     
@@ -86,7 +86,7 @@
                                             const input2 = document.getElementById(campos[campo][1]);
                                             input2.focus();
 
-                                            text = campo >= 1 && campo <= 3 ? ($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : "Diga listo una vez la haya ingresado.")
+                                            let texto = campo >= 1 && campo <= 3 ? ($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : "Diga listo una vez la haya ingresado.")
                                             : campo !== 11 && campo < 14 ? ($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]).val() + ". Si quiere editarlo, diga listo y luego editar." : "Diga listo una vez la haya ingresado.") : "";
                                             hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. ${texto}`);
                                             
@@ -209,9 +209,9 @@
                     console.log(campo)
 
                     if(dictando && (campo === 12 || campo === 13)){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
+                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(/\s+/g,"");
 
                          if(!isNaN(speech)) // Esto verifica que el string sea numérico
                             $('#'+campos[campo][1]).val(speech)
@@ -220,22 +220,22 @@
                         $(`#${campos[campo][1]}`).val($(`#${campos[campo][1]}`).val() + " " + speech.toLowerCase().replace(".","").replace("dictado", "").replace("m2", "metros cuadrados").replace("/4", " cuartos"))
                     }
                     else if(dictando && (campo === 5 || campo === 6 || campo === 7 || campo === 8)){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(" ","");
+                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(/\s+/g,"");
                         if(/[0-9]+/.test(speech.replaceAll(" ", "")))
                             $(`#${campos[campo][1]}`).val(speech.replaceAll(" ", "").replaceAll(/\D+/g, ""));
                     }
                     else if(dictando && campo === 10){
                         if(speech.toLowerCase().indexOf("dictado") === -1)
-                            $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                            $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
                          .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
                     }
 
                     if(campo === 1 && !speaking){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                             .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
                         
@@ -249,7 +249,7 @@
 
                         // {% endfor %}
                     } else if(campo === 2 && !speaking){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                             .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
                         
@@ -260,7 +260,7 @@
                             }
                         }
                     } else if(campo === 3 && !speaking){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                             .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
                         
@@ -280,7 +280,7 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
                    if(localStorage.getItem('comandos') == '1')
                    Object.keys(comandos).forEach(comando => {
@@ -390,10 +390,11 @@
                 else
                     utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

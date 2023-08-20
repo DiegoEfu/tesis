@@ -126,10 +126,11 @@
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance('Usted ha dicho que desea cancelar la publicación {{publicacion.nombre}}. Para regresar diga "consultar publicaciones", para proseguir con la cancelación diga "yo quiero cancelar esta publicación".');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

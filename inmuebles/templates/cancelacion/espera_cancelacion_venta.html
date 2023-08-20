@@ -127,10 +127,11 @@
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance('Usted ha solicitado la cancelación de la venta número {{venta.pk}}. Por favor, contáctese con el agente {{venta.inmueble.agente}} para que este acepte la cancelación.');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }
