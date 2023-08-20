@@ -249,7 +249,7 @@
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla del detalle del inmueble "{{inmueble.nombre}}", de {{inmueble.precio_texto}} dólares.' 
                     + 'Diga "leer detalles" para escuchar los detalles del inmueble. {% if puede_cita and request.user.persona.pk != inmueble.dueno.pk %} Puede agendar una cita diciendo "agendar cita". {% endif %}.'
-                    + '{% if puede_comprar and request.user.persona.pk != inmueble.dueno.pk %} Puede tramitar la compra del inmueble diciendo "yo quiero comprar este inmueble". {% elif and request.user.persona.pk != inmueble.dueno.pk %} Para poder tramitar una compra, deberá agendar una cita de visita y recibir un visto bueno primero. {% else %} Este inmueble es de su propiedad. Puede consultar su estado en la consulta de inmuebles. {% endif %}');
+                    + '{% if puede_comprar and request.user.persona.pk != inmueble.dueno.pk %} Puede tramitar la compra del inmueble diciendo "yo quiero comprar este inmueble". {% elif request.user.persona.pk != inmueble.dueno.pk %} Para poder tramitar una compra, deberá agendar una cita de visita y recibir un visto bueno primero. {% else %} Este inmueble es de su propiedad. Puede consultar su estado en la consulta de inmuebles. {% endif %}');
                 
                 utterance.voice = voice;
                 utterance.pitch = 1;
