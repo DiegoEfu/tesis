@@ -80,15 +80,15 @@
 }
 
 .apartadoBoton button {
-    background-color: var(--verdeMusgo);
+    background-color: var(--verdeMusgo)!important;
     border-radius: 100px!important;
-    border: var(--verdeMusgo);
+    border: var(--verdeMusgo)!important;
     color: black;
 }
 
 .apartadoBoton button:hover {
-    background-color: var(--verdeMusgo);
-    color: white;
+    background-color: var(--verdeMusgo)!important;
+    color: white!important;
 }
 
 /* Sección de Accesibilidad */
@@ -131,15 +131,15 @@
     color: white;
 }
 
-.contenedorSeccionPerfil button {
+.contenedorSeccionPerfil a {
     background-color: var(--verdeMusgo);
     border-radius: 100px!important;
     border: var(--verdeMusgo);
     color: white;
 }
 
-.contenedorSeccionPerfil button:hover {
-    background-color: var(--verdeClaro);
+.contenedorSeccionPerfil a:hover {
+    background-color: #407500;
     color: black;
 }
 
