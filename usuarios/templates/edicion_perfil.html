@@ -183,7 +183,7 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
                    if(localStorage.getItem('comandos') == '1')
                    Object.keys(comandos).forEach(comando => {
