@@ -149,7 +149,7 @@
                          .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
                          .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(",",".").replaceAll(" ", "");
                         
-                        speech = speech.replace(/.$/, "");
+                        speech = speech.replace(/.$/g, "");
                         
                         console.log(speech);
                         
@@ -173,7 +173,7 @@
                         .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
                         $('#fecha_transaccion').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
                     } else if(dictando && campo === 4){
-                        speech = speech.replace(/.$/, "");
+                        speech = speech.replace(/.$/g, "");
                         $('#comentario').val($("#comentario").val() + " " + speech);
                     }
 

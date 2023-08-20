@@ -182,7 +182,7 @@
                    }
 
                    if(dictando && !speaking && speech.toLowerCase().indexOf("dictado") == -1)
-                        document.getElementById('busqueda').value += " " + speech.toLowerCase().replace(/.$/, "");
+                        document.getElementById('busqueda').value += " " + speech.toLowerCase().replace(/.$/g, "");
                 }
             }
         }
