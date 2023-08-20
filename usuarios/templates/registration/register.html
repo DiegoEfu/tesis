@@ -47,7 +47,7 @@
                         speech = speech.toLowerCase().replace("uno", "1").replace("dos", "2");
                     }
 
-                    ["dictado", "teclado", "salir", "continuar", "editar", "listo", "1", "2","sí","no"].forEach(comando => {
+                    ["dictado", "salir", "continuar", "editar", "listo", "1", "2","sí","no"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -69,13 +69,6 @@
                                         dictando = true;
                                     }
                                     break;
-                                
-                                case "teclado":
-                                    hablar(`Usted ha dicho teclado. Escriba su ${campos[campo][0]} y diga 'listo' al terminar.`);
-                                    escribiendo = true;
-                                    const input = document.getElementById('id_username');
-                                    input.focus();
-                                    break;
 
                                 case "continuar":
                                     if(!escribiendo){
@@ -83,9 +76,8 @@
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
                                             input2.focus();
-                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`);
-                                            if(campo !== 6 && $(`#${campos[campo][1]}`).val() != '')
-                                                hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Diga listo y luego editar para editarlo.");
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`
+                                            + (campo !== 6 && $(`#${campos[campo][1]}`).val() != '' ? "El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Diga listo y luego editar para editarlo." : ""));
                                             
                                             escribiendo = true;
                                         } else{
@@ -103,7 +95,7 @@
                                         input2.focus();
                                         escribiendo = true;
                                     } else if(!escribiendo){
-                                        hablar("Usted ha dicho 'editar'. Diga 'teclado' para escribir el campo con teclado, o diga 'dictado' para dictarlo.")
+                                        hablar("Usted ha dicho 'editar'. Diga 'dictado' para dictarlo.")
                                         $('#id_username').val("");
                                     }                                
                                     break;
@@ -356,9 +348,9 @@
                                 break;
                             
                             case "registrarse":
-                                hablar("Usted ha dicho registrarse. Diga 'salir' para salir del formulario. Campo #1: Tipo de Persona. Diga 1 para venezolano. Diga 2 para extranjero.");
-                                if($(`#${campos[campo][1]}`).val() != '')
-                                    hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción.");
+                                hablar("Usted ha dicho registrarse. Diga 'salir' para salir del formulario. Campo #1: Tipo de Persona. Diga 1 para venezolano. Diga 2 para extranjero."
+                                + ($(`#${campos[campo][1]}`).val() != '' ? "El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : ""));
+                                
                                 recognition.onresult = formulario_p1;
                                 break;
                         }

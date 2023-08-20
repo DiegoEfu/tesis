@@ -164,7 +164,7 @@
                                 break;
                             
                             case "editar":
-                                if(campo === 2){
+                                if(campo === 2 && !escribiendo){
                                     hablar("Escriba de nuevo o diga dictado para dictar.")
                                     campo = 1;
                                     document.getElementById('busqueda').value = "";

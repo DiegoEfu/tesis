@@ -72,13 +72,6 @@
                                         dictando = true;
                                     }
                                     break;
-                                
-                                case "teclado":
-                                    hablar(`Usted ha dicho teclado. Escriba su ${campos[campo][0]} y diga 'listo' al terminar.`);
-                                    escribiendo = true;
-                                    const input = document.getElementById('id_username');
-                                    input.focus();
-                                    break;
 
                                 case "continuar":
                                     if(!escribiendo){
@@ -86,13 +79,12 @@
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
                                             input2.focus();
-                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`);
+
+                                            let texto = $(`#${campos[campo][1]}`).val() != '' ? ("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Si quiere editarlo diga listo y luego editar.")
+                                            : "Diga listo una vez la haya ingresado.";
                                             
-                                            if($(`#${campos[campo][1]}`).val() != '')
-                                                hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Si quiere editarlo diga listo y luego editar.");
-                                            else
-                                                hablar("Diga listo una vez la haya ingresado.");
-                                            
+                                            hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. ${texto}`);
+
                                             escribiendo = true;
                                         } else{
                                             campo = 0;
@@ -109,7 +101,7 @@
                                         input2.focus();
                                         escribiendo = true;
                                     } else if(!escribiendo){
-                                        hablar("Usted ha dicho 'editar'. Diga 'teclado' para escribir el campo con teclado, o diga 'dictado' para dictarlo.")
+                                        hablar("Usted ha dicho 'editar'. Diga 'dictado' para dictarlo.")
                                         $('#id_username').val("");
                                     }                                
                                     break;
@@ -176,7 +168,7 @@
                         console.log(speech);
                         
                         if(!isNaN(speech)) // Esto verifica que el string sea numérico
-                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
+                            $('#'+campos[campo][1]).val(speech)
                     } else if(dictando && campo === 3){
                         speech = speech.toLowerCase().replaceAll("del","").replaceAll("de","").replaceAll(/\s+/g, " ");
                         let nuevo = speech.replace("enero","01").replace("febrero","02").replace("marzo","03")
@@ -243,11 +235,8 @@
                             break;
                             
                             case "registrar pago":
-                                hablar("Usted ha dicho registrar pago. Diga 'salir' para salir del formulario. Formulario:");
-                                hablar("Campo #1: Cuenta Receptora. Diga 'opciones' para tener las opciones de cuentas.");
-                                
-                                if($(`#${campos[campo][1]}`).val() != '')
-                                    hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción.");
+                                hablar("Usted ha dicho registrar pago. Diga 'salir' para salir del formulario. Campo #1: Cuenta Receptora. Diga 'opciones' para tener las opciones de cuentas."
+                                + ($(`#${campos[campo][1]}`).val() != '') ? "El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : "");
 
                                 recognition.onresult = formulario_p1;
                                 break;

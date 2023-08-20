@@ -219,16 +219,6 @@
                                     hablar("Usted ha dicho ayuda. " + crear_utterance());
                                 }
                             break;
-                            
-                            case "crear inmueble":
-                                escribiendo = true;
-                                hablar("Usted ha dicho crear inmueble. Diga 'salir' para salir del formulario. Campo #1: Nombre del Inmueble. Diga dictado para dictar.");
-                                
-                                if($(`#${campos[campo][1]}`).val() != '')
-                                    hablar("El campo actualmente tiene el valor: " + $("#"+campos[campo][1]).val() + ". Diga listo y luego editar para editarlo.");
-                                
-                                recognition.onresult = formulario_p1;
-                                break;
 
                             // {% if request.user.is_authenticated %}
                             case "consultar compras":
@@ -356,19 +346,6 @@
 
         recognition.start();
         recognition.addEventListener('end', recognition.start);
-
-        $(document).on('change', '#parroquia', () => {
-            $('#sector').empty();
-            let opciones = $.ajax(`sectores/${$('#parroquia').val()}`, {
-                async: false,
-                success: ({res}) => {
-                    for(let i = 1; i <= res.length; i++)
-                       $('#sector').append(`<option value="${i}">${res[i-1].nombre}</option>`)
-
-                    sectores_actuales = res;
-                }
-            });
-        });
 
         window.onbeforeunload = function () {
             synthesis.cancel();
