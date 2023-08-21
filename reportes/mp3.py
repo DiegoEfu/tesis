@@ -74,7 +74,7 @@ def reporte_pagos_compra_mp3(pagos, compra):
     for i,pago in enumerate(pagos):
         text += f"PAGO {i+1}, REFERENCIA {pago.referencia}, FECHA {fecha_a_texto(str(pago.fecha.date()))}, "
         text += f"CUENTA {pago.cuenta.banco} {pago.cuenta.numero}, MONTO BOLÍVARES {pago.monto_texto()}, "
-        text += f"MONTO DÓLARES {round(pago.valor_dolar_texto(), 2)}, ESTADO {pago.estado_largo()}. "
+        text += f"MONTO DÓLARES {pago.valor_dolar_texto()}, ESTADO {pago.estado_largo()}. "
 
         if(pago.estado == 'A'):
             total_bs += pago.monto

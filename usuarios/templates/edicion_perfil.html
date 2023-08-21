@@ -183,7 +183,7 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
                    if(localStorage.getItem('comandos') == '1')
                    Object.keys(comandos).forEach(comando => {
@@ -290,10 +290,11 @@
                 else
                     utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

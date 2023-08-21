@@ -212,7 +212,7 @@
                    }
 
                    if(dictando && !speaking && speech.indexOf("dictado") == -1)
-                        document.getElementById('busqueda').value += " " + speech.toLowerCase().slice(0,-1);
+                        document.getElementById('busqueda').value += " " + speech.toLowerCase().replace(/.$/g, "");
                 }
             }
         }
@@ -237,10 +237,11 @@
                     + '{% if resultados.count %} Se han encontrado {{resultados.count}} resultados {% else %} No se ha encontrado ningún resultado {% endif %}'
                     + 'para la búsqueda "{{busqueda}}".');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

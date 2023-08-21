@@ -1,3 +1,5 @@
+{% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,8 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Pago</title>
-
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'estilos/pagos/formPago.css' %}">
 
     <script> 
         const synthesis = window.speechSynthesis;
@@ -144,27 +148,27 @@
                     console.log(campo);
 
                     if(dictando && campo === 1){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
                          .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(",",".").replaceAll(" ", "");
                         
-                        speech = speech.slice(0,-1);
-                        
-                        console.log(speech);
-                        
-                        if(!isNaN(speech)) // Esto verifica que el string sea numérico
-                            $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
-                    }else if(dictando && campo === 2){
-                        speech = speech.toLowerCase().replaceAll('uno','1').replaceAll('dos','2').replaceAll('tres','3').replaceAll('cuatro','4')
-                         .replaceAll('cinco','5').replaceAll('seis','6').replaceAll('siete','7').replaceAll('ocho','8')
-                         .replaceAll('nueve','9').replaceAll('cero','0').replaceAll("punto",".").replaceAll("coma",",")
-                         .replaceAll(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replaceAll(/.$/g,"").replaceAll(",",".").replaceAll(" ", "");
+                        speech = speech.replace(/.$/g, "");
                         
                         console.log(speech);
                         
                         if(!isNaN(speech)) // Esto verifica que el string sea numérico
                             $('#'+campos[campo][1]).val(speech)
+                    }else if(dictando && campo === 2){
+                        speech = speech.toLowerCase().replaceAll('uno','1').replaceAll('dos','2').replaceAll('tres','3').replaceAll('cuatro','4')
+                         .replaceAll('cinco','5').replaceAll('seis','6').replaceAll('siete','7').replaceAll('ocho','8')
+                         .replaceAll('nueve','9').replaceAll('cero','0').replaceAll("punto",".").replaceAll("coma",",")
+                         .replaceAll(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replaceAll(/.$/g,"").replaceAll(",","").replaceAll(" ", "");
+                        
+                        console.log(speech);
+                        
+                        if(!isNaN(speech)) // Esto verifica que el string sea numérico
+                            $('#'+campos[campo][1]).val( $('#'+campos[campo][1]) + speech)
                     } else if(dictando && campo === 3){
                         speech = speech.toLowerCase().replaceAll("del","").replaceAll("de","").replaceAll(/\s+/g, " ");
                         let nuevo = speech.replace("enero","01").replace("febrero","02").replace("marzo","03")
@@ -173,12 +177,12 @@
                         .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
                         $('#fecha_transaccion').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
                     } else if(dictando && campo === 4){
-                        speech = speech.slice(0,-1);
+                        speech = speech.replace(/.$/g, "");
                         $('#comentario').val($("#comentario").val() + " " + speech);
                     }
 
                     if(campo === 0 && !speaking){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('tres','3').replace('cuatro','4')
+                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                             .replace('nueve','9').replace('cero','0').replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace('.','').replace(",","");
                         
@@ -201,7 +205,7 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')
@@ -232,7 +236,7 @@
                             
                             case "registrar pago":
                                 hablar("Usted ha dicho registrar pago. Diga 'salir' para salir del formulario. Campo #1: Cuenta Receptora. Diga 'opciones' para tener las opciones de cuentas."
-                                + ($(`#${campos[campo][1]}`).val() != '') ? "El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : "");
+                                + ($(`#${campos[campo][1]}`).val() != '' ? "El campo actualmente tiene el valor: " + $("#"+campos[campo][1]+' option:selected').text() + ". Si quiere editarlo elija otra opción." : ""));
 
                                 recognition.onresult = formulario_p1;
                                 break;
@@ -298,10 +302,11 @@
                 else
                     utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }
@@ -367,36 +372,42 @@
     </script>
 </head>
 <body>
+    {% include 'nav.html' %}
+    <div class="contenedorFormPago">
+        <div class="contenedorForm">
+            <h4 class="tituloRegistroPago">Registrar Pago</h4><br>
     <form method="post">
         {% csrf_token %}
-        <label for="receptora">Cuenta Receptora:</label><br>
-        <select name="receptora" id="receptora">
+        <label for="receptora" class="form-label">Cuenta Receptora:</label><br>
+        <select name="receptora" id="receptora" class="form-select">
             {% for cuenta in cuentas_empresa %}
             <option value="{{cuenta.id}}">{{cuenta.banco}} - {{cuenta.numero}}</option>
             {% endfor %}
         </select><br>
 
-        <label for="monto">Monto:</label><br>
-        <select name="moneda" id="moneda">
+        <label for="monto" class="form-label">Monto:</label><br>
+        <div class="selectBsD">
+        <select name="moneda" id="moneda" class="form-select">
             <option value="bolivar">BsD</option>
         </select>
-        <input type="number" name="monto" id="monto" step=".01" min="1" required><br>
+        <input type="number" name="monto" id="monto" step=".01" min="1" required class="form-control"></div><br>
 
-        <label for="referencia">Número de Referencia:</label><br>
-        <input type="text" pattern="[0-9]+" name="referencia" id="referencia" maxlength="15" required><br>
+        <label for="referencia" class="form-label">Número de Referencia:</label><br>
+        <input type="text" pattern="[0-9]+" name="referencia" id="referencia" maxlength="15" required class="form-control"><br>
 
-        <label for="fecha_transaccion">Fecha de la transacción:</label><br>
-        <input type="date" id="fecha_transaccion" name="fecha_transaccion" required><br>
+        <label for="fecha_transaccion" class="form-label">Fecha de la transacción:</label><br>
+        <input type="date" id="fecha_transaccion" name="fecha_transaccion" required class="form-control"><br>
 
-        <label for="comentario">Comentarios:</label><br>
-        <textarea name="comentario" id="comentario"></textarea><br>
+        <label for="comentario" class="form-label">Comentarios:</label><br>
+        <textarea name="comentario" id="comentario" class="form-control"></textarea><br>
 
-        <label for="monto_cancelado_usd">Monto Cancelado ($):</label>
-        <input type="number" value="0.00" step=".01" id="monto_cancelado_usd" name="monto_cancelado_usd" disabled>
+        <label for="monto_cancelado_usd" class="form-label">Monto Cancelado ($):</label>
+        <input type="number" value="0.00" step=".01" id="monto_cancelado_usd" name="monto_cancelado_usd" class="form-control" disabled><br>
 
-        <input type="submit" value="Registrar Pago">
+        <input type="submit" value="Registrar Pago" class="btn btn-success">
     </form>  
-    
+</div>
+</div>
     <script>
         document.getElementById('monto').addEventListener('change', (event) => {
             let monto = document.getElementById('monto').value;
@@ -426,3 +437,4 @@
     </script>
 </body>
 </html>
+{% include 'footer.html' %}

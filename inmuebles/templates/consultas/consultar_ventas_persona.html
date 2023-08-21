@@ -32,7 +32,7 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace(/[,.]/g,'').toLowerCase().replace("dos","2").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
-                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");;
+                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')
@@ -201,10 +201,11 @@
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de ventas. Usted tiene {{ventas.count}} ventas. Diga "leer venta" seguido del número de venta para obtener una lectura de la misma.');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }

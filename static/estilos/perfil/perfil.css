@@ -1,0 +1,64 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+
+}
+
+.contenedorPerfil {
+    background-color: var(--verdeClaro);
+
+}
+
+.contenedorInfoPerfil {
+    background-color: white;
+}
+
+.contenedorInfoPerfil ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tituloForm {
+    text-align: center;
+    color: var(--Rojorubi);
+    font-weight: 700;
+}
+
+
+@media(max-width:320px) {
+
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .contenedorInfoPerfil {
+        padding-top: 50%;
+        padding-left: 20px;
+    }
+
+    .grupoLinks {
+        display: block;
+        justify-content: center;
+    }
+
+    .tituloForm {
+        font-size: 140%;
+    }
+    .imagenPerfil {
+        margin-top: 140px;
+        width: 90%;
+        position: absolute;
+        border-radius: 50%;
+    }
+
+    
+}

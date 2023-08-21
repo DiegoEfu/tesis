@@ -1,9 +1,15 @@
+{% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{request.user.persona}}</title>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'estilos/perfil/perfil.css' %}">
 
     <script>
         const synthesis = window.speechSynthesis;
@@ -33,7 +39,7 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.toLowerCase().replace(/[,.]/g,'').replace("dos","2").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
-                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio");
+                                .replace("nueve","9").replace("uno","1").replace("una","1").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')
@@ -125,7 +131,7 @@
                    }
 
                    if(dictando && speech.indexOf("dictado") == -1)
-                        document.getElementById('busqueda').value += " " + speech.toLowerCase().slice(0,-1);
+                        document.getElementById('busqueda').value += " " + speech.toLowerCase().replace(/.$/g, "");
                 }
             }
         }
@@ -148,10 +154,11 @@
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance('Justo ahora usted está en el perfil del usuario de su persona: {{request.user.persona}}. Diga ayuda para escuchar los comandos disponibles.');
                 
-                utterance.voice = voice;
+               utterance.voice = voice;
                 utterance.pitch = 1;
                 utterance.rate = 1;
                 utterance.volume = 1;
+                recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
                 }
@@ -205,23 +212,30 @@
     </script>
 </head>
 <body>
-    <h3>Perfil del Usuario</h3>
+    {% include 'nav.html' %}
+    <div class="contenedorPerfil">
+        <div class="contenedorInfoPerfil">
+            <h3 class="tituloForm">Perfil del Usuario</h3><br>
     <ul>
-        <li><b>Nombre Completo:</b> {{request.user.persona}}</li>
-        <li><b>Cédula de Identidad:</b> {{request.user.persona.cedula}}</li>
-        <li><b>Fecha de Nacimiento:</b> {{request.user.persona.fecha_nacimiento.date}}</li>
-        <li><b>Tipo de Usuario:</b> {% if request.user.persona.cargo == 'A' %} Agente {% else %} Cliente {% endif %}</li>
-        <li><b>Número de Teléfono:</b> {{request.user.persona.numero_telefono}}</li>
-        <li><b>Correo Electrónico:</b> {{request.user.persona.usuario_persona.email}}</li>
+        <li><b>Nombre Completo:</b> {{request.user.persona}}</li><br>
+        <li><b>Cédula de Identidad:</b> {{request.user.persona.cedula}}</li><br>
+        <li><b>Fecha de Nacimiento:</b> {{request.user.persona.fecha_nacimiento.date}}</li><br>
+        <li><b>Tipo de Usuario:</b> {% if request.user.persona.cargo == 'A' %} Agente {% else %} Cliente {% endif %}</li><br>
+        <li><b>Número de Teléfono:</b> {{request.user.persona.numero_telefono}}</li><br>
+        <li><b>Correo Electrónico:</b> {{request.user.persona.usuario_persona.email}}</li><br>
     </ul>   
-    
+    <div class="grupoLinks">
     <a href="{% url 'edicion_perfil' %}">Cambiar Información</a> <br>
     <a href="{% url 'cambio_contrasena' %}">Cambiar Contraseña</a> <br>
-
+</div><br>
     <small>
         Solo podrás cambiar por tu cuenta el número telefónico, tu correo electrónico o tu contraseña.
         En caso de necesitar editar nombre, cédula de identidad o fecha de nacimiento 
-        debe enviar copia de su documento de identidad al correo soporte.incaibo@gmail.com 
+        debe enviar copia de su documento de identidad al correo soporte.incaibo@gmail.com <br>
     </small>
+</div>
+</div>
+    {% include 'footer.html' %}
+
 </body>
 </html>
