@@ -1,3 +1,5 @@
+{% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,7 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creación de Inmueble</title>
-
+    <link rel="stylesheet" href="{% static 'estilos/inmuebles/formInmueblesEditar.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <script>
         const synthesis = window.speechSynthesis;
@@ -427,84 +431,93 @@
         });
     </script>
 </head>
-
+{% include 'nav.html' %}
 <body>
-    <h2>Edición del Inmueble {{inmueble.nombre}}</h2>
+    <div class="contenedorFormularioInmueble">
+        <div class="contenedorFormulario">
+    <h2 class="tituloForm">Edición del Inmueble {{inmueble.nombre}}</h2>
     <form method="post">
         {% csrf_token %}
-        <label for="nombre">Nombre del Inmueble:</label>
-        <input required type="text" name="nombre" value="{{inmueble.nombre}}" id="nombre"> <br>
+        <label for="nombre" class="form-label">Nombre del Inmueble:</label>
+        <input required type="text" name="nombre" value="{{inmueble.nombre}}" id="nombre" class="form-control"> <br>
 
-        <label for="parroquia">Parroquia:</label>
-        <select required name="parroquia" id="parroquia" disabled>
+        <label for="parroquia" class="form-label">Parroquia:</label>
+        <select required name="parroquia" id="parroquia" disabled class="form-select">
             <option value="{{inmueble.sector.parroquia.id}}">{{inmueble.sector.parroquia.nombre}}</option>
         </select><br>
 
-        <label for="sector">Sector:</label>
-        <select required name="sector" id="sector" disabled>
+        <label for="sector" class="form-label">Sector:</label>
+        <select required name="sector" id="sector" disabled class="form-select">
             <option value="{{inmueble.sector.pk}}">{{inmueble.sector.nombre}}</option>
         </select><br>
 
-        <label for="tipo_construccion">Tipo de Construcción:</label>
-        <select required name="tipo_construccion" id="tipo_construccion">
+        <label for="tipo_construccion" class="form-label">Tipo de Construcción:</label>
+        <select required name="tipo_construccion" id="tipo_construccion" class="form-select">
             {% for construccion in construcciones %}
             <option value="{{forloop.counter}}" {% if inmueble.tipo_construccion == construccion %}selected{% endif %}>{{construccion}}</option>
             {% endfor %}
         </select><br>
 
-        <label for="ubicacion_detallada">Ubicación Detallada:</label>
-        <textarea required name="ubicacion_detallada" id="ubicacion_detallada" cols="30" rows="10">
+        <label for="ubicacion_detallada" class="form-label">Ubicación Detallada:</label>
+        <textarea required name="ubicacion_detallada" id="ubicacion_detallada" cols="30" rows="10" class="form-control">
 {{inmueble.ubicacion_detallada}}
         </textarea><br>
 
-        <label for="ano">Año de Construcción:</label>
-        <input value="{{inmueble.ano_construccion}}" required max="2023" min="1529" type="number" name="ano" id="ano"><br>
+        <label for="ano" class="form-label">Año de Construcción:</label>
+        <input value="{{inmueble.ano_construccion}}" required max="2023" min="1529" type="number" name="ano" id="ano" class="form-control"><br>
 
-        <label for="tamano">Tamaño (en metros cuadrados):</label>
-        <input value="{{inmueble.tamano_input}}" required type="number" name="tamano" id="tamano" step=".01"><br>
+        <label for="tamano" class="form-label">Tamaño (en metros cuadrados):</label>
+        <input value="{{inmueble.tamano_input}}" required type="number" name="tamano" id="tamano" step=".01" class="form-control"><br>
 
-        <label for="habitaciones">Número de Habitaciones:</label>
-        <input value="{{inmueble.habitaciones}}" required min="0" type="number" name="habitaciones" id="habitaciones"><br>
+        <label for="habitaciones" class="form-label">Número de Habitaciones:</label>
+        <input value="{{inmueble.habitaciones}}" required min="0" type="number" name="habitaciones" id="habitaciones" class="form-control"><br>
 
-        <label for="banos">Número de Baños:</label>
-        <input value="{{inmueble.banos}}" required min="0" type="number" name="banos" id="banos"><br>
+        <label for="banos" class="form-label">Número de Baños:</label>
+        <input value="{{inmueble.banos}}" required min="0" type="number" name="banos" id="banos" class="form-control"><br>
 
-        <label for="descripcion">Descripción (será editada para optimizarse para personas con discapacidad visual):</label>
-        <textarea required name="descripcion" id="descripcion" cols="30" rows="10">
+        <label for="descripcion" class="form-label">Descripción (será editada para optimizarse para personas con discapacidad visual):</label>
+        <textarea required name="descripcion" id="descripcion" cols="30" rows="10" class="form-control">
 {{inmueble.descripcion}}
         </textarea><br>
 
-        <label for="precio">Precio (Dólares):</label>
-        <input value="{{inmueble.precio_input}}" min="0.01" step=".01" type="number" name="precio" id="precio"><br>
+        <label for="precio" class="form-label">Precio (Dólares):</label>
+        <input value="{{inmueble.precio_input}}" min="0.01" step=".01" type="number" name="precio" id="precio" class="form-control"><br>
 
         <hr>
-        <h4>Características Extra</h4>
+        <h4 class="tituloInput">Características Extra</h4>
 
-        <label for="amueblado">Está amueblado:</label>
-        <input {%if inmueble.amueblado%}checked{%endif%} type="checkbox" name="amueblado" id="amueblado"><br>
+        <div class="checkBoxInput">
+        <label for="amueblado" class="form-label">Está amueblado:</label>
+        <input {%if inmueble.amueblado%}checked{%endif%} type="checkbox" name="amueblado" id="amueblado" class="form-check"><br>
+    </div>
+        <label for="estacionamiento" class="form-label">Puestos de Estacionamiento:</label>
+        <input value="{{inmueble.estacionamientos}}" required type="number" min="0" required name="estacionamiento" id="estacionamiento" class="form-control"><br>
 
-        <label for="estacionamiento">Puestos de Estacionamiento:</label>
-        <input value="{{inmueble.estacionamientos}}" required type="number" min="0" required name="estacionamiento" id="estacionamiento"><br>
-
-        <label for="pisos">Número de Pisos:</label>
-        <input value="{{inmueble.pisos}}" required type="number" min="1" required name="pisos" id="pisos"><br>
+        <label for="pisos" class="form-label">Número de Pisos:</label>
+        <input value="{{inmueble.pisos}}" required type="number" min="1" required name="pisos" id="pisos" class="form-control"><br>
 
         <hr>
-        <h4>Servicios</h4>
-        <label for="agua">Servicio de agua:</label>
-        <input {%if inmueble.agua%}checked{%endif%} type="checkbox" name="agua" id="agua"><br>
-        <label for="electricidad">Servicio de electricidad:</label>
-        <input {%if inmueble.electricidad%}checked{%endif%} type="checkbox" name="electricidad" id="electricidad"><br>
-        <label for="gas">Servicio de gas:</label>
-        <input {%if inmueble.gas%}checked{%endif%} type="checkbox" name="gas" id="gas"><br>
-        <label for="aseo">Servicio de aseo:</label>
-        <input {%if inmueble.aseo%}checked{%endif%} type="checkbox" name="aseo" id="aseo"><br>
-        <label for="internet">Servicio de Internet:</label>
-        <input {%if inmueble.internet%}checked{%endif%} type="checkbox" name="internet" id="internet"><br>
+        <h4 class="tituloInput">Servicios</h4>
+        <div class="checkBoxInput">
+        <label for="agua" class="form-label">Servicio de agua:</label>
+        <input {%if inmueble.agua%}checked{%endif%} type="checkbox" name="agua" id="agua" class="form-check"><br></div>
+        <div class="checkBoxInput">
+        <label for="electricidad" class="form-label">Servicio de electricidad:</label>
+        <input {%if inmueble.electricidad%}checked{%endif%} type="checkbox" name="electricidad" id="electricidad" class="form-check"><br></div>
+        <div class="checkBoxInput">
+        <label for="gas" class="form-label">Servicio de gas:</label>
+        <input {%if inmueble.gas%}checked{%endif%} type="checkbox" name="gas" id="gas" class="form-check"><br></div>
+        <div class="checkBoxInput">
+        <label for="aseo" class="form-label">Servicio de aseo:</label>
+        <input {%if inmueble.aseo%}checked{%endif%} type="checkbox" name="aseo" id="aseo" class="form-check"><br></div>
+        <div class="checkBoxInput">
+        <label for="internet" class="form-label">Servicio de Internet:</label>
+        <input {%if inmueble.internet%}checked{%endif%} type="checkbox" name="internet" id="internet" class="form-check"><br></div><br>
 
-        <input type="submit" value="Enviar Formulario">
+        <input type="submit" value="Enviar Formulario" class="btn btn-success">
     </form>
-
+</div>
+</div>
     <script>
         let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
         console.log(elements);
@@ -515,4 +528,4 @@
         });
     </script>
 </body>
-</html>
+</html>{% include 'footer.html' %}

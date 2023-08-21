@@ -25,7 +25,7 @@
             <li class="nav-item opcionNav"><a class="nav-link" href="{% url 'consultar_ventas' %}">VENTAS</a></li>
             <li class="nav-item opcionNav"><a class="nav-link" href="{% url 'consultar_citas' %}">CITAS</a></li>
             {% if request.user.persona.cargo == 'A' %}
-            <li class="nav-item opcionNav"><a class="nav-link" href="{% url 'bienvenida_agente' %}">PANEL DE AGENTE</a></li>
+            <li class="nav-item opcionNav"><a class="nav-link" href="{% url 'bienvenida_agente' %}">AGENTE</a></li>
             {%endif%}
             <li class="nav-item opcionNav"><a class="nav-link" href="{% url 'perfil' %}">PERFIL</a></li>
             <li class="nav-item opcionNav"><a id="cerrar_sesion" class="nav-link" href="{% url 'cerrar_sesion' %}">CERRAR SESIÓN</a></li>

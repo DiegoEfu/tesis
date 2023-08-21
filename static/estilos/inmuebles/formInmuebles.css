@@ -1,0 +1,565 @@
+:root {
+    --negro: #000000;
+    --verdeOscuro: #6EC402;
+    --verdeClaro: #a9f14f;
+    --verdeOscuroFondo: rgb(169, 241, 79, 0.5);
+    --blanco: #FFFFFF;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+ }
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.contenedorFormularioInmueble {
+    background-image: url("../../img/FormInmueble.jpg");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.tituloForm {
+    font-weight: 800;
+    color: var(--verdeOscuro);
+    text-align: center;
+}
+
+.contenedorFormulario {
+    background-color: white;
+}
+
+.tituloInput {
+    color: var(--Rojorubi);
+    font-weight: 600;
+}
+
+input[type='checkbox'] {
+    accent-color: var(--verdeMusgo);
+}
+
+
+.btn-success {
+    background-color: var(--verdeOscuro)!important;
+    color: white!important;
+    border: var(--verdeOscuro)!important;
+}
+
+.btn-success:hover {
+    background-color: #529106!important;
+    color: black!important;
+    border: var(--verdeOscuro)!important;
+}
+
+.checkBoxInput input{
+    float: right;
+    position: absolute;
+    right: 0!important;
+}
+
+@media (max-width:2000px) {
+    .contenedorFormularioInmueble {
+        height: 2650px;
+        padding-top: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .contenedorFormulario {
+        padding-left: 80px;
+        margin-left: 30px;
+        margin-right: 30px;
+    padding-bottom: 50px;    }
+
+    .tituloForm {
+        padding-top: 30px;
+        font-size: 270%;
+    }
+
+    .form-control {
+        margin-left: 0px;
+        margin-right: 30px;
+        width: 90%!important;
+    }
+
+    .form-select {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 90%!important;
+    }
+
+    .tituloInput {
+        font-size: 190%;
+    }
+
+    .checkBoxInput {
+        display: flex;
+        justify-content: justify;
+        flex-wrap: wrap;
+    }
+    .form-label {
+        font-size: 140%;
+    }
+
+    .checkBoxInput input {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-top: 1px;
+        width: 60%;
+    }
+
+    .btn-success {
+        width: 20%;
+    }
+
+}
+
+@media (max-width:1440px) {
+    .contenedorFormularioInmueble {
+        height: 2550px;
+        padding-top: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .contenedorFormulario {
+        padding-left: 80px;
+        margin-left: 30px;
+        margin-right: 30px;
+    padding-bottom: 50px;    }
+
+    .tituloForm {
+        padding-top: 30px;
+        font-size: 270%;
+    }
+
+    .form-control {
+        margin-left: 0px;
+        margin-right: 30px;
+        width: 90%!important;
+    }
+
+    .form-select {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 90%!important;
+    }
+
+    .tituloInput {
+        font-size: 190%;
+    }
+
+    .checkBoxInput {
+        display: flex;
+        justify-content: justify;
+        flex-wrap: wrap;
+    }
+    .form-label {
+        font-size: 140%;
+    }
+
+    .checkBoxInput input {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-top: 1px;
+        width: 60%;
+    }
+
+    .btn-success {
+        width: 20%;
+    }
+
+}
+
+@media (max-width:1280px) {
+    .contenedorFormularioInmueble {
+        height: 2450px;
+        padding-top: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .contenedorFormulario {
+        padding-left: 80px;
+        margin-left: 30px;
+        margin-right: 30px;
+    padding-bottom: 50px;    }
+
+    .tituloForm {
+        padding-top: 30px;
+        font-size: 270%;
+    }
+
+    .form-control {
+        margin-left: 0px;
+        margin-right: 30px;
+        width: 80%!important;
+    }
+
+    .form-select {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 80%!important;
+    }
+
+    .tituloInput {
+        font-size: 170%;
+    }
+
+    .checkBoxInput {
+        display: flex;
+        justify-content: justify;
+        flex-wrap: wrap;
+    }
+    .form-label {
+        font-size: 120%;
+    }
+
+    .checkBoxInput input {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-top: 1px;
+        width: 50%;
+    }
+
+    .btn-success {
+        width: 30%;
+    }
+
+}
+
+@media (max-width:1024px) {
+    .contenedorFormularioInmueble {
+        height: 2450px;
+        padding-top: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .contenedorFormulario {
+        padding-left: 40px;
+        margin-left: 30px;
+        margin-right: 30px;
+    padding-bottom: 50px;    }
+
+    .tituloForm {
+        padding-top: 30px;
+        font-size: 270%;
+    }
+
+    .form-control {
+        margin-left: 0px;
+        margin-right: 30px;
+        width: 70%!important;
+    }
+
+    .form-select {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 70%!important;
+    }
+
+    .tituloInput {
+        font-size: 140%;
+    }
+
+    .checkBoxInput {
+        display: flex;
+        justify-content: justify;
+        flex-wrap: wrap;
+    }
+    .form-label {
+        font-size: 120%;
+    }
+
+    .checkBoxInput input {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-top: 1px;
+        width: 50%;
+    }
+
+    .btn-success {
+        width: 30%;
+    }
+
+}
+
+@media (max-width:800px) {
+    .contenedorFormularioInmueble {
+        height: 2450px;
+        padding-top: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .contenedorFormulario {
+        padding-left: 30px;
+        margin-left: 30px;
+        margin-right: 30px;
+    padding-bottom: 50px;    }
+
+    .tituloForm {
+        padding-top: 30px;
+        font-size: 250%;
+    }
+
+    .form-control {
+        margin-left: 0px;
+        margin-right: 30px;
+        width: 80%!important;
+    }
+
+    .form-select {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 80%!important;
+    }
+
+    .tituloInput {
+        font-size: 130%;
+    }
+
+    .checkBoxInput {
+        display: flex;
+        justify-content: justify;
+        flex-wrap: wrap;
+    }
+    .form-label {
+        font-size: 110%;
+    }
+
+    .checkBoxInput input {
+        margin-right: 0px;
+        margin-left: 60px;
+        margin-top: 1px;
+        width: 40%;
+    }
+
+    .btn-success {
+        width: 40%;
+    }
+
+}
+
+@media (max-width:768px) {
+    .contenedorFormularioInmueble {
+        height: 2450px;
+        padding-top: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .contenedorFormulario {
+        padding-left: 30px;
+        margin-left: 25px;
+        margin-right: 25px;
+    padding-bottom: 50px;    }
+
+    .tituloForm {
+        padding-top: 30px;
+        font-size: 250%;
+    }
+
+    .form-control {
+        margin-left: 0px;
+        margin-right: 30px;
+        width: 80%!important;
+    }
+
+    .form-select {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 80%!important;
+    }
+
+    .tituloInput {
+        font-size: 130%;
+    }
+
+    .checkBoxInput {
+        display: flex;
+        justify-content: justify;
+        flex-wrap: wrap;
+    }
+    .form-label {
+        font-size: 110%;
+    }
+
+    .checkBoxInput input {
+        margin-right: 0px;
+        margin-left: 20px;
+        margin-top: 1px;
+        width: 40%;
+    }
+
+    .btn-success {
+        width: 45%;
+    }
+
+    .btn-success {
+        width: 45%;
+    }
+
+}
+
+@media (max-width:600px) {
+    .contenedorFormularioInmueble {
+        height: 2450px;
+        padding-top: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .contenedorFormulario {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-left: 20px;
+    padding-bottom: 50px;    }
+
+    .tituloForm {
+        padding-top: 30px;
+        font-size: 250%;
+    }
+
+    .form-control {
+        margin-left: 0px;
+        margin-right: 10px;
+        width: 90%!important;
+    }
+
+    .form-select {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 90%!important;
+    }
+
+    .tituloInput {
+        font-size: 130%;
+    }
+
+    .checkBoxInput {
+        display: flex;
+        justify-content: justify;
+        flex-wrap: wrap;
+    }
+    .form-label {
+        font-size: 110%;
+    }
+
+    .checkBoxInput input {
+        margin-right: 10px;
+        margin-left: 5px;
+        margin-top: 1px;
+        width: 40%;
+    }
+
+    .btn-success {
+        width: 50%;
+    }
+
+}
+
+@media (max-width:480px) {
+    .contenedorFormularioInmueble {
+        height: 2450px;
+        padding-top: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .contenedorFormulario {
+        margin-left: 20px;
+        margin-right: 10px;
+        padding-left: 5px;
+    padding-bottom: 50px;    }
+
+    .tituloForm {
+        padding-top: 30px;
+        font-size: 200%;
+    }
+
+    .form-control {
+        margin-left: 0px;
+        margin-right: 10px;
+        width: 90%!important;
+    }
+
+    .form-select {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 90%!important;
+    }
+
+    .tituloInput {
+        font-size: 130%;
+    }
+
+    .form-label {
+        font-size: 100%;
+    }
+
+    .checkBoxInput input {
+        margin-right: 10px;
+        margin-left: 5px;
+        margin-top: 1px;
+        width: 30%;
+    }
+
+    
+    .btn-success {
+        width: 50%;
+    }
+
+
+}
+
+@media (max-width:320px) {
+    .contenedorFormularioInmueble {
+        height: 2700px;
+        padding-top: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .contenedorFormulario {
+        margin-left: 20px;
+        margin-right: 20px;
+    padding-bottom: 40px;   
+padding-left: 10px; }
+
+    .tituloForm {
+        padding-top: 20px;
+        font-size: 160%;
+    }
+
+    .form-control {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 100%!important;
+    }
+
+    .form-select {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 100%!important;
+    }
+
+    .tituloInput {
+        font-size: 130%;
+    }
+
+    .form-label {
+        font-size: 100%;
+    }
+
+    .checkBoxInput input {
+        margin-right: 10px;
+        margin-left: 5px;
+        margin-top: 1px;
+        width: 40%;
+    }
+
+
+
+
+
+
+
+
+}
