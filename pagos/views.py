@@ -5,6 +5,7 @@ from reportes.mp3 import cita_formalidades_mp3
 import os
 from .models import bancos, Cuenta, Pago, Cambio
 from inmuebles.models import Compra, Cita
+from inmuebles.views import enviar_correo
 from decimal import Decimal
 from random import randint
 from datetime import timedelta, datetime
@@ -62,11 +63,14 @@ def formulario_pago(request, pk):
         if(float(monto) < 1):
             errores.append("El monto debe ser mayor a un bolívar.")
 
+        if(fecha_transaccion > datetime.today()):
+            errores.append("La fecha de la transacción no puede ser mayor a hoy.")
+
         # Creación
 
         tasa = Cambio.objects.latest('fecha')
 
-        Pago.objects.create(
+        pago = Pago.objects.create(
             estado = "P",
             cuenta = Cuenta.objects.get(pk=receptora),
             referencia = referencia,
@@ -76,6 +80,10 @@ def formulario_pago(request, pk):
             tasa = tasa,
             compra = compra
         )
+
+        enviar_correo(pago.compra.inmueble.agente, f"Nuevo Pago", f"Saludos, agente {pago.compra.agente}. \n"
+            + f"El comprador <b>{pago.compra.comprador}</b> del inmueble <b>{pago.compra.inmueble.nombre.upper()}</b> ha realizado un pago. Validar el mismo.\n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
 
         return redirect('/')
 
@@ -113,6 +121,15 @@ def formulario_aprobar_pago(request, pk):
         pago.estado = estado
         pago.comentario_cajero = comentario_cajero
         pago.save()
+
+        if(estado == 'A'):
+            enviar_correo([pago.compra.inmueble.dueno,pago.compra.comprador], f"Pago aprobado", f"Saludos. \n"
+            + f"El agente <b>{pago.compra.inmueble.agente}</b> del inmueble <b>{pago.compra.inmueble.nombre.upper()}</b> ha validado la validez del pago de referencia {pago.referencia} del inmueble.\n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
+        else:
+            enviar_correo([pago.compra.inmueble.dueno,pago.compra.comprador], f"Pago aprobado", f"Saludos. \n"
+            + f"El agente <b>{pago.compra.inmueble.agente}</b> del inmueble <b>{pago.compra.inmueble.nombre.upper()}</b> ha rechazado el pago de referencia {pago.referencia} del inmueble. Revisar razones en la aplicación web progresiva. \n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
 
         if(pago.compra.monto_cancelado() >= pago.compra.inmueble.precio):
             compra = pago.compra
@@ -157,12 +174,17 @@ def formulario_aprobar_pago(request, pk):
                     if(not inmueble.dueno.citas_cliente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 16).exists()):
                         horas_disponibles.append(fecha + timedelta(hours=16))
 
-            fecha = hours=horas_disponibles[randint(0,len(horas_disponibles)-1)]
+            fecha = horas_disponibles[randint(0,len(horas_disponibles)-1)]
 
             cita_formalidades = Cita.objects.create(
                 compra = compra,
                 fecha_asignada = fecha
             )
+
+            enviar_correo([pago.compra.inmueble.dueno,pago.compra.comprador], f"Se ha finalizado la compra del inmueble", f"Saludos. \n"
+            + f"El agente <b>{pago.compra.inmueble.agente}</b> del inmueble <b>{pago.compra.inmueble.nombre.upper()}</b> ha validado la completitud del pago del inmueble.\n"
+            + f"Para formalizar la entrega del mismo, asistir al inmueble a la firma de formalidades el día {cita_formalidades.fecha_asignada.date}/{cita_formalidades.fecha_asignada.month}/{cita_formalidades.fecha_asignada.year}"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
 
             return render(request, "pago_completado.html", context={'cita': cita_formalidades})
 

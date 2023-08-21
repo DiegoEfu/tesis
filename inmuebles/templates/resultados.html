@@ -37,7 +37,7 @@
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace("lista","listo")
                    .replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio")
-                   .replace("en mueble", "inmueble");
+                   .replaceAll("en mueble", "inmueble");
                    console.log(speech);
                    if(localStorage.getItem('comandos') == '1')
                    ["ayuda","iniciar sesión","leer resultados","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
@@ -107,6 +107,7 @@
                             
                             case "buscar inmueble":
                                 hablar("Escriba la descripción del inmueble que desea. Diga dictado para dictarla. Diga salir para no buscar. Diga listo una vez haya finalizado.");
+                                escribiendo = true;
                                 const input = document.getElementById('busqueda');
                                 input.value = "";
                                 input.focus();
@@ -126,22 +127,28 @@
                                 if(campo === 1){
                                     hablar("Saliendo del formulario.");
                                     dictando = false;
+                                    escribiendo = false;
                                     campo = 0;
                                 }
                                 break;
 
                            case "listo":
                                 dictando = false;
+                                if(!escribiendo)
+                                    break;
+                                
                                 if(document.getElementById('busqueda').value == ''){
                                     hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
                                     break;
                                 }
+                                
                                 document.getElementById('busqueda').value = document.getElementById('busqueda').value.trim().replace(/\s+/g,' ');
                                 hablar(`Usted ha escrito: ${document.getElementById('busqueda').value}. Diga "continuar" para buscar inmuebles, o diga "editar" para editar.`);
                                 campo = 2;
                                 break;
                                 campo = 2;
                                 dictando = false;
+                                escribiendo = false;
                                 break;
                             
                             case "continuar":
@@ -175,7 +182,7 @@
                                 speech = speech.toLowerCase().replace(/[.,]/g, '');
                                 console.log(speech.split(" "));
                                 const numero = speech.split(" ")[speech.split(" ").indexOf("resultado") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
 
@@ -220,7 +227,7 @@
         var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
         var recognition = new SpeechRecognition();
         recognition.lang = "es-VE";
-        recognition.continuous = true;
+        recognition.continuous = !window.navigator.userAgentData.mobile;
         recognition.interimResults = true;
 
         recognition.onresult = inicial;

@@ -107,7 +107,7 @@
                             
                             case "agendar hora":
                                 const hora = speech.split(" ")[speech.split(" ").indexOf("hora") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 let encontrado = false;
@@ -141,7 +141,7 @@
         var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
         var recognition = new SpeechRecognition();
         recognition.lang = "es-VE";
-        recognition.continuous = true;
+        recognition.continuous = !window.navigator.userAgentData.mobile;
         recognition.interimResults = true;
 
         recognition.onresult = inicial;

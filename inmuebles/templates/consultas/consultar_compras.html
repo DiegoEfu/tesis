@@ -32,7 +32,7 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.toLowerCase().replace("dos","2").replace("tres","3").replace("cuatro","4")
+                   speech = event.results[i][0].transcript.toLowerCase().replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio")
                                 .replace("mp 3", "mp3 ");
@@ -106,7 +106,7 @@
                             
                             case "leer compra":
                                 const numero = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 let pasado = false;
@@ -132,7 +132,7 @@
                             
                             case "pagos compra":
                                 const compra = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 console.log(compra);
@@ -154,7 +154,7 @@
                                 let pdf = speech.toLowerCase().split(" ")[speech.toLowerCase().split(" ").indexOf("pdf") + 1];
                                 if(pdf)
                                     pdf = pdf.replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 let final = false;
@@ -183,7 +183,7 @@
                             
                             case "descargar mp3":
                                 const mp3 = speech.toLowerCase().split(" ")[speech.toLowerCase().split(" ").indexOf("mp3") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 let completo = false;
@@ -211,7 +211,7 @@
                             
                             case "cancelar compra":
                                 const cancelar = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 let hecho = false;
@@ -250,7 +250,7 @@
         var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
         var recognition = new SpeechRecognition();
         recognition.lang = "es-VE";
-        recognition.continuous = true;
+        recognition.continuous = !window.navigator.userAgentData.mobile;
         recognition.interimResults = true;
 
         recognition.onresult = inicial;
@@ -352,6 +352,16 @@
         <button type="submit" id="mp3_{{compra.pk}}" name="tipo" value="mp3">Comprobante MP3</button>
         <button type="submit" id="pdf_{{compra.pk}}" name="tipo" value="pdf">Comprobante PDF</button>
     </form>
+    {% elif compra.estado == 'S' %}
+    <b>Nombre del Agente:</b> {{compra.inmueble.agente}}
+    <b>Teléfono del Agente:</b> {{compra.inmueble.agente.numero_telefono}}
+    <b>Correo del Agente:</b> {{compra.inmueble.agente.usuario_persona.email}}
+
+    <b>Nombre del Dueño:</b> {{compra.inmueble.dueno}}
+    <b>Teléfono del Dueño:</b> {{compra.inmueble.dueno.numero_telefono}}
+    <b>Correo del Dueño:</b> {{compra.inmueble.dueno.usuario_persona.email}}
+
+    <b>Cita de Formalidades el día {{compra.cita_formalidades.fecha_asignada}}</b>
     {% endif %}
 
     {% endfor %}

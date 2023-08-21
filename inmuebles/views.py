@@ -7,6 +7,7 @@ from reportes.mp3 import reporte_cita_mp3, reporte_compra_mp3, reporte_compras_m
 from reportes.mp3 import reporte_publicacion_mp3
 from reportes.pdfs import generar_pdf
 import os
+import yagmail
 from django.core.files.storage import FileSystemStorage
 from django.db.models import Q
 
@@ -107,7 +108,7 @@ def formulario_inmueble(request):
         if(len(errores) != 0):
             return render(request, 'formulario_inmueble.html', {'errores': errores, 'previo': request.POST})
 
-        Inmueble.objects.create(
+        inmueble = Inmueble.objects.create(
             nombre = nombre.upper(),
             ano_construccion = ano_construccion,
             tipo_construccion = tipos_construccion[int(tipo_construccion)-1][0],
@@ -129,6 +130,10 @@ def formulario_inmueble(request):
             dueno = request.user.persona if request.user.is_authenticated else Persona.objects.first(),
             agente = Persona.objects.first() #! CAMBIAR PARA UN AGENTE ALEATORIO
         )
+
+        enviar_correo(inmueble.agente, "Ha recibido un inmueble nuevo para su revisión", f"Saludos, estimado {inmueble.agente}. \n"
+                      + f"El usuario {inmueble.dueno} ha registrado un inmueble llamado \"{inmueble.nombre}\" y se le ha asignado.\n"
+                      + f"Vaya a su panel de revisión para ver en detalle los datos del mismo. Visite el inmueble y revise la documentación.")
 
         return redirect("/")
 
@@ -259,7 +264,7 @@ def aprobar_inmueble(request, pk):
         inmueble = Inmueble.objects.get(pk=pk)
         inmueble.nombre = nombre
         inmueble.ano_construccion = ano_construccion
-        inmueble.tipo_construccion = tipo_construccion
+        inmueble.tipo_construccion = tipos_construccion[int(tipo_construccion)-1][0]
         inmueble.estacionamientos = estacionamientos
         inmueble.tamano = tamano
         inmueble.habitaciones = habitaciones
@@ -278,8 +283,14 @@ def aprobar_inmueble(request, pk):
 
         if('aprobado' in request.POST.keys()):
             inmueble.estado = 'A'
+            enviar_correo(inmueble.dueno, "Su inmueble ha sido aprobado.", f"Saludos, estimado usuario {inmueble.dueno}. \n"
+                      + f"El agente asignado {inmueble.agente} ha aprobado el inmueble llamado \"{inmueble.nombre}\" tras la debida visita, revisión de los datos y documentación del mismo.\n"
+                      + f"Ahora debe esperar a un posible comprador.\n" + f"Atentamente,\n    Inmuebles Incaibo.")
         else:
             inmueble.estado = 'D'
+            enviar_correo(inmueble.dueno, "Su inmueble ha sido rechazado.", f"Saludos, estimado usuario {inmueble.dueno}. \n"
+                      + f"El agente asignado {inmueble.agente} ha rechazado la publicación del inmueble llamado \"{inmueble.nombre}\" tras la debida visita, revisión de los datos y documentación del mismo.\n"
+                      + f"Si considera que la decisión no es correcta, contáctese con el agente.\n" + f"Atentamente,\n    Inmuebles Incaibo.")
 
         inmueble.save()
 
@@ -362,6 +373,10 @@ def seleccionar_hora_cita(request, pk):
 def cita_creada(request, pk):
     cita = Cita.objects.get(pk=pk)
     if(request.method == "GET"):
+        enviar_correo([cita.inmueble.dueno, cita.inmueble.agente], f"Cita pendiente de visita para el día {cita.fecha_asignada.date}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}.", f"Saludos. \n"
+            + f"El usuario {cita.persona} ha agendado una cita del visita para el inmueble <b>{cita.inmueble.nombre}</b> para el día "
+            + f"{cita.fecha_asignada.date}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}. Prepararse para el día de la cita.\n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
         return render(request, 'cita_creada.html', context={'cita': cita})
     elif(request.method == "POST"): # REPORTES
         if(request.POST['tipo'] == 'pdf'):
@@ -390,6 +405,9 @@ def comprar_inmueble(request, pk):
 def compra_realizada(request, pk):
     compra = Compra.objects.get(pk=pk)
     if(request.method == 'GET'):
+        enviar_correo([compra.inmueble.dueno, compra.inmueble.agente], f"¡Se ha realizado una compra!", f"Saludos. \n"
+            + f"El usuario <b>{compra.persona}</b> ha aceptado la compra del inmueble <b>{compra.inmueble.nombre}</b>. "
+            + f"Atentamente, \n     Inmuebles Incaibo.")
         return render(request, "compra_realizada.html", context={'compra': compra})
     elif(request.method == 'POST'):
         if(request.POST['tipo'] == 'mp3'):
@@ -424,6 +442,21 @@ def resultados_cita(request, pk):
         cita.estado = 'F' if request.POST.get('visto') == 'bien' else 'X'
         cita.resultados = request.POST['resultados']
         cita.save()
+
+        if(not cita.inmueble):
+            compra = cita.compra
+            inmueble = compra.inmueble
+
+            compra.estado = 'F'
+            inmueble.estado = 'V'
+
+            compra.save()
+            inmueble.save()
+
+        enviar_correo([cita.inmueble.dueno, cita.persona], f"Resultados de la cita", f"Saludos. \n"
+            + f"El agente ha registrado la cita de visita al inmueble <b>{cita.inmueble.nombre.upper()}</b> del día "
+            + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}, recibiendo el veredicto: <b>{cita.estado_largo()}</b> .\n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
 
         return redirect("/usuarios/agente/")
 
@@ -514,6 +547,11 @@ def cancelar_compra(request,pk):
         if(compra.estado == 'E'):
             compra.estado = 'C'
             compra.save()
+
+            enviar_correo([compra.inmueble.agente, compra.inmueble.dueno], f"Se ha solicitado cancelación de la compra", f"Saludos. \n"
+            + f"El comprador <b>{compra.comprador}</b> del inmueble <b>{compra.inmueble.nombre.upper()}</b> ha solicitado la cancelación de la compra. Realizar los reembolsos necesarios."
+            + f"Atentamente, \n     Inmuebles Incaibo.")
+
             return render(request, 'cancelacion/espera_cancelacion_compra.html', context={'compra': compra})
 
 def cancelar_publicacion(request,pk):
@@ -524,6 +562,11 @@ def cancelar_publicacion(request,pk):
         if(publicacion.estado == 'A' or publicacion.estado == 'R'):
             publicacion.estado = 'C'
             publicacion.save()
+
+            enviar_correo(publicacion.agente, f"Se ha solicitado cancelación de la publicación", f"Saludos. \n"
+            + f"El usuario <b>{publicacion.dueno}</b> del inmueble <b>{publicacion.nombre.upper()}</b> ha solicitado la cancelación de la publicación."
+            + f"Atentamente, \n     Inmuebles Incaibo.")
+
             return render(request, 'cancelacion/espera_cancelacion_publicacion.html', context={'publicacion': publicacion})
 
 def cancelar_venta(request,pk):
@@ -534,6 +577,11 @@ def cancelar_venta(request,pk):
         if(venta.estado == 'E'):
             venta.estado = 'C'
             venta.save()
+
+            enviar_correo([venta.inmueble.agente, venta.comprador], f"Se ha solicitado cancelación de la venta", f"Saludos. \n"
+            + f"El dueño <b>{venta.dueno}</b> del inmueble <b>{venta.inmueble.nombre.upper()}</b> ha solicitado la cancelación de la venta. Realizar los reembolsos necesarios."
+            + f"Atentamente, \n     Inmuebles Incaibo.")
+
             return render(request, 'cancelacion/espera_cancelacion_venta.html', context={'venta': venta})
 
 def editar_inmueble(request, pk):
@@ -648,6 +696,10 @@ def editar_inmueble(request, pk):
             inmueble = Inmueble.objects.get(pk=pk)
         )
 
+        enviar_correo(inmueble.agente, f"Se ha solicitado la edición de una publicación", f"Saludos, agente {inmueble.agente}. \n"
+            + f"El dueño <b>{inmueble.dueno}</b> del inmueble <b>{inmueble.nombre.upper()}</b> ha solicitado una edición. Revisar los cambios en el panel de agente.\n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
+
         return redirect("/")
 
 def consultar_asignadas(request):
@@ -714,6 +766,10 @@ def consultar_ventas_revision(request):
         compra = Compra.objects.get(pk=request.POST['compra'])
         compra.estado = 'X'
         compra.save()
+
+        enviar_correo([compra.inmueble.dueno,compra.inmueble.comprador], f"Se ha cancelado la venta", f"Saludos. \n"
+            + f"El agente <b>{compra.inmueble.agente}</b> del inmueble <b>{compra.inmueble.nombre.upper()}</b> ha cancelado la venta.\n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
 
         return redirect('/usuarios/agente/')
 
@@ -804,7 +860,7 @@ def edicion_inmueble_agente(request, pk):
         inmueble = Inmueble.objects.get(pk=pk)
         inmueble.nombre = nombre
         inmueble.ano_construccion = ano_construccion
-        inmueble.tipo_construccion = tipo_construccion
+        inmueble.tipo_construccion = tipos_construccion[int(tipo_construccion)-1][0]
         inmueble.estacionamientos = estacionamientos
         inmueble.tamano = tamano
         inmueble.habitaciones = habitaciones
@@ -822,6 +878,10 @@ def edicion_inmueble_agente(request, pk):
         inmueble.pisos = pisos
         inmueble.save()
 
+        enviar_correo(inmueble.dueno, f"Se ha editado una publicación", f"Saludos, dueño {inmueble.dueno}. \n"
+            + f"El agente <b>{inmueble.agente}</b> del inmueble <b>{inmueble.nombre.upper()}</b> ha solicitado editado la publicación. Revisar los cambios.\n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
+
         return redirect('/usuarios/agente/')
 
 def cancelacion_inmueble_agente(request, pk):
@@ -831,6 +891,11 @@ def cancelacion_inmueble_agente(request, pk):
     elif(request.method == 'POST'):
         inmueble.estado = 'X'
         inmueble.save()
+
+        enviar_correo(inmueble.dueno, f"Se ha cancelado una publicación", f"Saludos, dueño {inmueble.dueno}. \n"
+            + f"El agente <b>{inmueble.agente}</b> del inmueble <b>{inmueble.nombre.upper()}</b> ha cancelado la publicación. Contactarse para conocer las razones.\n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
+
         return redirect('/usuarios/agente/')
 
 def consultar_pagos_venta_activa(request,pk):
@@ -871,7 +936,14 @@ def revision_edicion_inmueble(request, pk):
             inmueble.gas = edicion.gas
             inmueble.aseo = edicion.aseo
             edicion.estado = 'A'
+
+            enviar_correo(inmueble.dueno, f"Se ha aceptado la edición de la publicación", f"Saludos, dueño {inmueble.dueno}. \n"
+            + f"El agente <b>{inmueble.agente}</b> del inmueble <b>{inmueble.nombre.upper()}</b> ha aceptado los cambios propuestos a la publicación. Revisar los cambios.\n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
         else:
+            enviar_correo(inmueble.dueno, f"Se ha rechazado la edición de la publicación", f"Saludos, dueño {inmueble.dueno}. \n"
+            + f"El agente <b>{inmueble.agente}</b> del inmueble <b>{inmueble.nombre.upper()}</b> ha rechazado los cambios propuestos a la publicación. Contactarse.\n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
             edicion.estado = 'R'
 
         inmueble.estado = 'A'
@@ -1062,3 +1134,15 @@ def encuentra_coincidencia(array, a_buscar):
             return i
     
     return -1
+
+def enviar_correo(persona, asunto, contenido):
+    email = 'no.reply.arcadestation@gmail.com'
+    password = 'rzxsqvjqwkwpjmwk'
+
+    servidor = yagmail.SMTP(user=email, password=password)
+    try:
+        destinatario = [x.usuario_persona.email for x in persona]
+    except:
+        destinatario = persona.usuario_persona.email
+
+    servidor.send(destinatario, asunto, contenido)
