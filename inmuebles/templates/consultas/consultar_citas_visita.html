@@ -283,7 +283,7 @@
     <b>Estado de la Cita:</b> {{cita.estado_largo}}
     {% if cita.estado == 'F' or cita.estado == 'X' %}
     <b>Comentarios del Agente:</b> {{cita.resultados}}
-    {% else %}
+    {% elif cita.inmueble %}
     <b>Lleve uno de los siguientes comprobantes a la cita:</b>
     <form method="post">
         {% csrf_token %}

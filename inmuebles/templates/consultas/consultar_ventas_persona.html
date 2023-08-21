@@ -276,6 +276,8 @@
 
     {% if compra.estado == 'E' %}
     <a href="{% url 'cancelar_venta' pk=compra.pk %}">Cancelar</a>
+    {% elif compra.estado == 'S' %}
+    <b>Cita de Formalidades el día {{compra.cita_formalidades.fecha_asignada}}</b>
     {% endif %}
 
     {% if compra.pagos.all.count %}

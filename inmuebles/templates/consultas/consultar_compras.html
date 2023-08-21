@@ -352,6 +352,16 @@
         <button type="submit" id="mp3_{{compra.pk}}" name="tipo" value="mp3">Comprobante MP3</button>
         <button type="submit" id="pdf_{{compra.pk}}" name="tipo" value="pdf">Comprobante PDF</button>
     </form>
+    {% elif compra.estado == 'S' %}
+    <b>Nombre del Agente:</b> {{compra.inmueble.agente}}
+    <b>Teléfono del Agente:</b> {{compra.inmueble.agente.numero_telefono}}
+    <b>Correo del Agente:</b> {{compra.inmueble.agente.usuario_persona.email}}
+
+    <b>Nombre del Dueño:</b> {{compra.inmueble.dueno}}
+    <b>Teléfono del Dueño:</b> {{compra.inmueble.dueno.numero_telefono}}
+    <b>Correo del Dueño:</b> {{compra.inmueble.dueno.usuario_persona.email}}
+
+    <b>Cita de Formalidades el día {{compra.cita_formalidades.fecha_asignada}}</b>
     {% endif %}
 
     {% endfor %}

@@ -12,16 +12,16 @@
         <input type="text" name="cita" value="{{cita.pk}}" disabled>
 
         <label for="ci_visitante">Cédula del Visitante:</label>
-        <input type="text" name="ci_visitante" value="{{cita.persona.cedula}}" disabled>
+        <input type="text" name="ci_visitante" value="{%  if cita.persona %}{{cita.persona.cedula}}{% else %}{{cita.compra.comprador.cedula}}{%endif%}" disabled>
 
         <label for="nombre_visitante">Nombre del Visitante:</label>
-        <input type="text" name="nombre_visitante" value="{{cita.persona}}" disabled>
+        <input type="text" name="nombre_visitante" value="{%  if cita.persona %}{{cita.persona}}{% else %}{{cita.compra.comprador}}{%endif%}" disabled>
 
         <label for="nombre_inmueble">Nombre del Inmueble:</label>
-        <input type="text" name="nombre_inmueble" value="{{cita.inmueble.nombre}}" disabled>
+        <input type="text" name="nombre_inmueble" value="{% if cita.inmueble %}{{cita.inmueble.nombre}}{% else %}{{cita.compra.inmueble.nombre}}{%endif%}" disabled>
 
         <label for="direccion_inmueble">Sector del Inmueble:</label>
-        <input type="text" name="direccion_inmueble" value="{{cita.inmueble.sector.nombre}}" disabled>
+        <input type="text" name="direccion_inmueble" value="{% if cita.inmueble %}{{cita.inmueble.sector.nombre}}{% else %}{{cita.compra.inmueble.sector.nombre}}{%endif%}" disabled>
 
         <label for="dia_cita">Día de la Cita:</label>
         <input type="text" name="dia_cita" value="{{cita.fecha_asignada.date}}" disabled>
@@ -32,8 +32,12 @@
         <label for="hora_cita">Resultados de la cita:</label>
         <textarea name="resultados" id="resultados" cols="30" rows="10" required></textarea>
 
+        {% if cita.inmueble %}
         <button type="submit" name="visto" value="bien">Enviar Resultados (Positivo)</button>
         <button type="submit" name="visto" value="mal">Enviar Resultados (Negativo)</button>
+        {% else %}
+        <button type="submit" name="visto" value="bien">Enviar Resultados</button>
+        {% endif %}    
     </form>
 </body>
 </html>

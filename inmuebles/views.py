@@ -8,7 +8,6 @@ from reportes.mp3 import reporte_publicacion_mp3
 from reportes.pdfs import generar_pdf
 import os
 import yagmail
-import queue
 from django.core.files.storage import FileSystemStorage
 from django.db.models import Q
 
@@ -444,6 +443,16 @@ def resultados_cita(request, pk):
         cita.resultados = request.POST['resultados']
         cita.save()
 
+        if(not cita.inmueble):
+            compra = cita.compra
+            inmueble = compra.inmueble
+
+            compra.estado = 'F'
+            inmueble.estado = 'V'
+
+            compra.save()
+            inmueble.save()
+
         enviar_correo([cita.inmueble.dueno, cita.persona], f"Resultados de la cita", f"Saludos. \n"
             + f"El agente ha registrado la cita de visita al inmueble <b>{cita.inmueble.nombre.upper()}</b> del día "
             + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}, recibiendo el veredicto: <b>{cita.estado_largo()}</b> .\n"
@@ -757,6 +766,10 @@ def consultar_ventas_revision(request):
         compra = Compra.objects.get(pk=request.POST['compra'])
         compra.estado = 'X'
         compra.save()
+
+        enviar_correo([compra.inmueble.dueno,compra.inmueble.comprador], f"Se ha cancelado la venta", f"Saludos. \n"
+            + f"El agente <b>{compra.inmueble.agente}</b> del inmueble <b>{compra.inmueble.nombre.upper()}</b> ha cancelado la venta.\n"
+            + f"Atentamente, \n     Inmuebles Incaibo.")
 
         return redirect('/usuarios/agente/')
 

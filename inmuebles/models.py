@@ -179,7 +179,7 @@ class Compra(models.Model):
         return num2words(round(float(self.monto_cancelado()) - float(self.inmueble.precio), 2), lang="es")
     
     def cita_formalidades(self):
-        return self.citas.first()
+        return self.citas.last()
 
 class Cita(models.Model):
     compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE, null=True, related_name="citas")
