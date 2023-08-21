@@ -62,6 +62,9 @@ def formulario_pago(request, pk):
         if(float(monto) < 1):
             errores.append("El monto debe ser mayor a un bolívar.")
 
+        if(fecha_transaccion > datetime.today()):
+            errores.append("La fecha de la transacción no puede ser mayor a hoy.")
+
         # Creación
 
         tasa = Cambio.objects.latest('fecha')

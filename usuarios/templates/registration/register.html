@@ -280,7 +280,7 @@
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                             .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(/\s+/g,"");
                             
-                            if(!isNaN(speech)) // Esto verifica que el string sea numérico
+                            if(!isNaN(speech) && speech != '') // Esto verifica que el string sea numérico
                                 $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
 
                         } else if(dictando && campo === 4){
