@@ -37,7 +37,7 @@
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio")
-                   .replace("en mueble", "inmueble");
+                   .replaceAll("en mueble", "inmueble");
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')
@@ -110,6 +110,7 @@
                             
                             case "buscar inmueble":
                                 hablar("Escriba la descripción del inmueble que desea. Diga dictado para dictarla. Diga salir para no buscar. Diga listo una vez haya finalizado.");
+                                escribiendo = true;
                                 const input = document.getElementById('busqueda');
                                 input.value = "";
                                 input.focus();
@@ -129,12 +130,16 @@
                                 if(campo === 1){
                                     hablar("Saliendo del formulario.");
                                     dictando = false;
+                                    escribiendo = false;
                                     campo = 0;
                                 }
                                 break;
 
                            case "listo":
                                 dictando = false;
+                                if(!escribiendo)
+                                    break;
+                                
                                 if(document.getElementById('busqueda').value == ''){
                                     hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
                                     break;
@@ -149,6 +154,7 @@
                             
                             case "continuar":
                                 if(campo === 2){
+                                    escribiendo = true;
                                     if(document.getElementById('busqueda').value == ''){
                                         hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
                                         break;
@@ -234,7 +240,7 @@
         var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
         var recognition = new SpeechRecognition();
         recognition.lang = "es-VE";
-        recognition.continuous = true;
+        recognition.continuous = !window.navigator.userAgentData.mobile;
         recognition.interimResults = true;
 
         recognition.onresult = inicial;
