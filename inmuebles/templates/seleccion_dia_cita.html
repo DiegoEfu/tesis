@@ -106,7 +106,7 @@
                             
                             case "agendar día":
                                 const dia = speech.split(" ")[speech.split(" ").indexOf("día") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 let encontrado = false;

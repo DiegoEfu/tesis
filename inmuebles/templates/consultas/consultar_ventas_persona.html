@@ -30,7 +30,7 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').toLowerCase().replace("dos","2").replace("tres","3").replace("cuatro","4")
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').toLowerCase().replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
@@ -103,7 +103,7 @@
                             
                             case "leer venta":
                                 const numero = speech.split(" ")[speech.split(" ").indexOf("venta") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 let pasado = false;
@@ -130,7 +130,7 @@
                             
                             case "pagos venta":
                                 const compra = speech.split(" ")[speech.split(" ").indexOf("venta") + 1].replace(/[.,]/g,"")
-                                .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");
                                 console.log(compra);
@@ -149,7 +149,7 @@
 
                             case "cancelar venta":
                                     const cancelar = speech.split(" ")[speech.split(" ").indexOf("venta") + 1].replace(/[.,]/g,"")
-                                    .replace("dos","2").replace("tres","3").replace("cuatro","4")
+                                    .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                     .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                     .replace("nueve","9").replace("uno","1").replace("una","1");
                                     let fin = false;
