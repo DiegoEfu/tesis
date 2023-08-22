@@ -188,5 +188,12 @@
         Presione el siguiente botón si está de acuerdo con la cancelación de la venta:
         <button type="submit" id="cancelar">Quiero cancelar esta venta.</button>
     </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <script>
+        $('form').one('submit', function() {
+            $(this).find('button[type="submit"]').attr('disabled','disabled');
+        }); 
+    </script>
 </body>
 </html>

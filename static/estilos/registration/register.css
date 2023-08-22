@@ -20,6 +20,9 @@
     color: black;
     display: flex;
     justify-content: center;
+
+    height: max-content !important;
+    padding-bottom: 20px !important;
 }
 
 .cuadroLogin {
