@@ -25,7 +25,7 @@ def formulario_inmueble(request):
             "Casa de Villa", "Apartamento Regular", "Apartamento PentHouse", "Terreno", "Oficina",
             "Edificio"]
         context['parroquias'] = Parroquia.objects.all()
-        context['sectores'] = Sector.objects.filter(parroquia__pk = 1)
+        context['sectores'] = Sector.objects.filter(parroquia__pk = 1).order_by('nombre')
         return render(request, "formulario_inmueble.html", context=context)
     elif(request.method == 'POST'):
         # Validación de completitud de datos
