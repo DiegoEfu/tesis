@@ -143,6 +143,7 @@ def formulario_aprobar_pago(request, pk):
             inmueble = compra.inmueble
             dias_disponibles = []
             fecha = datetime.today() + timedelta(days=1)
+            fecha = fecha.replace(hour=0,minute=0)
 
             while len(dias_disponibles) < 7:
                 if(fecha.weekday() < 5):
