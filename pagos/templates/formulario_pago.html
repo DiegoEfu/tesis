@@ -352,10 +352,8 @@
         }
 
         window.onbeforeunload = function () {
-            if(!reporte){
-                synthesis.cancel();
-                recognition.stop();
-            }
+            synthesis.cancel();
+            recognition.stop();
         }
 
         recognition.start();

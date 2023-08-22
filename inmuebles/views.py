@@ -135,6 +135,8 @@ def formulario_inmueble(request):
                       + f"El usuario {inmueble.dueno} ha registrado un inmueble llamado \"{inmueble.nombre}\" y se le ha asignado.\n"
                       + f"Vaya a su panel de revisión para ver en detalle los datos del mismo. Visite el inmueble y revise la documentación.")
 
+        request.session['mensaje'] = "Se han enviado los datos del inmueble para su revisión."
+
         return redirect("/")
 
 def get_sectores(request, id):
@@ -406,7 +408,7 @@ def compra_realizada(request, pk):
     compra = Compra.objects.get(pk=pk)
     if(request.method == 'GET'):
         enviar_correo([compra.inmueble.dueno, compra.inmueble.agente], f"¡Se ha realizado una compra!", f"Saludos. \n"
-            + f"El usuario <b>{compra.persona}</b> ha aceptado la compra del inmueble <b>{compra.inmueble.nombre}</b>. "
+            + f"El usuario <b>{compra.comprador}</b> ha aceptado la compra del inmueble <b>{compra.inmueble.nombre}</b>. "
             + f"Atentamente, \n     Inmuebles Incaibo.")
         return render(request, "compra_realizada.html", context={'compra': compra})
     elif(request.method == 'POST'):
@@ -699,6 +701,8 @@ def editar_inmueble(request, pk):
         enviar_correo(inmueble.agente, f"Se ha solicitado la edición de una publicación", f"Saludos, agente {inmueble.agente}. \n"
             + f"El dueño <b>{inmueble.dueno}</b> del inmueble <b>{inmueble.nombre.upper()}</b> ha solicitado una edición. Revisar los cambios en el panel de agente.\n"
             + f"Atentamente, \n     Inmuebles Incaibo.")
+        
+        request.session['mensaje'] = "Se han enviado los datos editados para su revisión."
 
         return redirect("/")
 

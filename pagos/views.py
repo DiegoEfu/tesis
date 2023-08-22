@@ -63,7 +63,9 @@ def formulario_pago(request, pk):
         if(float(monto) < 1):
             errores.append("El monto debe ser mayor a un bolívar.")
 
-        if(fecha_transaccion > datetime.today()):
+        fecha = datetime.strptime(fecha_transaccion, '%Y-%m-%d')
+
+        if(fecha > datetime.today()):
             errores.append("La fecha de la transacción no puede ser mayor a hoy.")
 
         # Creación
@@ -81,9 +83,11 @@ def formulario_pago(request, pk):
             compra = compra
         )
 
-        enviar_correo(pago.compra.inmueble.agente, f"Nuevo Pago", f"Saludos, agente {pago.compra.agente}. \n"
+        enviar_correo(pago.compra.inmueble.agente, f"Nuevo Pago", f"Saludos, agente {pago.compra.inmueble.agente}. \n"
             + f"El comprador <b>{pago.compra.comprador}</b> del inmueble <b>{pago.compra.inmueble.nombre.upper()}</b> ha realizado un pago. Validar el mismo.\n"
             + f"Atentamente, \n     Inmuebles Incaibo.")
+        
+        request.session['mensaje'] = "Se ha registrado el pago exitosamente."
 
         return redirect('/')
 
