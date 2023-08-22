@@ -43,6 +43,82 @@
     border-color: var(--verdeOscuro)!important;
 }
 
+@media(max-width:2000px) {
+    .fondoLogin {
+        padding-top: 60px;
+        padding-bottom: 30px;
+        height: 650px;
+    }
+
+    .cuadroForm {
+        margin-left: 310px;
+        margin-right: 310px;
+        padding: 40px 10px 20px 60px;
+    }
+
+    .loginTitle {
+        font-size: 500%;
+        text-align: center;
+    }
+
+    .etiquetaLogin {
+        font-size: 190%;
+    }
+
+    .form-control {
+        width: 85%!important;
+    }
+
+    .btn-success{
+        width: 30%!important;
+
+}
+    .etiquetaNoTienesCuentaAun {
+        font-size: 160%;
+    }
+
+
+
+}
+
+@media(max-width:1440px) {
+    .fondoLogin {
+        padding-top: 60px;
+        padding-bottom: 30px;
+        height: 650px;
+    }
+
+    .cuadroForm {
+        margin-left: 240px;
+        margin-right: 240px;
+        padding: 40px 10px 20px 60px;
+    }
+
+    .loginTitle {
+        font-size: 440%;
+        text-align: center;
+    }
+
+    .etiquetaLogin {
+        font-size: 190%;
+    }
+
+    .form-control {
+        width: 85%!important;
+    }
+
+    .btn-success{
+        width: 30%!important;
+
+}
+    .etiquetaNoTienesCuentaAun {
+        font-size: 160%;
+    }
+
+
+
+}
+
 @media(max-width:1280px) {
     .fondoLogin {
         padding-top: 60px;
@@ -51,23 +127,22 @@
     }
 
     .cuadroForm {
-        margin-left: 60px;
-        margin-right: 130px;
-        padding: 40px 40px 20px 120px;
-        text-align: center;
+        margin-left: 100px;
+        margin-right: 100px;
+        padding: 40px 10px 20px 60px;
     }
 
     .loginTitle {
-        font-size: 380%;
+        font-size: 440%;
         text-align: center;
     }
 
     .etiquetaLogin {
-        font-size: 140%;
+        font-size: 190%;
     }
 
     .form-control {
-        width: 70%!important;
+        width: 90%!important;
     }
 
     .btn-success{
@@ -75,12 +150,13 @@
 
 }
     .etiquetaNoTienesCuentaAun {
-        font-size: 120%;
+        font-size: 160%;
     }
 
 
 
 }
+
 
 @media(max-width:1024px) {
     .fondoLogin {
@@ -91,21 +167,21 @@
 
     .cuadroForm {
         margin-left: 60px;
-        margin-right: 130px;
-        padding: 40px 40px 20px 120px;
+        margin-right: 60px;
+        padding: 40px 10px 20px 60px;
     }
 
     .loginTitle {
-        font-size: 330%;
-        text-align: center;
+        font-size: 370%;
+        text-align: left;
     }
 
     .etiquetaLogin {
-        font-size: 140%;
+        font-size: 170%;
     }
 
     .form-control {
-        width: 70%!important;
+        width: 90%!important;
     }
 
     .btn-success{
@@ -113,7 +189,7 @@
 
 }
     .etiquetaNoTienesCuentaAun {
-        font-size: 120%;
+        font-size: 140%;
     }
 
 
