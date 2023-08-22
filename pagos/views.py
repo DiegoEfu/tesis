@@ -51,7 +51,7 @@ def formulario_pago(request, pk):
 
         # Validación de correcta estructura de datos
 
-        if(Pago.objects.exclude(estado='R').filter(cuenta = receptora, referencia = referencia, fecha_transaccion=fecha_transaccion).exists()):
+        if(Pago.objects.filter(cuenta = receptora, referencia = referencia, fecha_transaccion=fecha_transaccion).exists()):
             errores.append("Ya hay un pago aprobado con estos datos.")
         
         if(not Cuenta.objects.filter(pk=receptora).exists()):
@@ -156,7 +156,6 @@ def formulario_aprobar_pago(request, pk):
 
             fecha = dias_disponibles[randint(0,4)]
             horas_disponibles = []
-            fecha = datetime.strptime(request.session['fecha_cita_escogida'], '%d-%m-%Y')
 
             if(not inmueble.agente.citas_agente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 8).exists()):
                 if(not compra.comprador.citas_cliente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 8).exists()):
