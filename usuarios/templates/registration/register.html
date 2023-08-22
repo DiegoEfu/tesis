@@ -280,7 +280,7 @@
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                             .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(/\s+/g,"");
                             
-                            if(!isNaN(speech)) // Esto verifica que el string sea numérico
+                            if(!isNaN(speech) && speech != '') // Esto verifica que el string sea numérico
                                 $('#'+campos[campo][1]).val($('#'+campos[campo][1]).val() + speech)
 
                         } else if(dictando && campo === 4){
@@ -369,7 +369,7 @@
         var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
         var recognition = new SpeechRecognition();
         recognition.lang = "es-VE";
-        recognition.continuous = true;
+        recognition.continuous = !window.navigator.userAgentData.mobile;
         recognition.interimResults = true;
 
         recognition.onresult = inicial;
@@ -436,7 +436,7 @@
         }
 
         if(localStorage.getItem('comandos') == '1')
-            if(errores|length === 0) {
+            if({{errores|length}} === 0) {
                 bienvenida(); }
             else {
                 bienvenida(1); }
@@ -479,7 +479,7 @@
             <option {% if previo.tipo == 'V' %} selected {% endif %} value="V">V</option>
             <option {% if previo.tipo == 'E' %} selected {% endif %} value="E">E</option>
         </select>
-        <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" max="999999999999" name="identificacion" id="identificacion" class="form-control"><br></div>
+        <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" max="999999999" name="identificacion" id="identificacion" class="form-control"><br></div>
 
         <label class="tituloInput">Nombre(s):</label><br>
         <input {% if previo %} value="{{previo.nombre}}" {% endif %} required type="text" name="nombre" id="nombre" class="form-control"><br>
@@ -497,7 +497,6 @@
         <input {% if previo.ciego %} checked {% endif %} type="checkbox" name="ciego" id="ciego"><br><br>
 
         <h4 class="tituloDatos">Datos de Usuario</h4>
-        <!-- Aquí deben haber 2 formularios: uno con solo contraseña y otro con "palabra de seguridad" y "número de seguridad" -->
         <label class="tituloInput">Correo Electrónico:</label><br>
         <input {% if previo %} value="{{previo.email}}" {% endif %} required type="email" name="email" id="email" class="form-control"><br>
 
@@ -515,6 +514,10 @@
                     e.target.value = e.target.value.trim().replace(/\s+/g,' ');
                 });
             });
+
+            $('form').one('submit', function() {
+                $(this).find('input[type="submit"]').attr('disabled','disabled');
+            }); 
         </script>
     </form>  
 </div>

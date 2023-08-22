@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'estilos/offline.css' %}">
-    <link href="{% static 'estilos/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'estilos/bootstrap.min.css' %}" rel="stylesheet">
 
     <title>Incaibo | Sin conexión</title>
 
@@ -33,8 +33,7 @@
             }
         }
         
-        hablar("Estimado usuario, justo ahora no tiene conexión a internet. Conéctese a internet y vuelva a intentar ingresar.");
-        hablar("Atentamente, Inmuebles Incaibo.");
+        hablar("Estimado usuario, justo ahora no tiene conexión a internet. Conéctese a internet y vuelva a intentar ingresar. Puede presionar F5 si considera que esto es un error. Atentamente, Inmuebles Incaibo.");
     </script>
 </head>
 <nav class="navegadorPrincipal">

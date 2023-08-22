@@ -272,7 +272,7 @@
         var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
         var recognition = new SpeechRecognition();
         recognition.lang = "es-VE";
-        recognition.continuous = true;
+        recognition.continuous = !window.navigator.userAgentData.mobile;
         recognition.interimResults = true;
 
         recognition.onresult = inicial;
@@ -374,5 +374,11 @@
         <input required type="tel" name="numero_telefono" id="numero_telefono" value="{{request.user.persona.numero_telefono}}"><br>
         <button type="submit">Enviar cambios</button>
     </form>
+
+    <script>
+        $('form').one('submit', function() {
+            $(this).find('input[type="submit"]').attr('disabled','disabled');
+        }); 
+    </script>
 </body>
 </html>

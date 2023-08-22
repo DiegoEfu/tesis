@@ -1,17 +1,22 @@
 asgiref==3.6.0
+cachetools==5.3.1
 certifi==2023.7.22
 charset-normalizer==3.2.0
 click==8.1.6
 colorama==0.4.6
 comtypes==1.2.0
+cssselect==1.2.0
+cssutils==2.7.1
 Django==4.2
 django-pwa==1.1.0
 docopt==0.6.2
 gTTS==2.3.2
 idna==3.4
+lxml==4.9.3
 mysqlclient==2.1.1
 num2words==0.5.12
 Pillow==10.0.0
+premailer==3.10.0
 pypiwin32==223
 pyttsx3==2.90
 pywin32==306
@@ -20,3 +25,4 @@ requests==2.31.0
 sqlparse==0.4.3
 tzdata==2023.3
 urllib3==2.0.4
+yagmail==0.15.293

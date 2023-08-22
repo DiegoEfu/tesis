@@ -21,6 +21,9 @@
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
+
+    height: max-content !important;
+    padding-bottom: 20px !important;
 }
 
 .tituloForm {
@@ -558,12 +561,4 @@ padding-left: 30px; }
         margin-top: 1px;
         width: 40%;
     }
-
-
-
-
-
-
-
-
 }

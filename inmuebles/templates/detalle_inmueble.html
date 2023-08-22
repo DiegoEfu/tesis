@@ -37,13 +37,13 @@
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio")
-                   .replace("en mueble", "inmueble");
+                   .replaceAll("en mueble", "inmueble");
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')
                    ["ayuda","iniciar sesión","resultado","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
                    "descargar mp3", "descargar mp 3", "descargar pdf", "iniciar sesión", "registrarse", 
-                   /* {% if puede_cita and request.user.persona.pk != inmueble.dueno.pk %} */ "agendar cita", /* {% endif %} */ /* {% if puede_comprar and request.user.persona.pk != inmueble.dueno.pk %} */ "yo quiero comprar este inmueble", /* {% endif %} */ 
+                   /* {% if puede_cita and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %} */ "agendar cita", /* {% endif %} */ /* {% if puede_comprar and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %} */ "yo quiero comprar este inmueble", /* {% endif %} */ 
                    "buscar inmueble", "leer detalles", "cerrar sesión", "leer pantalla", "dictado", "salir", "listo","continuar", "editar",
                     "regresar inicio","desactivar comandos de voz", "ver perfil"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
@@ -110,6 +110,7 @@
                             
                             case "buscar inmueble":
                                 hablar("Escriba la descripción del inmueble que desea. Diga dictado para dictarla. Diga salir para no buscar. Diga listo una vez haya finalizado.");
+                                escribiendo = true;
                                 const input = document.getElementById('busqueda');
                                 input.value = "";
                                 input.focus();
@@ -129,12 +130,16 @@
                                 if(campo === 1){
                                     hablar("Saliendo del formulario.");
                                     dictando = false;
+                                    escribiendo = false;
                                     campo = 0;
                                 }
                                 break;
 
                            case "listo":
                                 dictando = false;
+                                if(!escribiendo)
+                                    break;
+                                
                                 if(document.getElementById('busqueda').value == ''){
                                     hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
                                     break;
@@ -149,6 +154,7 @@
                             
                             case "continuar":
                                 if(campo === 2){
+                                    escribiendo = true;
                                     if(document.getElementById('busqueda').value == ''){
                                         hablar("El campo de búsqueda no puede estar vacío. Vuelva a escribir o dictarlo.");
                                         break;
@@ -204,13 +210,13 @@
                                 hablar("Descargando reporte MP3.");
                                 break;
                         
-                            // {% if puede_cita and request.user.persona.pk != inmueble.dueno.pk %}
+                            // {% if puede_cita and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %}
                             case "agendar cita":
                                 document.getElementById('agendar').click();
                                 break;
                             // {% endif %}
 
-                            // {% if puede_comprar and request.user.persona.pk != inmueble.dueno.pk %}
+                            // {% if puede_comprar and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %}
                             case "yo quiero comprar este inmueble":
                                 document.getElementById("comprar").click();
                                 break;
@@ -234,7 +240,7 @@
         var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
         var recognition = new SpeechRecognition();
         recognition.lang = "es-VE";
-        recognition.continuous = true;
+        recognition.continuous = !window.navigator.userAgentData.mobile;
         recognition.interimResults = true;
 
         recognition.onresult = inicial;
@@ -248,8 +254,8 @@
         function bienvenida(){
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla del detalle del inmueble "{{inmueble.nombre}}", de {{inmueble.precio_texto}} dólares.' 
-                    + 'Diga "leer detalles" para escuchar los detalles del inmueble. {% if puede_cita and request.user.persona.pk != inmueble.dueno.pk %} Puede agendar una cita diciendo "agendar cita". {% endif %}.'
-                    + '{% if puede_comprar and request.user.persona.pk != inmueble.dueno.pk %} Puede tramitar la compra del inmueble diciendo "yo quiero comprar este inmueble". {% elif request.user.persona.pk != inmueble.dueno.pk %} Para poder tramitar una compra, deberá agendar una cita de visita y recibir un visto bueno primero. {% else %} Este inmueble es de su propiedad. Puede consultar su estado en la consulta de inmuebles. {% endif %}');
+                    + 'Diga "leer detalles" para escuchar los detalles del inmueble. {% if puede_cita and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %} Puede agendar una cita diciendo "agendar cita". {% endif %}.'
+                    + '{% if puede_comprar and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %} Puede tramitar la compra del inmueble diciendo "yo quiero comprar este inmueble". {% elif request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %} Para poder tramitar una compra, deberá agendar una cita de visita y recibir un visto bueno primero. {% else %} Este inmueble es de su propiedad. Puede consultar su estado en la consulta de inmuebles. {% endif %}');
                 
                utterance.voice = voice;
                 utterance.pitch = 1;
@@ -333,7 +339,7 @@
         <li><b>Amueblado: </b> {{inmueble.amueblado|yesno:"Sí,No"}}</li>
         <li><b>Puestos de Estacionamiento: </b> {{inmueble.estacionamientos}}</li>
         <li><b>Servicios: </b> {{inmueble.servicios}}</li>
-        {% if request.user.is_authenticated and request.user.persona.pk != inmueble.dueno.pk %}
+        {% if request.user.is_authenticated and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %}
             {% if puede_cita %}
             <li><a id="agendar" href="{% url 'seleccionar_dia_cita' pk=inmueble.pk %}">Agendar Cita para Visitar el Inmueble</a></li>
             {% else %}
