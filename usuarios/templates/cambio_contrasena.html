@@ -312,7 +312,11 @@
                 return true;
             else
                 alert("Las contraseñas no coinciden.");
-        })
+        });
+
+        $('form').one('submit', function() {
+            $(this).find('input[type="submit"]').attr('disabled','disabled');
+        }); 
     </script>
 </body>
 </html>

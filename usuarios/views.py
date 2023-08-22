@@ -14,8 +14,14 @@ def bienvenida(request):
         request.session['busqueda'] = busqueda
 
         return redirect('/inmuebles/resultados/')
+    
+    mensaje = ""
+    
+    if(request.session.get('mensaje')):
+        mensaje = request.session.get('mensaje')
+        del(request.session['mensaje'])
 
-    return render(request, 'registration/bienvenida.html', {})
+    return render(request, 'registration/bienvenida.html', {'mensaje': mensaje})
 
 def comprobacion_cedula(request):
     print(request.GET)
@@ -78,6 +84,9 @@ def register_user(request):
             errores.append("El apellido ingresado no es válido.")
         if(datetime.datetime.today() < datetime.datetime.strptime(fecha_nacimiento, '%Y-%m-%d')):
             errores.append("La fecha de nacimiento debe de ser menor o igual al día actual.")
+        elif(calculateAge(datetime.datetime.strptime(fecha_nacimiento, '%Y-%m-%d').date()) < 21):
+            errores.append("Su edad debe de ser mayor o igual a 21.")
+        
         regex = r"[0-9]+"
         if(re.fullmatch(telefono,regex)):
             errores.append("El número de teléfono ingresado no es enteramente numérico.")
@@ -94,10 +103,12 @@ def register_user(request):
         # Crear
         persona = Persona.objects.create(tipo=persona, identificacion=identificacion.strip(),
             nombre=nombre.strip(), apellido=apellido.strip(), fecha_nacimiento=fecha_nacimiento,
-            numero_telefono= telefono, telefono = telefono, puede_ver = not ciego, cargo = "C")
+            numero_telefono= telefono, puede_ver = not ciego, cargo = "C")
         Usuario.objects.create(persona=persona, email=email.strip(), password = make_password(password))
 
-        return redirect('login/')
+        request.session['mensaje'] = "¡Su usuario se ha creado exitosamente! Ahora inicie sesión"
+
+        return redirect('/')
     else:
         return render(request, 'registration/register.html', {})
     
@@ -132,7 +143,9 @@ def edicion_perfil(request):
             persona.numero_telefono = request.POST['numero_telefono']
             request.user.persona.save()
 
-            return redirect('/usuarios/perfil/')
+            request.session['mensaje'] = "Se han cambiado sus datos exitosamente."
+
+            return redirect('/')
 
 def cambio_contrasena(request):
     if(request.method == 'GET'):
@@ -144,8 +157,18 @@ def cambio_contrasena(request):
         request.user.password = make_password(request.POST['contrasena'])
         request.user.save()
 
+        request.session['mensaje'] = "Se ha cambiado su contraseña exitosamente. Inicie sesión de nuevo."
+
         return redirect('/')
 
 def cerrar_sesion(request):
     logout(request)
+    request.session['mensaje'] = "Sesión cerrada."
     return redirect('/')
+
+def calculateAge(dob):
+    today = datetime.date.today()
+    age = today.year - dob.year -((today.month, today.day) <
+         (dob.month, dob.day))
+  
+    return age

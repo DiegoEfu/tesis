@@ -526,6 +526,10 @@
                 e.target.value = e.target.value.trim().replace(/\s+/g,' ');
             });
         });
+
+        $('form').one('submit', function() {
+            $(this).find('input[type="submit"]').attr('disabled','disabled');
+        }); 
     </script>
 </body>
 </html>{% include 'footer.html' %}

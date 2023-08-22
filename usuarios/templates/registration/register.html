@@ -479,7 +479,7 @@
             <option {% if previo.tipo == 'V' %} selected {% endif %} value="V">V</option>
             <option {% if previo.tipo == 'E' %} selected {% endif %} value="E">E</option>
         </select>
-        <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" max="999999999999" name="identificacion" id="identificacion" class="form-control"><br></div>
+        <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" max="999999999" name="identificacion" id="identificacion" class="form-control"><br></div>
 
         <label class="tituloInput">Nombre(s):</label><br>
         <input {% if previo %} value="{{previo.nombre}}" {% endif %} required type="text" name="nombre" id="nombre" class="form-control"><br>
@@ -514,6 +514,10 @@
                     e.target.value = e.target.value.trim().replace(/\s+/g,' ');
                 });
             });
+
+            $('form').one('submit', function() {
+                $(this).find('input[type="submit"]').attr('disabled','disabled');
+            }); 
         </script>
     </form>  
 </div>
