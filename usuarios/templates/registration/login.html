@@ -270,14 +270,9 @@
     </script>
 </head>
 <body> 
-    <header>
-        <nav class="navegadorPrincipal">
-            <img src="{% static 'img/logoCasa.png' %}" alt="Logo " id="logoJausi"  class="col-xxl-12"> 
-        </nav>
-        <a href="/" class="linkRegreso col-xs-10" >Volver al inicio</a>
-    </header>
-     <div class="fondoLogin container-fluid">
-        <div class="cuadroForm container-fluid">
+    {% include 'nav.html' %}
+     <div class="fondoLogin">
+        <div class="cuadroForm">
             <h3 class="loginTitle">Inicio de Sesión</h3> <br>
             {% for key, value in form.errors.items %}
             <p style="color: brown;">{{value}}</p>
@@ -292,7 +287,7 @@
                 <input type="submit" value="Iniciar Sesión" name="botonEnviar" class="btn-success"> <br> <br> </div>
             </form>
 
-            <label for="">¿No tienes cuenta aún? <a href="{% url 'registro' %}">Crear Nuevo Usuario</a></label> 
+            <label for="" class="etiquetaNoTienesCuentaAun">¿No tienes cuenta aún? <a href="{% url 'registro' %}">Crear Nuevo Usuario</a></label> 
         </div>
     </div>
     <footer>

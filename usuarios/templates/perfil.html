@@ -213,7 +213,10 @@
 </head>
 <body>
     {% include 'nav.html' %}
+    <div class="containerOverall">
     <div class="contenedorPerfil">
+        <div class="containerImageProfile">
+        <i class="bi bi-person-square"></i></div>
         <div class="contenedorInfoPerfil">
             <h3 class="tituloForm">Perfil del Usuario</h3><br>
     <ul>
@@ -228,14 +231,16 @@
     <a href="{% url 'edicion_perfil' %}">Cambiar Información</a> <br>
     <a href="{% url 'cambio_contrasena' %}">Cambiar Contraseña</a> <br>
 </div><br>
-    <small>
+    <p class="parrafoFinal">
         Solo podrás cambiar por tu cuenta el número telefónico, tu correo electrónico o tu contraseña.
         En caso de necesitar editar nombre, cédula de identidad o fecha de nacimiento 
         debe enviar copia de su documento de identidad al correo soporte.incaibo@gmail.com <br>
-    </small>
+    <p>
 </div>
 </div>
-    {% include 'footer.html' %}
+</div>
+    
 
 </body>
+{% include 'footer.html' %}
 </html>
