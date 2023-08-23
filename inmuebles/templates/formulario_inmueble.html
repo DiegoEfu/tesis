@@ -50,10 +50,14 @@
             "consultar citas": "Permite consultar las citas que ha solicitado",
             "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
             "ver perfil": "Permite ver sus datos personales",  
-            "desactivar comandos de voz": "Desactiva los comandos de voz"
+            "desactivar comandos de voz": "Desactiva los comandos de voz",
+            "regresar inicio": "Regresa a la pantalla de inicio"
         };
 
         function formulario_p1(event){
+            if(speaking){
+                event.results = [];
+            }
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal && !speaking){
                    speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replaceAll("m2","");
@@ -103,18 +107,16 @@
                                     break;
                                 
                                 case "opciones":
-                                    if(campo === 1){
-                                        // {% for parroquia in parroquias %}
-                                        hablar("Diga {{forloop.counter}} para " +'{{parroquia.nombre}}');
-                                        // {% endfor %} 
-                                    } else if(campo === 2){
+                                    if(campo === 1)
+                                        hablar("{% for parroquia in parroquias %}Diga {{forloop.counter}} para '{{parroquia.nombre.lower}}'. {% endfor %}");
+                                    else if(campo === 2){
+                                        let text = "";
                                         for(let i = 1; i <= sectores_actuales.length; i++)
-                                            hablar(`Diga ${i} para ${sectores_actuales[i-1].nombre}`);
-                                    } else if(campo === 3){
-                                        // {% for construccion in construcciones %}
-                                        hablar("Diga {{forloop.counter}} para " +'{{construccion}}');
-                                        // {% endfor %}
-                                    }
+                                            text += `Diga ${i} para ${sectores_actuales[i-1].nombre.toLowerCase()}`;
+
+                                        hablar(text);
+                                    } else if(campo === 3)
+                                        hablar("{% for construccion in construcciones %}Diga {{forloop.counter}} para '{{construccion}}'. {% endfor %}");
                                     break;
 
                                 case "editar":
@@ -212,7 +214,8 @@
                     console.log(dictando);
                     console.log(campo)
 
-                    if(dictando && (campo === 12 || campo === 13)){
+                    if(!speaking && speech.toLowerCase().indexOf('deletree o dicte') === -1){
+                        if(dictando && (campo === 12 || campo === 13)){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(/\s+/g,"");
@@ -220,22 +223,23 @@
                          if(!isNaN(speech) && speech != '') // Esto verifica que el string sea numérico
                             $('#'+campos[campo][1]).val(speech)
 
-                    } else if(dictando && (campo === 0 || campo === 4 || campo === 9)){
-                        $(`#${campos[campo][1]}`).val($(`#${campos[campo][1]}`).val() + " " + speech.toLowerCase().replace(".","").replace("dictado", "").replace("m2", "metros cuadrados").replace("/4", " cuartos"))
-                    }
-                    else if(dictando && (campo === 5 || campo === 6 || campo === 7 || campo === 8)){
-                        speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
-                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(/\s+/g,"");
-                        if(/[0-9]+/.test(speech.replaceAll(" ", "")))
-                            $(`#${campos[campo][1]}`).val(speech.replaceAll(" ", "").replaceAll(/\D+/g, ""));
-                    }
-                    else if(dictando && campo === 10){
-                        if(speech.toLowerCase().indexOf("dictado") === -1)
-                            $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
-                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
-                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
+                        } else if(dictando && (campo === 0 || campo === 4 || campo === 9)){
+                            $(`#${campos[campo][1]}`).val($(`#${campos[campo][1]}`).val() + " " + speech.toLowerCase().replace(".","").replace("dictado", "").replace("m2", "metros cuadrados").replace("/4", " cuartos"))
+                        }
+                        else if(dictando && (campo === 5 || campo === 6 || campo === 7 || campo === 8)){
+                            speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
+                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                            .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(/\s+/g,"");
+                            if(/[0-9]+/.test(speech.replaceAll(" ", "")))
+                                $(`#${campos[campo][1]}`).val(speech.replaceAll(" ", "").replaceAll(/\D+/g, ""));
+                        }
+                        else if(dictando && campo === 10){
+                            if(speech.toLowerCase().indexOf("dictado") === -1)
+                                $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
+                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                            .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
+                            .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
+                        }
                     }
 
                     if(campo === 1 && !speaking){
@@ -401,11 +405,12 @@
                 recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
+                    recognition.abort()
                 }
                 utterance.onend = async (evt) => {
                     if(!speaking)
                         speaking = true
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                     speaking = false, reporte = false;
                     recognition.start();
                     console.log("LISTO");
@@ -423,14 +428,16 @@
                 utterance.rate = 1;
                 utterance.volume = 1;
                 utterance.onstart = () => {
-                    speaking = true
+                    speaking = true;
+                    recognition.abort();
                 }
                 utterance.onend = async (evt) => {
                     if(!speaking)
                         speaking = true
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                     speaking = false, reporte = false;
                     console.log("LISTO");
+                    recognition.start();
                 };
                 synthesis.speak(utterance);
             }
@@ -450,7 +457,7 @@
                 bienvenida(1);
 
         recognition.start();
-        recognition.addEventListener('end', recognition.start);
+        recognition.addEventListener('end', () => !speaking ? recognition.start() : console.log("a"));
 
         $(document).on('change', '#parroquia', () => {
             $('#sector').empty();

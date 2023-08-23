@@ -1,11 +1,16 @@
+{% load pwa %}
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edición del Perfil</title>
-
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'estilos/perfil/perfilEditar.css' %}">
     <script>
         const synthesis = window.speechSynthesis;
         const campos = [
@@ -167,15 +172,18 @@
                     });
 
                     console.log(dictando);
-                    console.log(campo)
+                    console.log(campo);
 
-                    if(dictando && (campo === 0)){
-                        if(speech.toLowerCase().indexOf("dictado") === -1)
-                            $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
-                    } else if(dictando && campo === 1){
-                        if(/[0-9]+/g.test(speech.replaceAll(" ", "")))
-                                $('#numero_telefono').val($('#numero_telefono').val() + speech.replaceAll(" ", ""));
+                    if(!speaking  && speech.toLowerCase().indexOf('deletree o dicte') === -1){
+                        if(dictando && (campo === 0)){
+                            if(speech.toLowerCase().indexOf("dictado") === -1)
+                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                        } else if(dictando && campo === 1){
+                            if(/[0-9]+/g.test(speech.replaceAll(" ", "")))
+                                    $('#numero_telefono').val($('#numero_telefono').val() + speech.replaceAll(" ", ""));
+                        }                        
                     }
+                    
                 }
             }
         }
@@ -296,15 +304,16 @@
                 utterance.volume = 1;
                 recognition.onresult = inicial;
                 utterance.onstart = () => {
-                    speaking = true
+                    speaking = true;
+                    recognition.abort();
                 }
                 utterance.onend = async (evt) => {
                     if(!speaking)
                         speaking = true
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
+                    recognition.start();
                 };
                 synthesis.speak(utterance);
             }
@@ -319,14 +328,16 @@
                 utterance.rate = 1;
                 utterance.volume = 1;
                 utterance.onstart = () => {
-                    speaking = true
+                    speaking = true;
+                    recognition.abort();
                 }
                 utterance.onend = async (evt) => {
                     if(!speaking)
                         speaking = true
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                     speaking = false, reporte = false;
                     console.log("LISTO");
+                    recognition.start();
                 };
                 synthesis.speak(utterance);
             }
@@ -346,7 +357,7 @@
                 bienvenida(1);
 
         recognition.start();
-        recognition.addEventListener('end', recognition.start);
+        recognition.addEventListener('end', () => !speaking ? recognition.start() : console.log("a"));
 
         window.onbeforeunload = function () {
             synthesis.cancel();
@@ -359,26 +370,26 @@
     </script>
 </head>
 <body>
+    {% include 'nav.html' %}
+    <div class="containerOverall">
+        <div class="contenedorInfoPerfil">
     <ul>
         {% for error in errores %}
         <li>{{error}}</li>
         {% endfor %}
     </ul>
-    
+    <h3 class="tituloForm">Editar Usuario</h3><br>
     <form method="post">
         {% csrf_token %}
-        <label for="email">Correo Electrónico:</label>
-        <input required type="email" name="email" id="email" value="{{request.user.email}}"> <br>
+        <label for="email" class="form-label">Correo Electrónico:</label><br>
+        <input required type="email" name="email" id="email" value="{{request.user.email}}" class="form-control"> <br><br>
 
-        <label for="numero_telefono">Numero de Teléfono:</label>
-        <input required type="tel" name="numero_telefono" id="numero_telefono" value="{{request.user.persona.numero_telefono}}"><br>
-        <button type="submit">Enviar cambios</button>
+        <label for="numero_telefono" class="form-label">Numero de Teléfono:</label><br>
+        <input required type="tel" name="numero_telefono" id="numero_telefono" value="{{request.user.persona.numero_telefono}}" class="form-control"><br><br>
+        <button type="submit" class="btn btn-success">Enviar cambios</button>
     </form>
-
-    <script>
-        $('form').one('submit', function() {
-            $(this).find('input[type="submit"]').attr('disabled','disabled');
-        }); 
-    </script>
+</div>
+</div>
 </body>
+{% include 'footer.html' %}
 </html>

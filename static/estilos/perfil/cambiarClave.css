@@ -1,0 +1,303 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+
+}
+
+.containerOverall {
+    background-image: url("../../img/Perfil/cambiarClave.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    height: auto;
+}
+
+.contenedorInfoPerfil {
+    background-color: white;
+    height: auto;
+    border-radius: 5px;
+}
+
+.tituloForm {
+    color: var(--Rojorubi);
+    font-weight: 700;
+}
+
+.btn-success {
+    background-color: var(--verdeMusgo)!important;
+    color: white!important;
+    border-color: var(--verdeMusgo)!important;
+}
+
+.btn-success:hover {
+    background-color: #3f7200!important;
+    color: black!important;
+}
+
+@media(max-width:2000px) {
+    .containerOverall {
+        padding: 20px 420px 20px 420px;
+    }
+
+    .contenedorInfoPerfil {
+        padding: 30px 40px 30px 40px
+    }
+
+    .tituloForm {
+        font-size: 300%;
+        text-align: center;
+    }
+
+    .form-label {
+        font-size: 155%;
+    }
+
+    .form-control {
+        width: 90%!important;
+        font-size: 130%!important;
+    }
+
+    .btn-success {
+        width: 40%!important;
+        font-size: 80%!important;
+    }
+}
+
+@media(max-width:1440px) {
+    .containerOverall {
+        padding: 20px 380px 20px 380px;
+    }
+
+    .contenedorInfoPerfil {
+        padding: 30px 40px 30px 40px
+    }
+
+    .tituloForm {
+        font-size: 280%;
+        text-align: center;
+    }
+
+    .form-label {
+        font-size: 155%;
+    }
+
+    .form-control {
+        width: 90%!important;
+        font-size: 110%!important;
+    }
+
+    .btn-success {
+        width: 30%!important;
+        font-size: 70%!important;
+    }
+}
+
+@media(max-width:1280px) {
+    .containerOverall {
+        padding: 20px 210px 20px 210px;
+    }
+
+    .contenedorInfoPerfil {
+        padding: 30px 40px 30px 40px
+    }
+
+    .tituloForm {
+        font-size: 240%;
+        text-align: center;
+    }
+
+    .form-label {
+        font-size: 155%;
+    }
+
+    .form-control {
+        width: 90%!important;
+        font-size: 120%!important;
+    }
+
+    .btn-success {
+        width: 40%!important;
+        font-size: 70%!important;
+    }
+}
+
+@media(max-width:1024px) {
+    .containerOverall {
+        padding: 20px 210px 20px 210px;
+    }
+
+    .contenedorInfoPerfil {
+        padding: 30px 40px 30px 40px
+    }
+
+    .tituloForm {
+        font-size: 240%;
+        text-align: center;
+    }
+
+    .form-label {
+        font-size: 135%;
+    }
+
+    .form-control {
+        width: 90%!important;
+        font-size: 110%!important;
+    }
+
+    .btn-success {
+        width: 40%!important;
+        font-size: 70%!important;
+    }
+}
+
+@media(max-width:800px) {
+    .containerOverall {
+        padding: 20px 130px 20px 130px;
+    }
+
+    .contenedorInfoPerfil {
+        padding: 30px 40px 30px 40px
+    }
+
+    .tituloForm {
+        font-size: 260%;
+        text-align: center;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .form-control {
+        width: 90%!important;
+        font-size: 110%!important;
+    }
+
+    .btn-success {
+        width: 30%!important;
+        font-size: 70%!important;
+    }
+}
+
+
+@media(max-width:768px) {
+    .containerOverall {
+        padding: 20px 130px 20px 130px;
+    }
+
+    .contenedorInfoPerfil {
+        padding: 30px 40px 30px 40px
+    }
+
+    .tituloForm {
+        font-size: 210%;
+        text-align: center;
+    }
+
+    .form-label {
+        font-size: 140%;
+    }
+
+    .form-control {
+        width: 90%!important;
+        font-size: 110%!important;
+    }
+
+    .btn-success {
+        width: 50%!important;
+        font-size: 70%!important;
+    }
+}
+
+@media(max-width:600px) {
+    .containerOverall {
+        padding: 20px 70px 20px 70px;
+    }
+
+    .contenedorInfoPerfil {
+        padding: 30px 60px 30px 70px
+    }
+
+    .tituloForm {
+        font-size: 180%;
+        text-align: left;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .form-control {
+        width: 90%!important;
+        font-size: 90%!important;
+    }
+
+    .btn-success {
+        width: 50%!important;
+        font-size: 60%!important;
+    }
+}
+
+@media(max-width:480px) {
+    .containerOverall {
+        padding: 20px 10px 20px 10px;
+    }
+
+    .contenedorInfoPerfil {
+        padding: 30px 20px 30px 40px
+    }
+
+    .tituloForm {
+        font-size: 200%;
+        text-align: left;
+    }
+
+    .form-label {
+        font-size: 120%;
+    }
+
+    .form-control {
+        width: 90%!important;
+        font-size: 120%!important;
+    }
+
+    .btn-success {
+        width: 50%!important;
+        font-size: 60%!important;
+    }
+}
+
+@media(max-width:320px) {
+    .containerOverall {
+        padding: 10px 10px 20px 10px;
+    }
+
+    .contenedorInfoPerfil {
+        padding: 30px 20px 30px 20px
+    }
+
+    .tituloForm {
+        font-size: 170%;
+        text-align: center;
+    }
+
+    .form-label {
+        font-size: 100%;
+    }
+
+    .form-control {
+        width: 100%!important;
+    }
+
+    .btn-success {
+        width: 50%!important;
+        font-size: 70%!important;
+    }
+}
