@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenida</title>
     <link rel="stylesheet" href="{% static 'estilos/inicio/home.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+
     <script>
         const synthesis = window.speechSynthesis;
         let speaking = false, reporte = false, escribiendo = false, dictando = false, campo = 0;
@@ -212,7 +214,7 @@
 
         function bienvenida(){
             if ('speechSynthesis' in window) {
-                utterance = new SpeechSynthesisUtterance('{% if request.user.is_authenticated %}Bienvenido {{request.user.persona}}. {% endif %}' + 'Justo ahora está en la pantalla de bienvenida.' 
+                utterance = new SpeechSynthesisUtterance('{{mensaje}}{% if request.user.is_authenticated %}Bienvenido {{request.user.persona}}. {% endif %}' + 'Justo ahora está en la pantalla de bienvenida.' 
                     + ' Si quiere saber los comandos disponibles diga "ayuda".');
                 
                utterance.voice = voice;
@@ -482,6 +484,7 @@
 
    {% include 'footer.html' %}
 
+    <script src="{% static '/notify.min.js' %}"></script>
     <script>
         let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
         console.log(elements);
@@ -495,6 +498,15 @@
             if(document.getElementById('form_busqueda').checkValidity())
                 document.getElementById('form_busqueda').submit();
         });
+
+        $(function(){
+            $.notify("{{mensaje}}", {
+                clickToHide: true,
+                autoHide: true,
+                className: 'success'
+            });
+        });
+        
     </script>
 </body>
 </html>

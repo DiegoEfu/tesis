@@ -531,9 +531,9 @@
         <h4 class="tituloInput">Características Extra</h4>
 
         <div class="checkBoxInput">
-        <label for="amueblado" class="form-label">Está amueblado:</label>
-        <input type="checkbox" name="amueblado" id="amueblado" class="form-check"><br>
-    </div>
+            <label for="amueblado" class="form-label">Está amueblado:</label>
+            <input type="checkbox" name="amueblado" id="amueblado" class="form-check"><br>
+        </div>
         <label for="estacionamiento" class="form-label">Puestos de Estacionamiento:</label><br>
         <input required type="number" min="0" value="0" required name="estacionamiento" id="estacionamiento" class="form-control"><br>
 
@@ -543,30 +543,38 @@
         <hr>
         <h4 class="tituloInput">Servicios</h4>
         <div class="checkboxGroup">
-        <div class="checkBoxInput">
-        <label for="agua" class="form-label">Servicio de agua:</label>
-        <input type="checkbox" name="agua" id="agua"class="form-check"><br>
-    </div>
+            <div class="checkBoxInput">
+                <label for="agua" class="form-label">Servicio de agua:</label>
+                <input type="checkbox" name="agua" id="agua"class="form-check"><br>
+            </div>
 
-    <div class="checkBoxInput">
-        <label for="electricidad" class="form-label">Servicio de electricidad:</label>
-        <input type="checkbox" name="electricidad" id="electricidad"class="form-check"><br>
-    </div>
-        <div class="checkBoxInput">
-        <label for="gas" class="form-label">Servicio de gas:</label>
-        <input type="checkbox" name="gas" id="gas"class="form-check"><br>
-    </div>
-    <div class="checkBoxInput">
-        <label for="aseo" class="form-label">Servicio de aseo:</label>
-        <input type="checkbox" name="aseo" id="aseo" class="form-check"><br></div>
-        <div class="checkBoxInput">
-        <label for="internet" class="form-label">Servicio de Internet:</label>
-        <input type="checkbox" name="internet" id="internet" class="form-check"><br></div>
-    </div><br>
+            <div class="checkBoxInput">
+                <label for="electricidad" class="form-label">Servicio de electricidad:</label>
+                <input type="checkbox" name="electricidad" id="electricidad"class="form-check"><br>
+            </div>
+            <div class="checkBoxInput">
+                <label for="gas" class="form-label">Servicio de gas:</label>
+                <input type="checkbox" name="gas" id="gas"class="form-check"><br>
+            </div>
+            <div class="checkBoxInput">
+                <label for="aseo" class="form-label">Servicio de aseo:</label>
+                <input type="checkbox" name="aseo" id="aseo" class="form-check"><br>
+            </div>
+            <div class="checkBoxInput">
+                <label for="internet" class="form-label">Servicio de Internet:</label>
+                <input type="checkbox" name="internet" id="internet" class="form-check"><br>
+            </div>
+        </div> <br>
         <input type="submit" value="Enviar Formulario" class="btn btn-success">
     </form>
+    </div>
 </div>
+<div>
 </div>
+
+{% include 'footer.html' %}
+
+
     <script>
         let elements = Array.prototype.slice.call(document.getElementsByTagName('input'), 0 );
         console.log(elements);
@@ -575,7 +583,9 @@
                 e.target.value = e.target.value.trim().replace(/\s+/g,' ');
             });
         });
+        $('form').one('submit', function() {
+            $(this).find('input[type="submit"]').attr('disabled','disabled');
+        }); 
     </script>
 </body>
 </html>
-{% include 'footer.html' %}
