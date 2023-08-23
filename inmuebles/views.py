@@ -728,6 +728,8 @@ def consultar_revision(request):
     elif(request.method == 'POST'):
         inmueble = Inmueble.objects.get(pk=request.POST['pk'])
         inmueble.estado = 'X'
+        inmueble.save()
+        request.session['mensaje'] = "La publicación fue cancelada exitosamente."
         return redirect('/usuarios/agente')
 
 def consultar_finalizadas(request):
@@ -775,6 +777,8 @@ def consultar_ventas_revision(request):
         compra = Compra.objects.get(pk=request.POST['compra'])
         compra.estado = 'X'
         compra.save()
+
+        request.session['mensaje'] = "La venta fue cancelada exitosamente."
 
         enviar_correo([compra.inmueble.dueno,compra.inmueble.comprador], f"Se ha cancelado la venta", f"Saludos. \n"
             + f"El agente <b>{compra.inmueble.agente}</b> del inmueble <b>{compra.inmueble.nombre.upper()}</b> ha cancelado la venta.\n"
@@ -890,6 +894,8 @@ def edicion_inmueble_agente(request, pk):
         enviar_correo(inmueble.dueno, f"Se ha editado una publicación", f"Saludos, dueño {inmueble.dueno}. \n"
             + f"El agente <b>{inmueble.agente}</b> del inmueble <b>{inmueble.nombre.upper()}</b> ha solicitado editado la publicación. Revisar los cambios.\n"
             + f"Atentamente, \n     Inmuebles Incaibo.")
+        
+        request.session['mensaje'] = "Publicación editada exitosamente."
 
         return redirect('/usuarios/agente/')
 
@@ -904,6 +910,8 @@ def cancelacion_inmueble_agente(request, pk):
         enviar_correo(inmueble.dueno, f"Se ha cancelado una publicación", f"Saludos, dueño {inmueble.dueno}. \n"
             + f"El agente <b>{inmueble.agente}</b> del inmueble <b>{inmueble.nombre.upper()}</b> ha cancelado la publicación. Contactarse para conocer las razones.\n"
             + f"Atentamente, \n     Inmuebles Incaibo.")
+        
+        request.session['mensaje'] = "La publicación fue cancelada exitosamente."
 
         return redirect('/usuarios/agente/')
 
@@ -958,6 +966,8 @@ def revision_edicion_inmueble(request, pk):
         inmueble.estado = 'A'
         inmueble.save()
         edicion.save()
+
+        request.session['mensaje'] = "Se han registrado los cambios y ahora la publicación está activa."
 
         return redirect('/usuarios/agente/')
 

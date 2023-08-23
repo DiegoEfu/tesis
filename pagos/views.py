@@ -192,6 +192,8 @@ def formulario_aprobar_pago(request, pk):
 
             return render(request, "pago_completado.html", context={'cita': cita_formalidades})
 
+        request.session['mensaje'] = "Información de pago enviada."
+
         return redirect("/usuarios/agente/")
 
 def formulario_cuenta(request):

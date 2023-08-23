@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido, {{request.user.persona}}</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 </head>
 <body>
     <a href="{% url 'consultar_asignadas' %}">Consultar Publicaciones Asignadas Activas</a><br>
@@ -15,5 +16,17 @@
     <hr>
     <a href="{% url 'consultar_ventas_revision' %}">Consultar Ventas Revisión</a><br>
     <a href="{% url 'consultar_ventas_cerradas' %}">Consultar Ventas cerradas</a>
+
+    <script src="{% static '/notify.min.js' %}"></script>
+    <script>
+        $(function(){
+            $.notify("{{mensaje}}", {
+                clickToHide: true,
+                autoHide: true,
+                className: 'success'
+            });
+        });
+        
+    </script>
 </body>
 </html>

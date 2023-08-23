@@ -117,7 +117,13 @@ def bienvenida_agente(request):
         print("Acceso No autorizado")
         return redirect('/')
     
-    return render(request, "bienvenida_agente.html")
+    mensaje = ""
+    
+    if(request.session.get('mensaje')):
+        mensaje = request.session.get('mensaje')
+        del(request.session['mensaje'])
+    
+    return render(request, "bienvenida_agente.html", {'mensaje': mensaje})
 
 def perfil(request):
     return render(request, 'perfil.html')
@@ -165,6 +171,8 @@ def cerrar_sesion(request):
     logout(request)
     request.session['mensaje'] = "Sesión cerrada."
     return redirect('/')
+
+# Funciones Auxiliares
 
 def calculateAge(dob):
     today = datetime.date.today()
