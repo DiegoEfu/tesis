@@ -391,7 +391,11 @@
         font-size: 140%;
     }
 
+<<<<<<< HEAD
+    p {
+=======
     small {
+>>>>>>> b64a1f72721375cd3b7b66c9716b4f6bab4b5511
         font-size: 150%;
     }
 
@@ -447,7 +451,11 @@
         font-size: 140%;
     }
 
+<<<<<<< HEAD
+    p {
+=======
     small {
+>>>>>>> b64a1f72721375cd3b7b66c9716b4f6bab4b5511
         font-size: 140%;
     }
 
@@ -503,7 +511,11 @@
         font-size: 120%;
     }
 
+<<<<<<< HEAD
+    p {
+=======
     small {
+>>>>>>> b64a1f72721375cd3b7b66c9716b4f6bab4b5511
         font-size: 120%;
     }
 
@@ -537,7 +549,11 @@
     }
 
     .tituloForm {
+<<<<<<< HEAD
+        font-size: 150%;
+=======
         font-size: 180%;
+>>>>>>> b64a1f72721375cd3b7b66c9716b4f6bab4b5511
     }
 
     .contenedorInfoPerfil {
@@ -547,7 +563,11 @@
     }
 
     .contenedorInfoPerfil li {
+<<<<<<< HEAD
+        font-size: 130%;
+=======
         font-size: 120%;
+>>>>>>> b64a1f72721375cd3b7b66c9716b4f6bab4b5511
     }
 
     .grupoLinks {
@@ -559,8 +579,13 @@
         font-size: 100%;
     }
 
+<<<<<<< HEAD
+    .parrafoFinal {
+        font-size: 80%;
+=======
     small {
         font-size: 110%;
+>>>>>>> b64a1f72721375cd3b7b66c9716b4f6bab4b5511
     }
 
 
@@ -569,7 +594,11 @@
     
 }
 
+<<<<<<< HEAD
+@media(max-width:320px) {
+=======
 @media(max-width:310px) {
+>>>>>>> b64a1f72721375cd3b7b66c9716b4f6bab4b5511
 
     .containerOverall {
         display: flex;
@@ -592,7 +621,11 @@
     }
 
     .contenedorInfoPerfil li {
+<<<<<<< HEAD
+        font-size: 60%;
+=======
         font-size: 10%;
+>>>>>>> b64a1f72721375cd3b7b66c9716b4f6bab4b5511
     }
 
     .grupoLinks {
@@ -608,7 +641,11 @@
         font-size: 140%;
     }
 
+<<<<<<< HEAD
+    .parrafoFinal {
+=======
     small {
+>>>>>>> b64a1f72721375cd3b7b66c9716b4f6bab4b5511
         font-size: 100%;
     }
 
