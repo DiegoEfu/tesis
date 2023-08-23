@@ -51,7 +51,7 @@ def formulario_pago(request, pk):
 
         # Validación de correcta estructura de datos
 
-        if(Pago.objects.exclude(estado='R').filter(cuenta = receptora, referencia = referencia, fecha_transaccion=fecha_transaccion).exists()):
+        if(Pago.objects.filter(cuenta = receptora, referencia = referencia, fecha_transaccion=fecha_transaccion).exists()):
             errores.append("Ya hay un pago aprobado con estos datos.")
         
         if(not Cuenta.objects.filter(pk=receptora).exists()):
@@ -63,7 +63,9 @@ def formulario_pago(request, pk):
         if(float(monto) < 1):
             errores.append("El monto debe ser mayor a un bolívar.")
 
-        if(fecha_transaccion > datetime.today()):
+        fecha = datetime.strptime(fecha_transaccion, '%Y-%m-%d')
+
+        if(fecha > datetime.today()):
             errores.append("La fecha de la transacción no puede ser mayor a hoy.")
 
         # Creación
@@ -81,9 +83,11 @@ def formulario_pago(request, pk):
             compra = compra
         )
 
-        enviar_correo(pago.compra.inmueble.agente, f"Nuevo Pago", f"Saludos, agente {pago.compra.agente}. \n"
+        enviar_correo(pago.compra.inmueble.agente, f"Nuevo Pago", f"Saludos, agente {pago.compra.inmueble.agente}. \n"
             + f"El comprador <b>{pago.compra.comprador}</b> del inmueble <b>{pago.compra.inmueble.nombre.upper()}</b> ha realizado un pago. Validar el mismo.\n"
             + f"Atentamente, \n     Inmuebles Incaibo.")
+        
+        request.session['mensaje'] = "Se ha registrado el pago exitosamente."
 
         return redirect('/')
 
@@ -139,6 +143,7 @@ def formulario_aprobar_pago(request, pk):
             inmueble = compra.inmueble
             dias_disponibles = []
             fecha = datetime.today() + timedelta(days=1)
+            fecha = fecha.replace(hour=0,minute=0)
 
             while len(dias_disponibles) < 7:
                 if(fecha.weekday() < 5):
@@ -152,7 +157,6 @@ def formulario_aprobar_pago(request, pk):
 
             fecha = dias_disponibles[randint(0,4)]
             horas_disponibles = []
-            fecha = datetime.strptime(request.session['fecha_cita_escogida'], '%d-%m-%Y')
 
             if(not inmueble.agente.citas_agente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 8).exists()):
                 if(not compra.comprador.citas_cliente().filter(fecha_asignada__day = fecha.day, fecha_asignada__month = fecha.month, fecha_asignada__year = fecha.year, fecha_asignada__hour = 8).exists()):

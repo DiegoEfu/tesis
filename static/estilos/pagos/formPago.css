@@ -21,6 +21,8 @@
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
+    height: max-content !important;
+    padding-bottom: 20px !important;
 }
 
 .contenedorForm {

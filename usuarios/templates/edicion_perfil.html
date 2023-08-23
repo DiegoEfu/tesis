@@ -374,5 +374,11 @@
         <input required type="tel" name="numero_telefono" id="numero_telefono" value="{{request.user.persona.numero_telefono}}"><br>
         <button type="submit">Enviar cambios</button>
     </form>
+
+    <script>
+        $('form').one('submit', function() {
+            $(this).find('input[type="submit"]').attr('disabled','disabled');
+        }); 
+    </script>
 </body>
 </html>
