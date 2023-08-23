@@ -50,10 +50,14 @@
             "consultar citas": "Permite consultar las citas que ha solicitado",
             "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
             "ver perfil": "Permite ver sus datos personales",  
-            "desactivar comandos de voz": "Desactiva los comandos de voz"
+            "desactivar comandos de voz": "Desactiva los comandos de voz",
+            "regresar inicio": "Regresa a la pantalla de inicio"
         };
 
         function formulario_p1(event){
+            if(speaking){
+                event.results = [];
+            }
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal && !speaking){
                    speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replaceAll("m2","");
@@ -104,11 +108,11 @@
                                 
                                 case "opciones":
                                     if(campo === 1)
-                                        hablar("{% for parroquia in parroquias %}Diga {{forloop.counter}} para '{{parroquia.nombre}}'. {% endfor %}");
+                                        hablar("{% for parroquia in parroquias %}Diga {{forloop.counter}} para '{{parroquia.nombre.lower}}'. {% endfor %}");
                                     else if(campo === 2){
                                         let text = "";
                                         for(let i = 1; i <= sectores_actuales.length; i++)
-                                            text += `Diga ${i} para ${sectores_actuales[i-1].nombre}`;
+                                            text += `Diga ${i} para ${sectores_actuales[i-1].nombre.toLowerCase()}`;
 
                                         hablar(text);
                                     } else if(campo === 3)
@@ -401,11 +405,12 @@
                 recognition.onresult = inicial;
                 utterance.onstart = () => {
                     speaking = true
+                    recognition.abort()
                 }
                 utterance.onend = async (evt) => {
                     if(!speaking)
                         speaking = true
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                     speaking = false, reporte = false;
                     recognition.start();
                     console.log("LISTO");
@@ -423,14 +428,16 @@
                 utterance.rate = 1;
                 utterance.volume = 1;
                 utterance.onstart = () => {
-                    speaking = true
+                    speaking = true;
+                    recognition.abort();
                 }
                 utterance.onend = async (evt) => {
                     if(!speaking)
                         speaking = true
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                     speaking = false, reporte = false;
                     console.log("LISTO");
+                    recognition.start();
                 };
                 synthesis.speak(utterance);
             }
@@ -450,7 +457,7 @@
                 bienvenida(1);
 
         recognition.start();
-        recognition.addEventListener('end', recognition.start);
+        recognition.addEventListener('end', () => !speaking ? recognition.start() : console.log("a"));
 
         $(document).on('change', '#parroquia', () => {
             $('#sector').empty();

@@ -23,7 +23,9 @@
     <b>Fecha:</b> {{cita.fecha_asignada.date}} {{cita.fecha_asignada.hour}}:00
     <b>Agente:</b> {{cita.compra.inmueble.agente}} (Teléfono: {{cita.compra.inmueble.agente.numero_telefono}})
     <b>Sector:</b> {{cita.compra.inmueble.sector.nombre}} 
-    <b>Ubicación detallada: </b> {{cita.compra.inmueble.ubicacion_detallada}}
+    <b>Ubicación detallada: </b> {{cita.compra.inmueble.ubicacion_detallada}} <br>
+
+    <b>Esta cita es de formalidades. Contactar al abogado para formalizar la entrega del inmueble.</b>
 
     {% endif %}
     <b>Estado de la Cita:</b> {{cita.estado_largo}} <br>

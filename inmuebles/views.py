@@ -455,10 +455,15 @@ def resultados_cita(request, pk):
             compra.save()
             inmueble.save()
 
-        enviar_correo([cita.inmueble.dueno, cita.persona], f"Resultados de la cita", f"Saludos. \n"
-            + f"El agente ha registrado la cita de visita al inmueble <b>{cita.inmueble.nombre.upper()}</b> del día "
-            + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}, recibiendo el veredicto: <b>{cita.estado_largo()}</b> .\n"
-            + f"Atentamente, \n     Inmuebles Incaibo.")
+            enviar_correo([cita.compra.inmueble.dueno, cita.compra.comprador], f"Resultados de la cita", f"Saludos. \n"
+                + f"El agente ha registrado la cita de formalidades al inmueble <b>{cita.compra.inmueble.nombre.upper()}</b> del día "
+                + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}, finalizándose el proceso de compraventa del inmueble.\n"
+                + f"Muchas gracias por preferirnos. Atentamente, \n     Inmuebles Incaibo.")
+        else:
+            enviar_correo([cita.inmueble.dueno, cita.persona], f"Resultados de la cita", f"Saludos. \n"
+                + f"El agente ha registrado la cita de visita al inmueble <b>{cita.inmueble.nombre.upper()}</b> del día "
+                + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}, recibiendo el veredicto: <b>{cita.estado_largo()}</b> .\n"
+                + f"Atentamente, \n     Inmuebles Incaibo.")
 
         return redirect("/usuarios/agente/")
 
