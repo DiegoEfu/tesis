@@ -167,15 +167,18 @@
                     });
 
                     console.log(dictando);
-                    console.log(campo)
+                    console.log(campo);
 
-                    if(dictando && (campo === 0)){
-                        if(speech.toLowerCase().indexOf("dictado") === -1)
-                            $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
-                    } else if(dictando && campo === 1){
-                        if(/[0-9]+/g.test(speech.replaceAll(" ", "")))
-                                $('#numero_telefono').val($('#numero_telefono').val() + speech.replaceAll(" ", ""));
+                    if(!speaking  && speech.toLowerCase().indexOf('deletree o dicte') === -1){
+                        if(dictando && (campo === 0)){
+                            if(speech.toLowerCase().indexOf("dictado") === -1)
+                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                        } else if(dictando && campo === 1){
+                            if(/[0-9]+/g.test(speech.replaceAll(" ", "")))
+                                    $('#numero_telefono').val($('#numero_telefono').val() + speech.replaceAll(" ", ""));
+                        }                        
                     }
+                    
                 }
             }
         }

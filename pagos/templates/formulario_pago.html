@@ -155,7 +155,8 @@
                     console.log(dictando);
                     console.log(campo);
 
-                    if(dictando && campo === 1){
+                    if(!speaking  && speech.toLowerCase().indexOf('deletree o dicte') === -1){
+                        if(dictando && campo === 1){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
@@ -167,26 +168,27 @@
                         
                         if(!isNaN(speech) && speech != '') // Esto verifica que el string sea numérico
                             $('#'+campos[campo][1]).val(speech)
-                    }else if(dictando && campo === 2){
-                        speech = speech.toLowerCase().replaceAll('uno','1').replaceAll('dos','2').replaceAll('tres','3').replaceAll('cuatro','4')
-                         .replaceAll('cinco','5').replaceAll('seis','6').replaceAll('siete','7').replaceAll('ocho','8')
-                         .replaceAll('nueve','9').replaceAll('cero','0').replaceAll("punto",".").replaceAll("coma",",")
-                         .replaceAll(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replaceAll(/.$/g,"").replaceAll(",","").replaceAll(" ", "");
-                        
-                        console.log(speech);
-                        
-                        if(!isNaN(speech) && speech != '') // Esto verifica que el string sea numérico
-                            $('#'+campos[campo][1]).val( $('#'+campos[campo][1]).val() + speech)
-                    } else if(dictando && campo === 3){
-                        speech = speech.toLowerCase().replaceAll("del","").replaceAll("de","").replaceAll(/\s+/g, " ");
-                        let nuevo = speech.replace("enero","01").replace("febrero","02").replace("marzo","03")
-                        .replace("abril","04").replace("mayo","05").replace("junio","06")
-                        .replace("julio","07").replace("agosto","08").replace("septiembre","09")
-                        .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
-                        $('#fecha_transaccion').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
-                    } else if(dictando && campo === 4){
-                        speech = speech.replace(/.$/g, "");
-                        $('#comentario').val($("#comentario").val() + " " + speech);
+                        }else if(dictando && campo === 2){
+                            speech = speech.toLowerCase().replaceAll('uno','1').replaceAll('dos','2').replaceAll('tres','3').replaceAll('cuatro','4')
+                            .replaceAll('cinco','5').replaceAll('seis','6').replaceAll('siete','7').replaceAll('ocho','8')
+                            .replaceAll('nueve','9').replaceAll('cero','0').replaceAll("punto",".").replaceAll("coma",",")
+                            .replaceAll(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replaceAll(/.$/g,"").replaceAll(",","").replaceAll(" ", "");
+                            
+                            console.log(speech);
+                            
+                            if(!isNaN(speech) && speech != '') // Esto verifica que el string sea numérico
+                                $('#'+campos[campo][1]).val( $('#'+campos[campo][1]).val() + speech)
+                        } else if(dictando && campo === 3){
+                            speech = speech.toLowerCase().replaceAll("del","").replaceAll("de","").replaceAll(/\s+/g, " ");
+                            let nuevo = speech.replace("enero","01").replace("febrero","02").replace("marzo","03")
+                            .replace("abril","04").replace("mayo","05").replace("junio","06")
+                            .replace("julio","07").replace("agosto","08").replace("septiembre","09")
+                            .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
+                            $('#fecha_transaccion').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
+                        } else if(dictando && campo === 4){
+                            speech = speech.replace(/.$/g, "");
+                            $('#comentario').val($("#comentario").val() + " " + speech);
+                        }
                     }
 
                     if(campo === 0 && !speaking){

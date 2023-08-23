@@ -100,14 +100,12 @@
                                 
                                 case "opciones":
                                     if(campo === 1){
-                                        // {% for construccion in construcciones %}
-                                        hablar("Diga {{forloop.counter}} para " +'{{construccion}}');
-                                        // {% endfor %}
+                                        hablar("{% for construccion in construcciones %}Diga {{forloop.counter}} para '{{construccion}}'. {% endfor %}");
                                     }
                                     break;
 
                                 case "editar":
-                                    if(campo >= 0 && !escribiendo){
+                                    if(campo >= 0 && !escribiendo && campo != 1){
                                         hablar(`Usted ha dicho 'editar'. Vuelva a escribir su ${campos[campo][0]}.`)
                                         $(`#${campos[campo][1]}`).val("");
                                         const input2 = document.getElementById(campos[campo][1]);
@@ -201,7 +199,8 @@
                     console.log(dictando);
                     console.log(campo)
 
-                    if(dictando && (campo === 5 || campo === 3 || campo === 5 || campo === 6 || campo === 10 || campo === 11)){
+                    if(!speaking && speech.toLowerCase().indexOf('deletree o dicte') === -1){
+                        if(dictando && (campo === 5 || campo === 3 || campo === 5 || campo === 6 || campo === 10 || campo === 11)){
                         speech = speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                          .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                          .replace('nueve','9').replace('cero','0').replace('e','').replace('.','').replace(",","").replace(/\s+/g,"");
@@ -209,15 +208,16 @@
                          if(!isNaN(speech) && speech != '') // Esto verifica que el string sea numérico
                             $('#'+campos[campo][1]).val(speech)
 
-                    } else if(dictando && (campo === 0 || campo === 2 || campo === 8)){
-                        $(`#${campos[campo][1]}`).val($(`#${campos[campo][1]}`).val() + " " + speech.toLowerCase().replace(".","").replace("dictado", "").replace("m2", "metros cuadrados").replace("/4", " cuartos"))
-                    }
-                    else if(dictando && campo === 4 || campo === 8){
-                        if(speech.indexOf("Dictado") === -1)
-                            $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
-                         .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
-                         .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
-                         .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
+                        } else if(dictando && (campo === 0 || campo === 2 || campo === 8)){
+                            $(`#${campos[campo][1]}`).val($(`#${campos[campo][1]}`).val() + " " + speech.toLowerCase().replace(".","").replace("dictado", "").replace("m2", "metros cuadrados").replace("/4", " cuartos"))
+                        }
+                        else if(dictando && campo === 4 || campo === 8){
+                            if(speech.indexOf("Dictado") === -1)
+                                $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
+                            .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
+                            .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
+                            .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
+                        }
                     }
 
                     if(campo === 1 && !speaking){
