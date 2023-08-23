@@ -30,7 +30,7 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length  && !speaking; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
+                   speech = event.results[i][0].transcript.replace(/[,.]/g,'').replace("dos","2").replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");
                    console.log(speech);
@@ -105,7 +105,7 @@
                                 console.log(speech.split(" ").indexOf("cita"));
                                 const numero = speech.split(" ")[speech.split(" ").indexOf("cita") + 1]
                                 .replace(/[.,]/g,"")
-                                .replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
+                                .replace("dos","2").replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
                                 .replace("cinco","5").replace("seis","6").replace("siete","7").replace("ocho","8")
                                 .replace("nueve","9").replace("uno","1").replace("una","1");;
                                 let pasado = false;
@@ -222,14 +222,16 @@
                 utterance.volume = 1;
                 recognition.onresult = inicial;
                 utterance.onstart = () => {
-                    speaking = true
+                    speaking = true;
+                    recognition.abort();
                 }
                 utterance.onend = async (evt) => {
                     if(!speaking)
                         speaking = true
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                     speaking = false, reporte = false;
                     console.log("LISTO");
+                    recognition.start();
                 };
                 synthesis.speak(utterance);
             }
@@ -244,14 +246,16 @@
                 utterance.rate = 1;
                 utterance.volume = 1;
                 utterance.onstart = () => {
-                    speaking = true
+                    speaking = true;
+                    recognition.abort();
                 }
                 utterance.onend = async (evt) => {
                     if(!speaking)
                         speaking = true
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                     speaking = false, reporte = false;
                     console.log("LISTO");
+                    recognition.start();
                 };
                 synthesis.speak(utterance);
             }
@@ -268,7 +272,7 @@
             bienvenida();
 
         recognition.start();
-        recognition.addEventListener('end', recognition.start);
+        recognition.addEventListener('end', () => !speaking ? recognition.start() : console.log("a"));
     </script>
 </head>
 <body>

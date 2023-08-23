@@ -172,15 +172,18 @@
                     });
 
                     console.log(dictando);
-                    console.log(campo)
+                    console.log(campo);
 
-                    if(dictando && (campo === 0)){
-                        if(speech.toLowerCase().indexOf("dictado") === -1)
-                            $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
-                    } else if(dictando && campo === 1){
-                        if(/[0-9]+/g.test(speech.replaceAll(" ", "")))
-                                $('#numero_telefono').val($('#numero_telefono').val() + speech.replaceAll(" ", ""));
+                    if(!speaking  && speech.toLowerCase().indexOf('deletree o dicte') === -1){
+                        if(dictando && (campo === 0)){
+                            if(speech.toLowerCase().indexOf("dictado") === -1)
+                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                        } else if(dictando && campo === 1){
+                            if(/[0-9]+/g.test(speech.replaceAll(" ", "")))
+                                    $('#numero_telefono').val($('#numero_telefono').val() + speech.replaceAll(" ", ""));
+                        }                        
                     }
+                    
                 }
             }
         }
@@ -301,15 +304,16 @@
                 utterance.volume = 1;
                 recognition.onresult = inicial;
                 utterance.onstart = () => {
-                    speaking = true
+                    speaking = true;
+                    recognition.abort();
                 }
                 utterance.onend = async (evt) => {
                     if(!speaking)
                         speaking = true
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                     speaking = false, reporte = false;
-                    recognition.start();
                     console.log("LISTO");
+                    recognition.start();
                 };
                 synthesis.speak(utterance);
             }
@@ -324,14 +328,16 @@
                 utterance.rate = 1;
                 utterance.volume = 1;
                 utterance.onstart = () => {
-                    speaking = true
+                    speaking = true;
+                    recognition.abort();
                 }
                 utterance.onend = async (evt) => {
                     if(!speaking)
                         speaking = true
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                     speaking = false, reporte = false;
                     console.log("LISTO");
+                    recognition.start();
                 };
                 synthesis.speak(utterance);
             }
@@ -351,7 +357,7 @@
                 bienvenida(1);
 
         recognition.start();
-        recognition.addEventListener('end', recognition.start);
+        recognition.addEventListener('end', () => !speaking ? recognition.start() : console.log("a"));
 
         window.onbeforeunload = function () {
             synthesis.cancel();
