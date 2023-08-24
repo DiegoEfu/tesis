@@ -287,6 +287,8 @@
     {% if compra.pagos.all.count %}
     <a href="{% url 'consultar_pagos_ventas' pk=compra.pk %}">Consultar Pagos</a>
     {% endif %}
+    {% empty %}
+    No ha realizado ninguna venta.
     {% endfor %}
 </body>
 </html>

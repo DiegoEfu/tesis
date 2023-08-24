@@ -287,6 +287,8 @@
     {% if publicacion.estado == 'A' or publicacion.estado == 'R' %}
     <a href="{% url 'cancelar_publicacion' pk=publicacion.pk %}">Cancelar publicación</a>
     {% endif %}
+    {% empty %}
+    No hay publicaciones.
     {% endfor %}
 </body>
 </html>

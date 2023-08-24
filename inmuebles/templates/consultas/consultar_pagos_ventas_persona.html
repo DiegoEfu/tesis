@@ -256,6 +256,8 @@
     {% if pago.estado == 'R' %}
     <b>Comentario del Cajero: </b> {{pago.comentario_cajero}}
     {% endif %}
+    {% empty %}
+    No hay pagos.
     {% endfor %}
 </body>
 </html>
