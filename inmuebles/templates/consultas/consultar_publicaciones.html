@@ -136,13 +136,13 @@
                                     {% endif %}
                                     Este inmueble se ubica en el sector {{publicacion.sector.nombre}} de la parroquia {{publicacion.sector.parroquia.nombre}}.
                                     Esta publicación tiene el agente asignado: {{publicacion.agente}}. Si tiene alguna duda o pregunta, contáctelo al número de teléfono {{publicacion.agente.numero_telefono}} 
-                                    o al correo {{publicacion.agente.usuario_persona.email}}.`)
+                                    o al correo {{publicacion.agente.usuario_persona.email}}`)
                                     pasado = true;
                                 }
                                 // {% endfor %}
 
                                 if(!pasado)
-                                    hablar(`No hay una publicación con el número '${numero}'.`)
+                                    hablar(`No hay una publicación con el número ${numero}.`)
                                 break;
 
                             case "cancelar publicación":
@@ -166,7 +166,7 @@
                                     // {% endfor %}
 
                                     if(!fin)
-                                        hablar(`No hay publicacion con el número '${cancelar}'.`)
+                                        hablar(`No hay publicación con el número ${cancelar}.`)
                                     break;
                         
                             case "regresar inicio":

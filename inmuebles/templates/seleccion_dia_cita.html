@@ -121,7 +121,7 @@
                                 // {% endfor %}
 
                                 if(!encontrado)
-                                    hablar(`No hay día disponible con el número '${dia}'.`)
+                                    hablar(`No hay día disponible con el número ${dia}.`)
                                 hablar(``);
                                 break;
                         }
@@ -222,6 +222,8 @@
     </script>
 </head>
 <body>
+    <h3>Agendar Cita de Visita</h3>
+    <h4>{{inmueble.nombre.upper}}</h4>
     De los siguientes días, escoja el que mejor se ajuste a su horario:
     <form method="post">
         {% csrf_token %}

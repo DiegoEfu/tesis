@@ -127,7 +127,7 @@
                                 // {% endfor %}
 
                                 if(!pasado)
-                                    hablar(`No hay compra con el número '${numero}'.`)
+                                    hablar(`No hay compra con el número ${numero}.`)
                                 break;
                             
                             case "pagos compra":
@@ -145,7 +145,7 @@
                                 // {% endfor %}
 
                                 if(!encontrado)
-                                    hablar(`No hay compras con el número '${compra}'.`)
+                                    hablar(`No hay compras con el número ${compra}.`)
                                 hablar(``);
                                 break;
 
@@ -229,7 +229,7 @@
                                 // {% endfor %}
 
                                 if(!hecho)
-                                    hablar(`No hay compra con el número '${cancelar}'.`)
+                                    hablar(`No hay compra con el número ${cancelar}.`)
                                 break;
                         }
                       }    
