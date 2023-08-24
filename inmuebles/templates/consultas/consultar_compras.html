@@ -326,11 +326,14 @@
 </head>
 <body>
     <h3>Consulta de Compras</h3>
+
+    {% if compras %}
     <form method="post">
         {% csrf_token %}
         <button type="submit" id="mp3" name="tipo" value="mp3">DESCARGAR REPORTE MP3</button>
         <button type="submit" id="pdf" name="tipo" value="pdf">DESCARGAR REPORTE PDF</button>
     </form>
+    {%endif%}
 
     {% for compra in compras %}
     <hr>
