@@ -134,6 +134,9 @@ class Inmueble(models.Model):
     
     def edicion(self):
         return Edicion.objects.get(pk=self.pk, estado = 'P')
+    
+    def tiene_pagos_pendientes(self):
+        return self.compra_activa() or self.compra_activa().pagos.filter(estado = 'P').exists()
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
@@ -180,6 +183,9 @@ class Compra(models.Model):
     
     def cita_formalidades(self):
         return self.citas.last()
+    
+    def tiene_pagos_pendientes(self):
+        return self.pagos.filter(estado = 'P').exists()
 
 class Cita(models.Model):
     compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE, null=True, related_name="citas")

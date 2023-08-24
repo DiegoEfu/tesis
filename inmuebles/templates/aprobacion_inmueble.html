@@ -64,7 +64,7 @@
         <textarea name="descripcion" id="descripcion" cols="30" rows="10">{{inmueble.descripcion}}</textarea><br>
 
         <label for="precio">Precio:</label>
-        <input type="number" name="precio" id="precio" value="{{inmueble.precio_input}}"><br>
+        <input type="number" name="precio" id="precio" value="{{inmueble.precio_input}}" step="0.01" min="0.01"><br>
 
         <label for="amueblado">Está amueblado:</label>
         <input type="checkbox" name="amueblado" id="amueblado" {% if inmueble.amueblado %}checked{% endif %}><br>
