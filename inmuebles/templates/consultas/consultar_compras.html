@@ -349,7 +349,7 @@
     <b>Teléfono del Dueño:</b> {{compra.inmueble.dueno.numero_telefono}}
     <b>Correo del Dueño:</b> {{compra.inmueble.dueno.usuario_persona.email}}
 
-    <a href="{% url 'cancelar_compra' pk=compra.pk %}">Cancelar Compra</a>
+    {% if not compra.tiene_pagos_pendientes %}<a href="{% url 'cancelar_compra' pk=compra.pk %}">Cancelar Compra</a>{% endif %}
     <form method="post">
         {% csrf_token %}
         <input type="hidden" name="compra" value="{{compra.pk}}">
