@@ -10,3 +10,61 @@
     --RojoOscuro: #82191e;
 
 }
+
+.containerConsultaCitas {
+    background-image: url("../../img/Consultas/Consulta_Citas/ConsultaCitas.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.cuadroCita {
+    background-color: white;
+}
+
+.citasTitulo {
+    color: var(--verdeMusgo);
+    font-weight: 900;
+}
+
+.linkPublicacion a{
+    color: var(--Rojorubi);
+    font-weight: 500;
+}
+
+.btn-success {
+    background-color: var(--verdeMusgo)!important;
+    color: black!important;
+    border-color: var(--verdeMusgo)!important;
+}
+
+.btn-success:hover {
+    color: white!important;
+}
+
+
+@media(max-width:320px) {
+    .containerConsultaCitas {
+        padding: 10px 10px 10px 10px
+    }
+
+    .cuadroCita {
+        padding: 10px 10px 10px 10px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 160%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .containerCita {
+        display: block;
+        justify-content: safe;
+    }
+
+    .linkPublicacion {
+        font-size: 100%;
+    }
+}
