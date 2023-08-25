@@ -288,6 +288,7 @@
     <h3 class="citasTitulo">Consulta de Citas</h3>
     <div class="containerCita">
     {% for cita in citas %}
+    <div class="citaInmueble">
     <hr>
     <h5 class="linkPublicacion"><a href="{% url 'detalle_inmueble' pk=cita.inmueble.pk %}">{{cita.inmueble.nombre}}</a></h5>
     <label for="" class="form-label"><b>Fecha:</b> {{cita.fecha_asignada.date}} {{cita.fecha_asignada.hour}}:00</label><br>
@@ -305,17 +306,18 @@
         <input type="hidden" name="pk" value="{{cita.pk}}">
         <button name="tipo" id="pdf_{{cita.pk}}" value="pdf" type="submit" class="btn btn-success">Descargar Comprobante PDF</button>
         <button name="tipo" id="mp3_{{cita.pk}}" value="mp3" type="submit" class="btn btn-success">Descargar Comprobante MP3</button>
-    </form><hr>
+    </form><hr></div></div>
     {% elif cita.compra %}
     <label for="" class="form-label"><b>Cita de formalidades para la entrega del inmueble {{cita.compra.inmueble.nombre.upper}}</label></b>
     {% endif %}
     {% empty %}
-    <label for="" class="form-label">Usted no ha agendado ninguna cita.</label></div>
+    <label for="" class="form-label">Usted no ha agendado ninguna cita.</label>
     
     {% endfor %}
 </div>
 </div>
 </div>
-</body>
 {% include 'footer.html' %}
+</body>
+
 </html>

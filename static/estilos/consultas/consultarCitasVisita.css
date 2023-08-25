@@ -25,6 +25,7 @@
 .citasTitulo {
     color: var(--verdeMusgo);
     font-weight: 900;
+    font-style: oblique;
 }
 
 .linkPublicacion a{
@@ -34,12 +35,374 @@
 
 .btn-success {
     background-color: var(--verdeMusgo)!important;
-    color: black!important;
+    color: white!important;
     border-color: var(--verdeMusgo)!important;
 }
 
 .btn-success:hover {
-    color: white!important;
+    background-color: #569c00!important;
+    color: black!important;
+    border-color: #569c00!important;
+}
+
+@media(max-width:2001px) {
+    .containerConsultaCitas {
+        padding: 160px 160px 160px 160px
+    }
+
+    .cuadroCita {
+        padding: 40px 40px 40px 40px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 420%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .containerCita {
+        display: ruby;
+        justify-content: space-between;
+    }
+    .linkPublicacion {
+        font-size: 240%;
+    }
+
+    .form-label {
+        font-size: 160%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 90px 0px 90px;
+        width: 70%;
+        font-size: 130%!important;
+    }
+}
+
+@media(max-width:1800px) {
+    .containerConsultaCitas {
+        padding: 130px 130px 130px 130px
+    }
+
+    .cuadroCita {
+        padding: 40px 40px 40px 40px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 420%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .containerCita {
+        display: ruby;
+        justify-content: space-between;
+    }
+    .linkPublicacion {
+        font-size: 240%;
+    }
+
+    .form-label {
+        font-size: 160%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 90px 0px 90px;
+        width: 70%;
+        font-size: 130%!important;
+    }
+}
+
+@media(max-width:1440px) {
+    .containerConsultaCitas {
+        padding: 100px 100px 100px 100px
+    }
+
+    .cuadroCita {
+        padding: 40px 40px 40px 40px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 390%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .containerCita {
+        display: ruby;
+        justify-content: space-between;
+    }
+    .linkPublicacion {
+        font-size: 220%;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 50px 0px 50px;
+        width: 70%;
+        font-size: 130%!important;
+    }
+}
+
+@media(max-width:1280px) {
+    .containerConsultaCitas {
+        padding: 80px 80px 80px 80px
+    }
+
+    .cuadroCita {
+        padding: 40px 40px 40px 40px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 360%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .containerCita {
+        display: ruby;
+        justify-content: space-between;
+    }
+    .linkPublicacion {
+        font-size: 190%;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 10px 0px 10px;
+        width: 70%;
+        font-size: 110%!important;
+    }
+}
+
+@media(max-width:1024px) {
+    .containerConsultaCitas {
+        padding: 40px 40px 40px 40px
+    }
+
+    .cuadroCita {
+        padding: 40px 40px 40px 40px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 320%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .containerCita {
+        display: ruby;
+        justify-content: space-between;
+    }
+    .linkPublicacion {
+        font-size: 160%;
+    }
+
+    .form-label {
+        font-size: 110%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 10px 0px 10px;
+        width: 70%;
+        font-size: 110%!important;
+    }
+}
+
+@media(max-width:800px) {
+    .containerConsultaCitas {
+        padding: 30px 30px 30px 30px
+    }
+
+    .cuadroCita {
+        padding: 30px 30px 30px 30px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 290%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .containerCita {
+        display: ruby;
+        justify-content: space-between;
+    }
+    .linkPublicacion {
+        font-size: 130%;
+    }
+
+    .form-label {
+        font-size: 110%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 10px 0px 10px;
+        width: 80%;
+        font-size: 110%!important;
+    }
+}
+
+@media(max-width:768px) {
+    .containerConsultaCitas {
+        padding: 30px 30px 30px 30px
+    }
+
+    .cuadroCita {
+        padding: 30px 30px 30px 30px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 240%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .containerCita {
+        display: block;
+        justify-content: safe;
+    }
+    .linkPublicacion {
+        font-size: 160%;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 10px 0px 10px;
+        width: 60%;
+        font-size: 110%!important;
+    }
+}
+
+@media(max-width:600px) {
+    .containerConsultaCitas {
+        padding: 20px 20px 20px 20px
+    }
+
+    .cuadroCita {
+        padding: 20px 20px 20px 20px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 200%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .containerCita {
+        display: block;
+        justify-content: safe;
+    }
+    .linkPublicacion {
+        font-size: 150%;
+    }
+
+    .form-label {
+        font-size: 110%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 10px 0px 10px;
+        width: 60%;
+        font-size: 90%!important;
+    }
+}
+
+@media(max-width:480px) {
+    .containerConsultaCitas {
+        padding: 10px 10px 10px 10px
+    }
+
+    .cuadroCita {
+        padding: 10px 10px 10px 10px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 175%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .containerCita {
+        display: block;
+        justify-content: safe;
+    }
+    .linkPublicacion {
+        font-size: 120%;
+    }
+
+    .form-label {
+        font-size: 90%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 10px 0px 10px;
+        width: 50%;
+        font-size: 80%!important;
+    }
 }
 
 
@@ -63,8 +426,22 @@
         display: block;
         justify-content: safe;
     }
-
     .linkPublicacion {
         font-size: 100%;
+    }
+
+    .form-label {
+        font-size: 80%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 10px 0px 10px;
+        width: 50%;
+        font-size: 70%!important;
     }
 }
