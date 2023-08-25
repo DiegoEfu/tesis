@@ -395,14 +395,16 @@ def cita_creada(request, pk):
 
 def comprar_inmueble(request, pk):
     inmueble = Inmueble.objects.get(pk=pk)
-    if(request.method == "GET"):
-        return render(request, "contrato.html", context={'inmueble': inmueble})
+    if(request.method == "GET" and inmueble.estado == 'A' and request.user.is_authenticated):
+        return render(request, "contrato.html", context={'inmueble': inmueble, "hoy": datetime.now()})
     elif(request.method == "POST"):
         compra = Compra.objects.create(comprador = request.user.persona, inmueble = inmueble)
         inmueble.estado = 'T'
         inmueble.save()
 
         return redirect(f'/inmuebles/compra_realizada/{compra.pk}/')
+    else:
+        return redirect("/")
 
 def compra_realizada(request, pk):
     compra = Compra.objects.get(pk=pk)

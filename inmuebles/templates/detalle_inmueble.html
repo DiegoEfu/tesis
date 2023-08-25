@@ -356,7 +356,7 @@
             {% endif %}
         {% elif request.user.persona.pk == inmueble.dueno.pk %}
             <li><b>Este inmueble es de su propiedad. Para cambiar sus opciones haga click <a href="{% url 'consultar_publicaciones' %}">aquí</a></b></li>
-        {% else %}
+        {% elif not request.user.is_authenticated %}
             <li><b>Si quieres visitar este inmueble o comprarlo, inicia sesión.</b></li>
         {% endif %}
         <form method="post">
