@@ -17,6 +17,7 @@
             "leer pantalla": "Lee el contenido de la pantalla",
             "leer pago": "Seguido de un número lee los detalles del pago especificado.",
             "desactivar comandos de voz": "Desactiva los comandos de voz",
+            "leer pagos": "Lee las pagos que se muestran en pantalla.",
             // {% if pagos.count %}
             "descargar pdf": "Descarga el reporte PDF de la compra",
             "descargar mp3": "Descarga el reporte MP3 de la compra",
@@ -38,7 +39,7 @@
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')
-                   ["ayuda","ver perfil","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   ["ayuda","ver perfil","consultar compras","consultar ventas","consultar citas","consultar publicaciones", "leer pagos",
                    "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer pago", "regresar inicio",
                    "desactivar comandos de voz"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
@@ -128,6 +129,16 @@
 
                                 if(!pasado)
                                     hablar(`No hay compra con el número ${numero}.`)
+                                break;
+
+                            case "leer pagos":
+                                hablar(`
+                                {% for pago in pagos %}
+                                Pago #{{forloop.counter}} {{pago.monto_texto}} bolívares, {{pago.valor_dolar_texto}} dólares al cambio, estado: {{pago.estado_largo}}.\n
+                                {% empty %}
+                                No se han realizado pagos para esta venta.
+                                {% endif %}
+                                `);
                                 break;
 
                             // {% if pagos.count %}

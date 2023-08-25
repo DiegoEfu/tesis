@@ -16,6 +16,7 @@
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
             "leer publicación": "Lee la publicación del número especificado.",
+            "leer publicaciones": "Lee las publicaciones que se muestran en pantalla.",
             "crear nueva publicación": "Lleva al formulario de creación de nueva publicación",
             "cancelar publicación": "Lleva a la pantalla de cancelación si la publicación está activa o en revisión",
             "desactivar comandos de voz": "Desactiva los comandos de voz",
@@ -38,7 +39,7 @@
 
                    if(localStorage.getItem('comandos') == '1')
                    ["crear nueva publicación", "ayuda","ver perfil","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "cancelar publicación","regresar inicio","cerrar sesión", "leer pantalla", "leer publicación", "regresar inicio",
+                   "cancelar publicación","regresar inicio","cerrar sesión", "leer pantalla", "leer publicación", "leer publicaciones", "regresar inicio",
                    "desactivar comandos de voz", "editar publicación"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
@@ -112,6 +113,16 @@
                                 .replace("nueve","9").replace("uno","1");
                                 let listo = false;
 
+                                break;
+
+                            case "leer publicaciones":
+                                hablar(`
+                                {% for publicacion in publicaciones %}
+                                Publicación #{{forloop.counter}} {{publicacion.nombre}} por {{publicacion.precio_texto}} dólares, estado: {{publicacion.estado_largo}}.\n
+                                {% empty %}
+                                Usted no tiene ninguna publicación de inmueble.
+                                {% endif %}
+                                `);
                                 break;
                             
                             case "leer publicación":

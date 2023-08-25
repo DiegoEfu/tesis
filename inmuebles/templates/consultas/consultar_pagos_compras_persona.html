@@ -14,6 +14,7 @@
         
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
+            "leer pagos": "Lee las pagos que se muestran en pantalla.",
             "leer pantalla": "Lee el contenido de la pantalla",
             "registrar nuevo pago": "Lleva al formulario de registro de pago",
             "desactivar comandos de voz": "Desactiva los comandos de voz",
@@ -39,7 +40,7 @@
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')
-                   ["ayuda","ver perfil","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   ["ayuda","ver perfil","consultar compras","consultar ventas","consultar citas","consultar publicaciones", "leer pagos",
                    "descargar mp3", "descargar mp 3", "registrar nuevo pago", "descargar pdf","cerrar sesión", "leer pantalla", "leer pago", "regresar inicio",
                    "desactivar comandos de voz"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
@@ -136,6 +137,16 @@
                             
                             case "registrar nuevo pago":
                                 window.location.replace("/pagos/registro/{{compra.pk}}/")
+                                break;
+
+                            case "leer pagos":
+                                hablar(`
+                                {% for pago in pagos %}
+                                Pago #{{forloop.counter}} {{pago.monto_texto}} bolívares, {{pago.valor_dolar_texto}} dólares al cambio, estado: {{pago.estado_largo}}.\n
+                                {% empty %}
+                                Usted no ha realizado ningún pago para esta compra.
+                                {% endif %}
+                                `);
                                 break;
 
                             // {% if pagos.count %}
