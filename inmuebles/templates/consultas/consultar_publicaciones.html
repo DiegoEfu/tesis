@@ -121,7 +121,7 @@
                                 Publicación #{{forloop.counter}} {{publicacion.nombre}} por {{publicacion.precio_texto}} dólares, estado: {{publicacion.estado_largo}}.\n
                                 {% empty %}
                                 Usted no tiene ninguna publicación de inmueble.
-                                {% endif %}
+                                {% endfor %}
                                 `);
                                 break;
                             

@@ -119,7 +119,7 @@
                                         {{pago.valor_dolar_texto}} dólares.
                                         Se realizó por transferencia a la cuenta: {{pago.cuenta}},
                                         con una referencia número {{pago.referencia}}.
-                                        Usted añadió el comentario: {{pago.comentario}}.
+                                        {%  if pago.comentario %}Usted añadió el comentario: {{pago.comentario}}.{%endif%}
 
                                         El estado del pago es: {{pago.estado_largo}}.
 
@@ -145,7 +145,7 @@
                                 Pago #{{forloop.counter}} {{pago.monto_texto}} bolívares, {{pago.valor_dolar_texto}} dólares al cambio, estado: {{pago.estado_largo}}.\n
                                 {% empty %}
                                 Usted no ha realizado ningún pago para esta compra.
-                                {% endif %}
+                                {% endfor %}
                                 `);
                                 break;
 
@@ -244,7 +244,14 @@
                     speaking = true;
                     recognition.abort();
                 }
-                utterance.onend = async () => {speaking = false};
+                utterance.onend = async (evt) => {
+                    if(!speaking)
+                        speaking = true
+                    
+                    speaking = false, reporte = false;
+                    console.log("LISTO");
+                    recognition.start();
+                };
                 synthesis.speak(utterance);
             }
         }

@@ -122,7 +122,7 @@
                                     {% else %} Usted canceló y formalizó el traspaso del inmueble. {% endif %}
                                     En caso de tener alguna duda con esta compra, contactar con el agente {{compra.inmueble.agente}},
                                     número de teléfono {{compra.inmueble.agente.numero_telefono}} y correo electrónico
-                                    {{compra.inmueble.agente.usuario_persona.email}}.`)
+                                    {{compra.inmueble.agente.usuario_persona.email}}`)
                                     pasado = true;
                                 }
                                 // {% endfor %}
@@ -134,10 +134,10 @@
                                 case "leer compras":
                                 hablar(`
                                 {% for compra in compras %}
-                                Compra {{forloop.counter}} {{compra.inmueble.nombre}} por {{compra.inmueble.precio_texto}} dólares, estado: {{compra.estado_largo}}.\n
+                                Compra #{{forloop.counter}} {{compra.inmueble.nombre}} por {{compra.inmueble.precio_texto}} dólares, estado: {{compra.estado_largo}}.\n
                                 {% empty %}
                                 Usted no ha realizado ninguna compra.
-                                {% endif %}
+                                {% endfor %}
                                 `);
                                 break;
                             

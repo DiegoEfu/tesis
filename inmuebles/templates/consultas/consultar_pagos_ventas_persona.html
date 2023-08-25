@@ -137,7 +137,7 @@
                                 Pago #{{forloop.counter}} {{pago.monto_texto}} bolívares, {{pago.valor_dolar_texto}} dólares al cambio, estado: {{pago.estado_largo}}.\n
                                 {% empty %}
                                 No se han realizado pagos para esta venta.
-                                {% endif %}
+                                {% endfor %}
                                 `);
                                 break;
 

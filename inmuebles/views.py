@@ -505,7 +505,7 @@ def consultar_publicaciones(request):
     return render(request, 'consultas/consultar_publicaciones.html', context={'publicaciones': Inmueble.objects.filter(dueno=request.user.persona)})
 
 def consultar_citas(request): # Citas de VISITA
-    citas = Cita.objects.filter(persona=request.user.persona)
+    citas = Cita.objects.filter(persona=request.user.persona).order_by('-fecha_asignada')
     if(request.method == 'GET'):
         return render(request, 'consultas/consultar_citas_visita.html', context={'citas': citas})
     elif(request.method == 'POST'):
@@ -523,7 +523,7 @@ def consultar_citas(request): # Citas de VISITA
             return response
 
 def consultar_ventas(request): # Para USUARIOS NORMALES
-    return render(request, 'consultas/consultar_ventas_persona.html', context={'ventas': Compra.objects.filter(inmueble__dueno=request.user.persona)})
+    return render(request, 'consultas/consultar_ventas_persona.html', context={'ventas': Compra.objects.filter(inmueble__dueno=request.user.persona).order_by("-fecha")})
 
 def consultar_pagos_ventas(request,pk): # Para USUARIOS NORMALES
     compra = Compra.objects.get(pk=pk)

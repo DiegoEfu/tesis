@@ -132,7 +132,7 @@
                                     Cita #{{forloop.counter}} {{cita.inmueble.nombre}} a la fecha {{cita.fecha_asignada}}, estado: {{cita.estado_largo}}.{% if cita.compra %} Esta es una cita para finalizar su compra.{% endif %}\n
                                     {% empty %}
                                     Usted no tiene ninguna cita.
-                                    {% endif %}
+                                    {% endfor %}
                                     `);
                                     break;
                             

@@ -120,7 +120,7 @@
                                     El comprador se llama {{compra.comprador}} y su correo es {{compra.comprador.usuario_persona.email}}, número de teléfono {{compra.comprador.numero_telefono}}.
                                     En caso de tener alguna duda con esta venta, contactar con el agente {{compra.inmueble.agente}},
                                     número de teléfono {{compra.inmueble.agente.numero_telefono}} y correo electrónico
-                                    {{compra.inmueble.agente.usuario_persona.email}}.`)
+                                    {{compra.inmueble.agente.usuario_persona.email}}`)
                                     pasado = true;
                                 }
                                 // {% endfor %}
@@ -135,7 +135,7 @@
                                 Venta #{{forloop.counter}} {{compra.inmueble.nombre}} por {{compra.inmueble.precio_texto}} dólares, estado: {{compra.estado_largo}}.\n
                                 {% empty %}
                                 Usted no ha realizado ninguna venta.
-                                {% endif %}
+                                {% endfor %}
                                 `);
                                 break;
                             
@@ -148,7 +148,7 @@
                                 // {% for compra in ventas %}
                                 if(compra == '{{forloop.counter}}'){
                                     hablar(`Redirigiendo a la consulta de pagos de la compra.`);
-                                    window.location.replace("/inmuebles/consultar/pagos/venta/{{compra.pk}}/");
+                                    window.location.replace("{% url 'consultar_pagos_ventas' pk=compra.pk %}");
                                     break;
                                 }
                                 // {% endfor %}
