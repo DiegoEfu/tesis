@@ -51,6 +51,9 @@ class Cambio(models.Model):
 
     def tasa_texto(self):
         return num2words(self.tasa, lang="es")
+    
+    def __str__(self):
+        return f"BSD 1 = USD {self.tasa} ({self.pk})"
 
 class Pago(models.Model):
     monto = models.DecimalField(max_digits=15, decimal_places=2)
@@ -79,3 +82,6 @@ class Pago(models.Model):
                 return y
         
         return "DESCONOCIDO"
+    
+    def __str__(self):
+        return f"PAGO A LA COMPRA {self.compra.pk} ({self.pk})"
