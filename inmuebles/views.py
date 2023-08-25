@@ -375,9 +375,9 @@ def seleccionar_hora_cita(request, pk):
 def cita_creada(request, pk):
     cita = Cita.objects.get(pk=pk)
     if(request.method == "GET"):
-        enviar_correo([cita.inmueble.dueno, cita.inmueble.agente], f"Cita pendiente de visita para el día {cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}.", f"Saludos. \n"
+        enviar_correo([cita.inmueble.dueno, cita.inmueble.agente], f"Cita pendiente de visita para el día {cita.fecha_asignada.date()}.", f"Saludos. \n"
             + f"El usuario {cita.persona} ha agendado una cita del visita para el inmueble <b>{cita.inmueble.nombre}</b> para el día "
-            + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}. Prepararse para el día de la cita.\n"
+            + f"{cita.fecha_asignada.date()}. Prepararse para el día de la cita.\n"
             + f"Atentamente, \n     Inmuebles Incaibo.")
         return render(request, 'cita_creada.html', context={'cita': cita})
     elif(request.method == "POST"): # REPORTES
@@ -459,12 +459,12 @@ def resultados_cita(request, pk):
 
             enviar_correo([cita.compra.inmueble.dueno, cita.compra.comprador], f"Resultados de la cita", f"Saludos. \n"
                 + f"El agente ha registrado la cita de formalidades al inmueble <b>{cita.compra.inmueble.nombre.upper()}</b> del día "
-                + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}, finalizándose el proceso de compraventa del inmueble.\n"
+                + f"{cita.fecha_asignada.date()}, finalizándose el proceso de compraventa del inmueble.\n"
                 + f"Muchas gracias por preferirnos. Atentamente, \n     Inmuebles Incaibo.")
         else:
             enviar_correo([cita.inmueble.dueno, cita.persona], f"Resultados de la cita", f"Saludos. \n"
                 + f"El agente ha registrado la cita de visita al inmueble <b>{cita.inmueble.nombre.upper()}</b> del día "
-                + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}, recibiendo el veredicto: <b>{cita.estado_largo()}</b> .\n"
+                + f"{cita.fecha_asignada.date()}, recibiendo el veredicto: <b>{cita.estado_largo()}</b> .\n"
                 + f"Atentamente, \n     Inmuebles Incaibo.")
 
         return redirect("/usuarios/agente/")
