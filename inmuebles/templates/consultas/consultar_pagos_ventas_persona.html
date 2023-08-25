@@ -127,7 +127,7 @@
                                 // {% endfor %}
 
                                 if(!pasado)
-                                    hablar(`No hay compra con el número '${numero}'.`)
+                                    hablar(`No hay compra con el número ${numero}.`)
                                 break;
 
                             // {% if pagos.count %}
@@ -256,6 +256,8 @@
     {% if pago.estado == 'R' %}
     <b>Comentario del Cajero: </b> {{pago.comentario_cajero}}
     {% endif %}
+    {% empty %}
+    No hay pagos.
     {% endfor %}
 </body>
 </html>

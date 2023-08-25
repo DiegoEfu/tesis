@@ -125,7 +125,7 @@
                                 // {% endfor %}
 
                                 if(!pasado)
-                                    hablar(`No hay venta con el número '${numero}'.`)
+                                    hablar(`No hay venta con el número ${numero}.`)
                                 break;
                             
                             case "pagos venta":
@@ -143,7 +143,7 @@
                                 // {% endfor %}
 
                                 if(!encontrado)
-                                    hablar(`No hay compras con el número '${numero}'.`)
+                                    hablar(`No hay compras con el número ${numero}.`)
                                 hablar(``);
                                 break;
 
@@ -168,7 +168,7 @@
                                     // {% endfor %}
 
                                     if(!fin)
-                                        hablar(`No hay venta con el número '${cancelar}'.`)
+                                        hablar(`No hay venta con el número ${cancelar}.`)
                                     break;
                         }
                       }    
@@ -287,6 +287,8 @@
     {% if compra.pagos.all.count %}
     <a href="{% url 'consultar_pagos_ventas' pk=compra.pk %}">Consultar Pagos</a>
     {% endif %}
+    {% empty %}
+    No ha realizado ninguna venta.
     {% endfor %}
 </body>
 </html>

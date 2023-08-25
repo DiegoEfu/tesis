@@ -127,7 +127,7 @@
                                 // {% endfor %}
 
                                 if(!pasado)
-                                    hablar(`No hay citas con el número '${numero}'.`)
+                                    hablar(`No hay citas con el número ${numero}.`)
                                 hablar(``);
                                 break;
                             
@@ -304,7 +304,11 @@
         <button name="tipo" id="pdf_{{cita.pk}}" value="pdf" type="submit">Descargar Comprobante PDF</button>
         <button name="tipo" id="mp3_{{cita.pk}}" value="mp3" type="submit">Descargar Comprobante MP3</button>
     </form>
+    {% elif cita.compra %}
+    <b>Cita de formalidades para la entrega del inmueble {{cita.compra.inmueble.nombre.upper}}</b>
     {% endif %}
+    {% empty %}
+    Usted no ha agendado ninguna cita.
     {% endfor %}
 </div>
 </div>

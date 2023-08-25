@@ -18,7 +18,7 @@
             ['Tipo de Persona', 'tipo', ''], 
             ['Identificación', 'identificacion', 'Ingrese su número de identificación. Solo se aceptan números. Diga dictado para dictar.'],
             ['Nombre', 'nombre', 'Ingrese su nombre. Separe con un espacio en caso de tener más de un nombre. Diga dictado para dictar.'],
-            ['Apellido', 'apellido', 'Ingrese su apellido. Puede tener un máximo de dos apellidos. Separe con espacios. Diga dictado para dictar.'],
+            ['Apellido', 'apellido', 'Ingrese sus apellidos como aparecen en su cédula de identidad. Diga dictado para dictar.'],
             ['Fecha de Nacimiento', 'fecha_nacimiento', 'Ingrese su fecha de nacimiento. Debe tener al menos 21 años. Diga dictado para dictar.'],
             ['Número Telefónico', 'telefono', 'Ingrese su número telefónico. Debe ser un número telefónico venezolano. Diga dictado para dictar.'],
             ['¿Es usted ciego?', 'ciego', 'Responda a la pregunta con un "sí" o un "no".'],
@@ -71,7 +71,7 @@
                                     break;
 
                                 case "continuar":
-                                    if(!escribiendo){
+                                    if(!escribiendo || campo === 6){
                                         campo++;
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
@@ -101,6 +101,9 @@
                                     break;
 
                                 case "listo":
+                                    if(campo === 6)
+                                        break;
+
                                     dictando = false;
                                     if(campo >= 1 && campo <= 5 || campo >= 7 && campo <= 8){
                                         let id = `#${campos[campo][1]}`;
@@ -226,8 +229,9 @@
                                         $(id).val($(id).val().trim().replace(/\s+/g,' '));
                                         
                                         if(campo === 8){
-                                            if($(id).val("").length < 5){
-                                                hablar("La longitud de la contraseña debe ser mayor o igual 5.");
+                                            if($(id).val().length < 8){
+                                                $(id).val("");
+                                                hablar("La longitud de la contraseña debe ser mayor o igual a 8. Escríbala nuevamente.");
                                                 break;
                                             }
                                         }
@@ -250,7 +254,7 @@
                                 
                                 case "2":
                                     if(campo === 0 && !speaking){
-                                        hablar("Usted ha seleccionado la opción 'extranjero'. Si quiso decir venezolano, diga 1. Diga listo para continuar.");
+                                        hablar("Usted ha seleccionado la opción 'extranjero'. Si quiso decir venezolano, diga 1. Diga continuar para continuar.");
                                         $('#tipo').val("E");
                                     }
                                     break; 
@@ -258,7 +262,7 @@
                                 case "sí":
                                     if(campo === 6){
                                         $('#ciego').prop("checked", true);
-                                        hablar("Usted ha dicho que sí es ciego. Diga no para cambiar esta opción. Diga listo para continuar.")
+                                        hablar("Usted ha dicho que sí es ciego. Diga no para cambiar esta opción. Diga continuar para continuar.")
                                     }
                                     break;
                                 
@@ -344,6 +348,7 @@
 
                             case "iniciar sesión":
                                 hablar("Usted ha dicho iniciar sesión. Redirigiendo.");
+                                document.getElementById();
                                 location.replace("/usuarios/login/");
                                 break;
                             

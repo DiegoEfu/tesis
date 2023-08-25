@@ -48,6 +48,9 @@
         padding-top: 60px;
         padding-bottom: 30px;
         height: 650px;
+
+        height: fit-content !important;
+        padding-bottom: 20px !important;
     }
 
     .cuadroForm {
