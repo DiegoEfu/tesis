@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth import logout
 from .models import Persona, Usuario
-from inmuebles.models import Sector, Parroquia, Inmueble
 from django.contrib.auth.hashers import make_password
+from inmuebles.views import enviar_correo
 import re
+import random
 import datetime
 # Create your views here.
 
@@ -177,7 +178,33 @@ def cerrar_sesion(request):
     request.session['mensaje'] = "Sesión cerrada."
     return redirect('/')
 
+def recuperar_contrasena(request):
+    if(request.method == 'GET'):
+        return render(request, 'recuperar_contrasena.html')
+    elif(request.method == 'POST'):
+
+        if(not Usuario.objects.filter(email__iexact = request.POST['email']).exists()):
+            errores = [f"El correo electrónico {request.POST['email']} no se encuentra en nuestra base de datos."]
+            return render(request, 'recuperar_contrasena.html', context={'errores': errores})
+
+        usuario = Usuario.objects.get(email__iexact = request.POST['email'])
+        contrasena = generar_contrasena()
+        usuario.password = make_password(contrasena)
+        usuario.save()
+
+        enviar_correo(usuario.persona, 'Olvido de Contraseña', f"Estimado usuario {usuario.persona}, \nuested olvidó la contraseña y solicitó renovarla. Aquí tiene su contraseña nueva: <b>{contrasena}</b>\nSe le sugiere que al iniciar sesión la cambie inmediatamente.\n\nAtentamente, Inmuebles Incaibo.")
+
+        request.session['mensaje'] = "Su contraseña nueva ha sido enviada a su correo electrónico."
+
+        return redirect("/")
+
 # Funciones Auxiliares
+
+def generar_contrasena():
+    caracteres = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890!?.#$:;-_*"
+    nueva_contrasena = ''.join(random.choice(caracteres) for i in range(int(random.randint(8,15))))
+
+    return nueva_contrasena
 
 def calculateAge(dob):
     today = datetime.date.today()

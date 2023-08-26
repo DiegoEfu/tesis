@@ -1,20 +1,20 @@
 {% load pwa %}
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cambio de Contraseña</title>
+    <title>Edición del Perfil</title>
     <link href='https://fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static 'estilos/perfil/cambiarClave.css' %}">
+    <link rel="stylesheet" href="{% static 'estilos/perfil/perfilEditar.css' %}">
     <script>
         const synthesis = window.speechSynthesis;
         const campos = [
-            ['Contraseña', 'contrasena', ''], 
-            ['Repetir Contraseña', 'repetir', 'Vuelva a escribir su contraseña en teclado.'],
+            ['Correo Electrónico', 'email', ''], 
         ];
         let speaking = false, escribiendo = false, dictando = false, campo = 0;
         let sectores_actuales = [];
@@ -24,14 +24,11 @@
 
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
-            "cambiar contraseña": "Inicia el formulario de cambio de contraseñ.",
+            "recuperar contraseña": "Inicia el formulario de edición de información del perfil.",
             "leer pantalla": "Lee el contenido de la pantalla",
-            "cerrar sesión": "Cierra la sesión actual",
-            "consultar compras": "Permite consultar las compras realizadas por su persona",
-            "consultar ventas": "Permite consultar las ventas de sus publicaciones",
-            "consultar citas": "Permite consultar las citas que ha solicitado",
-            "consultar publicaciones": "Permite consultar las publicaciones de sus inmuebles",
-            "ver perfil": "Permite ver sus datos personales",  
+            "iniciar sesión": "Lleva a la pantalla de inicio de sesión",
+            "regresar inicio": "Lleva a la pantalla de inicio",
+            "registrarse": "Lleva a la pantalla de registro de usuario",  
             "desactivar comandos de voz": "Desactiva los comandos de voz"
         };
 
@@ -45,18 +42,25 @@
                     if(campo === 0)
                         speech = speech.toLowerCase().replace("uno", "1").replace("dos", "2");
 
-                    ["salir", "continuar", "editar", "listo"].forEach(comando => {
+                    ["dictado", "salir", "continuar", "editar", "listo"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
                                 case "salir":
                                     campo = 0;
                                     hablar("Usted ha dicho salir. Saliendo del formulario.");
-                                    $('#contrasena').val("");
-                                    $('#repetir').val("");
                                     dictando = false;
                                     recognition.onresult = inicial;
                                 break;
+
+                                case "dictado":
+                                    if(!dictando){
+                                        hablar(`Usted ha dicho dictado. Deletree o dicte con claridad el ${campos[campo][0]}.`);
+
+                                        escribiendo = true;
+                                        dictando = true;
+                                    }
+                                    break;
 
                                 case "continuar":
                                     if(!escribiendo){
@@ -64,8 +68,8 @@
                                         if(campo < campos.length){
                                             const input2 = document.getElementById(campos[campo][1]);
                                             input2.focus();
-                                            input2.val = "";
                                             hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}.`);
+                                            hablar($('#'+campos[campo][1]).val() !== '' ? "Actualmente el valor del campo es: " + $('#'+campos[campo][1]).val() + ". Si quiere editarlo, diga listo y luego editar." : "Diga listo una vez la haya ingresado.");
                                             
                                             escribiendo = true;
                                         } else{
@@ -86,36 +90,63 @@
                                     break;
 
                                 case "listo":
+                                    dictando = false;
                                     let id = `#${campos[campo][1]}`;
-                                    $(id).val($(id).val().trim().replace(/\s+/g,' '));
                                     
                                     if(campo === 0){
-                                        if($(id).val().length < 5){
+                                        let existe = false;
+                                        $.ajax({
+                                            url: "comprobar/correo",
+                                            contentType: "application/json",
+                                            dataType: "json",
+                                            type: "GET",
+                                            cache: true,
+                                            async: false,
+                                            data: {
+                                                'email': $('#email').val()
+                                            },
+                                            success: (res) => {
+                                                console.log(res);
+                                                existe = res.existe;
+                                            },
+                                            error: (e) => console.log(e)
+                                        });
+
+                                        if(!existe){
+                                            hablar(`El correo electrónico ${$(id).val()} no está registrado en la base de datos. Por favor, intente ingresando uno que exista, o diga salir.`);
                                             $(id).val("");
-                                            hablar("La contraseña debe de tener al menos 5 caracteres. Por favor vuelva a ingresarla.")
                                             break;
                                         }
-                                    } else if(campo === 1){
-                                        if($(id).val().length < 5){
+
+                                        if($(id).val().indexOf('@') === -1){
+                                            hablar(`Usted ha escrito: ${$(id).val()}. El correo electrónico debe contener el símbolo: @. Vuelva a escribir o dictarlo.`);
                                             $(id).val("");
-                                            hablar("La contraseña debe de tener al menos 5 caracteres. Por favor vuelva a ingresarla.")
                                             break;
-                                        } else if($(id).val() !== $('#contrasena').val()){
+                                        } else if($(id).val().split("@").length !== 2) {
+                                            hablar(`Usted ha escrito: ${$(id).val()}. El correo electrónico debe estar separado en dos partes por el símbolo @.`);
                                             $(id).val("");
-                                            hablar("La repetición de la contraseña no coincide. Por favor escriba de nuevo la repetición o diga salir para reiniciar el formulario.");
                                             break;
                                         }
                                     }
-                                    if(campo === 0)
-                                        hablar("Diga 'editar' para editar o 'continuar' para seguir con el siguiente campo.")
-                                    else
-                                        hablar("Diga 'editar' para editar o 'continuar' para enviar el formulario. Se cerrará sesión una vez cambie la contraseña.")
-                                    
+
+                                    $(id).val($(id).val().trim().replace(/\s+/g,' '));
+                                    hablar("Usted ha escrito: " + $('#'+campos[campo][1]).val() + " Diga 'editar' para editar o 'continuar' para enviar correo de recuperación.")
                                     escribiendo = false;
                                     break;
                             }
                         }
                     });
+
+                    console.log(dictando);
+                    console.log(campo);
+
+                    if(!speaking  && speech.toLowerCase().indexOf('deletree o dicte') === -1){
+                        if(dictando && (campo === 0)){
+                            if(speech.toLowerCase().indexOf("dictado") === -1)
+                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                        }                       
+                    }
+                    
                 }
             }
         }
@@ -135,11 +166,12 @@
                                 hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
                                 break;
 
-                            case "cambiar contraseña":
-                                document.getElementById('contrasena').value = "";
-                                document.getElementById('contrasena').focus();
-                                let texto = "Usted ha dicho cambiar contraseña. Campo #1 contraseña. Escriba su contraseña secreta nueva. Diga listo una vez haya finalizado.";
+                            case "recuperar contraseña":
+                                document.getElementById('email').focus();
+                                let texto = "Usted ha dicho recuperar contraseña. Campo único: correo electrónico. Diga dictado para dictarlo, o escríbalo. Diga listo una vez haya finalizado.";
+                                texto += document.getElementById('email').value  !== '' ? `Actualmente el campo tiene el valor: ${document.getElementById('email').value.toUpperCase()} Si quiere editarlo diga listo y luego editar.` : "";
                                 hablar(texto);
+
                                 recognition.onresult = formulario_p1;
                                 break;
 
@@ -159,40 +191,18 @@
                                 }
                             break;
 
-                            // {% if request.user.is_authenticated %}
-                            case "consultar compras":
-                                hablar("Redirigiendo a la pantalla de compras.");
-                                location.replace("/inmuebles/consultar/compras/");
+                            case "iniciar sesión":
+                                location.replace("/usuarios/login/");                                
                                 break;
 
-                            case "consultar ventas":
-                                hablar("Redirigiendo a la pantalla de ventas.");
-                                location.replace("/inmuebles/consultar/ventas/");
+                            case "registrarse":
+                                location.replace("{% url 'registro' %}");
                                 break;
-
-                            case "consultar citas":
-                                hablar("Redirigiendo a la pantalla de citas.");
-                                location.replace("/inmuebles/consultar/citas/");
-                                break;
-                            
-                            case "consultar publicaciones":
-                                hablar("Redirigiendo a la pantalla de publicaciones.");
-                                location.replace("/inmuebles/consultar/publicaciones/");
-                                break;
-
-                            case "cerrar sesión":
-                                document.getElementById('cerrar_sesion').click();
-                                break;
-
-                            case "ver perfil":
-                                window.location.replace('/usuarios/perfil/');
-                                break;
-                            // {%endif%}
                                                         
                             case "leer pantalla":
-                                hablar(`Esta es la pantalla de cambio de contraseña. Esta pantalla está dividida en las siguientes secciones:
+                                hablar(`Esta es la pantalla de recuperación de contraseña. La pantalla está dividida en las siguientes secciones:
                                     1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
-                                    2. Sección de Formulario: Aquí se encuenta el formulario de cambio de contraseña.
+                                    2. Sección de Formulario: Aquí se encuenta el formulario de recuperación de contraseña, diga "recuperar contraseña" para iniciarlo por voz.
                                 `);
                                 break;
                         }
@@ -225,7 +235,7 @@
                 var utterance = undefined;
                 
                 if(tipo === 0)
-                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de cambio de contraseña. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
+                    utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de recuperación de contraseña. Diga "ayuda" para obtener los comandos que puede utilizar en esta pantalla.');
                 else
                     utterance = new SpeechSynthesisUtterance('El formulario que envió contiene errores: {% for error in errores %}{{forloop.counter}}: {{error}}. {% endfor %}.');
                 
@@ -304,32 +314,26 @@
     {% include 'nav.html' %}
     <div class="containerOverall">
         <div class="contenedorInfoPerfil">
-    {{error}}
-    <h3 class="tituloForm">Cambiar contraseña</h3><br>
-    <form id="form" method="post">
+    <ul>
+        {% for error in errores %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+    <h3 class="tituloForm">Recuperar Contraseña</h3><br>
+    <form method="post">
         {% csrf_token %}
-        <label for="contrasena" class="form-label">Contraseña:</label>
-        <input minlength="5" required type="password" name="contrasena" id="contrasena" class="form-control"><br><br>
+        <label for="email" class="form-label">Correo Electrónico:</label><br>
+        <input required type="email" name="email" id="email" value="{{request.user.email}}" class="form-control"> <br><br>
 
-        <label for="repetir" class="form-label">Repetir Contraseña:</label>
-        <input minlength="5" required type="password" name="repetir" id="repetir" class="form-control"><br><br>
-
-        <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
+        <button type="submit" class="btn btn-success">Enviar cambios</button>
     </form>
 </div>
 </div>
-    <script>
-        document.getElementById('form').addEventListener('submit', (e) => {
-            if(document.getElementById('contrasena').value === document.getElementById('repetir').value)
-                return true;
-            else
-                alert("Las contraseñas no coinciden.");
-        });
-
-        $('form').one('submit', function() {
-            $(this).find('input[type="submit"]').attr('disabled','disabled');
-        }); 
-    </script>
+<script>
+    $('form').one('submit', function() {
+        $(this).find('input[type="submit"]').attr('disabled','disabled');
+    });
+</script>
 </body>
 {% include 'footer.html' %}
 </html>
