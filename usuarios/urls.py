@@ -12,5 +12,7 @@ urlpatterns = [
     path("perfil/", perfil, name="perfil"),
     path("perfil/editar/", edicion_perfil, name="edicion_perfil"),
     path("perfil/cambio_contrasena/", cambio_contrasena, name="cambio_contrasena"),
-    path("cerrar_sesion", cerrar_sesion, name="cerrar_sesion")
+    path("cerrar_sesion", cerrar_sesion, name="cerrar_sesion"),
+    path("recuperar_contrasena", recuperar_contrasena, name="recuperar_contrasena"),
+    path("recuperar_contrasena/comprobar/correo/", comprobacion_correo, name="comprobar_correo"),
 ]
