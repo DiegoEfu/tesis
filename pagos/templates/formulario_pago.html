@@ -84,7 +84,7 @@
                                             : "Diga listo una vez la haya ingresado.";
                                             
                                             hablar(`Campo #${campo+1}: ${campos[campo][0]}. ${campos[campo][2]}. ${texto}`);
-
+                                            cambio();
                                             escribiendo = true;
                                         } else{
                                             campo = 0;
@@ -422,11 +422,7 @@
 </div>
     <script>
         document.getElementById('monto').addEventListener('change', (event) => {
-            let monto = document.getElementById('monto').value;
-            if(document.getElementById('moneda').value === "bolivar")
-                monto = redondeoFinanciero(monto/tasa);
-            
-            document.getElementById('monto_cancelado_usd').value = monto;
+            cambio();
         });
 
         document.getElementById('moneda').addEventListener('change', (event) => {
@@ -439,6 +435,14 @@
         const hoy = new Date();
         document.getElementById("fecha_transaccion").setAttribute("max", `${hoy.getFullYear()}-${hoy.getMonth()+1 < 10 ? "0" +(hoy.getMonth()+1) : hoy.getMonth()+1 }-${hoy.getDate()< 10 ? "0" +(hoy.getDate()) : hoy.getDate()}`);
 
+
+        function cambio(){
+            let monto = document.getElementById('monto').value;
+            if(document.getElementById('moneda').value === "bolivar")
+                monto = redondeoFinanciero(monto/tasa);
+            
+            document.getElementById('monto_cancelado_usd').value = monto;
+        }
     </script>
 
     <script>

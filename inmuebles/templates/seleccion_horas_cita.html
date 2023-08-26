@@ -93,7 +93,7 @@
                             // {%endif%}
                                                         
                             case "leer pantalla":
-                                hablar(`Esta es la pantalla de agendar hora para la cita de visita que solicitó para el día {{fecha.date}}. La pantalla está dividida en las siguientes secciones:
+                                hablar(`Esta es la pantalla de agendar hora para la cita de visita que solicitó para el día {{fecha.date}} para el inmueble {{inmueble.nombre}}. La pantalla está dividida en las siguientes secciones:
                                     1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
                                     2. Sección de Horas: Aquí salen las horas en las que puede agendar cita para visitar el inmueble el día {{fecha.date}}. Diga "leer opciones", para escuchar las horas disponibles.
                                 `);
@@ -122,7 +122,7 @@
                                 // {% endfor %}
 
                                 if(!encontrado)
-                                    hablar(`No hay hora disponible con el número '${hora}'.`)
+                                    hablar(`No hay hora disponible con el número ${hora}.`)
                                 hablar(``);
                                 break;
                         }
@@ -220,6 +220,9 @@
     </script>
 </head>
 <body>
+    <h3>Agendar Cita de Visita</h3>
+    <h4>{{inmueble.nombre.upper}}</h4>
+
     Usted escogió el día {{fecha.date}}. Las horas disponibles para el agente y para usted son las siguientes:
     <form method="post">
         {% csrf_token %}

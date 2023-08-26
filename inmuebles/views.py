@@ -145,7 +145,7 @@ def get_sectores(request, id):
 def resultados(request):
     if request.method == 'GET':
         resultados = buscar_coincidencias(request.session['busqueda'])
-        return render(request, 'resultados.html', context={'resultados': resultados, 'busqueda': request.session['busqueda']})
+        return render(request, 'resultados.html', context={'resultados': resultados, 'busqueda': request.session.get('busqueda')})
     elif request.method == 'POST':
         busqueda = request.POST.get('busqueda').strip().lower()
         request.session['busqueda'] = busqueda
@@ -156,9 +156,9 @@ def detallar_inmueble(request, pk):
     inmueble = Inmueble.objects.get(pk=pk)
     if(request.method == 'GET'):
         if(request.user.is_authenticated):
-            context={'inmueble': inmueble, 'busqueda': request.session['busqueda'], 'puede_cita': not Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "E").exists(), 'puede_comprar': Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "F").exists()}
+            context={'inmueble': inmueble, 'busqueda': request.session.get('busqueda'), 'puede_cita': not Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "E").exists(), 'puede_comprar': Cita.objects.filter(persona = request.user.persona, inmueble =inmueble, estado = "F").exists()}
         else:
-            context={'inmueble': inmueble, 'busqueda': request.session['busqueda'], 'puede_cita': False, 'puede_comprar': False}
+            context={'inmueble': inmueble, 'busqueda': request.session.get('busqueda'), 'puede_cita': False, 'puede_comprar': False}
         
         return render(request, "detalle_inmueble.html", context=context)
     elif(request.method == 'POST'):
@@ -318,7 +318,7 @@ def seleccionar_dia_cita(request, pk):
         dias_disponibles = []
         fecha = datetime.today() + timedelta(days=1)
 
-        while len(dias_disponibles) < 7:
+        while len(dias_disponibles) < 5:
             if(fecha.weekday() < 5):
                 print(fecha.weekday())
                 dia_a_comparar = datetime(fecha.year,fecha.month,fecha.day)
@@ -375,9 +375,9 @@ def seleccionar_hora_cita(request, pk):
 def cita_creada(request, pk):
     cita = Cita.objects.get(pk=pk)
     if(request.method == "GET"):
-        enviar_correo([cita.inmueble.dueno, cita.inmueble.agente], f"Cita pendiente de visita para el día {cita.fecha_asignada.date}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}.", f"Saludos. \n"
+        enviar_correo([cita.inmueble.dueno, cita.inmueble.agente], f"Cita pendiente de visita para el día {cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}.", f"Saludos. \n"
             + f"El usuario {cita.persona} ha agendado una cita del visita para el inmueble <b>{cita.inmueble.nombre}</b> para el día "
-            + f"{cita.fecha_asignada.date}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}. Prepararse para el día de la cita.\n"
+            + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}. Prepararse para el día de la cita.\n"
             + f"Atentamente, \n     Inmuebles Incaibo.")
         return render(request, 'cita_creada.html', context={'cita': cita})
     elif(request.method == "POST"): # REPORTES
@@ -728,6 +728,8 @@ def consultar_revision(request):
     elif(request.method == 'POST'):
         inmueble = Inmueble.objects.get(pk=request.POST['pk'])
         inmueble.estado = 'X'
+        inmueble.save()
+        request.session['mensaje'] = "La publicación fue cancelada exitosamente."
         return redirect('/usuarios/agente')
 
 def consultar_finalizadas(request):
@@ -775,6 +777,8 @@ def consultar_ventas_revision(request):
         compra = Compra.objects.get(pk=request.POST['compra'])
         compra.estado = 'X'
         compra.save()
+
+        request.session['mensaje'] = "La venta fue cancelada exitosamente."
 
         enviar_correo([compra.inmueble.dueno,compra.inmueble.comprador], f"Se ha cancelado la venta", f"Saludos. \n"
             + f"El agente <b>{compra.inmueble.agente}</b> del inmueble <b>{compra.inmueble.nombre.upper()}</b> ha cancelado la venta.\n"
@@ -890,6 +894,8 @@ def edicion_inmueble_agente(request, pk):
         enviar_correo(inmueble.dueno, f"Se ha editado una publicación", f"Saludos, dueño {inmueble.dueno}. \n"
             + f"El agente <b>{inmueble.agente}</b> del inmueble <b>{inmueble.nombre.upper()}</b> ha solicitado editado la publicación. Revisar los cambios.\n"
             + f"Atentamente, \n     Inmuebles Incaibo.")
+        
+        request.session['mensaje'] = "Publicación editada exitosamente."
 
         return redirect('/usuarios/agente/')
 
@@ -904,6 +910,8 @@ def cancelacion_inmueble_agente(request, pk):
         enviar_correo(inmueble.dueno, f"Se ha cancelado una publicación", f"Saludos, dueño {inmueble.dueno}. \n"
             + f"El agente <b>{inmueble.agente}</b> del inmueble <b>{inmueble.nombre.upper()}</b> ha cancelado la publicación. Contactarse para conocer las razones.\n"
             + f"Atentamente, \n     Inmuebles Incaibo.")
+        
+        request.session['mensaje'] = "La publicación fue cancelada exitosamente."
 
         return redirect('/usuarios/agente/')
 
@@ -958,6 +966,8 @@ def revision_edicion_inmueble(request, pk):
         inmueble.estado = 'A'
         inmueble.save()
         edicion.save()
+
+        request.session['mensaje'] = "Se han registrado los cambios y ahora la publicación está activa."
 
         return redirect('/usuarios/agente/')
 
@@ -1154,4 +1164,7 @@ def enviar_correo(persona, asunto, contenido):
     except:
         destinatario = persona.usuario_persona.email
 
-    servidor.send(destinatario, asunto, contenido)
+    try:
+        servidor.send(destinatario, asunto, contenido)
+    except Exception as e:
+        print(f"NO SE PUDO ENVIAR LOS CORREOS. {str(e).upper()}.")
