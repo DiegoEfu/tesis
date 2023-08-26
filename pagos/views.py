@@ -68,6 +68,9 @@ def formulario_pago(request, pk):
         if(fecha > datetime.today()):
             errores.append("La fecha de la transacción no puede ser mayor a hoy.")
 
+        if(fecha < compra.fecha):
+            errores.append("La fecha de la transacción no puede ser menor a la de la compra.")
+
         # Creación
 
         tasa = Cambio.objects.latest('fecha')

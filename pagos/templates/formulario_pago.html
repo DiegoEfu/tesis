@@ -408,7 +408,7 @@
         <input type="text" pattern="[0-9]+" name="referencia" id="referencia" maxlength="15" required class="form-control"><br>
 
         <label for="fecha_transaccion" class="form-label">Fecha de la transacción:</label><br>
-        <input type="date" id="fecha_transaccion" name="fecha_transaccion" required class="form-control"><br>
+        <input type="date" min="{{compra.fecha.date}}" id="fecha_transaccion" name="fecha_transaccion" required class="form-control"><br>
 
         <label for="comentario" class="form-label">Comentarios:</label><br>
         <textarea name="comentario" id="comentario" class="form-control"></textarea><br>

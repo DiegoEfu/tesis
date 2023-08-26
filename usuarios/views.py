@@ -72,9 +72,12 @@ def register_user(request):
             errores.append("El email ingresado ya fue utilizado.")
         if(Persona.objects.filter(tipo=persona,identificacion=identificacion).exists()):
             errores.append("Ya hay una persona con esa identificación registrada.")
+        if(Persona.objects.filter(numero_telefono = telefono).exists()):
+            errores.append("Ya ese número de teléfono está siendo utilizado.")
         
         # Caracteres inválidos
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+        fecha = datetime.datetime.strptime(fecha_nacimiento, '%Y-%m-%d')
         if(not re.fullmatch(regex,email.strip())):
             errores.append("El correo electrónico ingresado no es válido.")
         regex = r"[A-Za-záéíóúÁÉÍÓÚñÑüÜ\s]+"
@@ -82,10 +85,12 @@ def register_user(request):
             errores.append("El nombre ingresado no es válido.")
         if(not re.fullmatch(regex,apellido.strip())):
             errores.append("El apellido ingresado no es válido.")
-        if(datetime.datetime.today() < datetime.datetime.strptime(fecha_nacimiento, '%Y-%m-%d')):
+        if(datetime.datetime.today() < fecha):
             errores.append("La fecha de nacimiento debe de ser menor o igual al día actual.")
-        elif(calculateAge(datetime.datetime.strptime(fecha_nacimiento, '%Y-%m-%d').date()) < 21):
+        elif(calculateAge(fecha).date() < 21):
             errores.append("Su edad debe de ser mayor o igual a 21.")
+        elif(fecha.year < 1900):
+            errores.append("El año de nacimiento debe ser mayor o igual a 1900.")
         
         regex = r"[0-9]+"
         if(re.fullmatch(telefono,regex)):
@@ -106,7 +111,7 @@ def register_user(request):
             numero_telefono= telefono, puede_ver = not ciego, cargo = "C")
         Usuario.objects.create(persona=persona, email=email.strip(), password = make_password(password))
 
-        request.session['mensaje'] = "¡Su usuario se ha creado exitosamente! Ahora inicie sesión"
+        request.session['mensaje'] = "¡Su usuario se ha creado exitosamente! Ahora inicie sesión."
 
         return redirect('/')
     else:
