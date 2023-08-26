@@ -1,9 +1,15 @@
+{% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de Pagos</title>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'estilos/consultas/consultarPagosComprasPersona.css' %}">
 
     <script>
         const synthesis = window.speechSynthesis;
@@ -253,7 +259,10 @@
     </script>
 </head>
 <body>
-    <h2>Consultar Pagos Realizados</h2>
+    {% include 'nav.html' %}
+    <div class="containerConsultaCitas">
+        <div class="cuadroCita">
+    <h2 class="citasTitulo">Consultar Pagos Realizados</h2>
     {% if compra.estado == 'E' %}
     <a href="{% url 'formulario_registro_pago' pk=compra.pk %}">Registrar nuevo pago</a>
     {% endif %}
@@ -266,20 +275,23 @@
     </form>
     {% endif %}
     {% for pago in pagos %}
-    <hr>
-    <b>Monto</b>: Bs. {{pago.monto}} / $ {{pago.valor_dolar|floatformat:2}} (Tasa: {{pago.tasa.tasa}}) <br>
-    <b>Estado:</b> {{pago.estado_largo}} <br>
-    <b>Cuenta:</b> {{pago.cuenta}} <br>
-    <b>Referencia:</b> {{pago.referencia}} <br>
-    <b>Fecha:</b> {{pago.fecha}} <br>
+    <label for="" class="form-label"><b>Monto</b>: Bs. {{pago.monto}} / $ {{pago.valor_dolar|floatformat:2}} (Tasa: {{pago.tasa.tasa}})</label> <br>
+    <label for="" class="form-label"><b>Estado:</b> {{pago.estado_largo}}</label> <br>
+    <label for="" class="form-label"><b>Cuenta:</b> {{pago.cuenta}}</label> <br>
+    <label for="" class="form-label"><b>Referencia:</b> {{pago.referencia}}</label> <br>
+    <label for="" class="form-label"><b>Fecha:</b> {{pago.fecha}}</label> <br>
 
-    <b>Comentario:</b> {{pago.comentario}} <br>
+    <label for="" class="form-label"><b>Comentario:</b> {{pago.comentario}}</label> <br>
 
     {% if pago.estado == 'R' %}
-    <b>Comentario del Cajero: </b> {{pago.comentario_cajero}}
+    <label for="" class="form-label"><b>Comentario del Cajero: </b> {{pago.comentario_cajero}}</label>
     {% endif %}
+    <hr>
     {% empty %}
-    No hay pagos.
+    <label for="" class="form-label"> No hay pagos. </label>
     {% endfor %}
+</div>
+</div>
 </body>
+{% include 'footer.html' %}
 </html>
