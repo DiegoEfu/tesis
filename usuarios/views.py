@@ -87,7 +87,7 @@ def register_user(request):
             errores.append("El apellido ingresado no es válido.")
         if(datetime.datetime.today() < fecha):
             errores.append("La fecha de nacimiento debe de ser menor o igual al día actual.")
-        elif(calculateAge(fecha).date() < 21):
+        elif(calculateAge(fecha) < 21):
             errores.append("Su edad debe de ser mayor o igual a 21.")
         elif(fecha.year < 1900):
             errores.append("El año de nacimiento debe ser mayor o igual a 1900.")

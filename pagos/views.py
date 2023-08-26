@@ -25,6 +25,7 @@ def formulario_pago(request, pk):
         context = {}
         context['cuentas_empresa'] = Cuenta.objects.filter(persona__pk = 3)
         context['tasa_dolar'] = Cambio.objects.latest('fecha').tasa
+        context['compra'] = compra
         return render(request, "formulario_pago.html",context=context)
     elif(request.method == 'POST'):
         # Validación de completitud de datos
