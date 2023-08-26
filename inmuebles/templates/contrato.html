@@ -100,7 +100,47 @@
                                 break;
                             
                             case "leer contrato":
-                                hablar(`TODO aquí va el contrato. Diga "yo acepto los términos mencionados" para aceptar la compraventa.`)
+                                hablar(`Contrato de Términos y Condiciones para Compraventa en Línea Inmuebles Incaibo
+
+Este contrato de términos y condiciones (en adelante, "el Contrato") regula la compraventa de un inmueble mediante la aplicación web progresiva de Inmuebles Incaibo, en el marco de las leyes de la República Bolivariana de Venezuela. 
+            
+Al aceptar este Contrato, el comprador, {{request.user.persona}} ({{request.user.persona.cedula}}), reconoce y acepta las siguientes cláusulas:
+            
+CLÁUSULA PRIMERA - DESCRIPCIÓN DEL INMUEBLE
+            
+En el detalle del inmueble ofrecido se ofreció una descripción detallada y precisa del inmueble, incluyendo ubicación, dimensiones, características y condiciones generales. Todas estas características fueron observadas en la cita de visita realizada previamente. El comprador reconoce que ha revisado y comprendido la descripción antes de aceptar la compra.
+
+CLÁUSULA SEGUNDA - PRECIO Y FORMA DE PAGO
+            
+El precio de venta es el establecido por {{inmueble.precio_texto.upper}} dólares americanos, el cual se encuentra en la publicación del inmueble en la aplicación web de Inmuebles Incaibo. El precio fue estipulado por la inmobiliaria, el vendedor y discutido con el comprador en la cita de visita de manera clara y precisa. El comprador se compromete a pagar dicho precio mediante TRANSFERENCIA BANCARIA al cambio oficial en bolívares digitales a las cuentas de la inmobiliaria, la cual retendrá el IVA y el 5% de comisión de los servicios de venta.
+            
+CLÁUSULA TERCERA - DOCUMENTOS LEGALES 
+            
+El vendedor demostró que es el propietario legítimo del inmueble y cuenta con todos los documentos legales necesarios para su venta. El comprador tiene derecho a solicitar y verificar la autenticidad de dichos documentos antes de confirmar la compra en cualquier momento mediante su solicitud vía correo electrónico.
+            
+CLÁUSULA CUARTA - RESPONSABILIDAD DEL COMPRADOR
+            
+El comprador se compromete a proporcionar información personal verídica y actualizada durante todo el proceso de compraventa, tal como aparecen sus datos en la plataforma. La compra será cancelada y reversada de detectar alguna incongruencia en los datos del comprador. Además, el comprador asume la responsabilidad de revisar los detalles y condiciones del inmueble antes de realizar la compra, eximiendo de cualquier responsabilidad al vendedor por omisiones o errores en la descripción proporcionada.
+            
+CLÁUSULA QUINTA - PLAZOS Y ENTREGA DEL INMUEBLE
+            
+La entrega del inmueble será realizada una vez se pague la totalidad del precio estipulado, en una cita realizada el día hábil más cercano a la fecha del pago final de tal modo que no interfiera con el horario del agente encargado ni del dueño. El vendedor se compromete a entregar el inmueble en las condiciones acordadas y dentro del plazo establecido, salvo casos de fuerza mayor o circunstancias imprevistas debidamente justificadas.
+            
+CLÁUSULA SEXTA - CANCELACIÓN Y REEMBOLSO 
+            
+En caso de que el comprador decida cancelar la compraventa antes de la entrega del inmueble, deberá notificarlo primeramente mediante el portal de Inmuebles Incaibo. En tal caso, se realizará la devolución al comprador del monto total o parcial (según sea el caso) pagado como anticipo, descontando únicamente gastos administrativos y/o comisiones acordadas previamente.
+            
+CLÁUSULA SÉPTIMA - JURISDICCIÓN
+            
+Para cualquier controversia que surja en relación con este Contrato, las partes se someten a la jurisdicción y competencia de los tribunales venezolanos, renunciando expresamente a cualquier otro fuero o jurisdicción que pudiera corresponderles.
+            
+Este Contrato de Términos y Condiciones se firma virtualmente de mutuo acuerdo con la finalidad de establecer las condiciones bajo las cuales se llevará a cabo la compraventa en línea del inmueble mencionado. 
+El comprador al aceptar este contrato declara haber leído y entendido cada cláusula contenida en este Contrato, y lo acepta en su totalidad.
+            
+Comprador
+Nombre: {{request.user.persona}}
+Fecha: {{hoy}}    
+Diga "yo acepto los términos mencionados" para aceptar la compraventa.`)
                                 break;
                             
                             case "yo acepto los términos mencionados":
@@ -202,11 +242,48 @@
     <form method="post">
         {% csrf_token %}
         <textarea name="cuerpo_contrato" id="Contrato" cols="30" rows="10" disabled>
-            Texto del Contrato de Compra
-            Inmueble: {{inmueble.nombre}}
-        </textarea>
+Contrato de Términos y Condiciones para Compraventa en Línea Inmuebles Incaibo
+
+Este contrato de términos y condiciones (en adelante, "el Contrato") regula la compraventa de un inmueble mediante la aplicación web progresiva de Inmuebles Incaibo, en el marco de las leyes de la República Bolivariana de Venezuela. 
+            
+Al aceptar este Contrato, el comprador, {{request.user.persona}} ({{request.user.persona.cedula}}), reconoce y acepta las siguientes cláusulas:
+            
+CLÁUSULA PRIMERA - DESCRIPCIÓN DEL INMUEBLE
+            
+En el detalle del inmueble ofrecido se ofreció una descripción detallada y precisa del inmueble, incluyendo ubicación, dimensiones, características y condiciones generales. Todas estas características fueron observadas en la cita de visita realizada previamente. El comprador reconoce que ha revisado y comprendido la descripción antes de aceptar la compra.
+
+CLÁUSULA SEGUNDA - PRECIO Y FORMA DE PAGO
+            
+El precio de venta es el establecido por {{inmueble.precio_texto.upper}} dólares americanos, el cual se encuentra en la publicación del inmueble en la aplicación web de Inmuebles Incaibo. El precio fue estipulado por la inmobiliaria, el vendedor y discutido con el comprador en la cita de visita de manera clara y precisa. El comprador se compromete a pagar dicho precio mediante TRANSFERENCIA BANCARIA al cambio oficial en bolívares digitales a las cuentas de la inmobiliaria, la cual retendrá el IVA y el 5% de comisión de los servicios de venta.
+            
+CLÁUSULA TERCERA - DOCUMENTOS LEGALES 
+            
+El vendedor demostró que es el propietario legítimo del inmueble y cuenta con todos los documentos legales necesarios para su venta. El comprador tiene derecho a solicitar y verificar la autenticidad de dichos documentos antes de confirmar la compra en cualquier momento mediante su solicitud vía correo electrónico.
+            
+CLÁUSULA CUARTA - RESPONSABILIDAD DEL COMPRADOR
+            
+El comprador se compromete a proporcionar información personal verídica y actualizada durante todo el proceso de compraventa, tal como aparecen sus datos en la plataforma. La compra será cancelada y reversada de detectar alguna incongruencia en los datos del comprador. Además, el comprador asume la responsabilidad de revisar los detalles y condiciones del inmueble antes de realizar la compra, eximiendo de cualquier responsabilidad al vendedor por omisiones o errores en la descripción proporcionada.
+            
+CLÁUSULA QUINTA - PLAZOS Y ENTREGA DEL INMUEBLE
+            
+La entrega del inmueble será realizada una vez se pague la totalidad del precio estipulado, en una cita realizada el día hábil más cercano a la fecha del pago final de tal modo que no interfiera con el horario del agente encargado ni del dueño. El vendedor se compromete a entregar el inmueble en las condiciones acordadas y dentro del plazo establecido, salvo casos de fuerza mayor o circunstancias imprevistas debidamente justificadas.
+            
+CLÁUSULA SEXTA - CANCELACIÓN Y REEMBOLSO 
+            
+En caso de que el comprador decida cancelar la compraventa antes de la entrega del inmueble, deberá notificarlo primeramente mediante el portal de Inmuebles Incaibo. En tal caso, se realizará la devolución al comprador del monto total o parcial (según sea el caso) pagado como anticipo, descontando únicamente gastos administrativos y/o comisiones acordadas previamente.
+            
+CLÁUSULA SÉPTIMA - JURISDICCIÓN
+            
+Para cualquier controversia que surja en relación con este Contrato, las partes se someten a la jurisdicción y competencia de los tribunales venezolanos, renunciando expresamente a cualquier otro fuero o jurisdicción que pudiera corresponderles.
+            
+Este Contrato de Términos y Condiciones se firma virtualmente de mutuo acuerdo con la finalidad de establecer las condiciones bajo las cuales se llevará a cabo la compraventa en línea del inmueble mencionado. 
+El comprador al aceptar este contrato declara haber leído y entendido cada cláusula contenida en este Contrato, y lo acepta en su totalidad.
+            
+Comprador
+Nombre: {{request.user.persona}}
+Fecha: {{hoy}}</textarea>
         <button type="submit" id="aceptar">
-            YO, {{request.user.persona}}, TITULAR DE LA CÉDULA {{request.user.cedula}}, ME COMPROMETO A SEGUIR LOS LINEAMIENTOS ESTABLECIDOS EN ESTE CONTRATO PARA LA COMPRA DE ESTE INMUEBLE.
+            YO, {{request.user.persona}}, TITULAR DE LA CÉDULA {{request.user.persona.cedula}}, ME COMPROMETO A SEGUIR LOS LINEAMIENTOS ESTABLECIDOS EN ESTE CONTRATO PARA LA COMPRA DE ESTE INMUEBLE.
         </button>
     </form>
 </body>

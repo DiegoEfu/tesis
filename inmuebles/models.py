@@ -49,9 +49,15 @@ tipos_construccion = [
 class Parroquia(models.Model):
     nombre = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.nombre.upper()
+
 class Sector(models.Model):
     nombre = models.CharField(max_length=45)
     parroquia = models.ForeignKey(to=Parroquia, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombre.upper()
 
 class Inmueble(models.Model):
     nombre = models.CharField(max_length=100)
@@ -137,6 +143,9 @@ class Inmueble(models.Model):
     
     def tiene_pagos_pendientes(self):
         return self.compra_activa() or self.compra_activa().pagos.filter(estado = 'P').exists()
+    
+    def __str__(self):
+        return self.nombre.upper()
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
@@ -186,6 +195,9 @@ class Compra(models.Model):
     
     def tiene_pagos_pendientes(self):
         return self.pagos.filter(estado = 'P').exists()
+    
+    def __str__(self):
+        return f"COMPRA DEL INMUEBLE '{self.inmueble.nombre.upper}' ({self.inmueble.pk})"
 
 class Cita(models.Model):
     compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE, null=True, related_name="citas")
@@ -201,6 +213,9 @@ class Cita(models.Model):
                 return y
         
         return "DESCONOCIDO"
+    
+    def __str__(self):
+        return f"CITA DE VISITA AL INMUEBLE '{self.inmueble.nombre.upper()}' ({self.pk})" if self.persona else f"CITA DE FORMALIDADES AL INMUEBLE '{self.inmueble.nombre.upper()}' ({self.pk})"
     
 class Edicion(models.Model):
     nombre = models.CharField(max_length=100)
@@ -229,3 +244,6 @@ class Edicion(models.Model):
     
     def tamano_input(self):
         return str(self.tamano).replace(",",".")
+    
+    def __str__(self):
+        return f"EDICIÓN INMUEBLE '{self.inmueble.nombre.upper()}' ({self.pk})"

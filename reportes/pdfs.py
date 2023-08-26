@@ -146,7 +146,7 @@ def comprobante_compra(compra):
 
     t.append(Spacer(0,10))
     t.append(Paragraph(f"El usuario <b>{compra.comprador}</b>, titular de la cédula de identidad <b>{compra.comprador.cedula()}</b>, "
-                    +  f"ha firmado del contrato de aceptación de términos de compra del inmueble cuyos datos se muestran en la siguiente: "))
+                    +  f"ha firmado virtualmente el contrato de aceptación de términos de compra del inmueble cuyos datos se muestran en la siguiente: "))
     
     t.append(Spacer(0,10))
     t.append(Table([["NOMBRE","CÓDIGO","SECTOR","UBICACIÓN", "PRECIO"],
