@@ -21,11 +21,7 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
-            "leer publicación": "Lee la publicación del número especificado.",
-            "crear nueva publicación": "Lleva al formulario de creación de nueva publicación",
-            "cancelar publicación": "Lleva a la pantalla de cancelación si la publicación está activa o en revisión",
             "desactivar comandos de voz": "Desactiva los comandos de voz",
-            "editar publicación": "Seguido del número de publicación, lleva al formulario de edición de publicación",
             "cerrar sesión": "Cierra la sesión actual",
             "consultar compras": "Permite consultar las compras realizadas por su persona",
             "consultar ventas": "Permite consultar las ventas de sus publicaciones",
@@ -232,6 +228,7 @@
     <div class="grupoLinks">
     <a href="{% url 'edicion_perfil' %}">Cambiar Información</a> <br>
     <a href="{% url 'cambio_contrasena' %}">Cambiar Contraseña</a> <br>
+    {% if request.user.is_superuser %}<a href="/admin/">Panel de Administración</a> <br>{% endif %}
 </div><br>
     <p class="parrafoFinal">
         Solo podrás cambiar por tu cuenta el número telefónico, tu correo electrónico o tu contraseña.

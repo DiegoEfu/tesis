@@ -16,6 +16,7 @@
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
             "leer venta": "Seguido de un número lee los detalles de la venta especificada.",
+            "leer ventas": "Lee las ventas que se muestran en pantalla.",
             "pagos venta": "Seguido de un número redirige a la pantalla de pagos de la venta especificada.",
             "cancelar venta": "Seguido del número en la lista de la venta, puede cancelarla si está en espera",
             "desactivar comandos de voz": "Desactiva los comandos de voz",
@@ -37,7 +38,7 @@
 
                    if(localStorage.getItem('comandos') == '1')
                    ["ayuda","ver perfil","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
-                   "cancelar venta", "cerrar sesión", "leer pantalla", "pagos venta", "leer venta",
+                   "cancelar venta", "cerrar sesión", "leer pantalla", "pagos venta", "leer ventas", "leer venta",
                    "regresar inicio", "desactivar comandos de voz"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
@@ -119,13 +120,23 @@
                                     El comprador se llama {{compra.comprador}} y su correo es {{compra.comprador.usuario_persona.email}}, número de teléfono {{compra.comprador.numero_telefono}}.
                                     En caso de tener alguna duda con esta venta, contactar con el agente {{compra.inmueble.agente}},
                                     número de teléfono {{compra.inmueble.agente.numero_telefono}} y correo electrónico
-                                    {{compra.inmueble.agente.usuario_persona.email}}.`)
+                                    {{compra.inmueble.agente.usuario_persona.email}}`)
                                     pasado = true;
                                 }
                                 // {% endfor %}
 
                                 if(!pasado)
                                     hablar(`No hay venta con el número ${numero}.`)
+                                break;
+
+                            case "leer ventas":
+                                hablar(`
+                                {% for compra in ventas %}
+                                Venta #{{forloop.counter}} {{compra.inmueble.nombre}} por {{compra.inmueble.precio_texto}} dólares, estado: {{compra.estado_largo}}.\n
+                                {% empty %}
+                                Usted no ha realizado ninguna venta.
+                                {% endfor %}
+                                `);
                                 break;
                             
                             case "pagos venta":
@@ -137,7 +148,7 @@
                                 // {% for compra in ventas %}
                                 if(compra == '{{forloop.counter}}'){
                                     hablar(`Redirigiendo a la consulta de pagos de la compra.`);
-                                    window.location.replace("/inmuebles/consultar/pagos/venta/{{compra.pk}}/");
+                                    window.location.replace("{% url 'consultar_pagos_ventas' pk=compra.pk %}");
                                     break;
                                 }
                                 // {% endfor %}
