@@ -296,11 +296,9 @@
     {% include 'nav.html' %}
     <div class="containerConsultaCitas">
         <div class="cuadroCita">
-    <h3 class="citasTitulo">Consulta de Citas</h3>
-    <div class="containerCita">
+    <h3 class="citasTitulo">Consulta de Citas</h3><hr>
     {% for cita in citas %}
     <div class="citaInmueble">
-    <hr>
     <h5 class="linkPublicacion"><a href="{% url 'detalle_inmueble' pk=cita.inmueble.pk %}">{{cita.inmueble.nombre}}</a></h5>
     <label for="" class="form-label"><b>Fecha:</b> {{cita.fecha_asignada.date}} {{cita.fecha_asignada.hour}}:00</label><br>
     <label for="" class="form-label"><b>Agente:</b> {{cita.inmueble.agente}} (Teléfono: {{cita.inmueble.agente.numero_telefono}})</label><br>
@@ -308,7 +306,7 @@
     <label for="" class="form-label"><b>Ubicación detallada: </b> {{cita.inmueble.ubicacion_detallada}}</label><br>
     <label for="" class="form-label"><b>Estado de la Cita:</b> {{cita.estado_largo}}</label><br>
     {% if cita.estado == 'F' or cita.estado == 'X' %}
-    <label for="" class="form-label"><b>Comentarios del Agente:</b> {{cita.resultados}}</label><br>
+    <label for="" class="form-label"><b>Comentarios del Agente:</b> {{cita.resultados}}</label><br><hr>
     {% elif cita.inmueble %}
     <label for="" class="form-label"><b>Lleve uno de los siguientes comprobantes a la cita:</label></b>
     <div class="contenedorBotones">
@@ -317,7 +315,9 @@
         <input type="hidden" name="pk" value="{{cita.pk}}">
         <button name="tipo" id="pdf_{{cita.pk}}" value="pdf" type="submit" class="btn btn-success">Descargar Comprobante PDF</button>
         <button name="tipo" id="mp3_{{cita.pk}}" value="mp3" type="submit" class="btn btn-success">Descargar Comprobante MP3</button>
-    </form><hr></div></div>
+    </form>
+</div>
+</div>
     {% elif cita.compra %}
     <label for="" class="form-label"><b>Cita de formalidades para la entrega del inmueble {{cita.compra.inmueble.nombre.upper}}</label></b>
     {% endif %}
@@ -327,8 +327,8 @@
     {% endfor %}
 </div>
 </div>
-</div>
-{% include 'footer.html' %}
-</body>
 
+
+</body>
 </html>
+{% include 'footer.html' %}
