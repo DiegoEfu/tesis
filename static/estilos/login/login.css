@@ -38,9 +38,9 @@
 }
 
 .btn-success:hover {
-    background-color: #8cff00!important;
-    color: black!important;
-    border-color: var(--verdeOscuro)!important;
+    background-color: #427800!important;
+    color: white!important;
+    border-color: #427800!important;
 }
 
 @media(max-width:2000px) {
