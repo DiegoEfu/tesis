@@ -22,6 +22,7 @@
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
             "leer cita": "Seguido de un número lee los detalles de la cita especificada.",
+            "leer citas": "Lee las citas que se muestran en pantalla.",
             "descargar pdf": "Descarga el reporte PDF de la cita",
             "descargar mp3": "Descarga el reporte MP3 de la cita",
             "desactivar comandos de voz": "Desactiva los comandos de voz",
@@ -42,7 +43,7 @@
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')
-                   ["ayuda","ver perfil","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   ["ayuda","ver perfil","consultar compras","consultar ventas","consultar citas","consultar publicaciones", "leer citas", 
                    "regresar inicio", "descargar mp3", "descargar mp 3", "descargar pdf","cerrar sesión", "leer pantalla", "leer cita", "regresar inicio",
                    "desactivar comandos de voz"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
@@ -130,6 +131,16 @@
                                     hablar(`No hay citas con el número ${numero}.`)
                                 hablar(``);
                                 break;
+
+                                case "leer citas":
+                                    hablar(`
+                                    {% for cita in citas %}
+                                    Cita #{{forloop.counter}} {{cita.inmueble.nombre}} a la fecha {{cita.fecha_asignada}}, estado: {{cita.estado_largo}}.{% if cita.compra %} Esta es una cita para finalizar su compra.{% endif %}\n
+                                    {% empty %}
+                                    Usted no tiene ninguna cita.
+                                    {% endfor %}
+                                    `);
+                                    break;
                             
                             case "descargar pdf": // Tanto cita por comprobante como general
                                 const cita = speech.split(" ")[speech.split(" ").indexOf("PDF") + 1].replace(/[.,]/g,"");

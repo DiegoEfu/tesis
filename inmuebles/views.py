@@ -375,9 +375,9 @@ def seleccionar_hora_cita(request, pk):
 def cita_creada(request, pk):
     cita = Cita.objects.get(pk=pk)
     if(request.method == "GET"):
-        enviar_correo([cita.inmueble.dueno, cita.inmueble.agente], f"Cita pendiente de visita para el día {cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}.", f"Saludos. \n"
+        enviar_correo([cita.inmueble.dueno, cita.inmueble.agente], f"Cita pendiente de visita para el día {cita.fecha_asignada.date()}.", f"Saludos. \n"
             + f"El usuario {cita.persona} ha agendado una cita del visita para el inmueble <b>{cita.inmueble.nombre}</b> para el día "
-            + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}. Prepararse para el día de la cita.\n"
+            + f"{cita.fecha_asignada.date()}. Prepararse para el día de la cita.\n"
             + f"Atentamente, \n     Inmuebles Incaibo.")
         return render(request, 'cita_creada.html', context={'cita': cita})
     elif(request.method == "POST"): # REPORTES
@@ -395,14 +395,16 @@ def cita_creada(request, pk):
 
 def comprar_inmueble(request, pk):
     inmueble = Inmueble.objects.get(pk=pk)
-    if(request.method == "GET"):
-        return render(request, "contrato.html", context={'inmueble': inmueble})
+    if(request.method == "GET" and inmueble.estado == 'A' and request.user.is_authenticated):
+        return render(request, "contrato.html", context={'inmueble': inmueble, "hoy": datetime.now()})
     elif(request.method == "POST"):
         compra = Compra.objects.create(comprador = request.user.persona, inmueble = inmueble)
         inmueble.estado = 'T'
         inmueble.save()
 
         return redirect(f'/inmuebles/compra_realizada/{compra.pk}/')
+    else:
+        return redirect("/")
 
 def compra_realizada(request, pk):
     compra = Compra.objects.get(pk=pk)
@@ -457,12 +459,12 @@ def resultados_cita(request, pk):
 
             enviar_correo([cita.compra.inmueble.dueno, cita.compra.comprador], f"Resultados de la cita", f"Saludos. \n"
                 + f"El agente ha registrado la cita de formalidades al inmueble <b>{cita.compra.inmueble.nombre.upper()}</b> del día "
-                + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}, finalizándose el proceso de compraventa del inmueble.\n"
+                + f"{cita.fecha_asignada.date()}, finalizándose el proceso de compraventa del inmueble.\n"
                 + f"Muchas gracias por preferirnos. Atentamente, \n     Inmuebles Incaibo.")
         else:
             enviar_correo([cita.inmueble.dueno, cita.persona], f"Resultados de la cita", f"Saludos. \n"
                 + f"El agente ha registrado la cita de visita al inmueble <b>{cita.inmueble.nombre.upper()}</b> del día "
-                + f"{cita.fecha_asignada.date()}/{cita.fecha_asignada.month}/{cita.fecha_asignada.year}, recibiendo el veredicto: <b>{cita.estado_largo()}</b> .\n"
+                + f"{cita.fecha_asignada.date()}, recibiendo el veredicto: <b>{cita.estado_largo()}</b> .\n"
                 + f"Atentamente, \n     Inmuebles Incaibo.")
 
         return redirect("/usuarios/agente/")
@@ -503,7 +505,7 @@ def consultar_publicaciones(request):
     return render(request, 'consultas/consultar_publicaciones.html', context={'publicaciones': Inmueble.objects.filter(dueno=request.user.persona)})
 
 def consultar_citas(request): # Citas de VISITA
-    citas = Cita.objects.filter(persona=request.user.persona)
+    citas = Cita.objects.filter(persona=request.user.persona).order_by('-fecha_asignada')
     if(request.method == 'GET'):
         return render(request, 'consultas/consultar_citas_visita.html', context={'citas': citas})
     elif(request.method == 'POST'):
@@ -521,7 +523,7 @@ def consultar_citas(request): # Citas de VISITA
             return response
 
 def consultar_ventas(request): # Para USUARIOS NORMALES
-    return render(request, 'consultas/consultar_ventas_persona.html', context={'ventas': Compra.objects.filter(inmueble__dueno=request.user.persona)})
+    return render(request, 'consultas/consultar_ventas_persona.html', context={'ventas': Compra.objects.filter(inmueble__dueno=request.user.persona).order_by("-fecha")})
 
 def consultar_pagos_ventas(request,pk): # Para USUARIOS NORMALES
     compra = Compra.objects.get(pk=pk)

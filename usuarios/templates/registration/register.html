@@ -156,6 +156,11 @@
                                                 $(id).val("");
                                                 break;
                                             }
+                                            if($(id).val().getFullYear() < 1900){
+                                                hablar("La fecha de nacimiento no puede ser antes del año 1900.");
+                                                $(id).val("");
+                                                break;
+                                            }
                                         }
 
                                         if(campo === 5){
@@ -497,7 +502,7 @@
         <input {% if previo %} value="{{previo.apellido}}" {% endif %} required type="text" name="apellido" id="apellido" class="form-control"><br>
 
         <label class="tituloInput">Fecha de Nacimiento:</label><br>
-        <input required type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control"><br>
+        <input required type="date" min="1900-01-01" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control"><br>
 
         <label class="tituloInput">Número Telefónico:</label><br>
         <input {% if previo %} value="{{previo.telefono}}" {% endif %} required type="text" maxlength="11" name="telefono" id="telefono" class="form-control"><br>
@@ -526,7 +531,10 @@
 
             $('form').one('submit', function() {
                 $(this).find('input[type="submit"]').attr('disabled','disabled');
-            }); 
+            });
+
+            const hoy = new Date();
+            document.getElementById("fecha_nacimiento").setAttribute("max", `${hoy.getFullYear()}-${hoy.getMonth()+1 < 10 ? "0" +(hoy.getMonth()+1) : hoy.getMonth()+1 }-${hoy.getDate()< 10 ? "0" +(hoy.getDate()) : hoy.getDate()}`);
         </script>
     </form>  
 </div>

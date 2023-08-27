@@ -22,6 +22,7 @@
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
             "leer compra": "Seguido de un número lee los detalles de la compra especificada.",
+            "leer compras": "Lee las compras que se muestran en pantalla.",
             "pagos compra": "Seguido de un número redirige a la pantalla de pagos de la compra especificada.",
             "descargar pdf": "Descarga el reporte PDF de la compra",
             "descargar mp3": "Descarga el reporte MP3 de la compra",
@@ -47,7 +48,7 @@
                    if(localStorage.getItem('comandos') == '1')
                    ["ayuda","ver perfil","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
                    "descargar mp3", "descargar pdf","cerrar sesión", "leer pantalla", "pagos compra","regresar inicio",
-                   "leer compra", "cancelar compra", "desactivar comandos de voz"].forEach(comando => {
+                   "leer compras", "leer compra", "cancelar compra", "desactivar comandos de voz"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
                         switch (comando) {
@@ -127,13 +128,23 @@
                                     {% else %} Usted canceló y formalizó el traspaso del inmueble. {% endif %}
                                     En caso de tener alguna duda con esta compra, contactar con el agente {{compra.inmueble.agente}},
                                     número de teléfono {{compra.inmueble.agente.numero_telefono}} y correo electrónico
-                                    {{compra.inmueble.agente.usuario_persona.email}}.`)
+                                    {{compra.inmueble.agente.usuario_persona.email}}`)
                                     pasado = true;
                                 }
                                 // {% endfor %}
 
                                 if(!pasado)
                                     hablar(`No hay compra con el número ${numero}.`)
+                                break;
+
+                                case "leer compras":
+                                hablar(`
+                                {% for compra in compras %}
+                                Compra #{{forloop.counter}} {{compra.inmueble.nombre}} por {{compra.inmueble.precio_texto}} dólares, estado: {{compra.estado_largo}}.\n
+                                {% empty %}
+                                Usted no ha realizado ninguna compra.
+                                {% endfor %}
+                                `);
                                 break;
                             
                             case "pagos compra":
