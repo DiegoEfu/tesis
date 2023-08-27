@@ -61,7 +61,7 @@
     font-weight: 600;
 }
 
-@media(max-width:1999px) {
+@media(max-width:2000px) {
     .containerConsultaCitas {
         padding: 140px 120px 140px 120px;
     }
@@ -86,7 +86,7 @@
 
     .grupoBotones button {
         width: 25%!important;
-        font-size: 100%!important; 
+        font-size: 160%!important; 
         margin-left: 1%;
         margin-right: 1%;
     }
@@ -134,7 +134,7 @@
 
     .grupoBotones button {
         width: 35%!important;
-        font-size: 130%!important; 
+        font-size: 190%!important; 
         margin-left: 1%;
         margin-right: 1%;
     }
@@ -182,7 +182,7 @@
 
     .grupoBotones button {
         width: 35%!important;
-        font-size: 90%!important; 
+        font-size: 150%!important; 
         margin-left: 1%;
         margin-right: 1%;
     }
@@ -230,7 +230,7 @@
 
     .grupoBotones button {
         width: 75%!important;
-        font-size: 100%!important; 
+        font-size: 150%!important; 
         margin-left: 2%;
         margin-right: 2%;
     }
@@ -278,7 +278,7 @@
 
     .grupoBotones button {
         width: 80%!important;
-        font-size: 110%!important; 
+        font-size: 150%!important; 
         margin-left: 2%;
         margin-right: 2%;
     }

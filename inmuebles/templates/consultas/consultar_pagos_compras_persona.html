@@ -280,7 +280,7 @@
     {% include 'nav.html' %}
     <div class="containerConsultaCitas">
         <div class="cuadroCita">
-    <h2 class="citasTitulo">Consultar Pagos Realizados</h2><br>
+    <h2 class="citasTitulo">Consulta de Pagos Realizados</h2><br>
     {% if compra.estado == 'E' %}
     <a href="{% url 'formulario_registro_pago' pk=compra.pk %}">Registrar nuevo pago</a>
     {% endif %}
