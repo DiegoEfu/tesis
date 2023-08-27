@@ -8,6 +8,7 @@
     --verdeClaro: #A9F14F;
     --Rojorubi: #DB0F27;
     --RojoOscuro: #82191e;
+    --Gris: #aacde5;
 
 }
 
@@ -29,8 +30,9 @@
 }
 
 .linkPublicacion a{
-    color: var(--Rojorubi);
+    color: var(--Gris);
     font-weight: 500;
+    text-decoration: none;
 }
 
 .btn-success {

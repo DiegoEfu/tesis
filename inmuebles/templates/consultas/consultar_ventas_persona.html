@@ -1,10 +1,15 @@
+{% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Venta de sus Inmuebles</title>
-
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'estilos/consultas/consultarVentas.css' %}">
     <script>
         const synthesis = window.speechSynthesis;
         let speaking = false, escribiendo = false, dictando = false, reporte = false, campo = 0;
@@ -272,34 +277,42 @@
     </script>
 </head>
 <body>
-    <h3>Sus Ventas</h3>
+    {% include 'nav.html' %}
+    <div class="salesContainer">
+        <div class="infoVentas">
+    <h3 class="citasTitulo">Sus Ventas</h3><hr>
     {% for compra in ventas %}
-    <hr>
-    <h5>{{compra.inmueble.nombre}}</h5>
-    <b>Precio:</b> ${{compra.inmueble.precio}} <br>
-    <b>Sector:</b> {{compra.inmueble.sector.nombre}} (Parroquia {{compra.inmueble.sector.parroquia.nombre}})<br>
-    <b>Ubicación detallada: </b> {{compra.inmueble.ubicacion_detallada}}<br>
-    <b>Agente Asignado:</b> {{compra.inmueble.agente}} ({{compra.inmueble.agente.cedula}})<br>
-    <b>Email del Agente:</b> {{compra.inmueble.agente.usuario_persona.email}}<br>
-    <b>Teléfono del Agente:</b> {{compra.inmueble.agente.numero_telefono}}<br>
-    <b>Comprador:</b> {{compra.comprador}} ({{compra.comprador.cedula}})<br>
-    <b>Email del Comprador:</b> {{compra.comprador.usuario_persona.email}}<br>
-    <b>Teléfono del Comprador:</b> {{compra.comprador.numero_telefono}} <br>
-    <b>Estado de la Venta:</b> {{compra.estado_largo}}<br>
-    <b>Fecha de la Venta:</b> {{compra.fecha}}<br>
-    <b>Monto cancelado ($):</b> $ {{compra.monto_cancelado|floatformat:2}} / $ {{compra.inmueble.precio}}<br>
+    
+    <h5 class="linkPublicacion">{{compra.inmueble.nombre}}</h5>
+    <label for="" class="form-label"><b>Precio:</b> ${{compra.inmueble.precio}}</label> <br>
+    <label for="" class="form-label"><b>Sector:</b> {{compra.inmueble.sector.nombre}} (Parroquia {{compra.inmueble.sector.parroquia.nombre}})</label><br>
+    <label for="" class="form-label"><b>Ubicación detallada: </b> {{compra.inmueble.ubicacion_detallada}}</label><br>
+    <label for="" class="form-label"><b>Agente Asignado:</b> {{compra.inmueble.agente}} ({{compra.inmueble.agente.cedula}})</label><br>
+    <label for="" class="form-label"><b>Email del Agente:</b> {{compra.inmueble.agente.usuario_persona.email}}</label><br>
+    <label for="" class="form-label"><b>Teléfono del Agente:</b> {{compra.inmueble.agente.numero_telefono}}</label><br>
+    <label for="" class="form-label"><b>Comprador:</b> {{compra.comprador}} ({{compra.comprador.cedula}})</label><br>
+    <label for="" class="form-label"><b>Email del Comprador:</b> {{compra.comprador.usuario_persona.email}}</label><br>
+    <label for="" class="form-label"><b>Teléfono del Comprador:</b> {{compra.comprador.numero_telefono}}</label> <br>
+    <label for="" class="form-label"><b>Estado de la Venta:</b> {{compra.estado_largo}}</label><br>
+    <label for="" class="form-label"><b>Fecha de la Venta:</b> {{compra.fecha}}</label><br>
+    <label for="" class="form-label"><b>Monto cancelado ($):</b> $ {{compra.monto_cancelado|floatformat:2}} / $ {{compra.inmueble.precio}}</label><br>
 
     {% if compra.estado == 'E' %}
-    <a href="{% url 'cancelar_venta' pk=compra.pk %}">Cancelar</a>
+    <label for="linkConsulta" class="linkConsulta"><a href="{% url 'cancelar_venta' pk=compra.pk %}">Cancelar</a></label>
     {% elif compra.estado == 'S' %}
-    <b>Cita de Formalidades el día {{compra.cita_formalidades.fecha_asignada}}</b>
+    <label for="" class="form-label"><b>Cita de Formalidades el día {{compra.cita_formalidades.fecha_asignada}}</b></label>
     {% endif %}
 
     {% if compra.pagos.all.count %}
-    <a href="{% url 'consultar_pagos_ventas' pk=compra.pk %}">Consultar Pagos</a>
+    <label for="linkConsulta" class="linkConsulta"><a href="{% url 'consultar_pagos_ventas' pk=compra.pk %}">Consultar Pagos</a></label>
     {% endif %}
+    <hr>
     {% empty %}
-    No ha realizado ninguna venta.
+    <label for="" class="form-label">No ha realizado ninguna venta.</label>
     {% endfor %}
+    
+</div>
+</div>
 </body>
+{% include 'footer.html' %}
 </html>
