@@ -1,0 +1,378 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+    --azul: #0099ff;
+
+}
+
+.containerConsultaCitas {
+    background-image: url("../../img/Consultas/Consulta_Compras/consultaPagos.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.cuadroCita {
+    background-color: white;
+    border-radius: 5%;
+}
+
+.btn-success {
+    background-color: var(--Rojorubi)!important;
+    color: white!important;
+    border-color: var(--Rojorubi)!important;
+}
+
+
+.btn-success a{
+    background-color: var(--Rojorubi)!important;
+    color: white!important;
+    border-color: var(--Rojorubi)!important;
+    text-decoration: none;
+}
+
+.btn-success:hover {
+    background-color: var(--RojoOscuro)!important;
+    color: white!important;
+    border-color: var(--RojoOscuro)!important;
+}
+
+.citasTitulo {
+    font-weight: 700;
+    color: var(--verdeMusgo);
+}
+
+@media(max-width:2000px) {
+    .containerConsultaCitas {
+        padding: 130px 220px 130px 220px;
+    }
+
+    .cuadroCita {
+        padding: 30px 30px 30px 30px;
+    }
+    
+    .citasTitulo {
+        padding-top: 5px;
+        font-size: 360%;
+        text-align: center;
+    }
+
+    .groupBoton form{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+
+    .btn-success{
+        width: 20%;
+        font-size: 160%!important;
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .form-label {
+        font-size: 190%;
+    }
+}
+
+@media(max-width:1800px) {
+    .containerConsultaCitas {
+        padding: 130px 170px 130px 170px;
+    }
+
+    .cuadroCita {
+        padding: 30px 30px 30px 30px;
+    }
+    
+    .citasTitulo {
+        padding-top: 5px;
+        font-size: 320%;
+        text-align: center;
+    }
+
+    .groupBoton form{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+
+    .btn-success{
+        width: 25%;
+        font-size: 160%!important;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .form-label {
+        font-size: 170%;
+    }
+}
+
+@media(max-width:1440px) {
+    .containerConsultaCitas {
+        padding: 120px 120px 120px 120px;
+    }
+
+    .cuadroCita {
+        padding: 30px 30px 30px 30px;
+    }
+    
+    .citasTitulo {
+        padding-top: 5px;
+        font-size: 320%;
+        text-align: center;
+    }
+
+    .groupBoton form{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+
+    .btn-success{
+        width: 25%;
+        font-size: 160%!important;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .form-label {
+        font-size: 150%;
+    }
+}
+
+@media(max-width:1280px) {
+    .containerConsultaCitas {
+        padding: 90px 90px 90px 90px;
+    }
+
+    .cuadroCita {
+        padding: 40px 40px 40px 40px;
+    }
+    
+    .citasTitulo {
+        padding-top: 5px;
+        font-size: 290%;
+        text-align: center;
+    }
+
+    .groupBoton form{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+
+    .btn-success{
+        width: 30%;
+        font-size: 160%!important;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .form-label {
+        font-size: 150%;
+    }
+}
+
+@media(max-width:1024px) {
+    .containerConsultaCitas {
+        padding: 60px 60px 60px 60px;
+    }
+
+    .cuadroCita {
+        padding: 30px 30px 30px 30px;
+    }
+    
+    .citasTitulo {
+        padding-top: 5px;
+        font-size: 220%;
+        text-align: center;
+    }
+
+    .groupBoton form{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+
+    .btn-success{
+        width: 35%;
+        font-size: 140%!important;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .form-label {
+        font-size: 140%;
+    }
+}
+
+@media(max-width:800px) {
+    .containerConsultaCitas {
+        padding: 50px 50px 50px 50px;
+    }
+
+    .cuadroCita {
+        padding: 30px 30px 30px 30px;
+    }
+    
+    .citasTitulo {
+        padding-top: 5px;
+        font-size: 220%;
+        text-align: center;
+    }
+
+    .groupBoton form{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+
+    .btn-success{
+        width: 35%;
+        font-size: 120%!important;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+}
+
+@media(max-width:768px) {
+    .containerConsultaCitas {
+        padding: 50px 50px 50px 50px;
+    }
+
+    .cuadroCita {
+        padding: 30px 30px 30px 30px;
+    }
+    
+    .citasTitulo {
+        padding-top: 5px;
+        font-size: 180%;
+        text-align: center;
+    }
+
+    .groupBoton form{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+
+    .btn-success{
+        width: 50%;
+        font-size: 120%!important;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+}
+
+@media(max-width:600px) {
+    .containerConsultaCitas {
+        padding: 40px 40px 40px 40px;
+    }
+
+    .cuadroCita {
+        padding: 20px 20px 20px 20px;
+    }
+    
+    .citasTitulo {
+        padding-top: 5px;
+        font-size: 200%;
+        text-align: center;
+    }
+
+    .groupBoton form{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 15px;
+    }
+
+    .btn-success{
+        width: 50%;
+        font-size: 100%!important;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+
+    .form-label {
+        font-size: 120%;
+    }
+}
+
+
+@media(max-width:480px) {
+    .containerConsultaCitas {
+        padding: 20px 10px 20px 10px;
+    }
+
+    .cuadroCita {
+        padding: 10px 10px 10px 10px;
+    }
+    
+    .citasTitulo {
+        padding-top: 10px;
+        font-size: 170%;
+        text-align: center;
+    }
+
+    .groupBoton form{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 15px;
+    }
+
+    .btn-success{
+        width: 40%;
+        font-size: 70%!important;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+
+    .form-label {
+        font-size: 100%;
+    }
+}
+
+@media(max-width:320px) {
+    .containerConsultaCitas {
+        padding: 20px 10px 20px 10px;
+    }
+
+    .cuadroCita {
+        padding: 10px 10px 10px 10px;
+    }
+    
+    .citasTitulo {
+        padding-top: 1px;
+        font-size: 140%;
+        text-align: center;
+    }
+
+    .groupBoton form{
+        display: flex;
+        justify-content: space-evenly;
+        padding-bottom: 20px;
+    }
+
+    .btn-success{
+        width: 45%;
+        font-size: 60%!important;
+    }
+
+    .form-label {
+        font-size: 80%;
+    }
+}
