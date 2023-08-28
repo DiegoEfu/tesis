@@ -284,70 +284,55 @@
 </head>
 <body>
     {% include 'nav.html' %}
+    <div class="contenedorInfo">
+        <div class="tituloContainer">
     <h3 class="tituloSeccion">Consulta de Publicaciones</h3>
-    <label for="" class="linkCrear"><a href="/inmuebles/creacion/">Publicar nuevo inmueble</a>
-    {% for publicacion in publicaciones %}</label>
-    <hr>
-    <h5 class="nombrePublicacion">{{publicacion.nombre}}</h5>
-    {% for imagen in publicacion.imagenes %}
-    <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+    <a href="/inmuebles/creacion/" class="btn btn-secondary">Publicar nuevo inmueble</a> 
+</div>
+    <div class="containerCartas row">
+    {% for publicacion in publicaciones %}
+    <div class="card col-md-5 col-lg-5 col-xl-3 col-xxl-3">
+    <div id="{{publicacion.pk}}" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active">
+            {% for imagen in publicacion.imagenes %}
+            <div class="carousel-item {% if forloop.counter == 1%}active{%endif%}">
                 <img class="w-100" src="{{imagen}}" alt="image">
             </div>
-            <div class="carousel-item">
-                <img class="w-100" src="{{imagen}}" alt="image">
-            </div>
-            <div class="carousel-item">
-                <img class="w-100" src="{{imagen}}" alt="image">
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only"></span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only"></span>
-        </a>
-    </div>
+
     {% endfor %}
-    <br><b>Precio:</b> ${{publicacion.precio}}
-    <b>Sector:</b> {{publicacion.sector.nombre}} (Parroquia {{publicacion.sector.parroquia.nombre}})
-    <b>Ubicación detallada: </b> {{publicacion.ubicacion_detallada}}
-    <b>Agente Asignado:</b> {{publicacion.agente}} ({{publicacion.agente.cedula}})
-    <b>Estado de la Publicación:</b> {{publicacion.estado_largo}}
-    {% if publicacion.estado == 'A' %}
-    <a href="{% url 'editar_inmueble' pk=publicacion.pk %}">Editar Publicación</a>
+</div>
+<button class="carousel-control-prev" type="button" data-bs-target="#{{publicacion.pk}}" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#{{publicacion.pk}}" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<div class="card-body">
+    <h5 class="nombrePublicacion card-title">{{publicacion.nombre}}</h5>
+    <p class="card-text"><b>Precio:</b> ${{publicacion.precio}}</p>
+    <p class="card-text"><b>Sector:</b> {{publicacion.sector.nombre}} (Parroquia {{publicacion.sector.parroquia.nombre}})</p>
+    <p class="card-text"><b>Ubicación detallada: </b> {{publicacion.ubicacion_detallada}}</p>
+    <p class="card-text"><b>Agente Asignado:</b> {{publicacion.agente}} ({{publicacion.agente.cedula}})</p>
+    <p class="card-text"><b>Estado de la Publicación:</b> {{publicacion.estado_largo}}
+    {% if publicacion.estado == 'A' %}</p>
+    <div class="grupoBotones">
+    <a href="{% url 'editar_inmueble' pk=publicacion.pk %}" class="btn btn-primary">Editar</a>
     {% endif %}
     {% if publicacion.estado == 'A' or publicacion.estado == 'R' %}
-    <a href="{% url 'cancelar_publicacion' pk=publicacion.pk %}">Cancelar publicación</a>
+    <br><a href="{% url 'cancelar_publicacion' pk=publicacion.pk %}" class="btn btn-primary">Cancelar</a></div>
     {% endif %}
+</div>
+</div>
     {% empty %}
-    No hay publicaciones.
+    <p class="card-text">No hay publicaciones.</p>
+
     {% endfor %}
-    <div class="card">
-        <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="w-100" src="{{imagen}}" alt="image">
-                </div>
-                <div class="carousel-item">
-                    <img class="w-100" src="{{imagen}}" alt="image">
-                </div>
-                <div class="carousel-item">
-                    <img class="w-100" src="{{imagen}}" alt="image">
-                </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only"><</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">></span>
-            </a>
-        </div>
-    {% include 'footer.html' %}
+
+</div>
+</div>
+{% include 'footer.html' %}
 </body>
 </html>

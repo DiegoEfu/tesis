@@ -9,8 +9,575 @@
     --Rojorubi: #DB0F27;
     --RojoOscuro: #82191e;
     --Gris: #aacde5;
-    
     --azul: #0099ff;
 
 }
 
+.contenedorInfo {
+    background-image: url("../../img/Consultas/fondoPublicaciones.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.tituloSeccion {
+    color: white;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background-color: var(--Rojorubi)!important;
+    border-color: var(--Rojorubi)!important;
+    color: white!important;
+}
+
+.btn-primary:hover {
+    background-color: var(--RojoOscuro)!important;
+    border-color: var(--RojoOscuro)!important;
+    color: white!important;
+}
+
+.card-title {
+    color: var(--Gris)!important;
+    font-weight: 700;
+}
+
+.btn-secondary {
+    background-color: var(--Rojorubi)!important;
+    border-color: var(--Rojorubi)!important;
+    color: white!important;
+}
+
+.btn-secondary:hover {
+    background-color: var(--RojoOscuro)!important;
+    border-color: var(--RojoOscuro)!important;
+    color: white!important;
+}
+.card-text {
+    color: black;
+}
+
+@media(max-width:2000px) {
+    .contenedorInfo {
+        padding: 35px 5px 35px 5px;
+    }
+
+    .tituloSeccion {
+        font-size: 380%;
+    }
+
+    .btn-primary {
+        width: 45%!important;
+        font-size: 100%!important;
+        margin-right: 1px;
+        margin-left: 1px;
+    }
+
+    .btn-secondary {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        margin-bottom: 15px;
+        width: 20%!important;
+        font-size: 110%!important;
+       text-align: center!important;
+    }
+
+    .tituloContainer {
+        text-align: center;
+    }
+
+
+    .grupoBotones{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .containerCartas {
+        display: block;
+        justify-content: center;
+    }
+
+    .card {
+        margin-bottom: 20px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .card-title {
+        font-size: 130%;
+    }
+
+    .card-text {
+        font-size: 100%;
+    }
+
+}
+
+@media(max-width:1400px) {
+    .contenedorInfo {
+        padding: 35px 5px 35px 5px;
+    }
+
+    .tituloSeccion {
+        font-size: 380%;
+    }
+
+    .btn-primary {
+        width: 45%!important;
+        font-size: 100%!important;
+        margin-right: 1px;
+        margin-left: 1px;
+    }
+
+    .btn-secondary {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        margin-bottom: 15px;
+        width: 20%!important;
+        font-size: 110%!important;
+       text-align: center!important;
+    }
+
+    .tituloContainer {
+        text-align: center;
+    }
+
+
+    .grupoBotones{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .containerCartas {
+        display: block;
+        justify-content: center;
+    }
+
+    .card {
+        margin-bottom: 20px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .card-title {
+        font-size: 130%;
+    }
+
+    .card-text {
+        font-size: 100%;
+    }
+
+}
+
+
+@media(max-width:1199px) {
+    .contenedorInfo {
+        padding: 35px 10px 35px 10px;
+    }
+
+    .tituloSeccion {
+        font-size: 380%;
+    }
+
+    .btn-primary {
+        width: 45%!important;
+        font-size: 100%!important;
+        margin-right: 1px;
+        margin-left: 1px;
+    }
+
+    .btn-secondary {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        margin-bottom: 15px;
+        width: 30%!important;
+        font-size: 110%!important;
+       text-align: center!important;
+    }
+
+    .tituloContainer {
+        text-align: center;
+    }
+
+
+    .grupoBotones{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .containerCartas {
+        display: block;
+        justify-content: center;
+    }
+
+    .card {
+        margin-bottom: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .card-title {
+        font-size: 170%;
+    }
+
+    .card-text {
+        font-size: 100%;
+    }
+
+}
+
+@media(max-width:1024px) {
+    .contenedorInfo {
+        padding: 35px 10px 35px 10px;
+    }
+
+    .tituloSeccion {
+        font-size: 380%;
+    }
+
+    .btn-primary {
+        width: 45%!important;
+        font-size: 100%!important;
+        margin-right: 1px;
+        margin-left: 1px;
+    }
+
+    .btn-secondary {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        margin-bottom: 15px;
+        width: 30%!important;
+        font-size: 110%!important;
+       text-align: center!important;
+    }
+
+    .tituloContainer {
+        text-align: center;
+    }
+
+
+    .grupoBotones{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .containerCartas {
+        display: block;
+        justify-content: center;
+    }
+
+    .card {
+        margin-bottom: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .card-title {
+        font-size: 170%;
+    }
+
+    .card-text {
+        font-size: 100%;
+    }
+
+}
+
+@media(max-width:991px) {
+    .contenedorInfo {
+        padding: 35px 10px 35px 10px;
+    }
+
+    .tituloSeccion {
+        font-size: 380%;
+    }
+
+    .btn-primary {
+        width: 45%!important;
+        font-size: 100%!important;
+        margin-right: 1px;
+        margin-left: 1px;
+    }
+
+    .btn-secondary {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        margin-bottom: 15px;
+        width: 30%!important;
+        font-size: 110%!important;
+       text-align: center!important;
+    }
+
+    .tituloContainer {
+        text-align: center;
+    }
+
+
+    .grupoBotones{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .containerCartas {
+        display: block;
+        justify-content: center;
+    }
+
+    .card {
+        margin-bottom: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .card-title {
+        font-size: 170%;
+    }
+
+    .card-text {
+        font-size: 100%;
+    }
+
+}
+
+@media(max-width:800px) {
+    .contenedorInfo {
+        padding: 35px 10px 35px 10px;
+    }
+
+    .tituloSeccion {
+        font-size: 380%;
+    }
+
+    .btn-primary {
+        width: 45%!important;
+        font-size: 100%!important;
+        margin-right: 1px;
+        margin-left: 1px;
+    }
+
+    .btn-secondary {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        margin-bottom: 15px;
+        width: 30%!important;
+        font-size: 110%!important;
+       text-align: center!important;
+    }
+
+    .tituloContainer {
+        text-align: center;
+    }
+
+
+    .grupoBotones{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .containerCartas {
+        display: block;
+        justify-content: center;
+    }
+
+    .card {
+        margin-bottom: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .card-title {
+        font-size: 170%;
+    }
+
+    .card-text {
+        font-size: 100%;
+    }
+
+}
+
+@media(max-width:767px) {
+    .contenedorInfo {
+        padding: 30px 25px 30px 25px;
+    }
+
+    .tituloSeccion {
+        font-size: 310%;
+        text-align: left;
+    }
+
+    .btn-primary {
+        width: 35%!important;
+        font-size: 100%!important;
+        margin-right: 1px;
+        margin-left: 1px;
+    }
+
+    .btn-secondary {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        margin-bottom: 15px;
+        width: 30%!important;
+        font-size: 110%!important;
+    }
+
+    .tituloContainer {
+        text-align: left;
+    }
+
+    .grupoBotones{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .containerCartas {
+        display: block;
+    }
+
+    .card {
+        margin-bottom: 20px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .card-title {
+        font-size: 200%;
+    }
+
+    .card-text {
+        font-size: 130%;
+    }
+
+}
+
+@media(max-width:600px) {
+    .contenedorInfo {
+        padding: 20px 15px 20px 15px;
+    }
+
+    .tituloSeccion {
+        font-size: 280%;
+        text-align: left;
+    }
+
+    .btn-primary {
+        width: 40%!important;
+        font-size: 125%!important;
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+
+    .btn-secondary {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        margin-bottom: 15px;
+        width: 50%!important;
+        font-size: 160%!important;
+    }
+
+    .grupoBotones{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .containerCartas {
+        display: block;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .card-title {
+        font-size: 170%;
+    }
+
+    .card-text {
+        font-size: 120%;
+    }
+
+}
+
+@media(max-width:480px) {
+    .contenedorInfo {
+        padding: 20px 15px 20px 15px;
+    }
+
+    .tituloSeccion {
+        font-size: 230%;
+    }
+
+    .btn-primary {
+        width: 60%!important;
+        font-size: 80%!important;
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+
+    .btn-secondary {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        margin-bottom: 15px;
+        width: 40%!important;
+        font-size: 110%!important;
+    }
+
+    .grupoBotones{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .containerCartas {
+        display: block;
+    }
+
+
+    .card {
+        margin-bottom: 15px;
+    }
+
+    .card-title {
+        font-size: 130%;
+    }
+
+    .card-text {
+        font-size: 100%;
+    }
+
+
+}
+
+@media(max-width:320px) {
+    .contenedorInfo {
+        padding: 15px 5px 15px 5px;
+    }
+
+    .tituloSeccion {
+        font-size: 190%;
+    }
+
+    .btn-primary {
+        width: 50%!important;
+        font-size: 80%!important;
+        margin-right: 5px;
+    }
+
+    .btn-secondary {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        margin-bottom: 15px;
+        width: 60%!important;
+        font-size: 90%!important;
+    }
+
+    .grupoBotones{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .card {
+        margin-bottom: 10px;
+    }
+
+    .card-title {
+        font-size: 100%;
+    }
+
+}
