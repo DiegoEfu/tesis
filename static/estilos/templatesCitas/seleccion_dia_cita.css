@@ -12,7 +12,13 @@
 
 }
 
+.fondo {
+    background-image: url("../../img/Consultas/seleccionHora.jpg");
+    background-size: cover;
+}
+
 .containerInfo {
+    background-color: white;
     display: block;
     justify-content: center;
 }
@@ -47,6 +53,12 @@ form ul {
 }
 
 @media(max-width:2000px){
+
+        
+    .fondo {
+        padding: 45px 195px 45px 195px;
+    }
+
     .containerInfo {
         padding: 15px 30px 15px 30px;
     }
@@ -85,6 +97,11 @@ form ul {
 }
 
 @media(max-width:1800px){
+
+    .fondo {
+        padding: 45px 195px 45px 195px;
+    }
+
     .containerInfo {
         padding: 15px 30px 15px 30px;
     }
@@ -123,6 +140,13 @@ form ul {
 }
 
 @media(max-width:1440px){
+
+        
+    
+    .fondo {
+        padding: 45px 175px 45px 175px;
+    }
+
     .containerInfo {
         padding: 15px 30px 15px 30px;
     }
@@ -161,6 +185,13 @@ form ul {
 }
 
 @media(max-width:1280px){
+
+        
+    
+    .fondo {
+        padding: 45px 115px 45px 115px;
+    }
+
     .containerInfo {
         padding: 15px 30px 15px 30px;
     }
@@ -199,6 +230,12 @@ form ul {
 }
 
 @media(max-width:1024px){
+
+    
+    .fondo {
+        padding: 45px 105px 45px 105px;
+    }
+
     .containerInfo {
         padding: 15px 30px 15px 30px;
     }
@@ -237,6 +274,11 @@ form ul {
 }
 
 @media(max-width:800px){
+
+    .fondo {
+        padding: 25px 45px 25px 45px;
+    }
+
     .containerInfo {
         padding: 15px 30px 15px 30px;
     }
@@ -275,6 +317,11 @@ text-align: left;
 }
 
 @media(max-width:768px){
+
+    .fondo {
+        padding: 25px 15px 25px 15px;
+    }
+
     .containerInfo {
         padding: 15px 30px 15px 30px;
     }
@@ -311,6 +358,11 @@ text-align: left;
 }
 
 @media(max-width:600px){
+
+    .fondo {
+        padding: 15px 15px 15px 15px;
+    }
+
     .containerInfo {
         padding: 15px 15px 15px 15px;
     }
@@ -347,6 +399,11 @@ text-align: left;
 }
 
 @media(max-width:480px){
+
+    .fondo {
+        padding: 10px 10px 10px 10px;
+    }
+
     .containerInfo {
         padding: 15px 15px 15px 15px;
     }
@@ -383,7 +440,11 @@ text-align: left;
 }
 
 @media(max-width:320px){
-    .containerInfo {
+
+    .fondo {
+        padding: 5px 5px 5px 5px;
+    }
+        .containerInfo {
         padding: 5px 5px 5px 5px;
     }
 

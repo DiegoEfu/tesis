@@ -226,6 +226,7 @@
 </head>
 <body>
     {% include 'nav.html' %}
+    <div class="fondo">
     <div class="containerInfo">
     <h3 class="tituloPagina">Agendar Cita de Visita</h3>
     <h4 class="tituloCasa">{{inmueble.nombre.upper}}</h4>
@@ -239,6 +240,7 @@
             {% endfor %}
         </ul>
     </form><hr>
+</div>
 </div>
 </body>
 {% include 'footer.html' %}

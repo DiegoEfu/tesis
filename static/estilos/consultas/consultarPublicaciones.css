@@ -56,6 +56,10 @@
     color: black;
 }
 
+.carousel-control-prev span {
+    color: var(--Rojorubi)!important;
+}
+
 @media(max-width:2000px) {
     .contenedorInfo {
         padding: 35px 5px 35px 5px;

@@ -16,11 +16,9 @@
     background-image: url("../../img/Consultas/Consulta_Citas/ConsultaCitas.jpg");
     background-size: cover;
     background-attachment: fixed;
-    height: auto;
 }
 
 .cuadroCita {
-    height: auto;
     background-color: white;
 }
 
