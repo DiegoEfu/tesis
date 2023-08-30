@@ -983,14 +983,16 @@ def buscar_coincidencias(busqueda):
     # Por Ubicación
 
     for sector in Sector.objects.all():
-        if sector.nombre.lower() in busqueda:
+        nombre = sector.nombre.lower().replace("á","a").replace("é","e").replace("í","i").replace("ó","o").replace("ú","u")
+        if nombre in busqueda:
             posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector__nombre__icontains = sector.nombre) # Se colocan posibles inmuebles en ese sector
             if posibles_inmuebles.count() != 0:
                 break
         
     if not posibles_inmuebles:
         for parroquia in Parroquia.objects.all():
-            if parroquia.nombre.lower() in busqueda:
+            nombre = parroquia.nombre.lower().replace("á","a").replace("é","e").replace("í","i").replace("ó","o").replace("ú","u")
+            if nombre in busqueda:
                 posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector__parroquia__pk = parroquia.pk)
                 if posibles_inmuebles.count() != 0:
                     break
@@ -1083,7 +1085,6 @@ def buscar_coincidencias(busqueda):
     elif "edificio" in busqueda:
         posibles_inmuebles = posibles_inmuebles.filter(tipo_construccion__icontains = "edificio")
     elif "mansion" in busqueda:
-        print("AJA???")
         posibles_inmuebles = posibles_inmuebles.filter(Q(nombre__icontains = 'mansión') | Q(descripcion__icontains = 'mansión'))
 
     if(not posibles_inmuebles):
