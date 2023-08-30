@@ -8,12 +8,12 @@
     --verdeClaro: #A9F14F;
     --Rojorubi: #DB0F27;
     --RojoOscuro: #82191e;
+    --Gris: #aacde5;
 
 }
 
 .containerConsultaCitas {
     background-image: url("../../img/Consultas/Consulta_Citas/ConsultaCitas.jpg");
-    background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
 }
@@ -29,8 +29,9 @@
 }
 
 .linkPublicacion a{
-    color: var(--Rojorubi);
+    color: var(--Gris);
     font-weight: 500;
+    text-decoration: none;
 }
 
 .btn-success {
@@ -45,7 +46,7 @@
     border-color: #569c00!important;
 }
 
-@media(max-width:2001px) {
+@media(max-width:2000px) {
     .containerConsultaCitas {
         padding: 160px 160px 160px 160px
     }
@@ -59,11 +60,6 @@
         font-size: 420%;
         text-align: center;
         margin-top: 10px;
-    }
-
-    .containerCita {
-        display: ruby;
-        justify-content: space-between;
     }
     .linkPublicacion {
         font-size: 240%;
@@ -100,11 +96,6 @@
         text-align: center;
         margin-top: 10px;
     }
-
-    .containerCita {
-        display: ruby;
-        justify-content: space-between;
-    }
     .linkPublicacion {
         font-size: 240%;
     }
@@ -139,11 +130,6 @@
         font-size: 390%;
         text-align: center;
         margin-top: 10px;
-    }
-
-    .containerCita {
-        display: ruby;
-        justify-content: space-between;
     }
     .linkPublicacion {
         font-size: 220%;
@@ -180,11 +166,6 @@
         text-align: center;
         margin-top: 10px;
     }
-
-    .containerCita {
-        display: ruby;
-        justify-content: space-between;
-    }
     .linkPublicacion {
         font-size: 190%;
     }
@@ -219,11 +200,6 @@
         font-size: 320%;
         text-align: center;
         margin-top: 10px;
-    }
-
-    .containerCita {
-        display: ruby;
-        justify-content: space-between;
     }
     .linkPublicacion {
         font-size: 160%;
@@ -261,10 +237,6 @@
         margin-top: 10px;
     }
 
-    .containerCita {
-        display: ruby;
-        justify-content: space-between;
-    }
     .linkPublicacion {
         font-size: 130%;
     }
@@ -301,10 +273,6 @@
         margin-top: 10px;
     }
 
-    .containerCita {
-        display: block;
-        justify-content: safe;
-    }
     .linkPublicacion {
         font-size: 160%;
     }
@@ -380,11 +348,6 @@
         text-align: center;
         margin-top: 10px;
     }
-
-    .containerCita {
-        display: block;
-        justify-content: safe;
-    }
     .linkPublicacion {
         font-size: 120%;
     }
@@ -422,10 +385,6 @@
         margin-top: 10px;
     }
 
-    .containerCita {
-        display: block;
-        justify-content: safe;
-    }
     .linkPublicacion {
         font-size: 100%;
     }
