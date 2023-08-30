@@ -1,0 +1,319 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+    --Gris: #aacde5;
+    
+    --azul: #0099ff;
+
+}
+
+.salesContainer {
+    background-image: url("../../img/Consultas/Consulta_Compras/Sales.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.infoVentas {
+    background-color: white;
+}
+
+.citasTitulo {
+    color: var(--verdeMusgo);
+    font-weight: 800;
+}
+
+.linkPublicacion {
+    color: var(--Gris);
+}
+
+.linkConsulta a{
+    font-weight: 700;
+    color: var(--verdeMusgo);
+    font-style: italic;
+}
+
+@media(max-width:2000px){
+    .salesContainer {
+        padding: 135px 135px 135px 135px;
+    }
+
+    .infoVentas {
+        padding: 35px 35px 35px 35px;
+    }
+
+    .citasTitulo {
+        font-size: 420%;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .linkPublicacion {
+        font-size: 250%;
+    }
+
+    .form-label {
+        font-size: 150%;
+    }
+
+    .linkConsulta a{
+        font-size: 150%;
+      }
+}
+
+@media(max-width:1800px){
+    .salesContainer {
+        padding: 135px 135px 135px 135px;
+    }
+
+    .infoVentas {
+        padding: 35px 35px 35px 35px;
+    }
+
+    .citasTitulo {
+        font-size: 420%;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .linkPublicacion {
+        font-size: 250%;
+    }
+
+    .form-label {
+        font-size: 150%;
+    }
+
+    .linkConsulta a{
+        font-size: 150%;
+      }
+}
+
+@media(max-width:1440px){
+    .salesContainer {
+        padding: 105px 105px 105px 105px;
+    }
+
+    .infoVentas {
+        padding: 35px 35px 35px 35px;
+    }
+
+    .citasTitulo {
+        font-size: 380%;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .linkPublicacion {
+        font-size: 250%;
+    }
+
+    .form-label {
+        font-size: 150%;
+    }
+
+    .linkConsulta a{
+        font-size: 150%;
+      }
+}
+
+@media(max-width:1280px){
+    .salesContainer {
+        padding: 65px 65px 65px 65px;
+    }
+
+    .infoVentas {
+        padding: 35px 35px 35px 35px;
+    }
+
+    .citasTitulo {
+        font-size: 360%;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .linkPublicacion {
+        font-size: 240%;
+    }
+
+    .form-label {
+        font-size: 140%;
+    }
+
+    .linkConsulta a{
+        font-size: 140%;
+      }
+}
+
+@media(max-width:1024px){
+    .salesContainer {
+        padding: 45px 45px 45px 45px;
+    }
+
+    .infoVentas {
+        padding: 25px 25px 25px 25px;
+    }
+
+    .citasTitulo {
+        font-size: 320%;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .linkPublicacion {
+        font-size: 230%;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .linkConsulta a{
+        font-size: 130%;
+      }
+}
+
+
+@media(max-width:800px){
+    .salesContainer {
+        padding: 35px 35px 35px 35px;
+    }
+
+    .infoVentas {
+        padding: 15px 15px 15px 15px;
+    }
+
+    .citasTitulo {
+        font-size: 290%;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .linkPublicacion {
+        font-size: 200%;
+    }
+
+    .form-label {
+        font-size: 110%;
+    }
+
+    .linkConsulta a{
+        font-size: 110%;
+      }
+}
+
+@media(max-width:768px){
+    .salesContainer {
+        padding: 35px 35px 35px 35px;
+    }
+
+    .infoVentas {
+        padding: 15px 15px 15px 15px;
+    }
+
+    .citasTitulo {
+        font-size: 290%;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .linkPublicacion {
+        font-size: 200%;
+    }
+
+    .form-label {
+        font-size: 110%;
+    }
+
+    .linkConsulta a{
+        font-size: 110%;
+      }
+}
+
+@media(max-width:600px){
+    .salesContainer {
+        padding: 20px 10px 20px 10px;
+    }
+
+    .infoVentas {
+        padding: 10px 10px 10px 10px;
+    }
+
+    .citasTitulo {
+        font-size: 260%;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .linkPublicacion {
+        font-size: 180%;
+    }
+
+    .form-label {
+        font-size: 100%;
+    }
+
+    .linkConsulta a{
+        font-size: 105%;
+      }
+}
+
+
+@media(max-width:480px){
+    .salesContainer {
+        padding: 20px 10px 20px 10px;
+    }
+
+    .infoVentas {
+        padding: 10px 10px 10px 10px;
+    }
+
+    .citasTitulo {
+        font-size: 240%;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .linkPublicacion {
+        font-size: 160%;
+    }
+
+    .form-label {
+        font-size: 95%;
+    }
+
+    .linkConsulta a{
+        font-size: 105%;
+      }
+}
+
+
+@media(max-width:320px){
+    .salesContainer {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .infoVentas {
+        padding: 10px 10px 10px 10px;
+    }
+
+    .citasTitulo {
+        font-size: 200%;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .linkPublicacion {
+        font-size: 150%;
+    }
+
+    .form-label {
+        font-size: 90%;
+    }
+}
