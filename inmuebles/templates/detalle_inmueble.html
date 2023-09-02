@@ -1,9 +1,12 @@
+{% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PUBLICACIÓN - {{inmueble.nombre.upper}}</title>
+    <link rel="stylesheet" href="{% static 'estilos/resultados/detallesInmueble.css' %}">
     
     <script>
         const synthesis = window.speechSynthesis;
@@ -317,10 +320,14 @@
     </script>
 </head>
 <body>
-    <form method="post" id="form_busqueda">
+    {% include 'nav.html' %}
+    <div class="containerDetalles container-fluid">
+    <form method="post" id="form_busqueda" class="formBusqueda">
         {% csrf_token %}
-        <input type="text" id="busqueda" name="busqueda" value="{{busqueda}}">
-        <input type="submit" value="Buscar">
+        <div class="box">
+        <input type="submit" value="🔍︎" id="iconoBusqueda">
+        <input type="text" id="busqueda" name="busqueda" value="{{busqueda}}" class="busqueda">
+        </div>
     </form>
     
     <h2>{{inmueble.nombre.upper}}</h2>
@@ -365,5 +372,8 @@
             <li><button id="mp3" type="submit" name="tipo" value="mp3">DESCARGAR MP3</button></li>
         </form>
     </ul>
+</div>
 </body>
+
+{% include 'footer.html' %}
 </html>

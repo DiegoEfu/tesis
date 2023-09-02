@@ -22,7 +22,7 @@
 }
 
 .cuadroForm {
-    background-color: rgb(253, 247, 234);
+    background-color: white;
     border-radius: 5%;
 }
 
@@ -56,7 +56,7 @@
     .cuadroForm {
         margin-left: 310px;
         margin-right: 310px;
-        padding: 40px 10px 20px 60px;
+        padding: 40px 10px 20px 35px;
     }
 
     .loginTitle {
@@ -69,7 +69,7 @@
     }
 
     .form-control {
-        width: 85%!important;
+        width: 95%!important;
     }
 
     .btn-success{
@@ -77,7 +77,7 @@
 
 }
     .etiquetaNoTienesCuentaAun {
-        font-size: 160%;
+        font-size: 120%;
     }
 
 
@@ -94,7 +94,7 @@
     .cuadroForm {
         margin-left: 240px;
         margin-right: 240px;
-        padding: 40px 10px 20px 60px;
+        padding: 40px 10px 20px 40px;
     }
 
     .loginTitle {
@@ -107,15 +107,15 @@
     }
 
     .form-control {
-        width: 85%!important;
+        width: 95%!important;
     }
 
     .btn-success{
-        width: 30%!important;
+        width: 20%!important;
 
 }
     .etiquetaNoTienesCuentaAun {
-        font-size: 160%;
+        font-size: 120%;
     }
 
 
@@ -132,7 +132,7 @@
     .cuadroForm {
         margin-left: 100px;
         margin-right: 100px;
-        padding: 40px 10px 20px 60px;
+        padding: 40px 10px 20px 45px;
     }
 
     .loginTitle {
@@ -145,15 +145,15 @@
     }
 
     .form-control {
-        width: 90%!important;
+        width: 95%!important;
     }
 
     .btn-success{
-        width: 30%!important;
+        width: 25%!important;
 
 }
     .etiquetaNoTienesCuentaAun {
-        font-size: 160%;
+        font-size: 120%;
     }
 
 
@@ -222,11 +222,11 @@
     }
 
     .form-control {
-        width: 90%!important;
+        width: 95%!important;
     }
 
     .btn-success{
-        width: 40%!important;
+        width: 35%!important;
 
 }
     .etiquetaNoTienesCuentaAun {
@@ -256,15 +256,15 @@
     }
 
     .etiquetaLogin {
-        font-size: 110%;
+        font-size: 120%;
     }
 
     .form-control {
-        width: 80%!important;
+        width: 100%!important;
     }
 
     .btn-success{
-        width: 30%!important;
+        width: 45%!important;
 
 }
     .etiquetaNoTienesCuentaAun {
@@ -285,7 +285,7 @@
     .cuadroForm {
         margin-left: 30px;
         margin-right: 30px;
-        padding: 40px 20px 20px 20px;
+        padding: 40px 20px 20px 25px;
     }
 
     .loginTitle {
@@ -302,7 +302,7 @@
     }
 
     .btn-success{
-        width: 20%!important;
+        width: 40%!important;
 
 }
     .etiquetaNoTienesCuentaAun {
@@ -340,7 +340,7 @@
     }
 
     .btn-success{
-        width: 20%!important;
+        width: 55%!important;
 
 }
     .etiquetaNoTienesCuentaAun {
@@ -378,7 +378,7 @@
     }
 
     .btn-success{
-        width: 20%!important;
+        width: 60%!important;
 
 }
     .etiquetaNoTienesCuentaAun {

@@ -291,9 +291,10 @@
                 <label for="" class="etiquetaLogin">Correo Electrónico: </label><br>
                 <input type="text" name="username" id="id_username" required class="form-control">  <br> 
                 <label for="" class="etiquetaLogin">Contraseña:</label> <br> 
-                <input type="password" name="password" id="id_password" required class="form-control"> <br><br>
+                <input type="password" name="password" id="id_password" required class="form-control"> <br>
                 <div class="apartadoBoton">
-                <input type="submit" value="Iniciar Sesión" name="botonEnviar" class="btn btn-success"> <a href="{% url 'recuperar_contrasena' %}">¿Ha olvidado su contraseña?</a>  <br> <br> 
+                <input type="submit" value="Iniciar Sesión" name="botonEnviar" class="btn btn-success">
+                <a href="{% url 'recuperar_contrasena' %}">¿Ha olvidado su contraseña?</a>  <br>
             </div>
             </form>
 

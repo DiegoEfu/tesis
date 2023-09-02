@@ -12,6 +12,13 @@
     --azul: #0099ff;
 }
 
+.carousel-item {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+
 .containerResultados {
     background-image: url("../../img/fondoResultados.jpg");
     background-size: cover;
