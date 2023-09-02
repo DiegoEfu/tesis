@@ -9,7 +9,7 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static 'estilos/resultados.css' %}">
+    <link rel="stylesheet" href="{% static 'estilos/resultados/resultados.css' %}">
 
     <script>
         const synthesis = window.speechSynthesis;
@@ -311,28 +311,48 @@
 </head>
 <body>
     {% include 'nav.html' %}
-    <div class="containerResultados">
-        <div class="cuadroResultados">
-    <form method="post" id="form_busqueda">
-        {% csrf_token %}
-        <input type="text" id="busqueda" name="busqueda" value="{{busqueda}}">
-        <input type="submit" value="Buscar">
-    </form>
+    <div class="containerResultados container-fluid">
+                <form method="post" id="form_busqueda" class="formBusqueda">
+                    {% csrf_token %}
+                     <div class="box">
+                <input type="submit" value="🔍︎" id="iconoBusqueda">
+                <input type="text" id="busqueda" name="busqueda" value="{{busqueda}}" class="busqueda">
+                     </div>
+                    </form>
     {% if resultados %}
-        {% for inmueble in resultados %}
-            {{inmueble.id}}
-            <a href="{% url 'detalle_inmueble' pk=inmueble.pk %}">{{inmueble.nombre}}</a><br>
-            {% for imagen in inmueble.imagenes %}
-            <img class="border border-secondary rounded my-2 mx-3" height="100"
-                src="{{imagen}}"
-                width="100"/>
-            {% endfor %}
-            <hr>
-        {% empty %}
-            <b>No hay inmuebles que coincidan con la descripción proporcionada.</b>
-        {% endfor %}
-    {% endif %}
+    <div class="containerCard row">
+            {% for inmueble in resultados %}
+            <div class="card col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4">
+                <div id="{{inmueble.pk}}" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for imagen in inmueble.imagenes %}
+                        <div class="carousel-item {% if forloop.counter == 1%}active{%endif%}">
+                            <img class="card-img-top" src="{{imagen}}">
+                        </div>
+                        {% endfor %}
 </div>
+<button class="carousel-control-prev" type="button" data-bs-target="#{{inmueble.pk}}" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#{{inmueble.pk}}" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+                <div class="card-body">
+                    <a href="{% url 'detalle_inmueble' pk=inmueble.pk %}" class="card-title"><i class="bi bi-house"></i>{{inmueble.precio}}</a><br>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{inmueble.nombre}}</h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">🛏️Número de Habitaciones: {{inmueble.habitaciones}}</li>
+                        <li class="list-group-item">🛁Número de Baños: {{inmueble.banos}}</li>
+                        <li class="list-group-item">🛋️ Año de Construcción: {{inmueble.ano_construccion}}</li>
+                      </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 </div>
 </body>
 {% include 'footer.html' %}
