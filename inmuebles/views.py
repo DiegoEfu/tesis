@@ -993,7 +993,7 @@ def buscar_coincidencias(busqueda):
         for parroquia in Parroquia.objects.all():
             nombre = parroquia.nombre.lower().replace("á","a").replace("é","e").replace("í","i").replace("ó","o").replace("ú","u")
             if nombre in busqueda:
-                posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector__parroquia__pk = parroquia.pk)
+                posibles_inmuebles = Inmueble.objects.filter(estado = "A", sector__parroquia__nombre__icontains = parroquia.nombre)
                 if posibles_inmuebles.count() != 0:
                     break
 
@@ -1148,7 +1148,7 @@ def buscar_coincidencias(busqueda):
     if(not posibles_inmuebles):
         posibles_inmuebles = previo
 
-    return posibles_inmuebles
+    return posibles_inmuebles if len(posibles_inmuebles) < 10 else posibles_inmuebles[:10]
 
 def encuentra_coincidencia(array, a_buscar):
     for i,x in enumerate(array):
