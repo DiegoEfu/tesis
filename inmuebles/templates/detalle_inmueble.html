@@ -319,7 +319,7 @@
 <body>
     <form method="post" id="form_busqueda">
         {% csrf_token %}
-        <input type="text" id="busqueda" name="busqueda" value="{{busqueda}}">
+        <input required type="text" id="busqueda" name="busqueda" value="{{busqueda}}">
         <input type="submit" value="Buscar">
     </form>
     
