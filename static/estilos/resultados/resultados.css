@@ -59,8 +59,10 @@
     color: var(--Gris);
 }
 
-.card-title:hover {
-    color: var(--RojoOscuro);
+
+.hiperVinculo {
+    color: black;
+    text-decoration: none;
 }
 
 @media(max-width:2000px){

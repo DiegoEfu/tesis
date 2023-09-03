@@ -58,10 +58,6 @@
     color: var(--verdeMusgo);
 }
 
-#logoAdvertencia {
-    font-size: 250px;
-    padding: 0!important;
-}
 
 .palabraPrecio {
     font-weight: 600;
@@ -600,11 +596,7 @@
         width: 60%!important;
         font-size: 60%;
     }
-
-    #logoAdvertencia {
-        width: 100%;
-    }
-
+    
     .tituloAtencion {
         font-size: 190%;
     }
