@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PUBLICACIÓN - {{inmueble.nombre.upper}}</title>
     <link rel="stylesheet" href="{% static 'estilos/resultados/detallesInmueble.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     
     <script>
         const synthesis = window.speechSynthesis;
@@ -321,59 +326,89 @@
 </head>
 <body>
     {% include 'nav.html' %}
-    <div class="containerDetalles container-fluid">
+    <div class="containerContenido">
     <form method="post" id="form_busqueda" class="formBusqueda">
         {% csrf_token %}
         <div class="box">
         <input type="submit" value="🔍︎" id="iconoBusqueda">
         <input type="text" id="busqueda" name="busqueda" value="{{busqueda}}" class="busqueda">
+        <a href="{% url 'resultados' %}" id="botonVolver">
         </div>
     </form>
     
-    <h2>{{inmueble.nombre.upper}}</h2>
-    <h3>${{inmueble.precio}}</h3>
-    "{{inmueble.descripcion}}"<br>
-    {% for imagen in inmueble.imagenes %}
-        <img class="border border-secondary rounded my-2 mx-3" height="100"
-            src="{{imagen}}"
-            width="100"/>
+    <div class="containerCuadros row">
+        <-Volver a la pagina de resultados</a>
+    <div class="containerImagen col-lg-9 col-xl-9">
+        <div id="carousel" class="carousel slide">
+            <div class="carousel-inner">
+                {% for imagen in inmueble.imagenes %}
+              <div class="carousel-item {% if forloop.counter == 1%}active{%endif%}">
+        <img class="imageCarousel"  src="{{imagen}}"/>
+        </div>
     {% endfor %}
-    <ul>
-        <li><b>Año de Construcción: </b> {{inmueble.ano_construccion}}</li>
-        <li><b>Tipo de Construcción: </b> {{inmueble.tipo_construccion}}</li>
-        <li><b>Tamaño: </b> {{inmueble.tamano}}</li>
-        <li><b>Número de Habitaciones: </b> {{inmueble.habitaciones}}</li>
-        <li><b>Número de Baños: </b> {{inmueble.banos}}</li>
-        <li><b>Parroquia: </b> {{inmueble.sector.parroquia.nombre}}</li>
-        <li><b>Sector: </b> {{inmueble.sector.nombre}}</li>
-        <li><b>Ubicación Detallada: </b> {{inmueble.ubicacion_detallada}}</li>
-        <li><b>Amueblado: </b> {{inmueble.amueblado|yesno:"Sí,No"}}</li>
-        <li><b>Puestos de Estacionamiento: </b> {{inmueble.estacionamientos}}</li>
-        <li><b>Servicios: </b> {{inmueble.servicios}}</li>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+    <div class="containerInfo col-lg-3 col-xl-3">
+    <h1 class="precioTitulo">${{inmueble.precio}}</h1>
+    <h2 class="tituloCasa">{{inmueble.nombre.upper}}</h2>
+    
+
+    <ul class="listaCaracteristicas">
+        <li><b><i class='bx bxs-institution'></i>Año de Construcción: </b> {{inmueble.ano_construccion}}</li>
+        <li><b><i class='bx bx-building'></i>Tipo de Construcción: </b> {{inmueble.tipo_construccion}}</li>
+        <li><b><i class='bx bxs-hard-hat' ></i>Tamaño: </b> {{inmueble.tamano}}</li>
+        <li><b><i class='bx bx-bed' ></i>Número de Habitaciones: </b> {{inmueble.habitaciones}}</li>
+        <li><b><i class='bx bx-bath' ></i>Número de Baños: </b> {{inmueble.banos}}</li>
+        <li><b><i class='bx bxs-city' ></i>Parroquia: </b> {{inmueble.sector.parroquia.nombre}}</li>
+        <li><b><i class='bx bx-directions'></i></box-icon>Sector: </b> {{inmueble.sector.nombre}}</li>
+        <li><b><i class='bx bx-location-plus' ></i>Ubicación Detallada: </b> {{inmueble.ubicacion_detallada}}</li>
+        <li><b><i class='bx bx-hotel'></i>Amueblado: </b> {{inmueble.amueblado|yesno:"Sí,No"}}</li>
+        <li><b><i class='bx bxs-car-garage' ></i></i>Puestos de Estacionamiento: </b> {{inmueble.estacionamientos}}</li>
+        <li><b><i class='bx bx-droplet'></i>Servicios: </b> {{inmueble.servicios}}</li>
         {% if request.user.is_authenticated and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %}
-            {% if puede_cita %}
-            <li><a id="agendar" href="{% url 'seleccionar_dia_cita' pk=inmueble.pk %}">Agendar Cita para Visitar el Inmueble</a></li>
+        <li><b><i class='bx bx-spreadsheet'></i>Descripción:</b> {{inmueble.descripcion}}</li><br>
+    </ul>
+    <ul class="listaCitas">
+        {% if puede_cita %}
+        <div class="alert alert-warning" role="alert">
+            <a id="agendar" href="{% url 'seleccionar_dia_cita' pk=inmueble.pk %}" class="alert-link">Agendar Cita para Visitar el Inmueble</a></div>
             {% else %}
-            <li><b>¡Ha agendado una cita para visitar el inmueble!</b></li>
+            <div class="alert alert-warning" role="alert">
+            ¡Ha agendado una cita para visitar el inmueble!</div>
             {% endif %}
             {% if puede_comprar %}
-            <li><a id="comprar" href="{% url 'comprar_inmueble' pk=inmueble.pk %}">Comprar</a></li>
-            {% else %}
-            <li><b>¡Debe agendar y asistir a una cita para ver el inmueble para poder comprar!</b></li>
+            <div class="alert alert-warning" role="alert">
+            <a id="comprar" href="{% url 'comprar_inmueble' pk=inmueble.pk %}" class="alert-link">Comprar</a>
+            </div>{% else %}
+            <div class="alert alert-danger" role="alert">
+            ¡Debe agendar y asistir a una cita para ver el inmueble para poder comprar!</div>
             {% endif %}
         {% elif request.user.persona.pk == inmueble.dueno.pk %}
-            <li><b>Este inmueble es de su propiedad. Para cambiar sus opciones haga click <a href="{% url 'consultar_publicaciones' %}">aquí</a></b></li>
+        <div class="alert alert-warning" role="alert">
+            Este inmueble es de su propiedad. Para cambiar sus opciones haga click <a href="{% url 'consultar_publicaciones' %}" class="alert-link">aquí</a></div>
         {% elif not request.user.is_authenticated %}
-            <li><b>Si quieres visitar este inmueble o comprarlo, inicia sesión.</b></li>
+        <div class="alert alert-danger" role="alert">
+            Si quieres visitar este inmueble o comprarlo, inicia sesión.</div>
         {% endif %}
-        <form method="post">
-            {% csrf_token %}
-            <li><button id="pdf" type="submit" name="tipo" value="pdf">DESCARGAR PDF</button></li>
-            <li><button id="mp3" type="submit" name="tipo" value="mp3">DESCARGAR MP3</button></li>
-        </form>
     </ul>
+    <form method="post" class="grupoBotones">
+            {% csrf_token %}
+            <button id="pdf" type="submit" name="tipo" value="pdf" class="btn btn-success">DESCARGAR PDF</button>
+            <button id="mp3" type="submit" name="tipo" value="mp3" class="btn btn-success">DESCARGAR MP3</button>
+        </form>
+</div>
+</div>
 </div>
 </body>
-
+<hr>
 {% include 'footer.html' %}
 </html>
