@@ -316,7 +316,7 @@
                     {% csrf_token %}
                      <div class="box">
                 <input type="submit" value="🔍︎" id="iconoBusqueda">
-                <input type="text" id="busqueda" name="busqueda" value="{{busqueda}}" class="busqueda">
+                <input required type="text" id="busqueda" name="busqueda" value="{{busqueda}}" class="busqueda">
                      </div>
                     </form>
     {% if resultados %}

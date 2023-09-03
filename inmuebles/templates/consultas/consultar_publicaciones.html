@@ -296,7 +296,7 @@
         <div class="carousel-inner">
             {% for imagen in publicacion.imagenes %}
             <div class="carousel-item {% if forloop.counter == 1%}active{%endif%}">
-                <img class="w-100" src="{{imagen}}" alt="image">
+                <img class="w-100 h-100" src="{{imagen}}" alt="image">
             </div>
 
     {% endfor %}

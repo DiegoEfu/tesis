@@ -11,6 +11,8 @@
 
 }
 
+
+
 .contenedorElementos {
     background-image: url("../../img/Login.jpg");
     background-position: center;
@@ -41,7 +43,7 @@
 }
 
 .btn-success {
-    color: black!important;
+    color: white!important;
     background-color: var(--verdeMusgo)!important;
     border-color: var(--verdeMusgo)!important;
 }
@@ -49,6 +51,7 @@
 .btn-success:hover {
     background-color: #3d6f01!important;
     color: white!important;
+    border-color: #3d6f01!important;
 }
 @media(max-width:2000px) {
     .contenedorElementos {
@@ -305,7 +308,7 @@
     }
 
     .form-control {
-       width: 80%!important;
+       width: 90%!important;
        margin-right: 50%!important;
     }
 

@@ -25,7 +25,8 @@
             "registrarse": "Lleva a la pantalla de registro",
             "regresar inicio": "Regresa a la pantalla de inicio",
             "desactivar comandos de voz": "Desactiva los comandos de voz",
-            "recuperar contraseña": "Lleva a la pantalla de recuperación de contraseña"
+            "recuperar contraseña": "Lleva a la pantalla de recuperación de contraseña",
+            "leer pantalla": "Lee la estrctura general de la pantalla."
         };
 
         function formulario_p1(event){
@@ -139,6 +140,12 @@
 
                             case "regresar inicio":
                                 window.location.replace("/");
+                                break;
+
+                            case "leer pantalla":
+                                hablar(`Usted se encuentra en la pantalla de inicio de sesión, la cual se encuentra dividida en las siguientes secciones:
+                                1. Sección de Navegación: Aquí se encuentra la barra de navegación de la aplicación web.
+                                2. Sección de Formulario: Aquí se encuentra el formulario de inicio de sesión.`) 
                                 break;
                                 
                             case "ayuda":
@@ -291,9 +298,10 @@
                 <label for="" class="etiquetaLogin">Correo Electrónico: </label><br>
                 <input type="text" name="username" id="id_username" required class="form-control">  <br> 
                 <label for="" class="etiquetaLogin">Contraseña:</label> <br> 
-                <input type="password" name="password" id="id_password" required class="form-control"> <br><br>
+                <input type="password" name="password" id="id_password" required class="form-control"> <br>
                 <div class="apartadoBoton">
-                <input type="submit" value="Iniciar Sesión" name="botonEnviar" class="btn btn-success"> <a href="{% url 'recuperar_contrasena' %}">¿Ha olvidado su contraseña?</a>  <br> <br> 
+                <input type="submit" value="Iniciar Sesión" name="botonEnviar" class="btn btn-success">
+                <a href="{% url 'recuperar_contrasena' %}">¿Ha olvidado su contraseña?</a>  <br>
             </div>
             </form>
 
