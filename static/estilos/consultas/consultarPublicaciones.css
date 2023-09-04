@@ -66,6 +66,16 @@
     color: var(--Rojorubi)!important;
 }
 
+.tituloAtencion {
+    color: yellow;
+}
+
+#mensajeNoCompras {
+    color: white;
+}
+
+
+
 @media(max-width:2000px) {
     .contenedorInfo {
         padding: 35px 5px 35px 5px;
@@ -118,6 +128,15 @@
 
     .card-text {
         font-size: 100%;
+    }
+
+    
+    .tituloAtencion {
+        font-size: 240%;
+    }
+
+    #mensajeNoCompras {
+        font-size: 180%;
     }
 
 }
@@ -176,6 +195,14 @@
         font-size: 100%;
     }
 
+    .tituloAtencion {
+        font-size: 210%;
+    }
+
+    #mensajeNoCompras {
+        font-size: 150%;
+    }
+
 }
 
 
@@ -199,8 +226,8 @@
         margin-left: 0px!important;
         margin-right: 0px!important;
         margin-bottom: 15px;
-        width: 30%!important;
-        font-size: 110%!important;
+        width: 25%!important;
+        font-size: 140%!important;
        text-align: center!important;
     }
 
@@ -231,6 +258,14 @@
 
     .card-text {
         font-size: 100%;
+    }
+
+    .tituloAtencion {
+        font-size: 210%;
+    }
+
+    #mensajeNoCompras {
+        font-size: 150%;
     }
 
 }
@@ -256,7 +291,7 @@
         margin-right: 0px!important;
         margin-bottom: 15px;
         width: 30%!important;
-        font-size: 110%!important;
+        font-size: 150%!important;
        text-align: center!important;
     }
 
@@ -287,6 +322,14 @@
 
     .card-text {
         font-size: 100%;
+    }
+
+    .tituloAtencion {
+        font-size: 210%;
+    }
+
+    #mensajeNoCompras {
+        font-size: 150%;
     }
 
 }
@@ -312,7 +355,7 @@
         margin-right: 0px!important;
         margin-bottom: 15px;
         width: 30%!important;
-        font-size: 110%!important;
+        font-size: 130%!important;
        text-align: center!important;
     }
 
@@ -343,6 +386,14 @@
 
     .card-text {
         font-size: 100%;
+    }
+
+    .tituloAtencion {
+        font-size: 210%;
+    }
+
+    #mensajeNoCompras {
+        font-size: 150%;
     }
 
 }
@@ -401,6 +452,14 @@
         font-size: 100%;
     }
 
+    .tituloAtencion {
+        font-size: 210%;
+    }
+
+    #mensajeNoCompras {
+        font-size: 150%;
+    }
+
 }
 
 @media(max-width:767px) {
@@ -455,6 +514,15 @@
         font-size: 130%;
     }
 
+        
+    .tituloAtencion {
+        font-size: 210%;
+    }
+
+    #mensajeNoCompras {
+        font-size: 150%;
+    }
+
 }
 
 @media(max-width:600px) {
@@ -479,7 +547,7 @@
         margin-right: 0px!important;
         margin-bottom: 15px;
         width: 50%!important;
-        font-size: 160%!important;
+        font-size: 120%!important;
     }
 
     .grupoBotones{
@@ -501,6 +569,15 @@
 
     .card-text {
         font-size: 120%;
+    }
+
+    
+    .tituloAtencion {
+        font-size: 210%;
+    }
+
+    #mensajeNoCompras {
+        font-size: 150%;
     }
 
 }
@@ -525,8 +602,8 @@
         margin-left: 0px!important;
         margin-right: 0px!important;
         margin-bottom: 15px;
-        width: 40%!important;
-        font-size: 110%!important;
+        width: 55%!important;
+        font-size: 102%!important;
     }
 
     .grupoBotones{
@@ -549,6 +626,14 @@
 
     .card-text {
         font-size: 100%;
+    }
+
+    .tituloAtencion {
+        font-size: 190%;
+    }
+
+    #mensajeNoCompras {
+        font-size: 130%;
     }
 
 
@@ -588,6 +673,14 @@
 
     .card-title {
         font-size: 100%;
+    }
+
+    .tituloAtencion {
+        font-size: 190%;
+    }
+
+    #mensajeNoCompras {
+        font-size: 110%;
     }
 
 }

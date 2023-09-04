@@ -287,7 +287,6 @@
     <div class="contenedorInfo">
         <div class="tituloContainer">
     <h3 class="tituloSeccion">Consulta de Publicaciones</h3>
-    <a href="/inmuebles/creacion/" class="btn btn-secondary">Publicar nuevo inmueble</a> 
 </div>
     <div class="containerCartas row">
     {% for publicacion in publicaciones %}
@@ -327,10 +326,14 @@
 </div>
 </div>
     {% empty %}
-    <p class="card-text">No hay publicaciones.</p>
-
+    <div class="tituloContainer">
+        <h3 class="tituloAtencion"><b>ATENCIÓN:</b></h3>
+  <p id="mensajeNoCompras">No hay publicaciones.</p>
+</div>
     {% endfor %}
-
+    <div class="tituloContainer">
+    <a href="/inmuebles/creacion/" class="btn btn-secondary" id="botonCrearInmueble">Publicar nuevo inmueble</a> 
+</div>
 </div>
 </div>
 {% include 'footer.html' %}

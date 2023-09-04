@@ -322,6 +322,7 @@
     {% if resultados %}
     <div class="containerCard row">
             {% for inmueble in resultados %}
+            
             <div class="card col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4">
                 <div id="{{inmueble.pk}}" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
@@ -340,16 +341,20 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+<a href="{% url 'detalle_inmueble' pk=inmueble.pk %}" class="hiperVinculo">
                 <div class="card-body">
-                    <a href="{% url 'detalle_inmueble' pk=inmueble.pk %}" class="card-title"><i class="bi bi-house"></i>{{inmueble.precio}}</a><br>
+                     <label for="" class="card-title"><i class="bi bi-house"></i>{{inmueble.precio}}</label><br>
                     <h6 class="card-subtitle mb-2 text-body-secondary">{{inmueble.nombre}}</h6>
                     <ul class="list-group list-group-flush">
+                        <li class="list-group-item">🗺️Sector: {{inmueble.sector}}</li>
                         <li class="list-group-item">🛏️Número de Habitaciones: {{inmueble.habitaciones}}</li>
                         <li class="list-group-item">🛁Número de Baños: {{inmueble.banos}}</li>
                         <li class="list-group-item">🛋️ Año de Construcción: {{inmueble.ano_construccion}}</li>
                       </ul>
                 </div>
+            </a>
             </div>
+        
             {% endfor %}
         </div>
     {% endif %}
