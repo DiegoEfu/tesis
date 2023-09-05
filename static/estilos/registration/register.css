@@ -53,6 +53,15 @@
     color: white!important;
     border-color: #3d6f01!important;
 }
+
+.form-control {
+    border:thin black solid!important;
+}
+
+.form-select {
+        border:thin black solid!important;
+    
+}
 @media(max-width:2000px) {
     .contenedorElementos {
         height: 1250px;
