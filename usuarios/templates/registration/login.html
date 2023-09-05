@@ -284,7 +284,8 @@
         <div class="cuadroForm">
             <h3 class="loginTitle">Inicio de Sesión</h3> <br>
             {% for key, value in form.errors.items %}
-            <p style="color: brown;">{{value}}</p>
+            <div class="alert alert-danger" role="alert">
+            {{value}}</div>
             {% endfor %}
             <form method="POST" action="">  
                 {% csrf_token %}
@@ -296,7 +297,7 @@
                 <input type="submit" value="Iniciar Sesión" name="botonEnviar" class="btn btn-success">
                 <a href="{% url 'recuperar_contrasena' %}">¿Ha olvidado su contraseña?</a>  <br>
             </div>
-            </form>
+            </form><br>
 
             <label for="" class="etiquetaNoTienesCuentaAun">¿No tienes cuenta aún? <a href="{% url 'registro' %}">Crear Nuevo Usuario</a></label>
         </div>

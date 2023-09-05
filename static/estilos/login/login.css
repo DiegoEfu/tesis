@@ -43,6 +43,11 @@
     border-color: #427800!important;
 }
 
+.form-control {
+    border:thin black solid!important;
+}
+
+
 @media(max-width:2000px) {
     .fondoLogin {
         padding-top: 60px;
