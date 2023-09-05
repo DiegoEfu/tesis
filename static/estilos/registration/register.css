@@ -66,9 +66,9 @@
     .contenedorElementos {
         height: 1250px;
         padding-top: 90px;
-        padding-bottom: 70px;
-        padding-left: 80px!important;
-        padding-right: 80px!important;
+        padding-bottom: 90px;
+        padding-left: 350px!important;
+        padding-right: 350px!important;
     }
 
     .cuadroLogin {
@@ -88,17 +88,17 @@
     }
 
     .contenedorFormulario {
-        margin-left: 15px;
+        margin-left: 95px;
         margin-right: 10px;
     }
 
     .form-control {
-        width: 70%!important;
+        width: 85%!important;
         margin-right: 50%!important;
     }
 
     .form-select {
-        width: 10%!important;
+        width: 18%!important;
     }
 
     .tituloDatos {
@@ -123,8 +123,8 @@
         height: 1250px;
         padding-top: 90px;
         padding-bottom: 70px;
-        padding-left: 75px!important;
-        padding-right: 75px!important;
+        padding-left: 250px!important;
+        padding-right: 250px!important;
     }
 
     .cuadroLogin {
@@ -133,7 +133,7 @@
     }
 
     .tituloRegistro {
-        font-size: 300%;
+        font-size: 340%;
         text-align: center;
         padding-top: 20px;
     }
@@ -144,17 +144,17 @@
     }
 
     .contenedorFormulario {
-        margin-left: 15px;
+        margin-left: 95px;
         margin-right: 10px;
     }
 
     .form-control {
-       width: 70%!important;
+       width: 80%!important;
        margin-right: 50%!important;
     }
 
     .form-select {
-        width: 10%!important;
+        width: 15%!important;
     }
 
     .tituloDatos {
@@ -179,8 +179,8 @@
         height: 1240px;
         padding-top: 90px;
         padding-bottom: 70px;
-        padding-left: 55px!important;
-        padding-right: 55px!important;
+        padding-left: 170px!important;
+        padding-right: 170px!important;
     }
 
     .cuadroLogin {
@@ -200,12 +200,12 @@
     }
 
     .contenedorFormulario {
-        margin-left: 15px;
+        margin-left: 60px;
         margin-right: 10px;
     }
 
     .form-control {
-       width: 70%!important;
+       width: 80%!important;
        margin-right: 50%!important;
     }
 
@@ -235,8 +235,8 @@
         height: 1200px;
         padding-top: 90px;
         padding-bottom: 70px;
-        padding-left: 40px!important;
-        padding-right: 40px!important;
+        padding-left: 100px!important;
+        padding-right: 100px!important;
     }
 
     .cuadroLogin {
@@ -256,17 +256,17 @@
     }
 
     .contenedorFormulario {
-        margin-left: 15px;
-        margin-right: 10px;
+        margin-left: 50px;
+        margin-right: 70px;
     }
 
     .form-control {
-       width: 80%!important;
+       width: 90%!important;
        margin-right: 50%!important;
     }
 
     .form-select {
-        width: 15%!important;
+        width: 25%!important;
     }
 
     .tituloDatos {
@@ -291,8 +291,8 @@
         height: 1180px;
         padding-top: 90px;
         padding-bottom: 70px;
-        padding-left: 35px!important;
-        padding-right: 35px!important;
+        padding-left: 80px!important;
+        padding-right: 80px!important;
     }
 
     .cuadroLogin {
@@ -312,8 +312,8 @@
     }
 
     .contenedorFormulario {
-        margin-left: 15px;
-        margin-right: 10px;
+        margin-left: 85px;
+        margin-right: 50px;
     }
 
     .form-control {
@@ -378,7 +378,7 @@
     }
 
     .form-select {
-        width: 28%!important;
+        width: 15%!important;
     }
 
     .tituloDatos {
@@ -433,7 +433,7 @@
     }
 
     .form-select {
-        width: 28%!important;
+        width: 18%!important;
     }
 
     .tituloDatos {
