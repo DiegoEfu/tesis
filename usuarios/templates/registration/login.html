@@ -1,3 +1,4 @@
+{% load pwa %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
@@ -263,6 +264,24 @@
         recognition.start();
         recognition.addEventListener('end', () => !speaking ? recognition.start() : console.log("a"));
 
+        document.addEventListener("keydown", function(event) {
+            if (event.altKey && event.code === "KeyX"){ // Parar hablar
+                synthesis.cancel();
+                speaking = false;
+                recognition.start();
+            } else if(event.altKey && event.code === "KeyC"){
+                synthesis.cancel();
+                speaking = false;
+                if(localStorage.getItem('comandos') == '1'){
+                    localStorage.setItem('comandos', 0);
+                    hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                } else if(!speaking && (localStorage.getItem('comandos') == '0' || !localStorage.getItem('comandos'))){
+                    bienvenida();
+                    localStorage.setItem("comandos", 1);
+                }
+            }
+        });
+
         if(localStorage.getItem('comandos') == '1')
             if({{form.errors|length}} === 0) {
                 bienvenida(); }
@@ -291,7 +310,8 @@
         <div class="cuadroForm">
             <h3 class="loginTitle">Inicio de Sesión</h3> <br>
             {% for key, value in form.errors.items %}
-            <p style="color: brown;">{{value}}</p>
+            <div class="alert alert-danger" role="alert">
+            {{value}}</div>
             {% endfor %}
             <form method="POST" action="">  
                 {% csrf_token %}
@@ -303,7 +323,7 @@
                 <input type="submit" value="Iniciar Sesión" name="botonEnviar" class="btn btn-success">
                 <a href="{% url 'recuperar_contrasena' %}">¿Ha olvidado su contraseña?</a>  <br>
             </div>
-            </form>
+            </form><br>
 
             <label for="" class="etiquetaNoTienesCuentaAun">¿No tienes cuenta aún? <a href="{% url 'registro' %}">Crear Nuevo Usuario</a></label>
         </div>

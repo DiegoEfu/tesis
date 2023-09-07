@@ -476,13 +476,31 @@
 
         recognition.start();
         recognition.addEventListener('end', () => !speaking ? recognition.start() : console.log("a"));
+
+        document.addEventListener("keydown", function(event) {
+            if (event.altKey && event.code === "KeyX"){ // Parar hablar
+                synthesis.cancel();
+                speaking = false;
+                recognition.start();
+            } else if(event.altKey && event.code === "KeyC"){
+                synthesis.cancel();
+                speaking = false;
+                if(localStorage.getItem('comandos') == '1'){
+                    localStorage.setItem('comandos', 0);
+                    hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                } else if(!speaking && (localStorage.getItem('comandos') == '0' || !localStorage.getItem('comandos'))){
+                    bienvenida();
+                    localStorage.setItem("comandos", 1);
+                }
+            }
+        });
     </script>
 </head>
 {% include 'nav.html' %}
 <body>
     <div class="contenedorElementos container-fluid">
         <div class="cuadroLogin container-fluid">
-    <h1 class="tituloRegistro">Registro de Usuario</h1>
+    <h1 class="tituloRegistro">Registro de Usuario</h1><br>
     {% if errores %}
     <ul>
         {% for error in errores %}
@@ -490,7 +508,7 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <div class="contenedorFormulario container-fluid">
+    <div class="contenedorFormulario">
     <form method="post">
         {% csrf_token %}
         <h4 class="tituloDatos">Datos Personales</h4>
@@ -501,7 +519,7 @@
             <option {% if previo.tipo == 'E' %} selected {% endif %} value="E">E</option>
         </select>
         <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" max="999999999" name="identificacion" id="identificacion" class="form-control"><br></div>
-
+        <br>
         <label class="tituloInput">Nombre(s):</label><br>
         <input {% if previo %} value="{{previo.nombre}}" {% endif %} required type="text" name="nombre" id="nombre" class="form-control"><br>
 
