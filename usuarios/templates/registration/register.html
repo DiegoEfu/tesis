@@ -482,7 +482,7 @@
 <body>
     <div class="contenedorElementos container-fluid">
         <div class="cuadroLogin container-fluid">
-    <h1 class="tituloRegistro">Registro de Usuario</h1>
+    <h1 class="tituloRegistro">Registro de Usuario</h1><br>
     {% if errores %}
     <ul>
         {% for error in errores %}
@@ -490,7 +490,7 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <div class="contenedorFormulario container-fluid">
+    <div class="contenedorFormulario">
     <form method="post">
         {% csrf_token %}
         <h4 class="tituloDatos">Datos Personales</h4>
@@ -501,7 +501,7 @@
             <option {% if previo.tipo == 'E' %} selected {% endif %} value="E">E</option>
         </select>
         <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" max="999999999" name="identificacion" id="identificacion" class="form-control"><br></div>
-
+        <br>
         <label class="tituloInput">Nombre(s):</label><br>
         <input {% if previo %} value="{{previo.nombre}}" {% endif %} required type="text" name="nombre" id="nombre" class="form-control"><br>
 
