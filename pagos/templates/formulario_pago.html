@@ -365,6 +365,24 @@
         recognition.start();
         recognition.addEventListener('end', () => !speaking ? recognition.start() : console.log("a"));
 
+        document.addEventListener("keydown", function(event) {
+            if (event.altKey && event.code === "KeyX"){ // Parar hablar
+                synthesis.cancel();
+                speaking = false;
+                recognition.start();
+            } else if(event.altKey && event.code === "KeyC"){
+                synthesis.cancel();
+                speaking = false;
+                if(localStorage.getItem('comandos') == '1'){
+                    localStorage.setItem('comandos', 0);
+                    hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                } else if(!speaking && (localStorage.getItem('comandos') == '0' || !localStorage.getItem('comandos'))){
+                    bienvenida();
+                    localStorage.setItem("comandos", 1);
+                }
+            }
+        });
+
         if(localStorage.getItem('comandos') == '1')
             if({{errores|length}} === 0)        
                 bienvenida();

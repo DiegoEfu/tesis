@@ -167,7 +167,7 @@
                                 3. Sección de Información: Aquí hay información general de la aplicación web.Principalmente usted puede comprar y vender, así como buscarlos y también buscar agentes inmuebles.
                                 4. Sección de Soporte: Aquí se explica el soporte de comandos de voz de la aplicación, creado para momentos en los cuales el usuario no pueda ver o sea ciego. Además el diseño
                                 visual de las pantallas tomó en cuenta el contraste para personas con daltonismo, así como también interfaces simples.
-                                5. Sección de Agentes Calificados: Aquí se exhiben los agentes destacados y calificados que trabajan para nostros. Entre ellos:
+                                5. Sección de Agentes Calificados: Aquí se exhiben los agentes destacados y calificados que trabajan para nosotros. Entre ellos:
                                 Diego Faria, Fernando Ochoa y Winderson Villarreal.
                                 6. Sección de Footer: Contiene enlaces básicos y enlaces a las redes sociales de la compañía.
                                 `);
@@ -275,6 +275,24 @@
 
         recognition.start();
         recognition.addEventListener('end', () => !speaking ? recognition.start() : console.log("a"));
+
+        document.addEventListener("keydown", function(event) {
+            if (event.altKey && event.code === "KeyX"){ // Parar hablar
+                synthesis.cancel();
+                speaking = false;
+                recognition.start();
+            } else if(event.altKey && event.code === "KeyC"){
+                synthesis.cancel();
+                speaking = false;
+                if(localStorage.getItem('comandos') == '1'){
+                    localStorage.setItem('comandos', 0);
+                    hablar("Se han desactivado los comandos de voz. Diga 'activar comandos de voz' para activarlos de nuevo'");
+                } else if(!speaking && (localStorage.getItem('comandos') == '0' || !localStorage.getItem('comandos'))){
+                    bienvenida();
+                    localStorage.setItem("comandos", 1);
+                }
+            }
+        });
     </script>
 </head>
 <body>
