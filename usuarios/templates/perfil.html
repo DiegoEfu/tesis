@@ -207,6 +207,14 @@
 
         recognition.start();
         recognition.addEventListener('end', () => !speaking ? recognition.start() : console.log("a"));
+
+        document.addEventListener("keydown", function(event) {
+            if (event.altKey && event.code === "KeyX"){ // Parar hablar
+                synthesis.cancel();
+                speaking = false;
+                recognition.start();
+            }
+        });
     </script>
 </head>
 <body>
