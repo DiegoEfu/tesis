@@ -60,11 +60,11 @@
     {% if publicacion.estado == 'T' %}
     <a href="{% url 'consultar_pagos_venta_activa' pk=publicacion.compra_activa.pk %}">Consultar Pagos</a>
     {% else %}
-    <b>Esta publicación tiene una cita de formalidades dado que el pago fue completado.</b>
+    <label for=""><b>Esta publicación tiene una cita de formalidades dado que el pago fue completado.</b>
+    {% endif %}</label>
+</div>
     {% endif %}
 
-    {% endif %}
-</div>
 </div><br>
     {% empty %}
     <div class="alert alert-danger" role="alert">
