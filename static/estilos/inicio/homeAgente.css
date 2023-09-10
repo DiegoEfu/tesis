@@ -1,0 +1,28 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+    --Gris: #aacde5;
+    
+    --azul: #0099ff;
+
+}
+
+.bienvenida {
+    background-image: url("../../img/BienvenidaAgente.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.titulo {
+    color: black;
+    font-weight: 600;
+    text-align: center;
+}

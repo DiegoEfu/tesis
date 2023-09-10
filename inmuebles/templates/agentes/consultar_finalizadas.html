@@ -1,3 +1,6 @@
+{% load pwa %}
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +9,7 @@
     <title>Publicaciones Asignadas Activas</title>
 </head>
 <body>
+    {% include 'nav.html' %}
     <a href="{% url 'bienvenida_agente' %}">Regresar al Menú Principal</a><br>
     {% for publicacion in publicaciones %}
     <hr>
@@ -29,4 +33,5 @@
     Actualmente no tiene publicaciones finalizadas.
     {% endfor %}
 </body>
+{% include 'footer.html' %}
 </html>
