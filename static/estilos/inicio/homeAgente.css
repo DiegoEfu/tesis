@@ -1,0 +1,292 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+    --Gris: #aacde5;
+    
+    --azul: #0099ff;
+
+}
+
+.bienvenida {
+    background-image: url("../../img/BienvenidaAgente.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.titulo {
+    color: white;
+    font-weight: 800;
+    text-align: center;
+}
+
+.card-body a {
+    color: var(--verdeMusgo);
+    font-style: italic;
+    font-weight: 700;
+
+}
+
+.card-body a:hover {   
+    color: #3c6d01;
+
+}
+
+.card-title {
+    color: var(--Gris)!important;
+}
+
+@media(max-width: 2000px) {
+    .bienvenida {
+        padding: 30px 50px 30px 50px;
+    }
+
+    .titulo {
+        margin-top: 20px;
+        font-size: 85px;
+    }
+
+    .containerCards {
+        padding: 0px 0px 0px 0px;
+    }
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    .card-body a {   
+        font-size: 15px;
+    }
+    
+    .card-title {
+        font-size: 25px;
+    }
+
+}
+
+@media(max-width: 1800px) {
+    .bienvenida {
+        padding: 30px 50px 30px 50px;
+    }
+
+    .titulo {
+        margin-top: 20px;
+        font-size: 85px;
+    }
+
+    .containerCards {
+        padding: 0px 0px 0px 0px;
+    }
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    .card-body a {   
+        font-size: 15px;
+    }
+    
+    .card-title {
+        font-size: 25px;
+    }
+
+}
+
+@media(max-width: 1400px) {
+    .bienvenida {
+        padding: 30px 50px 30px 50px;
+    }
+
+    .titulo {
+        margin-top: 20px;
+        font-size: 85px;
+    }
+
+    .containerCards {
+        padding: 0px 0px 0px 0px;
+    }
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    .card-body a {   
+        font-size: 15px;
+    }
+    
+    .card-title {
+        font-size: 25px;
+    }
+
+}
+
+@media(max-width: 1200px) {
+    .bienvenida {
+        padding: 30px 50px 30px 50px;
+    }
+
+    .titulo {
+        margin-top: 20px;
+        font-size: 85px;
+    }
+
+    .containerCards {
+        padding: 0px 0px 0px 0px;
+    }
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    .card-body a {   
+        font-size: 15px;
+    }
+    
+    .card-title {
+        font-size: 25px;
+    }
+
+}
+
+@media(max-width: 992px) {
+    .bienvenida {
+        padding: 50px 80px 50px 80px;
+    }
+
+    .titulo {
+        margin-top: 20px;
+        font-size: 85px;
+    }
+
+    .containerCards {
+        padding: 0px 0px 0px 0px;
+    }
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    .card-body a {   
+        font-size: 10px;
+    }
+    
+    .card-title {
+        font-size: 15px;
+    }
+
+}
+
+@media(max-width: 768px) {
+    .bienvenida {
+        padding: 50px 60px 50px 60px;
+    }
+
+    .titulo {
+        margin-top: 20px;
+        font-size: 65px;
+    }
+
+    .containerCards {
+        padding: 0px 0px 0px 0px;
+    }
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    .card-body a {   
+        font-size: 22px;
+    }
+    
+    .card-title {
+        font-size: 32px;
+    }
+
+}
+
+@media(max-width: 600px) {
+    .bienvenida {
+        padding: 20px 30px 20px 30px;
+    }
+
+    .titulo {
+        margin-top: 20px;
+        font-size: 45px;
+    }
+
+    .containerCards {
+        padding: 0px 0px 0px 0px;
+    }
+
+    .card {
+        margin-bottom: 10px;
+    }
+
+    .card-body a {   
+        font-size: 17px;
+    }
+    
+    .card-title {
+        font-size: 28px;
+    }
+
+}
+
+@media(max-width: 480px) {
+    .bienvenida {
+        padding: 20px 30px 20px 30px;
+    }
+
+    .titulo {
+        margin-top: 20px;
+        font-size: 35px;
+    }
+
+    .containerCards {
+        padding: 0px 0px 0px 0px;
+    }
+
+    .card {
+        margin-bottom: 10px;
+    }
+
+    .card-body a {   
+        font-size: 13px;
+    }
+    
+    .card-title {
+        font-size: 24px;
+    }
+
+}
+
+@media(max-width: 320px) {
+    .bienvenida {
+        padding: 10px 20px 10px 20px;
+    }
+
+    .titulo {
+        margin-top: 20px;
+        font-size: 30px;
+    }
+
+    .containerCards {
+        padding: 0px 0px 0px 0px;
+    }
+
+    .card {
+        margin-bottom: 10px;
+    }
+
+    .card-body a {   
+        font-size: 13px;
+    }
+
+}

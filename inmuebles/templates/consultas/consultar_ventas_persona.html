@@ -301,10 +301,11 @@
 <body>
     {% include 'nav.html' %}
     <div class="salesContainer">
-        <div class="infoVentas">
+        <div class="infoVentas row">
     <h3 class="citasTitulo">Sus Ventas</h3><hr>
     {% for compra in ventas %}
-    
+    <div class="card col-md-6 col-xl-4 col-xxl-4">
+        <div class="card-body">
     <h5 class="linkPublicacion">{{compra.inmueble.nombre}}</h5>
     <label for="" class="form-label"><b>Precio:</b> ${{compra.inmueble.precio}}</label> <br>
     <label for="" class="form-label"><b>Sector:</b> {{compra.inmueble.sector.nombre}} (Parroquia {{compra.inmueble.sector.parroquia.nombre}})</label><br>
@@ -328,14 +329,17 @@
     {% if compra.pagos.all.count %}
     <label for="linkConsulta" class="linkConsulta"><a href="{% url 'consultar_pagos_ventas' pk=compra.pk %}">Consultar Pagos</a></label>
     {% endif %}
-    <hr>
+</div>
+<hr>
+</div>
+    
     {% empty %}
     <div class="mensajeNoHayCompras">
         <h3 class="tituloAtencion"><b>ATENCIÓN:</b></h3>
         <div class="alert alert-warning" role="alert">
             <p id="mensajeNoCompras">No ha realizado ninguna venta.</p></div>
     </div>
-    
+
     {% endfor %}
     
 </div>

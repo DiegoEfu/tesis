@@ -1,3 +1,5 @@
+{% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +8,7 @@
     <title>Venta de sus Inmuebles</title>
 </head>
 <body>
+    {% include 'nav.html' %}
     <h2>Consultar Pagos Realizados</h2>
     {% for pago in pagos %}
     <hr>
@@ -20,4 +23,5 @@
     {% endif %}
     {% endfor %}
 </body>
+{% include 'footer.html' %}
 </html>
