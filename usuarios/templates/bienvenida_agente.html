@@ -15,18 +15,40 @@
     {% include 'nav.html' %}
 
     <div class="bienvenida">
-        <h2 class="titulo">Bienvenido Agente</h2>
-    </div>
-    <a href="{% url 'consultar_asignadas' %}">Consultar Publicaciones Asignadas Activas</a><br>
-    <a href="{% url 'consultar_revision' %}">Consultar Publicaciones en Revisión</a><br>
-    <a href="{% url 'consultar_finalizadas' %}">Consultar Publicaciones Finalizadas</a><br>
-    <hr>
-    <a href="{% url 'consultar_citas_pendientes' %}">Consultar Citas Pendientes</a><br>
-    <a href="{% url 'consultar_citas_finalizadas' %}">Consultar Citas Finalizadas</a>
-    <hr>
-    <a href="{% url 'consultar_ventas_revision' %}">Consultar Ventas Revisión</a><br>
-    <a href="{% url 'consultar_ventas_cerradas' %}">Consultar Ventas cerradas</a>
+        <h2 class="titulo container-fluid">BIENVENIDO<Br> AGENTE</h2>
 
+    <div class="containerCards row">
+
+<div class="card col-md-4">
+    <img src="{% static 'img/BienvenidaAgente/ConsultaPubli.jpg'%}" class="w-100 h-100">
+    <div class="card-body">
+        <h5 class="card-title">PUBLICACIONES</h5>
+        <a href="{% url 'consultar_asignadas' %}" class="consultaPublicaciones card-link">Publicaciones Activas</a><br>
+        <a href="{% url 'consultar_revision' %}" class="consultaPublicaciones card-link">Publicaciones en Revisión</a><br>
+        <a href="{% url 'consultar_finalizadas' %}" class="consultaPublicaciones card-link">Publicaciones Finalizadas</a>
+    </div>
+  </div><br>
+
+  <div class="card col-md-4">
+    <img src="{% static 'img/BienvenidaAgente/ConsultaCitas.jpg'%}" class="w-100 h-100">
+    <div class="card-body">
+        <h5 class="card-title">CITAS</h5>
+        <a href="{% url 'consultar_citas_pendientes' %}">Citas Pendientes</a><br>
+        <a href="{% url 'consultar_citas_finalizadas' %}">Citas Finalizadas</a>
+    </div>
+  </div><br>
+
+  <div class="card col-md-4">
+    <img src="{% static 'img/BienvenidaAgente/ConsultaVentas.jpg'%}" class="w-100 h-100">
+    <div class="card-body">
+        <h5 class="card-title">VENTAS</h5>
+        <a href="{% url 'consultar_ventas_revision' %}">Ventas Revisión</a><br>
+        <a href="{% url 'consultar_ventas_cerradas' %}">Ventas Cerradas</a>
+    </div>
+  </div><br>
+   
+</div> 
+</div>
     <script src="{% static '/notify.min.js' %}"></script>
     <script>
         $(function(){
@@ -38,6 +60,7 @@
         });
         
     </script>
+    {% include 'footer.html' %}
 </body>
-{% include 'footer.html' %}
+
 </html>
