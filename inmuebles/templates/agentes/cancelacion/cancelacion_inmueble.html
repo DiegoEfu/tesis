@@ -1,3 +1,5 @@
+{% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +8,7 @@
     <title>Cancelación de la Publicación</title>
 </head>
 <body>
+    {% include 'nav.html' %}
     <form method="post">
         {% csrf_token %}
         Esta opción debe ser únicamente usada en casos en los cuales exista una falta
@@ -16,4 +19,5 @@
         <button type="submit">Cancelar Publicación</button>
     </form>
 </body>
+{% include 'footer.html' %}
 </html>

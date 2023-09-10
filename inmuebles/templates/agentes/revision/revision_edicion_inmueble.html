@@ -1,3 +1,5 @@
+{% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +8,7 @@
     <title>Aprobación de la Edición del Inmueble</title>
 </head>
 <body>
+    {% include 'nav.html' %}
     <h1>Aprobación de la Edición del Inmueble</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -88,4 +91,5 @@
         <button type="submit" name="cambios" value="rechazar">Rechazar Cambios</button>
     </form>
 </body>
+{% include 'footer.html' %}
 </html>
