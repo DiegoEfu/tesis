@@ -20,10 +20,12 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
-            "leer venta": "Seguido de un número lee los detalles de la venta especificada.",
             "leer ventas": "Lee las ventas que se muestran en pantalla.",
+            // {% if ventas.count %}
+            "leer venta": "Seguido de un número lee los detalles de la venta especificada.",
             "pagos venta": "Seguido de un número redirige a la pantalla de pagos de la venta especificada.",
             "cancelar venta": "Seguido del número en la lista de la venta, puede cancelarla si está en espera",
+            // {% endif %}
             "desactivar comandos de voz": "Desactiva los comandos de voz",
             "cerrar sesión": "Cierra la sesión actual",
             "consultar compras": "Permite consultar las compras realizadas por su persona",
@@ -134,6 +136,7 @@
                                     hablar(`No hay venta con el número ${numero}.`)
                                 break;
 
+                            // {% if ventas.count %}
                             case "leer ventas":
                                 hablar(`
                                 {% for compra in ventas %}
@@ -143,6 +146,7 @@
                                 {% endfor %}
                                 `);
                                 break;
+                            // {% endif %}
                             
                             case "pagos venta":
                                 const compra = speech.split(" ")[speech.split(" ").indexOf("venta") + 1].replace(/[.,]/g,"")
@@ -215,7 +219,7 @@
 
         function bienvenida(){
             if ('speechSynthesis' in window) {
-                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de ventas. Usted tiene {{ventas.count}} ventas. Diga "leer venta" seguido del número de venta para obtener una lectura de la misma.');
+                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de ventas. Usted tiene {{ventas.count}} ventas. {% if ventas.count %}Diga "leer venta" seguido del número de venta para obtener una lectura de la misma.{% endif %}');
                 
                utterance.voice = voice;
                 utterance.pitch = 1;

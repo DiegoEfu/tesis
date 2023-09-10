@@ -112,6 +112,7 @@
                                 window.location.replace("/inmuebles/creacion/");
                                 break;
 
+                            // {% if publicaciones.count %}
                             case "editar publicación":
                                 const edicion = speech.split(" ")[speech.split(" ").indexOf("publicación") + 1]
                                 .replace(/[.,]/g,"").replace("dos","2").replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
@@ -120,6 +121,7 @@
                                 let listo = false;
 
                                 break;
+                            // {% endif %}
 
                             case "leer publicaciones":
                                 hablar(`
@@ -131,6 +133,7 @@
                                 `);
                                 break;
                             
+                            // {% if publicaciones.count %}
                             case "leer publicación":
                                 const numero = speech.split(" ")[speech.split(" ").indexOf("publicación") + 1]
                                 .replace(/[.,]/g,"").replace("dos","2").replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
@@ -161,7 +164,7 @@
                                 if(!pasado)
                                     hablar(`No hay una publicación con el número ${numero}.`)
                                 break;
-
+                            
                             case "cancelar publicación":
                                     const cancelar = speech.split(" ")[speech.split(" ").indexOf("publicación") + 1].replace(/[.,]/g,"")
                                     .replace("dos","2").replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
@@ -185,7 +188,8 @@
                                     if(!fin)
                                         hablar(`No hay publicación con el número ${cancelar}.`)
                                     break;
-                        
+                            // {% endif %}
+                            
                             case "regresar inicio":
                                 window.location.replace("/");
                                 break;
@@ -221,7 +225,7 @@
 
         function bienvenida(){
             if ('speechSynthesis' in window) {
-                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de publicaciones. Usted tiene {{publicaciones.count}} publicaciones. Diga "leer publicación" seguido del número de publicación para obtener una lectura de la misma. Diga "crear nueva publicación" para ir al formulario.');
+                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de publicaciones. Usted tiene {{publicaciones.count}} publicaciones. {% if publicaciones.count %}Diga "leer publicación" seguido del número de publicación para obtener una lectura de la misma.{% endif %} Diga "crear nueva publicación" para ir al formulario.');
                 
                utterance.voice = voice;
                 utterance.pitch = 1;

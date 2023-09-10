@@ -21,10 +21,12 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
-            "leer cita": "Seguido de un número lee los detalles de la cita especificada.",
             "leer citas": "Lee las citas que se muestran en pantalla.",
+            // {% if citas.count %}
+            "leer cita": "Seguido de un número lee los detalles de la cita especificada.",
             "descargar pdf": "Descarga el reporte PDF de la cita",
             "descargar mp3": "Descarga el reporte MP3 de la cita",
+            // {% endif %}
             "desactivar comandos de voz": "Desactiva los comandos de voz",
             "cerrar sesión": "Cierra la sesión actual",
             "consultar compras": "Permite consultar las compras realizadas por su persona",
@@ -131,16 +133,16 @@
                                     hablar(`No hay citas con el número ${numero}.`)
                                 hablar(``);
                                 break;
-
-                                case "leer citas":
-                                    hablar(`
-                                    {% for cita in citas %}
-                                    Cita #{{forloop.counter}} {{cita.inmueble.nombre}} a la fecha {{cita.fecha_asignada}}, estado: {{cita.estado_largo}}.{% if cita.compra %} Esta es una cita para finalizar su compra.{% endif %}\n
-                                    {% empty %}
-                                    Usted no tiene ninguna cita.
-                                    {% endfor %}
-                                    `);
-                                    break;
+                            
+                            // {% if citas.count %}
+                            case "leer citas":
+                                hablar(`
+                                {% for cita in citas %}
+                                Cita #{{forloop.counter}} {{cita.inmueble.nombre}} a la fecha {{cita.fecha_asignada}}, estado: {{cita.estado_largo}}.{% if cita.compra %} Esta es una cita para finalizar su compra.{% endif %}\n
+                                {% empty %}
+                                Usted no tiene ninguna cita.
+                                {% endfor %}`);
+                                break;
                             
                             case "descargar pdf": // Tanto cita por comprobante como general
                                 const cita = speech.split(" ")[speech.split(" ").indexOf("PDF") + 1].replace(/[.,]/g,"");
@@ -195,7 +197,7 @@
 
                                 hablar(`No hay citas con el número ${mp_3}.`);
                                 break;
-                            
+                            // {% endif %}
                             case "regresar inicio":
                                 window.location.replace("/");
                                 break;
@@ -231,7 +233,7 @@
 
         function bienvenida(){
             if ('speechSynthesis' in window) {
-                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de citas. Usted tiene {{citas.count}} citas. Diga "leer cita" seguido del número de cita para obtener una lectura de la misma.');
+                let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de consulta de citas. Usted tiene {{citas.count}} citas. {% if citas.count %}Diga "leer cita" seguido del número de cita para obtener una lectura de la misma.{%endif%}');
                 
                utterance.voice = voice;
                 utterance.pitch = 1;

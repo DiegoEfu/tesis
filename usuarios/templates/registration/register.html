@@ -25,7 +25,7 @@
             ['Correo Electrónico', 'email', 'Ingrese su correo electrónico. Debe ser un correo electrónico válido.'],
             ['Contraseña', 'password', 'Ingrese su contraseña secreta. Debe tener un mínimo de 8 caracteres y por seguridad no se puede dictar.']
         ];
-        let speaking = false, reporte = false, escribiendo = false, dictando = false, campo = 0;;
+        let speaking = false, reporte = false, escribiendo = false, dictando = false, campo = 4;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -64,7 +64,7 @@
                                         if(campo !== 4)
                                             hablar(`Usted ha dicho dictado. Deletree o dicte con claridad su ${campos[campo][0]}.`);
                                         else
-                                            hablar("Usted ha dicho dictado. Su fecha de nacimiento debe ser pronunciada en el formato: día (en números) mes (en nombre) año (en números)");
+                                            hablar("Usted ha dicho dictado. Su fecha de nacimiento debe ser pronunciada corrida  en el formato: día (en números) mes (en nombre) año (en números)");
 
                                         escribiendo = true;
                                         dictando = true;
@@ -157,7 +157,8 @@
                                                 $(id).val("");
                                                 break;
                                             }
-                                            if($(id).val().getFullYear() < 1900){
+                                            let birthDate = new Date($(id).val());
+                                            if(birthDate.getFullYear() < 1900){
                                                 hablar("La fecha de nacimiento no puede ser antes del año 1900.");
                                                 $(id).val("");
                                                 break;
