@@ -18,6 +18,8 @@
     background-image: url("../../img/Consultas/Consulta_Compras/Sales.jpg");
     background-size: cover;
     background-attachment: fixed;
+    display: block;
+    justify-content: center;
 }
 
 .infoVentas {
@@ -61,79 +63,7 @@
 
 @media(max-width:2000px){
     .salesContainer {
-        padding: 135px 135px 135px 135px;
-    }
-
-    .infoVentas {
-        padding: 35px 35px 35px 35px;
-    }
-
-    .citasTitulo {
-        font-size: 420%;
-        padding-top: 10px;
-        text-align: center;
-    }
-
-    .linkPublicacion {
-        font-size: 250%;
-    }
-
-    .form-label {
-        font-size: 150%;
-    }
-
-    .linkConsulta a{
-        font-size: 150%;
-      }
-
-      .tituloAtencion {
-        font-size: 300%;
-    }
-
-    .alert-warning {
-        font-size: 175%;
-    }
-}
-
-@media(max-width:1800px){
-    .salesContainer {
-        padding: 135px 135px 135px 135px;
-    }
-
-    .infoVentas {
-        padding: 35px 35px 35px 35px;
-    }
-
-    .citasTitulo {
-        font-size: 420%;
-        padding-top: 10px;
-        text-align: center;
-    }
-
-    .linkPublicacion {
-        font-size: 250%;
-    }
-
-    .form-label {
-        font-size: 150%;
-    }
-
-    .linkConsulta a{
-        font-size: 150%;
-      }
-
-      .tituloAtencion {
-        font-size: 300%;
-    }
-
-    .alert-warning {
-        font-size: 175%;
-    }
-}
-
-@media(max-width:1440px){
-    .salesContainer {
-        padding: 105px 105px 105px 105px;
+        padding: 105px 40px 105px 40px;
     }
 
     .infoVentas {
@@ -147,7 +77,7 @@
     }
 
     .linkPublicacion {
-        font-size: 250%;
+        font-size: 190%;
     }
 
     .form-label {
@@ -155,7 +85,7 @@
     }
 
     .linkConsulta a{
-        font-size: 150%;
+        font-size: 110%;
       }
 
       .tituloAtencion {
@@ -167,9 +97,9 @@
     }
 }
 
-@media(max-width:1280px){
+@media(max-width:1800px){
     .salesContainer {
-        padding: 65px 65px 65px 65px;
+        padding: 105px 40px 105px 40px;
     }
 
     .infoVentas {
@@ -177,39 +107,75 @@
     }
 
     .citasTitulo {
-        font-size: 360%;
+        font-size: 380%;
         padding-top: 10px;
         text-align: center;
     }
 
     .linkPublicacion {
-        font-size: 240%;
+        font-size: 190%;
     }
 
     .form-label {
-        font-size: 140%;
+        font-size: 130%;
     }
 
     .linkConsulta a{
-        font-size: 140%;
+        font-size: 110%;
       }
 
       .tituloAtencion {
-        font-size: 260%;
+        font-size: 300%;
     }
 
     .alert-warning {
-        font-size: 165%;
+        font-size: 175%;
     }
 }
 
-@media(max-width:1024px){
+@media(max-width:1400px){
     .salesContainer {
-        padding: 45px 45px 45px 45px;
+        padding: 105px 40px 105px 40px;
     }
 
     .infoVentas {
-        padding: 25px 25px 25px 25px;
+        padding: 35px 35px 35px 35px;
+    }
+
+    .citasTitulo {
+        font-size: 380%;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .linkPublicacion {
+        font-size: 170%;
+    }
+
+    .form-label {
+        font-size: 110%;
+    }
+
+    .linkConsulta a{
+        font-size: 110%;
+      }
+
+      .tituloAtencion {
+        font-size: 300%;
+    }
+
+    .alert-warning {
+        font-size: 175%;
+    }
+}
+
+@media(max-width:1200px){
+    .salesContainer {
+        padding: 45px 35px 45px 45px;
+    }
+
+    .infoVentas {
+        padding: 25px 10px 25px 10px;
     }
 
     .citasTitulo {
@@ -219,15 +185,15 @@
     }
 
     .linkPublicacion {
-        font-size: 230%;
+        font-size: 160%;
     }
 
     .form-label {
-        font-size: 130%;
+        font-size: 90%;
     }
 
     .linkConsulta a{
-        font-size: 130%;
+        font-size: 80%;
       }
 
       .tituloAtencion {
@@ -239,32 +205,31 @@
     }
 }
 
-
-@media(max-width:800px){
+@media(max-width:992px){
     .salesContainer {
-        padding: 35px 35px 35px 35px;
+        padding: 45px 35px 45px 45px;
     }
 
     .infoVentas {
-        padding: 15px 15px 15px 15px;
+        padding: 25px 10px 25px 10px;
     }
 
     .citasTitulo {
-        font-size: 290%;
+        font-size: 320%;
         padding-top: 10px;
         text-align: center;
     }
 
     .linkPublicacion {
-        font-size: 200%;
+        font-size: 160%;
     }
 
     .form-label {
-        font-size: 110%;
+        font-size: 90%;
     }
 
     .linkConsulta a{
-        font-size: 110%;
+        font-size: 80%;
       }
 
       .tituloAtencion {
@@ -278,11 +243,11 @@
 
 @media(max-width:768px){
     .salesContainer {
-        padding: 35px 35px 35px 35px;
+        padding: 35px 27px 35px 35px;
     }
 
     .infoVentas {
-        padding: 15px 15px 15px 15px;
+        padding: 15px 10px 15px 10px;
     }
 
     .citasTitulo {
@@ -314,7 +279,7 @@
 
 @media(max-width:600px){
     .salesContainer {
-        padding: 20px 10px 20px 10px;
+        padding: 20px 25px 20px 30px;
     }
 
     .infoVentas {
@@ -351,7 +316,7 @@
 
 @media(max-width:480px){
     .salesContainer {
-        padding: 20px 10px 20px 10px;
+        padding: 20px 30px 20px 40px;
     }
 
     .infoVentas {
