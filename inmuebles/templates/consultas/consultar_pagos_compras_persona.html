@@ -110,7 +110,8 @@
                                     3. Sección de pagos: Aquí se muestra la lista de pagos realizadas por su persona, diga "leer pago" seguido del número de pago para escuchar la información.
                                 `);
                                 break;
-                            
+
+                            // {% if pagos.count %}                            
                             case "leer pago":
                                 const numero = speech.split(" ")[speech.split(" ").indexOf("pago") + 1].replace(/[.,]/g,"")
                                 .replace("dos","2").replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
@@ -140,7 +141,7 @@
                                 if(!pasado)
                                     hablar(`No hay compra con el número ${numero}.`)
                                 break;
-                            
+                            // {% endif %}
                             case "registrar nuevo pago":
                                 window.location.replace("/pagos/registro/{{compra.pk}}/")
                                 break;
@@ -209,13 +210,14 @@
         function bienvenida(){
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance(`Justo ahora está en la pantalla de consulta de pagos para la compra {{compra.pk}} del inmueble {{compra.inmueble.nombre}}. Usted realizó {{pagos.count}} pagos para esta compra. 
+                {% if pagos.count %}
                 {% if compra.estado == 'X' %} Debido a que esta compra fue cancelada, los pagos fueron reembolsados.
                 {% elif compra.estado == 'C' %} Debe esperar a que la compra sea cancelada para recibir su reembolso.
                 {% else %} Usted ha cancelado {{compra.monto_cancelado_texto}} dólares de los {{compra.inmueble.precio_texto}} dólares del costo del inmueble. {% endif %}
                 Diga "leer pago" seguido del número de pago para obtener una lectura del mismo. 
                 {% if compra.estado == 'E' %}
                 Diga "registrar nuevo pago" para ir al formulario de registro de pago.
-                {% endif %}`);
+                {% endif %}{% endif %}`);
                 
                utterance.voice = voice;
                 utterance.pitch = 1;

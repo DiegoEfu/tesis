@@ -144,7 +144,11 @@ def get_sectores(request, id):
 
 def resultados(request):
     if request.method == 'GET':
-        resultados = buscar_coincidencias(request.session['busqueda'])
+        resultados = buscar_coincidencias(request.session['busqueda'] if request.session.get('busqueda') else '')
+        
+        if(not resultados):
+            request.session['busqueda'] = ''
+
         return render(request, 'resultados.html', context={'resultados': resultados, 'busqueda': request.session.get('busqueda')})
     elif request.method == 'POST':
         busqueda = request.POST.get('busqueda').strip().lower()
