@@ -20,12 +20,12 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
-            "leer pago": "Seguido de un número lee los detalles del pago especificado.",
             "desactivar comandos de voz": "Desactiva los comandos de voz",
             "leer pagos": "Lee las pagos que se muestran en pantalla.",
             // {% if pagos.count %}
             "descargar pdf": "Descarga el reporte PDF de la compra",
             "descargar mp3": "Descarga el reporte MP3 de la compra",
+            "leer pago": "Seguido de un número lee los detalles del pago especificado.",
             //{% endif %}
             "cerrar sesión": "Cierra la sesión actual",
             "consultar compras": "Permite consultar las compras realizadas por su persona",
@@ -98,9 +98,9 @@
 
                             case "ver perfil":
                                 window.location.replace('/usuarios/perfil/');
-                                break;s
+                                break;
                             // {%endif%}
-                                                        
+                                             
                             case "leer pantalla":
                                 hablar(`Esta es la pantalla de consultas de pagos de su venta. Se han realizado {{pagos.count}} pagos. La pantalla está dividida en las siguientes secciones:
                                     1. Barra de Navegación: Aquí se encuentran las opciones de navegación básicas.
@@ -109,6 +109,7 @@
                                 `);
                                 break;
                             
+                            // {% if pagos.count %}
                             case "leer pago":
                                 const numero = speech.split(" ")[speech.split(" ").indexOf("pago") + 1].replace(/[.,]/g,"")
                                 .replace("dos","2").replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
@@ -135,6 +136,7 @@
                                 if(!pasado)
                                     hablar(`No hay compra con el número ${numero}.`)
                                 break;
+                            // {% endif %}
 
                             case "leer pagos":
                                 hablar(`
@@ -197,10 +199,11 @@
         function bienvenida(){
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance(`Justo ahora está en la pantalla de consulta de pagos para la venta {{compra.pk}} del inmueble {{compra.inmueble.nombre}}. Se realizaron {{pagos.count}} pagos en esta venta. 
+                {% if pagos.count %}
                 {% if compra.estado == 'X' %} Debido a que esta venta fue cancelada, los pagos fueron reembolsados.
                 {% elif compra.estado == 'C' %} Debe esperar a que la venta sea cancelada para recibir otras ventas de este inmueble.
                 {% else %} Se han cancelado {{compra.monto_cancelado_texto}} dólares de los {{compra.inmueble.precio_texto}} dólares del costo del inmueble. {% endif %}
-                Diga "leer pago" seguido del número de pago para obtener una lectura del mismo.`);
+                Diga "leer pago" seguido del número de pago para obtener una lectura del mismo.{%endif%}`);
                 
                utterance.voice = voice;
                 utterance.pitch = 1;
