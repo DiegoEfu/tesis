@@ -370,24 +370,28 @@
 <body>
     {% include 'nav.html' %}
     <div class="containerConsultaCitas">
-        <div class="cuadroCita">
+        <div class="cuadroCita row">
     <h3 class="citasTitulo">Consulta de Compras</h3>
 
     {% if compras %}
     <div class="grupoBotones">
     <form method="post">
         {% csrf_token %}
-        <button type="submit" id="mp3" name="tipo" value="mp3" class="btn btn-success">DESCARGAR REPORTE MP3</button>
-        <button type="submit" id="pdf" name="tipo" value="pdf" class="btn btn-success">DESCARGAR REPORTE PDF</button>
+        <button type="submit" id="mp3" name="tipo" value="mp3" class="botonIcon"><i class="bi bi-filetype-mp3"></i></button>
+        <button type="submit" id="pdf" name="tipo" value="pdf" class="botonIcon"><i class="bi bi-filetype-pdf"></i></button>
     </form></div><hr>
     {%endif%}
 
     {% for compra in compras %}
+    <div class="card col-md-6 col-xl-4 col-xxl-4">
+        <div class="card-body">
     <h4 class="linkPublicacion"><a href="{% url 'detalle_inmueble' pk=compra.inmueble.pk %}">{{compra.inmueble.nombre}}</a></h4>
     <h5 class="palabraPrecio">${{compra.inmueble.precio}}</h5>
     {{compra.fecha}} <br>
     {{compra.estado_largo}} <br>
-    <h4 class="btn btn-success"><a href="{% url 'consultar_pagos_compra' pk=compra.pk %}">Consultar Pagos</a></h4><hr>
+    <button class="btn btn-success"><a href="{% url 'consultar_pagos_compra' pk=compra.pk %}">Consultar Pagos</a></button>
+</div>
+</div>
 
     {% if compra.estado == 'E' %}
     <label for="" class="form-label"><b>Nombre del Agente:</b> {{compra.inmueble.agente}}</label>
@@ -421,10 +425,10 @@
     <h3 class="tituloAtencion"><b>ATENCIÓN:</b></h3>
     <div class="alert alert-warning" role="alert">
     <p id="mensajeNoCompras">Usted no ha realizado ninguna compra.</p></div>
-</div>
+
     {% endfor %}
+</div>
     </div>
-    </div>
-    {% include 'footer.html' %}
 </body>
+{% include 'footer.html' %}
 </html>
