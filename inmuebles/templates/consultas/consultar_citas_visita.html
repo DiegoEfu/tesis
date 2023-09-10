@@ -343,8 +343,8 @@
     {% endif %}
 </div>
 </div><br>
-    {% empty %}
-    <label for="" class="form-label">Usted no ha agendado ninguna cita.</label>
+    {% empty %}<div class="alert alert-danger" role="alert">
+    <label for="" class="form-label">Usted no ha agendado ninguna cita.</label></div>
     {% endfor %}
     
 </div>
