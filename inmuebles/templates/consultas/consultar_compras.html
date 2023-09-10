@@ -21,12 +21,16 @@
         const comandos = {
             "ayuda": "Indica todos los comandos con su descripción.",
             "leer pantalla": "Lee el contenido de la pantalla",
+            // {% if compras.count %}
             "leer compra": "Seguido de un número lee los detalles de la compra especificada.",
+            // {% endif %}
             "leer compras": "Lee las compras que se muestran en pantalla.",
+            // {% if compras.count %}
             "pagos compra": "Seguido de un número redirige a la pantalla de pagos de la compra especificada.",
             "descargar pdf": "Descarga el reporte PDF de la compra",
             "descargar mp3": "Descarga el reporte MP3 de la compra",
             "cancelar compra": "Cancelar la compra en espera de pago especificada",
+            // {% endif %}
             "desactivar comandos de voz": "Desactiva los comandos de voz",
             "cerrar sesión": "Cierra la sesión actual",
             "consultar compras": "Permite consultar las compras realizadas por su persona",
@@ -110,7 +114,8 @@
                                     3. Sección de Compras: Aquí se muestra la lista de compras realizadas por su persona, diga "leer compra" seguido del número de compra para escuchar la información.
                                 `);
                                 break;
-                            
+                                
+                            // {% if compras.count %}
                             case "leer compra":
                                 const numero = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
                                 .replace("dos","2").replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
@@ -136,8 +141,9 @@
                                 if(!pasado)
                                     hablar(`No hay compra con el número ${numero}.`)
                                 break;
-
-                                case "leer compras":
+                            // {% endif %}
+                            
+                            case "leer compras":
                                 hablar(`
                                 {% for compra in compras %}
                                 Compra #{{forloop.counter}} {{compra.inmueble.nombre}} por {{compra.inmueble.precio_texto}} dólares, estado: {{compra.estado_largo}}.\n
@@ -147,6 +153,7 @@
                                 `);
                                 break;
                             
+                            // {% if compras.count %}
                             case "pagos compra":
                                 const compra = speech.split(" ")[speech.split(" ").indexOf("compra") + 1].replace(/[.,]/g,"")
                                 .replace("dos","2").replaceAll("coman2","comandos").replace("tres","3").replace("cuatro","4")
@@ -248,6 +255,7 @@
                                 if(!hecho)
                                     hablar(`No hay compra con el número ${cancelar}.`)
                                 break;
+                            // {% endif %}
                         }
                       }    
                    });
@@ -362,24 +370,28 @@
 <body>
     {% include 'nav.html' %}
     <div class="containerConsultaCitas">
-        <div class="cuadroCita">
+        <div class="cuadroCita row">
     <h3 class="citasTitulo">Consulta de Compras</h3>
 
     {% if compras %}
     <div class="grupoBotones">
     <form method="post">
         {% csrf_token %}
-        <button type="submit" id="mp3" name="tipo" value="mp3" class="btn btn-success">DESCARGAR REPORTE MP3</button>
-        <button type="submit" id="pdf" name="tipo" value="pdf" class="btn btn-success">DESCARGAR REPORTE PDF</button>
+        <button type="submit" id="mp3" name="tipo" value="mp3" class="botonIcon"><i class="bi bi-filetype-mp3"></i></button>
+        <button type="submit" id="pdf" name="tipo" value="pdf" class="botonIcon"><i class="bi bi-filetype-pdf"></i></button>
     </form></div><hr>
     {%endif%}
 
     {% for compra in compras %}
+    <div class="card col-md-6 col-xl-4 col-xxl-4">
+        <div class="card-body">
     <h4 class="linkPublicacion"><a href="{% url 'detalle_inmueble' pk=compra.inmueble.pk %}">{{compra.inmueble.nombre}}</a></h4>
     <h5 class="palabraPrecio">${{compra.inmueble.precio}}</h5>
     {{compra.fecha}} <br>
     {{compra.estado_largo}} <br>
-    <h4 class="btn btn-success"><a href="{% url 'consultar_pagos_compra' pk=compra.pk %}">Consultar Pagos</a></h4><hr>
+    <button class="btn btn-success"><a href="{% url 'consultar_pagos_compra' pk=compra.pk %}">Consultar Pagos</a></button>
+</div>
+</div>
 
     {% if compra.estado == 'E' %}
     <label for="" class="form-label"><b>Nombre del Agente:</b> {{compra.inmueble.agente}}</label>
@@ -413,10 +425,10 @@
     <h3 class="tituloAtencion"><b>ATENCIÓN:</b></h3>
     <div class="alert alert-warning" role="alert">
     <p id="mensajeNoCompras">Usted no ha realizado ninguna compra.</p></div>
-</div>
+
     {% endfor %}
+</div>
     </div>
-    </div>
-    {% include 'footer.html' %}
 </body>
+{% include 'footer.html' %}
 </html>
