@@ -44,6 +44,10 @@
     border-color: var(--RojoOscuro)!important;
 }
 
+.botonRegresar {
+    text-align: center;
+}
+
 @media(max-width:2000px) {
     .containerConsultaCitas {
         padding: 160px 160px 160px 160px
