@@ -28,6 +28,10 @@
     color: var(--verdeMusgo);
 }
 
+.botonRevisar {
+    text-align: center;
+}
+
 @media(max-width:2000px) {
     .containerConsultaCitas {
         padding: 130px 220px 130px 220px;
