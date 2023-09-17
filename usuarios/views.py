@@ -179,6 +179,7 @@ def cerrar_sesion(request):
     return redirect('/')
 
 def recuperar_contrasena(request):
+    request.session['busqueda'] = ''
     if(request.method == 'GET'):
         return render(request, 'recuperar_contrasena.html')
     elif(request.method == 'POST'):
