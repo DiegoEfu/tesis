@@ -356,7 +356,7 @@
     
     <div class="containerCuadros row">
         <-Volver a la pagina de resultados</a>
-    <div class="containerImagen col-lg-9 col-xl-9">
+    <div class="containerImagen">
         <div id="carousel" class="carousel slide">
             <div class="carousel-inner">
                 {% for imagen in inmueble.imagenes %}
@@ -375,7 +375,7 @@
             </button>
           </div>
         </div>
-    <div class="containerInfo col-lg-3 col-xl-3">
+    <div class="containerInfo">
     <h1 class="precioTitulo">${{inmueble.precio}}</h1>
     <h2 class="tituloCasa">{{inmueble.nombre.upper}}</h2>
     
@@ -420,8 +420,8 @@
     </ul>
     <form method="post" class="grupoBotones">
             {% csrf_token %}
-            <button id="pdf" type="submit" name="tipo" value="pdf" class="btn btn-success">DESCARGAR PDF</button>
-            <button id="mp3" type="submit" name="tipo" value="mp3" class="btn btn-success">DESCARGAR MP3</button>
+            <button id="pdf" type="submit" name="tipo" value="pdf" class="botonIcon"><i class="bi bi-filetype-pdf"></i></button>
+            <button id="mp3" type="submit" name="tipo" value="mp3" class="botonIcon"><i class="bi bi-filetype-mp3"></i></button>
         </form>
 </div>
 </div>
