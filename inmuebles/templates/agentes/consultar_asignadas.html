@@ -17,7 +17,7 @@
     <div class="containerConsultaCitas">
         <div class="cuadroCita row">
     <a href="{% url 'bienvenida_agente' %}" class="botonRegresar"><-Regresar al Menú Principal</a><br>
-    <h3 class="citasTitulo">Consulta de Citas</h3><hr>
+    <h3 class="citasTitulo">Consulta de Publicaciones Asignadas</h3><hr>
     {% for publicacion in publicaciones %}
     <div class="card col-xs-10 col-sm-12 col-md-6 col-xl-4 col-xxl-4">
         <div id="{{publicacion.pk}}" class="carousel slide" data-ride="carousel">
@@ -46,9 +46,9 @@
     <label for=""><b>Dueño:</b> {{publicacion.dueno}} ({{publicacion.dueno.cedula}})</label>
     <label for=""><b>Teléfono del Dueño:</b> {{publicacion.dueno.numero_telefono}}</label>
     <label for=""><b>Email del Dueño:</b> {{publicacion.dueno.usuario_persona.email}}</label>
-    <label for=""><b>Estado de la Publicación:</b> {{publicacion.estado_largo}} <br></label>
+    <label for=""><b>Estado de la Publicación:</b> {{publicacion.estado_largo}} </label><br>
     {% if publicacion.estado == 'A' %}
-    <a href="{% url 'edicion_inmueble_agente' pk=publicacion.pk %}">Editar Publicación</a>
+    <a href="{% url 'edicion_inmueble_agente' pk=publicacion.pk %}">Editar Publicación</a><br>
     <a href="{% url 'cancelacion_inmueble_agente' pk=publicacion.pk %}">Cancelar publicación</a>
     {% endif %}
 
@@ -70,6 +70,7 @@
     <div class="alert alert-danger" role="alert">
     Actualmente no tiene publicaciones asignadas activas.</div>
     {% endfor %}
+</div>
 </div>
 </div>
 </body>

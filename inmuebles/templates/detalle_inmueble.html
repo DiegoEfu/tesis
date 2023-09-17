@@ -344,15 +344,11 @@
 </head>
 <body>
     {% include 'nav.html' %}
+    <Hr>
     <div class="containerContenido">
-    <form method="post" id="form_busqueda" class="formBusqueda">
+        
         {% csrf_token %}
-        <div class="box">
-        <input type="submit" value="🔍︎" id="iconoBusqueda">
-        <input type="text" required id="busqueda" name="busqueda" value="{{busqueda}}" class="busqueda">
         <a href="{% url 'resultados' %}" id="botonVolver">
-        </div>
-    </form>
     
     <div class="containerCuadros row">
         <-Volver a la pagina de resultados</a>
@@ -426,6 +422,7 @@
 </div>
 </div>
 </div>
+
 </body>
 <hr>
 {% include 'footer.html' %}
