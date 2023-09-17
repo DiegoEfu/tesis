@@ -41,7 +41,7 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replaceAll("en mueble", "inmueble");
+                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replaceAll("en mueble", "inmueble").replaceAll("/4", " cuartos");
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')

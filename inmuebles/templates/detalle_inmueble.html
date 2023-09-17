@@ -45,7 +45,7 @@
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
                    speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio")
-                   .replaceAll("en mueble", "inmueble");
+                   .replaceAll("en mueble", "inmueble").replaceAll("/4", " cuartos");
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')

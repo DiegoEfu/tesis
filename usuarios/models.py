@@ -27,6 +27,9 @@ class Persona(models.Model):
     
     def citas_cliente(self):
         return Cita.objects.filter(persona = self, estado = "E")
+    
+    def email(self):
+        return self.usuario_persona.email
 
 class Usuario(AbstractUser):
     username = None
