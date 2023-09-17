@@ -144,6 +144,12 @@ class Inmueble(models.Model):
     def tiene_pagos_pendientes(self):
         return self.compra_activa() or self.compra_activa().pagos.filter(estado = 'P').exists()
     
+    def compra_final(self):
+        compra = Compra.objects.filter(estado = 'F', inmueble__pk = self.pk)
+        print(compra.first())
+        if(compra.exists()):
+            return compra.first()
+
     def __str__(self):
         return self.nombre.upper()
 
