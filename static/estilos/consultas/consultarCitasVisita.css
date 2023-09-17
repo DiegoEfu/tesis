@@ -48,6 +48,23 @@
     text-align: center;
 }
 
+.botonIcon {
+    background: none;
+    border: none;
+    width: 10%;
+    text-align:left;
+}
+
+.botonIcon i {
+    color: var(--Rojorubi);
+    
+}
+
+.botonIcon i:hover {
+    color: var(--Gris);
+}
+
+
 @media(max-width:2000px) {
     .containerConsultaCitas {
         padding: 160px 160px 160px 160px
@@ -80,6 +97,10 @@
         margin: 0px 110px 0px 110px;
         width: 50%;
         font-size: 160%!important;
+    }
+
+    .botonIcon i {
+        font-size: 200%; 
     }
 }
 
@@ -116,6 +137,10 @@
         width: 50%;
         font-size: 150%!important;
     }
+
+    .botonIcon i {
+        font-size: 200%; 
+    }
 }
 
 @media(max-width:1400px) {
@@ -150,6 +175,10 @@
         margin: 0px 110px 0px 110px;
         width: 50%;
         font-size: 150%!important;
+    }
+
+    .botonIcon i {
+        font-size: 200%; 
     }
 }
 
@@ -187,6 +216,10 @@
         width: 60%;
         font-size: 130%!important;
     }
+
+    .botonIcon i {
+        font-size: 200%; 
+    }
 }
 
 @media(max-width:992px) {
@@ -223,6 +256,10 @@
         width: 60%;
         font-size: 130%!important;
     }
+
+    .botonIcon i {
+        font-size: 200%; 
+    }
 }
 
 @media(max-width:768px) {
@@ -258,6 +295,10 @@
         margin: 0px 20px 0px 20px;
         width: 60%;
         font-size: 110%!important;
+    }
+
+    .botonIcon i {
+        font-size: 300%; 
     }
 }
 
@@ -299,6 +340,10 @@
         width: 60%;
         font-size: 90%!important;
     }
+
+    .botonIcon i {
+        font-size: 400%; 
+    }
 }
 
 @media(max-width:480px) {
@@ -329,11 +374,9 @@
         justify-content: space-around;
     }
 
-    .btn-success {
-        margin: 0px 10px 0px 10px;
-        width: 50%;
-        font-size: 80%!important;
-    }
+
+    .botonIcon i {
+        font-size: 400%; }
 }
 
 
@@ -371,4 +414,14 @@
         width: 50%;
         font-size: 70%!important;
     }
+
+    .tituloAtencion {
+        font-size: 190%;
+    }
+
+    .alert-warning {
+        font-size: 100%;
+    }
+    .botonIcon i {
+    font-size: 400%; }
 }
