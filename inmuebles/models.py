@@ -144,6 +144,12 @@ class Inmueble(models.Model):
     def tiene_pagos_pendientes(self):
         return self.compra_activa() or self.compra_activa().pagos.filter(estado = 'P').exists()
     
+    def compra_final(self):
+        compra = Compra.objects.filter(estado = 'F', inmueble__pk = self.pk)
+        print(compra.first())
+        if(compra.exists()):
+            return compra.first()
+
     def __str__(self):
         return self.nombre.upper()
 
@@ -197,7 +203,7 @@ class Compra(models.Model):
         return self.pagos.filter(estado = 'P').exists()
     
     def __str__(self):
-        return f"COMPRA DEL INMUEBLE '{self.inmueble.nombre.upper}' ({self.inmueble.pk})"
+        return f"COMPRA DEL INMUEBLE '{self.inmueble.nombre.upper()}' ({self.inmueble.pk})"
 
 class Cita(models.Model):
     compra = models.ForeignKey(to=Compra, on_delete=models.CASCADE, null=True, related_name="citas")
@@ -215,7 +221,7 @@ class Cita(models.Model):
         return "DESCONOCIDO"
     
     def __str__(self):
-        return f"CITA DE VISITA AL INMUEBLE '{self.inmueble.nombre.upper()}' ({self.pk})" if self.persona else f"CITA DE FORMALIDADES AL INMUEBLE '{self.inmueble.nombre.upper()}' ({self.pk})"
+        return f"CITA DE VISITA AL INMUEBLE '{self.inmueble.nombre.upper()}' ({self.pk})" if self.persona else f"CITA DE FORMALIDADES AL INMUEBLE '{self.compra.inmueble.nombre.upper()}' ({self.pk})"
     
 class Edicion(models.Model):
     nombre = models.CharField(max_length=100)

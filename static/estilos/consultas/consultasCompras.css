@@ -43,6 +43,11 @@
     border-color: var(--RojoOscuro)!important;
 }
 
+.card {
+    display: block;
+    align-items: flex-end;
+}
+
 .btn-success:hover a {
     background-color: var(--RojoOscuro)!important;
     color: white!important;
@@ -91,11 +96,10 @@
     
 }
 
-
-
 .botonIcon i:hover {
     color: var(--Gris);
 }
+
 
 
 @media(max-width:2000px) {
@@ -303,7 +307,9 @@
 
     .grupoBotones form{
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
+        align-items: flex-end;
+        height: 450px;
     }
 
     .linkPublicacion {
@@ -360,7 +366,7 @@
 
     .grupoBotones form{
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
     }
 
     .grupoBotones button {
@@ -424,7 +430,7 @@
 
     .grupoBotones form{
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
     }
 
     .grupoBotones button {

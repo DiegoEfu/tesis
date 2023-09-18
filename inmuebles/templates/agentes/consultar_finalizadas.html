@@ -49,7 +49,41 @@
 <label for="" class="form-label"><b>Estado de la Publicación:</b> {{publicacion.estado_largo}}</label>
     
     {% if publicacion.estado == 'V' %}
-    <br><label for="" class="form-label">Los datos del comprador:</label>
+    <button data-bs-toggle="modal" data-bs-target="#comprador_{{publicacion.pk}}" class="btn btn-success" style="width: 100%; font-size: 15pt !important; margin: 0 !important;">Ver datos del Comprador</button>
+    
+    <div class="modal fade" id="comprador_{{publicacion.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Datos del Comprador</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              {% with compra=publicacion.compra_final %}
+              <div class="row">
+                <div class="col-6">
+                    <h5 class="text-center">Datos de la Venta</h5>
+                    <ul>
+                        <li><b>Número de Compra:</b> {{compra.pk}}</li>
+                        <li><b>Fecha de Compra:</b> {{compra.fecha}}</li>
+                        <li><b>Total Pagado:</b> ${{compra.monto_cancelado}}</li>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <h5 class="text-center">Datos Personales</h5>
+                    <ul>
+                        <li><b>Nombre:</b> {{compra.comprador}}</li>
+                        <li><b>Identificación:</b> {{compra.comprador.cedula}}</li>
+                        <li><b>Número de Teléfono:</b> {{compra.comprador.numero_telefono}}</li>
+                        <li><b>Correo Electrónico:</b> {{compra.comprador.email}}</li>
+                    </ul>
+                </div>
+              </div>
+              {% endwith %}
+            </div>
+          </div>
+        </div>
+      </div>    
     {% endif %}
 </div>
 </div>

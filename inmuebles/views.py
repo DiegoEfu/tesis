@@ -1039,14 +1039,14 @@ def buscar_coincidencias(busqueda):
 
     # Por habitaciones
     previo = posibles_inmuebles
-    if "habitaciones" in busqueda:
+    if "habitaciones" in busqueda or "cuartos" in busqueda:
         separado = busqueda.split(" ")
         indice = encuentra_coincidencia(separado, "habitaciones")
             
         if indice != -1:
             if separado[indice - 1].isnumeric():
                 posibles_inmuebles = posibles_inmuebles.filter(habitaciones__gte = separado[indice-1]) if posibles_inmuebles else Inmueble.objects.filter(habitaciones__gte = separado[indice-1])
-    elif "habitacion" in busqueda:
+    elif "habitacion" in busqueda or "cuarto" in busqueda:
         separado = busqueda.split(" ")
         indice = encuentra_coincidencia(separado, "habitacion")
             
@@ -1162,8 +1162,8 @@ def encuentra_coincidencia(array, a_buscar):
     return -1
 
 def enviar_correo(persona, asunto, contenido):
-    email = 'no.reply.arcadestation@gmail.com'
-    password = 'rzxsqvjqwkwpjmwk'
+    email = 'soporte.incaibo@gmail.com'
+    password = 'mcowracdukoffkyf'
 
     servidor = yagmail.SMTP(user=email, password=password)
     try:
