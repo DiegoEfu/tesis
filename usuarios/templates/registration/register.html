@@ -21,7 +21,7 @@
             ['Apellido', 'apellido', 'Ingrese sus apellidos como aparecen en su cédula de identidad. Diga dictado para dictar.'],
             ['Fecha de Nacimiento', 'fecha_nacimiento', 'Ingrese su fecha de nacimiento. Debe tener al menos 21 años. Diga dictado para dictar.'],
             ['Número Telefónico', 'telefono', 'Ingrese su número telefónico. Debe ser un número telefónico venezolano. Diga dictado para dictar.'],
-            ['¿Es usted ciego?', 'ciego', 'Responda a la pregunta con un "sí" o un "no".'],
+            ['¿Tiene usted discapacidad visual?', 'ciego', 'Responda a la pregunta con un "sí" o un "no".'],
             ['Correo Electrónico', 'email', 'Ingrese su correo electrónico. Debe ser un correo electrónico válido.'],
             ['Contraseña', 'password', 'Ingrese su contraseña secreta. Debe tener un mínimo de 8 caracteres y por seguridad no se puede dictar.']
         ];
@@ -269,14 +269,14 @@
                                 case "sí":
                                     if(campo === 6){
                                         $('#ciego').prop("checked", true);
-                                        hablar("Usted ha dicho que sí es ciego. Diga no para cambiar esta opción. Diga continuar para continuar.")
+                                        hablar("Usted ha dicho que sí tiene discapacidad visual. Diga no para cambiar esta opción. Diga continuar para continuar.")
                                     }
                                     break;
                                 
                                 case "no":
                                     if(campo === 6){
                                         $('#ciego').prop("checked", false);
-                                        hablar("Usted ha dicho que no es ciego. Diga sí para cambiar esta opción. Si quiere continuar, diga continuar.")                                        
+                                        hablar("Usted ha dicho que no tiene discapacidad visual. Diga sí para cambiar esta opción. Si quiere continuar, diga continuar.")                                        
                                     }
                                     break;
                             }
@@ -519,7 +519,7 @@
             <option {% if previo.tipo == 'V' %} selected {% endif %} value="V">V</option>
             <option {% if previo.tipo == 'E' %} selected {% endif %} value="E">E</option>
         </select>
-        <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" max="999999999" name="identificacion" id="identificacion" class="form-control"><br></div>
+        <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" min="1" max="999999999" name="identificacion" id="identificacion" class="form-control"><br></div>
         <br>
         <label class="tituloInput">Nombre(s):</label><br>
         <input {% if previo %} value="{{previo.nombre}}" {% endif %} required type="text" name="nombre" id="nombre" class="form-control"><br>
@@ -533,7 +533,7 @@
         <label class="tituloInput">Número Telefónico:</label><br>
         <input {% if previo %} value="{{previo.telefono}}" {% endif %} required type="text" maxlength="11" name="telefono" id="telefono" class="form-control"><br>
 
-        <label class="tituloInput">¿Es Usted Ciego?</label>
+        <label class="tituloInput">¿Tiene usted discapacidad visual?</label>
         <input {% if previo.ciego %} checked {% endif %} type="checkbox" name="ciego" id="ciego"><br><br>
 
         <h4 class="tituloDatos">Datos de Usuario</h4>
