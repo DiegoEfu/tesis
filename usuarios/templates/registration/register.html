@@ -308,7 +308,7 @@
                         }                        
                         else if(dictando && campo === 7){
                             if(speech.toLowerCase().indexOf("dictado") === -1)
-                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/\.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
                         }
                         else if(dictando){
                             if(speech.indexOf("Dictado") === -1){
