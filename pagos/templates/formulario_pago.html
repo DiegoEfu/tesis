@@ -42,7 +42,9 @@
         function formulario_p1(event){
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal && !speaking){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
+                   speech = event.results[i][0].transcript.replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky");
                    console.log(speech);
                     
                     if(campo === 0)
@@ -162,7 +164,7 @@
                          .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
                          .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(",",".").replaceAll(" ", "");
                         
-                        speech = speech.replace(/.$/g, "");
+                        speech = speech.replace(/\.$/g, "");
                         
                         console.log(speech);
                         
@@ -172,7 +174,7 @@
                             speech = speech.toLowerCase().replaceAll('uno','1').replaceAll('dos','2').replaceAll('tres','3').replaceAll('cuatro','4')
                             .replaceAll('cinco','5').replaceAll('seis','6').replaceAll('siete','7').replaceAll('ocho','8')
                             .replaceAll('nueve','9').replaceAll('cero','0').replaceAll("punto",".").replaceAll("coma",",")
-                            .replaceAll(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replaceAll(/.$/g,"").replaceAll(",","").replaceAll(" ", "");
+                            .replaceAll(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replaceAll(/\.$/g,"").replaceAll(",","").replaceAll(" ", "");
                             
                             console.log(speech);
                             
@@ -186,7 +188,7 @@
                             .replace("octubre","10").replace("noviembre","11").replace("diciembre","12").replace(".","");
                             $('#fecha_transaccion').val(`${nuevo.split(" ")[2]}-${nuevo.split(" ")[1]}-${nuevo.split(" ")[0].length > 1 ? nuevo.split(" ")[0] : "0" + nuevo.split(" ")[0]}`)
                         } else if(dictando && campo === 4){
-                            speech = speech.replace(/.$/g, "");
+                            speech = speech.replace(/\.$/g, "");
                             $('#comentario').val($("#comentario").val() + " " + speech);
                         }
                     }
@@ -215,7 +217,9 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
+                   speech = event.results[i][0].transcript.replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')
