@@ -315,10 +315,10 @@
 <body>
     {% include 'nav.html' %}
     <div class="containerConsultaCitas">
-        <div class="cuadroCita row">
+        <div class="cuadroCita">
     <h3 class="citasTitulo">Consulta de Citas</h3><hr>
     {% for cita in citas %}
-        <div class="card col-xs-10 col-sm-12 col-md-6 col-xl-4 col-xxl-4">
+        <div class="card">
         <div class="card-body">
     <h5 class="linkPublicacion"><a href="{% url 'detalle_inmueble' pk=cita.inmueble.pk %}">{{cita.inmueble.nombre}}</a></h5>
     <label for="" class="form-label"><b>Fecha:</b> {{cita.fecha_asignada.date}} {{cita.fecha_asignada.hour}}:00</label><br>
