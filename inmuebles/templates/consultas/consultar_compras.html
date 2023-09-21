@@ -370,7 +370,7 @@
 <body>
     {% include 'nav.html' %}
     <div class="containerConsultaCitas">
-        <div class="cuadroCita row">
+        <div class="cuadroCita">
     <h3 class="citasTitulo">Consulta de Compras</h3>
 
     {% if compras %}
@@ -384,7 +384,7 @@
     {%endif%}
 
     {% for compra in compras %}
-    <div class="card col-md-6 col-xl-4 col-xxl-4">
+    <div class="card">
         <div class="card-body">
     <h4 class="linkPublicacion"><a href="{% url 'detalle_inmueble' pk=compra.inmueble.pk %}">{{compra.inmueble.nombre}}</a></h4>
     <h5 class="palabraPrecio">${{compra.inmueble.precio}}</h5>
