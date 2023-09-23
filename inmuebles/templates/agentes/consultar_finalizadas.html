@@ -15,13 +15,12 @@
 <body>
     {% include 'nav.html' %}
     <div class="containerConsultaCitas">
-        <div class="cuadroCita row">
+        <div class="cuadroCita">
         <a href="{% url 'bienvenida_agente' %}" class="botonRegresar"><-Regresar al Menú Principal</a><br>
             <h3 class="citasTitulo">Consulta de Publicaciones</h3>
-        </div>
-        <div class="containerCartas row">
+        <div class="containerCartas">
     {% for publicacion in publicaciones %}
-    <div class="card col-md-5 col-lg-5 col-xl-3 col-xxl-3">
+    <div class="card">
         <div id="{{publicacion.pk}}" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 {% for imagen in publicacion.imagenes %}
@@ -92,6 +91,7 @@
     Actualmente no tiene publicaciones finalizadas.</div>
 
     {% endfor %}
+    </div>
     </div>
     </div>
 </body>

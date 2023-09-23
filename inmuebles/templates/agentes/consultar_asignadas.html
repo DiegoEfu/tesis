@@ -15,11 +15,11 @@
 <body>
     {% include 'nav.html' %}
     <div class="containerConsultaCitas">
-        <div class="cuadroCita row">
+        <div class="cuadroCita">
     <a href="{% url 'bienvenida_agente' %}" class="botonRegresar"><-Regresar al Menú Principal</a><br>
     <h3 class="citasTitulo">Consulta de Publicaciones Asignadas</h3><hr>
     {% for publicacion in publicaciones %}
-    <div class="card col-xs-10 col-sm-12 col-md-6 col-xl-4 col-xxl-4">
+    <div class="card">
         <div id="{{publicacion.pk}}" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 {% for imagen in publicacion.imagenes %}
@@ -48,7 +48,7 @@
     <label for=""><b>Email del Dueño:</b> {{publicacion.dueno.usuario_persona.email}}</label>
     <label for=""><b>Estado de la Publicación:</b> {{publicacion.estado_largo}} </label><br>
     {% if publicacion.estado == 'A' %}
-    <a href="{% url 'edicion_inmueble_agente' pk=publicacion.pk %}">Editar Publicación</a><br>
+    <a href="{% url 'edicion_inmueble_agente' pk=publicacion.pk %}">Editar Publicación</a>
     <a href="{% url 'cancelacion_inmueble_agente' pk=publicacion.pk %}">Cancelar publicación</a>
     {% endif %}
 
@@ -62,15 +62,15 @@
     {% else %}
     <label for=""><b>Esta publicación tiene una cita de formalidades dado que el pago fue completado.</b>
     {% endif %}</label>
-</div>
-    {% endif %}
 
-</div><br>
+    {% endif %}
+</div>
+</div>
+<br>
     {% empty %}
     <div class="alert alert-danger" role="alert">
     Actualmente no tiene publicaciones asignadas activas.</div>
     {% endfor %}
-</div>
 </div>
 </div>
 </body>
