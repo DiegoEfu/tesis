@@ -346,21 +346,17 @@
 </head>
 <body>
     {% include 'nav.html' %}
-        
+        <div class="fondoDetalles">
+            <div class="cuadroInfo">
         {% csrf_token %}
+        <br><div class="hiperLinkRegreso">
         <a href="{% url 'resultados' %}" id="botonVolver">
     
         <-Volver a la pagina de resultados</a>
-
-                {% for imagen in inmueble.imagenes %}
-        <img class="imageCarousel"  src="{{imagen}}"/>
-    {% endfor %}
+        </div><br>
 
     <h1 class="tituloCasa">{{inmueble.nombre.upper}}</h1>
     <h1 class="precioTitulo">${{inmueble.precio}}</h1>
-    
-    
-
     <ul class="listaCaracteristicas">
         <li><b><i class='bx bxs-institution'></i>Año de Construcción: </b> {{inmueble.ano_construccion}}</li>
         <li><b><i class='bx bx-building'></i>Tipo de Construcción: </b> {{inmueble.tipo_construccion}}</li>
@@ -399,11 +395,33 @@
             Si quieres visitar este inmueble o comprarlo, inicia sesión.</div>
         {% endif %}
     </ul>
+    <h1 class="tituloCasa">Imágenes:</h1>
+    <div class="containerImagen">
+        <div id="carousel" class="carousel slide">
+            <div class="carousel-inner">
+                {% for imagen in inmueble.imagenes %}
+              <div class="carousel-item {% if forloop.counter == 1%}active{%endif%}">
+        <img class="card-img-top"  src="{{imagen}}"/>
+        </div>
+    {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div><Br>
     <form method="post" class="grupoBotones">
             {% csrf_token %}
-            <button id="pdf" type="submit" name="tipo" value="pdf" class="botonIcon"><i class="bi bi-filetype-pdf"></i></button>
-            <button id="mp3" type="submit" name="tipo" value="mp3" class="botonIcon"><i class="bi bi-filetype-mp3"></i></button>
-        </form>
+            <button id="pdf" type="submit" name="tipo" value="pdf" class="btn btn-success">PDF</button>
+            <button id="mp3" type="submit" name="tipo" value="mp3" class="btn btn-success">MP3</button>
+        </form><Br>
+    </div>
+    </div>
 </body>
 {% include 'footer.html' %}
 </html>
