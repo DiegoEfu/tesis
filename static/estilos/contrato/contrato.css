@@ -1,0 +1,260 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+    --Gris: #aacde5;
+    --azul: #0099ff;
+}
+
+.fondoContrato {
+background-image: url("../../img/fondoDetalles2.jpg");
+}
+
+.cuadroContrato {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 10px 8px 36px 13px rgba(0,0,0,0.1);
+}
+
+.tituloSeccion {
+    color: var(--verdeMusgo);
+    text-align: center;
+    font-weight: 600;
+}
+
+.btn-success {
+    background-color: var(--Rojorubi)!important;
+    border-color: var(--Rojorubi)!important;
+}
+
+.btn-success:hover {
+    background-color: var(--RojoOscuro)!important;
+    border-color: var(--RojoOscuro)!important;
+}
+
+@media(max-width:2000px){
+    .fondoContrato {
+        padding: 30px 30px 30px 30px;
+    }
+
+    .cuadroContrato {
+        padding: 20px 40px 20px 40px;
+    }
+
+    .tituloSeccion {
+        font-size: 175%;
+    }
+    
+    .confirmacion {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .confirmacion p {
+        font-size: 17px;
+    }
+}
+
+@media(max-width:1800px){
+    .fondoContrato {
+        padding: 30px 30px 30px 30px;
+    }
+
+    .cuadroContrato {
+        padding: 20px 40px 20px 40px;
+    }
+
+    .tituloSeccion {
+        font-size: 175%;
+    }
+    
+    .confirmacion {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .confirmacion p {
+        font-size: 17px;
+    }
+}
+
+@media(max-width:1440px){
+    .fondoContrato {
+        padding: 30px 30px 30px 30px;
+    }
+
+    .cuadroContrato {
+        padding: 20px 40px 20px 40px;
+    }
+
+    .tituloSeccion {
+        font-size: 165%;
+    }
+    
+    .confirmacion {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .confirmacion p {
+        font-size: 17px;
+    }
+}
+
+@media(max-width:1280px){
+    .fondoContrato {
+        padding: 15px 30px 15px 30px;
+    }
+
+    .cuadroContrato {
+        padding: 20px 40px 20px 40px;
+    }
+
+    .tituloSeccion {
+        font-size: 165%;
+    }
+    
+    .confirmacion {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .confirmacion p {
+        font-size: 17px;
+    }
+}
+
+@media(max-width:1024px){
+    .fondoContrato {
+        padding: 15px 30px 15px 30px;
+    }
+
+    .cuadroContrato {
+        padding: 40px 40px 40px 40px;
+    }
+
+    .tituloSeccion {
+        font-size: 165%;
+    }
+    
+    .confirmacion {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .confirmacion p {
+        font-size: 17px;
+    }
+}
+
+@media(max-width:800px){
+    .fondoContrato {
+        padding: 15px 10px 15px 10px;
+    }
+
+    .cuadroContrato {
+        padding: 20px 20px 20px 20px;
+    }
+
+    .tituloSeccion {
+        font-size: 165%;
+    }
+    
+    .confirmacion {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .confirmacion p {
+        font-size: 17px;
+    }
+}
+
+@media(max-width:768px){
+    .fondoContrato {
+        padding: 25px 30px 25px 30px;
+    }
+
+    .cuadroContrato {
+        padding: 20px 20px 20px 20px;
+    }
+
+    .tituloSeccion {
+        font-size: 155%;
+    }
+    
+    .confirmacion {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .confirmacion p {
+        font-size: 17px;
+    }
+}
+
+@media(max-width:600px){
+    .fondoContrato {
+        padding: 25px 30px 25px 30px;
+    }
+
+    .cuadroContrato {
+        padding: 20px 20px 20px 20px;
+    }
+
+    .tituloSeccion {
+        font-size: 155%;
+    }
+    
+    .confirmacion {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .confirmacion p {
+        font-size: 17px;
+    }
+}
+
+@media(max-width:480px){
+    .fondoContrato {
+        padding: 15px 10px 15px 10px;
+    }
+
+    .cuadroContrato {
+        padding: 10px 10px 10px 10px;
+    }
+
+    .tituloSeccion {
+        font-size: 125%;
+    }
+    
+    .confirmacion {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .confirmacion p {
+        font-size: 17px;
+    }
+}
+
+
+@media(max-width:320px){
+    .fondoContrato {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .cuadroContrato {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloSeccion {
+        font-size: 110%;
+    }
+    
+    .confirmacion {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .confirmacion p {
+        font-size: 15px;
+    }
+}

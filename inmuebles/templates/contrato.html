@@ -1,9 +1,16 @@
+{% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contrato de Compra del Inmueble "{{inmueble.nombre}}"</title>
+    <link rel="stylesheet" href="{% static 'estilos/contrato/contrato.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script>
         const synthesis = window.speechSynthesis;
         let speaking = false, escribiendo = false, dictando = false, reporte = false, campo = 0;
@@ -257,9 +264,14 @@ Diga "yo acepto los términos mencionados" para aceptar la compraventa.`)
     </script>
 </head>
 <body>
+    {% include 'nav.html' %}
+    <div class="fondoContrato">
+        <div class="cuadroContrato">
     <form method="post">
         {% csrf_token %}
-        <textarea name="cuerpo_contrato" id="Contrato" cols="30" rows="10" disabled>
+
+        <h2 class="tituloSeccion">Contrato del Inmueble {{inmueble.nombre}}</h2>
+        <textarea name="cuerpo_contrato" id="Contrato" cols="30" rows="30" disabled class="form-control">
 Contrato de Términos y Condiciones para Compraventa en Línea Inmuebles Incaibo
 
 Este contrato de términos y condiciones (en adelante, "el Contrato") regula la compraventa de un inmueble mediante la aplicación web progresiva de Inmuebles Incaibo, en el marco de las leyes de la República Bolivariana de Venezuela. 
@@ -300,9 +312,15 @@ El comprador al aceptar este contrato declara haber leído y entendido cada clá
 Comprador
 Nombre: {{request.user.persona}}
 Fecha: {{hoy}}</textarea>
-        <button type="submit" id="aceptar">
-            YO, {{request.user.persona}}, TITULAR DE LA CÉDULA {{request.user.persona.cedula}}, ME COMPROMETO A SEGUIR LOS LINEAMIENTOS ESTABLECIDOS EN ESTE CONTRATO PARA LA COMPRA DE ESTE INMUEBLE.
+<div class="confirmacion">
+    <p>YO, {{request.user.persona}}, TITULAR DE LA CÉDULA {{request.user.persona.cedula}}, ME COMPROMETO A SEGUIR LOS LINEAMIENTOS ESTABLECIDOS EN ESTE CONTRATO PARA LA COMPRA DE ESTE INMUEBLE.</p>
+        <button type="submit" id="aceptar" class="btn btn-success">Confirmar
         </button>
+    </div>
     </form>
+    
+</div>
+</div>
 </body>
+{% include 'footer.html' %}
 </html>
