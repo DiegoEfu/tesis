@@ -367,7 +367,7 @@
         <li><b><i class='bx bx-directions'></i></box-icon>Sector: </b> {{inmueble.sector.nombre}}</li>
         <li><b><i class='bx bx-location-plus' ></i>Ubicación Detallada: </b> {{inmueble.ubicacion_detallada}}</li>
         <li><b><i class='bx bx-hotel'></i>Amueblado: </b> {{inmueble.amueblado|yesno:"Sí,No"}}</li>
-        <li><b>Número de pisos: </b>{{inmueble.estacionamientos}}</li>
+        <li><b><i class="bi bi-house-lock"></i>Número de pisos: </b>{{inmueble.estacionamientos}}</li>
         <li><b><i class='bx bxs-car-garage' ></i></i>Puestos de Estacionamiento: </b> {{inmueble.estacionamientos}}</li>
         <li><b><i class='bx bx-droplet'></i>Servicios: </b> {{inmueble.servicios}}</li>
         {% if request.user.is_authenticated and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %}
