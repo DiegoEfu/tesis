@@ -54,7 +54,9 @@
         function formulario_p1(event){
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal && !speaking){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replaceAll("m2","");
+                   speech = event.results[i][0].transcript.replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replaceAll("m2","");
                    speech = speech
                    console.log(speech);
                     
@@ -216,7 +218,7 @@
                                 $('#'+campos[campo][1]).val(speech.toLowerCase().replace('uno','1').replace('dos','2').replace('coman2','comandos').replace('tres','3').replace('cuatro','4')
                             .replace('cinco','5').replace('seis','6').replace('siete','7').replace('ocho','8')
                             .replace('nueve','9').replace('cero','0').replace("punto",".").replace("coma",",")
-                            .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(/.$/g,"").replace(",",".").replaceAll(" ", ""));
+                            .replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚñÑüÜ]+/g,'').replace(/\.$/g,"").replace(",",".").replaceAll(" ", ""));
                         }
                     }
 
@@ -241,7 +243,9 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
+                   speech = event.results[i][0].transcript.replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
                    if(localStorage.getItem('comandos') == '1')
                    Object.keys(comandos).forEach(comando => {

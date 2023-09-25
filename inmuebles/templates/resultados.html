@@ -41,8 +41,10 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo")
-                   .replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio")
+                   speech = event.results[i][0].transcript.replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky")
+                   .replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio")
                    .replaceAll("en mueble", "inmueble").replaceAll("/4", " cuartos");
                    console.log(speech);
                    if(localStorage.getItem('comandos') == '1')
@@ -225,7 +227,7 @@
                    }
 
                    if(dictando && !speaking && speech.indexOf("dictado") == -1)
-                        document.getElementById('busqueda').value += " " + speech.toLowerCase().replace(/.$/g, "");
+                        document.getElementById('busqueda').value += " " + speech.toLowerCase().replace(/\.$/g, "");
                 }
             }
         }
@@ -361,7 +363,7 @@
 </div>
 <a href="{% url 'detalle_inmueble' pk=inmueble.pk %}" class="hiperVinculo">
                 <div class="card-body">
-                     <label for="" class="card-title"><i class="bi bi-house"></i>{{inmueble.precio}}</label><br>
+                     <label for="" class="card-title"><i class="bi bi-house"></i>{{inmueble.precio}}$</label><br>
                     <h6 class="card-subtitle mb-2 text-body-secondary">{{inmueble.nombre}}</h6>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">🗺️Sector: {{inmueble.sector}}</li>

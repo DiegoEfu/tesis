@@ -21,7 +21,7 @@
             ['Apellido', 'apellido', 'Ingrese sus apellidos como aparecen en su cédula de identidad. Diga dictado para dictar.'],
             ['Fecha de Nacimiento', 'fecha_nacimiento', 'Ingrese su fecha de nacimiento. Debe tener al menos 21 años. Diga dictado para dictar.'],
             ['Número Telefónico', 'telefono', 'Ingrese su número telefónico. Debe ser un número telefónico venezolano. Diga dictado para dictar.'],
-            ['¿Es usted ciego?', 'ciego', 'Responda a la pregunta con un "sí" o un "no".'],
+            ['¿Tiene usted discapacidad visual?', 'ciego', 'Responda a la pregunta con un "sí" o un "no".'],
             ['Correo Electrónico', 'email', 'Ingrese su correo electrónico. Debe ser un correo electrónico válido.'],
             ['Contraseña', 'password', 'Ingrese su contraseña secreta. Debe tener un mínimo de 8 caracteres y por seguridad no se puede dictar.']
         ];
@@ -41,7 +41,9 @@
         function formulario_p1(event){
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo");
+                   speech = event.results[i][0].transcript.replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky");
                    console.log(speech);
                     
                     if(campo === 0){
@@ -269,14 +271,14 @@
                                 case "sí":
                                     if(campo === 6){
                                         $('#ciego').prop("checked", true);
-                                        hablar("Usted ha dicho que sí es ciego. Diga no para cambiar esta opción. Diga continuar para continuar.")
+                                        hablar("Usted ha dicho que sí tiene discapacidad visual. Diga no para cambiar esta opción. Diga continuar para continuar.")
                                     }
                                     break;
                                 
                                 case "no":
                                     if(campo === 6){
                                         $('#ciego').prop("checked", false);
-                                        hablar("Usted ha dicho que no es ciego. Diga sí para cambiar esta opción. Si quiere continuar, diga continuar.")                                        
+                                        hablar("Usted ha dicho que no tiene discapacidad visual. Diga sí para cambiar esta opción. Si quiere continuar, diga continuar.")                                        
                                     }
                                     break;
                             }
@@ -308,7 +310,7 @@
                         }                        
                         else if(dictando && campo === 7){
                             if(speech.toLowerCase().indexOf("dictado") === -1)
-                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/\.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
                         }
                         else if(dictando){
                             if(speech.indexOf("Dictado") === -1){
@@ -325,7 +327,9 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
+                   speech = event.results[i][0].transcript.replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace(/[rR]egresar\sa[l]*\sinicio/g, "regresar inicio");;
                    console.log(speech);
                    if(localStorage.getItem('comandos') == '1')
                    Object.keys(comandos).forEach(comando => {
@@ -503,11 +507,10 @@
         <div class="cuadroLogin container-fluid">
     <h1 class="tituloRegistro">Registro de Usuario</h1><br>
     {% if errores %}
-    <ul>
+    <div class="alert alert-danger" role="alert">
         {% for error in errores %}
-        <li>{{error}}</li>
-        {% endfor %}
-    </ul>
+        {{error}}
+        {% endfor %}</div>
     {% endif %}
     <div class="contenedorFormulario">
     <form method="post">
@@ -519,7 +522,7 @@
             <option {% if previo.tipo == 'V' %} selected {% endif %} value="V">V</option>
             <option {% if previo.tipo == 'E' %} selected {% endif %} value="E">E</option>
         </select>
-        <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" max="999999999" name="identificacion" id="identificacion" class="form-control"><br></div>
+        <input {% if previo %} value="{{previo.identificacion}}" {% endif %} required type="number" min="1" max="999999999" name="identificacion" id="identificacion" class="form-control"><br></div>
         <br>
         <label class="tituloInput">Nombre(s):</label><br>
         <input {% if previo %} value="{{previo.nombre}}" {% endif %} required type="text" name="nombre" id="nombre" class="form-control"><br>
@@ -533,7 +536,7 @@
         <label class="tituloInput">Número Telefónico:</label><br>
         <input {% if previo %} value="{{previo.telefono}}" {% endif %} required type="text" maxlength="11" name="telefono" id="telefono" class="form-control"><br>
 
-        <label class="tituloInput">¿Es Usted Ciego?</label>
+        <label class="tituloInput">¿Tiene discapacidad visual?</label>
         <input {% if previo.ciego %} checked {% endif %} type="checkbox" name="ciego" id="ciego"><br><br>
 
         <h4 class="tituloDatos">Datos de Usuario</h4>

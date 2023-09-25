@@ -1,0 +1,364 @@
+* {
+    /*border: 1px solid red; */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Montserrat';
+    --verdeMusgo: #6EC402;
+    --verdeClaro: #A9F14F;
+    --Rojorubi: #DB0F27;
+    --RojoOscuro: #82191e;
+    --Gris: #aacde5;
+
+}
+
+.contenedorElementos {
+    background-image: url("../../img/citaCreada.jpg");
+    background-size:cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.cuadroLogin {
+    background-color: white;
+    border-radius: 2%;
+}
+
+.mensajeRegresar {
+    text-align: center;
+}
+
+.tituloRegistro {
+    text-align: center;
+    color: var(--verdeMusgo);
+    font-weight: 600;
+}
+
+.btn-success {
+    background-color: var(--Rojorubi)!important;
+    border-color: var(--Rojorubi)!important;
+}
+
+.btn-success:hover {
+    background-color: var(--RojoOscuro)!important;
+    border-color: var(--RojoOscuro)!important;
+}
+
+@media(max-width:2000px) {
+    .contenedorElementos {
+        padding: 55px 75px 55px 75px;
+    }
+
+    .cuadroLogin {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloRegistro {
+        font-size: 300%;
+    }
+
+    .containerDatos {
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    p {
+        font-size: 120%;
+    }
+
+    .btn-success {
+        width: 10%!important;
+        font-size: 130%!important;
+    }
+
+    .form-label {
+        font-size: 140%;
+    }
+}
+
+
+@media(max-width:1800px) {
+    .contenedorElementos {
+        padding: 55px 75px 55px 75px;
+    }
+
+    .cuadroLogin {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloRegistro {
+        font-size: 300%;
+    }
+
+    .containerDatos {
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    p {
+        font-size: 120%;
+    }
+
+    .btn-success {
+        width: 10%!important;
+        font-size: 130%!important;
+    }
+
+    .form-label {
+        font-size: 140%;
+    }
+}
+
+
+@media(max-width:1440px) {
+    .contenedorElementos {
+        padding: 55px 75px 55px 75px;
+    }
+
+    .cuadroLogin {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloRegistro {
+        font-size: 300%;
+    }
+
+    .containerDatos {
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    p {
+        font-size: 120%;
+    }
+
+    .btn-success {
+        width: 15%!important;
+        font-size: 100%!important;
+    }
+
+    .form-label {
+        font-size: 140%;
+    }
+}
+
+@media(max-width:1280px) {
+    .contenedorElementos {
+        padding: 55px 75px 55px 75px;
+    }
+
+    .cuadroLogin {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloRegistro {
+        font-size: 270%;
+    }
+
+    .containerDatos {
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    p {
+        font-size: 120%;
+    }
+
+    .btn-success {
+        width: 15%!important;
+        font-size: 100%!important;
+    }
+
+    .form-label {
+        font-size: 140%;
+    }
+}
+
+@media(max-width:1280px) {
+    .contenedorElementos {
+        padding: 55px 35px 55px 35px;
+    }
+
+    .cuadroLogin {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloRegistro {
+        font-size: 230%;
+    }
+
+    .containerDatos {
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    
+    p {
+        font-size: 100%;
+    }
+
+    .btn-success {
+        width: 15%!important;
+        font-size: 100%!important;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+}
+
+@media(max-width:1024px) {
+    .contenedorElementos {
+        padding: 55px 35px 55px 35px;
+    }
+
+    .cuadroLogin {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloRegistro {
+        font-size: 230%;
+    }
+
+    .containerDatos {
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    .btn-success {
+        width: 15%!important;
+        font-size: 100%!important;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+}
+
+@media(max-width:800px) {
+    .contenedorElementos {
+        padding: 55px 35px 55px 35px;
+    }
+
+    .cuadroLogin {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloRegistro {
+        font-size: 210%;
+    }
+
+    .containerDatos {
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    .btn-success {
+        width: 25%!important;
+        font-size: 100%!important;
+    }
+
+    .form-label {
+        font-size: 110%;
+    }
+}
+
+
+@media(max-width:768px) {
+    .contenedorElementos {
+        padding: 35px 35px 35px 35px;
+    }
+
+    .cuadroLogin {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloRegistro {
+        font-size: 210%;
+    }
+
+    .containerDatos {
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    .btn-success {
+        width: 25%!important;
+        font-size: 100%!important;
+    }
+}
+
+
+@media(max-width:600px) {
+    .contenedorElementos {
+        padding: 25px 25px 25px 25px;
+    }
+
+    .cuadroLogin {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloRegistro {
+        font-size: 190%;
+    }
+
+    .containerDatos {
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    .btn-success {
+        width: 25%!important;
+        font-size: 100%!important;
+    }
+}
+
+
+@media(max-width:480px) {
+    .contenedorElementos {
+        padding: 15px 15px 15px 15px;
+    }
+
+    .cuadroLogin {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloRegistro {
+        font-size: 190%;
+    }
+
+    .containerDatos {
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    .btn-success {
+        width: 25%!important;
+        font-size: 100%!important;
+    }
+}
+
+@media(max-width:320px) {
+    .contenedorElementos {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .cuadroLogin {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .tituloRegistro {
+        font-size: 150%;
+    }
+
+    .containerDatos {
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+    .btn-success {
+        width: 25%!important;
+        font-size: 100%!important;
+    }
+}
+

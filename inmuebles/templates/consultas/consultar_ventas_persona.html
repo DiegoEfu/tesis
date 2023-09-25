@@ -301,10 +301,10 @@
 <body>
     {% include 'nav.html' %}
     <div class="salesContainer">
-        <div class="infoVentas row">
+        <div class="infoVentas">
     <h3 class="citasTitulo">Sus Ventas</h3><hr>
     {% for compra in ventas %}
-    <div class="card col-md-6 col-xl-4 col-xxl-4">
+    <div class="card">
         <div class="card-body">
     <h5 class="linkPublicacion">{{compra.inmueble.nombre}}</h5>
     <label for="" class="form-label"><b>Precio:</b> ${{compra.inmueble.precio}}</label> <br>

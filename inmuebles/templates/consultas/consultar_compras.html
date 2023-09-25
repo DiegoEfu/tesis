@@ -267,7 +267,7 @@
                    }
 
                    if(dictando && speech.indexOf("dictado") == -1)
-                        document.getElementById('busqueda').value += " " + speech.toLowerCase().replace(/.$/g, "");
+                        document.getElementById('busqueda').value += " " + speech.toLowerCase().replace(/\.$/g, "");
                 }
             }
         }
@@ -370,21 +370,21 @@
 <body>
     {% include 'nav.html' %}
     <div class="containerConsultaCitas">
-        <div class="cuadroCita row">
+        <div class="cuadroCita">
     <h3 class="citasTitulo">Consulta de Compras</h3>
 
     {% if compras %}
     <div class="grupoBotones">
     <form method="post" >
         {% csrf_token %}
-        <button type="submit" id="mp3" name="tipo" value="mp3" class="botonIcon"><i class="bi bi-filetype-mp3"></i></button>
-        <button type="submit" id="pdf" name="tipo" value="pdf" class="botonIcon"><i class="bi bi-filetype-pdf"></i></button>
+        <button type="submit" id="mp3" name="tipo" value="mp3" class="btn btn-success">Descargar MP3</i></button>
+        <button type="submit" id="pdf" name="tipo" value="pdf" class="btn btn-success">Descargar PDF</button>
     </form><hr>
 </div>
     {%endif%}
 
     {% for compra in compras %}
-    <div class="card col-md-6 col-xl-4 col-xxl-4">
+    <div class="card">
         <div class="card-body">
     <h4 class="linkPublicacion"><a href="{% url 'detalle_inmueble' pk=compra.inmueble.pk %}">{{compra.inmueble.nombre}}</a></h4>
     <h5 class="palabraPrecio">${{compra.inmueble.precio}}</h5>

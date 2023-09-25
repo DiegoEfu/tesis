@@ -25,6 +25,7 @@
 .citasTitulo {
     color: var(--verdeMusgo);
     font-weight: 900;
+    font-style: oblique;
 }
 
 .linkPublicacion a{
@@ -44,26 +45,12 @@
     border-color: var(--RojoOscuro)!important;
 }
 
-.botonRegresar {
-    text-align: center;
+.botonA {
+    color: #00b9d1!important;
+    background-color: none!important;
+    border-color: none!important;
+    text-decoration: underline!important;
 }
-
-.botonIcon {
-    background: none;
-    border: none;
-    width: 10%;
-    text-align:left;
-}
-
-.botonIcon i {
-    color: var(--Rojorubi);
-    
-}
-
-.botonIcon i:hover {
-    color: var(--Gris);
-}
-
 
 @media(max-width:2000px) {
     .containerConsultaCitas {
@@ -98,13 +85,44 @@
         width: 50%;
         font-size: 160%!important;
     }
-
-    .botonIcon i {
-        font-size: 200%; 
-    }
 }
 
 @media(max-width:1800px) {
+    .containerConsultaCitas {
+        padding: 130px 130px 130px 130px
+    }
+
+    .cuadroCita {
+        padding: 40px 40px 40px 40px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 420%;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .linkPublicacion {
+        font-size: 240%;
+    }
+
+    .form-label {
+        font-size: 160%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 110px 0px 110px;
+        width: 50%;
+        font-size: 160%!important;
+    }
+}
+
+@media(max-width:1440px) {
     .containerConsultaCitas {
         padding: 100px 100px 100px 100px
     }
@@ -116,6 +134,76 @@
 
     .citasTitulo {
         font-size: 390%;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .linkPublicacion {
+        font-size: 220%;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 110px 0px 110px;
+        width: 50%;
+        font-size: 150%!important;
+    }
+}
+
+@media(max-width:1280px) {
+    .containerConsultaCitas {
+        padding: 80px 80px 80px 80px
+    }
+
+    .cuadroCita {
+        padding: 40px 40px 40px 40px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 360%;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .linkPublicacion {
+        font-size: 190%;
+    }
+
+    .form-label {
+        font-size: 130%;
+    }
+
+    .contenedorBotones form{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn-success {
+        margin: 0px 80px 0px 80px;
+        width: 50%;
+        font-size: 150%!important;
+    }
+}
+
+@media(max-width:1024px) {
+    .containerConsultaCitas {
+        padding: 40px 40px 40px 40px
+    }
+
+    .cuadroCita {
+        padding: 40px 40px 40px 40px;
+        border-radius: 5px;
+    }
+
+    .citasTitulo {
+        font-size: 320%;
         text-align: center;
         margin-top: 10px;
     }
@@ -124,85 +212,7 @@
     }
 
     .form-label {
-        font-size: 130%;
-    }
-
-    .contenedorBotones form{
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .btn-success {
-        margin: 0px 110px 0px 110px;
-        width: 50%;
-        font-size: 150%!important;
-    }
-
-    .botonIcon i {
-        font-size: 200%; 
-    }
-}
-
-@media(max-width:1400px) {
-    .containerConsultaCitas {
-        padding: 100px 100px 100px 100px
-    }
-
-    .cuadroCita {
-        padding: 40px 40px 40px 40px;
-        border-radius: 5px;
-    }
-
-    .citasTitulo {
-        font-size: 390%;
-        text-align: center;
-        margin-top: 10px;
-    }
-    .linkPublicacion {
-        font-size: 130%;
-    }
-
-    .form-label {
-        font-size: 100%;
-    }
-
-    .contenedorBotones form{
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .btn-success {
-        margin: 0px 110px 0px 110px;
-        width: 50%;
-        font-size: 150%!important;
-    }
-
-    .botonIcon i {
-        font-size: 200%; 
-    }
-}
-
-@media(max-width:1200px) {
-    .containerConsultaCitas {
-        padding: 40px 40px 40px 40px
-    }
-
-    .cuadroCita {
-        padding: 40px 40px 40px 40px;
-        border-radius: 5px;
-    }
-
-    .citasTitulo {
-        font-size: 320%;
-        text-align: center;
-        margin-top: 10px;
-    }
-    .linkPublicacion {
         font-size: 110%;
-    }
-
-    .form-label {
-        font-size: 80%;
     }
 
     .contenedorBotones form{
@@ -216,33 +226,30 @@
         width: 60%;
         font-size: 130%!important;
     }
-
-    .botonIcon i {
-        font-size: 200%; 
-    }
 }
 
-@media(max-width:992px) {
+@media(max-width:800px) {
     .containerConsultaCitas {
-        padding: 40px 40px 40px 40px
+        padding: 30px 30px 30px 30px
     }
 
     .cuadroCita {
-        padding: 40px 40px 40px 40px;
+        padding: 30px 30px 30px 30px;
         border-radius: 5px;
     }
 
     .citasTitulo {
-        font-size: 320%;
+        font-size: 290%;
         text-align: center;
         margin-top: 10px;
     }
+
     .linkPublicacion {
-        font-size: 110%;
+        font-size: 130%;
     }
 
     .form-label {
-        font-size: 80%;
+        font-size: 110%;
     }
 
     .contenedorBotones form{
@@ -250,15 +257,10 @@
         justify-content: space-around;
     }
 
-
     .btn-success {
-        margin: 0px 50px 0px 50px;
+        margin: 0px 40px 0px 40px;
         width: 60%;
-        font-size: 130%!important;
-    }
-
-    .botonIcon i {
-        font-size: 200%; 
+        font-size: 115%!important;
     }
 }
 
@@ -295,10 +297,6 @@
         margin: 0px 20px 0px 20px;
         width: 60%;
         font-size: 110%!important;
-    }
-
-    .botonIcon i {
-        font-size: 300%; 
     }
 }
 
@@ -340,15 +338,11 @@
         width: 60%;
         font-size: 90%!important;
     }
-
-    .botonIcon i {
-        font-size: 400%; 
-    }
 }
 
 @media(max-width:480px) {
     .containerConsultaCitas {
-        padding: 10px 30px 10px 30px
+        padding: 10px 10px 10px 10px
     }
 
     .cuadroCita {
@@ -374,9 +368,11 @@
         justify-content: space-around;
     }
 
-
-    .botonIcon i {
-        font-size: 400%; }
+    .btn-success {
+        margin: 0px 10px 0px 10px;
+        width: 50%;
+        font-size: 80%!important;
+    }
 }
 
 
@@ -414,14 +410,4 @@
         width: 50%;
         font-size: 70%!important;
     }
-
-    .tituloAtencion {
-        font-size: 190%;
-    }
-
-    .alert-warning {
-        font-size: 100%;
-    }
-    .botonIcon i {
-    font-size: 400%; }
 }

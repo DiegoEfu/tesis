@@ -44,7 +44,9 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replace("Lista","listo").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio")
+                   speech = event.results[i][0].transcript.replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio")
                    .replaceAll("en mueble", "inmueble").replaceAll("/4", " cuartos");
                    console.log(speech);
 
@@ -183,10 +185,10 @@
                             case "leer detalles":
                                 hablar(`La publicación del inmueble se llama '{{inmueble.nombre}}'. Tiene un costo de {{inmueble.precio_texto}} dólares.
                                     Fue construido en el año {{inmueble.ano_construccion}}. Es del tipo {{inmueble.tipo_construccion}}. 
-                                    Tiene {{inmueble.estacionamientos}} puestos de estacionamiento. Tiene un área de {{inmueble.tamano_texto}} metros cuadrados.
-                                    Tiene {{inmueble.habitaciones}} habitaciones. Consta de {{inmueble.pisos}} pisos. Tiene {{inmueble.banos}} baños. {% if inmueble.amueblado %} Está {% else %} No está {% endif %} amoblado.
+                                    Tiene un área de {{inmueble.tamano_texto}} metros cuadrados. Tiene {{inmueble.habitaciones}} habitaciones. Tiene {{inmueble.banos}} baños.
                                     Se encuentra en el sector {{inmueble.sector.nombre}} de la parroquia {{inmueble.sector.parroquia.nombre}}, Maracaibo.
-                                    en la siguiente ubicación detallada: {{inmueble.ubicacion_detallada}}.
+                                    en la siguiente ubicación detallada: {{inmueble.ubicacion_detallada}}. {% if inmueble.amueblado %} Está {% else %} No está {% endif %} amoblado.
+                                    Consta de {{inmueble.pisos}} pisos. Tiene {{inmueble.estacionamientos}} puestos de estacionamiento. 
                                     Cuenta con los servicios: {{inmueble.servicios}}.
                                     Se describe de la siguiente forma: {{inmueble.descripcion}}.
                                     `);
@@ -240,7 +242,7 @@
                    }
 
                    if(dictando && !speaking && speech.indexOf("dictado") == -1)
-                        document.getElementById('busqueda').value += " " + speech.toLowerCase().replace(/.$/g, "");
+                        document.getElementById('busqueda').value += " " + speech.toLowerCase().replace(/\.$/g, "");
                 }
             }
         }
@@ -344,38 +346,17 @@
 </head>
 <body>
     {% include 'nav.html' %}
-    <Hr>
-    <div class="containerContenido">
-        
+        <div class="fondoDetalles">
+            <div class="cuadroInfo">
         {% csrf_token %}
+        <br><div class="hiperLinkRegreso">
         <a href="{% url 'resultados' %}" id="botonVolver">
     
-    <div class="containerCuadros row">
         <-Volver a la pagina de resultados</a>
-    <div class="containerImagen">
-        <div id="carousel" class="carousel slide">
-            <div class="carousel-inner">
-                {% for imagen in inmueble.imagenes %}
-              <div class="carousel-item {% if forloop.counter == 1%}active{%endif%}">
-        <img class="imageCarousel"  src="{{imagen}}"/>
-        </div>
-    {% endfor %}
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-        </div>
-    <div class="containerInfo">
-    <h1 class="precioTitulo">${{inmueble.precio}}</h1>
-    <h2 class="tituloCasa">{{inmueble.nombre.upper}}</h2>
-    
+        </div><br>
 
+    <h1 class="tituloCasa">{{inmueble.nombre.upper}}</h1>
+    <h1 class="precioTitulo">${{inmueble.precio}}</h1>
     <ul class="listaCaracteristicas">
         <li><b><i class='bx bxs-institution'></i>Año de Construcción: </b> {{inmueble.ano_construccion}}</li>
         <li><b><i class='bx bx-building'></i>Tipo de Construcción: </b> {{inmueble.tipo_construccion}}</li>
@@ -386,12 +367,12 @@
         <li><b><i class='bx bx-directions'></i></box-icon>Sector: </b> {{inmueble.sector.nombre}}</li>
         <li><b><i class='bx bx-location-plus' ></i>Ubicación Detallada: </b> {{inmueble.ubicacion_detallada}}</li>
         <li><b><i class='bx bx-hotel'></i>Amueblado: </b> {{inmueble.amueblado|yesno:"Sí,No"}}</li>
+        <li><b><i class="bi bi-house-lock"></i>Número de pisos: </b>{{inmueble.estacionamientos}}</li>
         <li><b><i class='bx bxs-car-garage' ></i></i>Puestos de Estacionamiento: </b> {{inmueble.estacionamientos}}</li>
         <li><b><i class='bx bx-droplet'></i>Servicios: </b> {{inmueble.servicios}}</li>
         {% if request.user.is_authenticated and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %}
         <li><b><i class='bx bx-spreadsheet'></i>Descripción:</b> {{inmueble.descripcion}}</li><br>
     </ul>
-    <ul class="listaCitas">
         {% if puede_cita %}
         <div class="alert alert-warning" role="alert">
             <a id="agendar" href="{% url 'seleccionar_dia_cita' pk=inmueble.pk %}" class="alert-link">Agendar Cita para Visitar el Inmueble</a></div>
@@ -414,16 +395,33 @@
             Si quieres visitar este inmueble o comprarlo, inicia sesión.</div>
         {% endif %}
     </ul>
+    <h1 class="tituloCasa">Imágenes:</h1>
+    <div class="containerImagen">
+        <div id="carousel" class="carousel slide">
+            <div class="carousel-inner">
+                {% for imagen in inmueble.imagenes %}
+              <div class="carousel-item {% if forloop.counter == 1%}active{%endif%}">
+        <img class="card-img-top"  src="{{imagen}}"/>
+        </div>
+    {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div><Br>
     <form method="post" class="grupoBotones">
             {% csrf_token %}
-            <button id="pdf" type="submit" name="tipo" value="pdf" class="botonIcon"><i class="bi bi-filetype-pdf"></i></button>
-            <button id="mp3" type="submit" name="tipo" value="mp3" class="botonIcon"><i class="bi bi-filetype-mp3"></i></button>
-        </form>
-</div>
-</div>
-</div>
-
+            <button id="pdf" type="submit" name="tipo" value="pdf" class="btn btn-success">PDF</button>
+            <button id="mp3" type="submit" name="tipo" value="mp3" class="btn btn-success">MP3</button>
+        </form><Br>
+    </div>
+    </div>
 </body>
-<hr>
 {% include 'footer.html' %}
 </html>

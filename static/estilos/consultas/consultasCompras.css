@@ -43,11 +43,6 @@
     border-color: var(--RojoOscuro)!important;
 }
 
-.card {
-    display: block;
-    align-items: flex-end;
-}
-
 .btn-success:hover a {
     background-color: var(--RojoOscuro)!important;
     color: white!important;
@@ -84,23 +79,6 @@
     text-align: center;
 }
 
-.botonIcon {
-    background: none;
-    border: none;
-    width: 10%;
-    text-align:center;
-}
-
-.botonIcon i {
-    color: var(--Rojorubi);
-    
-}
-
-.botonIcon i:hover {
-    color: var(--Gris);
-}
-
-
 
 @media(max-width:2000px) {
     .containerConsultaCitas {
@@ -108,7 +86,7 @@
     }
 
     .cuadroCita {
-        padding: 30px 20px 30px 20px;
+        padding: 30px 40px 30px 40px;
         border-radius: 0%;
         height: auto;
     }
@@ -133,11 +111,11 @@
     }
 
     .linkPublicacion {
-        font-size: 110%;
+        font-size: 240%;
     }
 
     .palabraPrecio {
-        font-size: 140%;
+        font-size: 190%;
     }
 
     .form-label {
@@ -145,7 +123,7 @@
     }
 
     .btn-success {
-        width: 55%!important;
+        width: 15%!important;
         font-size: 100%!important;
     }
 
@@ -160,19 +138,15 @@
     .alert-warning {
         font-size: 175%;
     }
-
-    .botonIcon i {
-        font-size: 200%; 
-    }
 }
 
-@media(max-width:1400px) {
+@media(max-width:1440px) {
     .containerConsultaCitas {
         padding: 100px 80px 100px 80px;
     }
 
     .cuadroCita {
-        padding: 15px 10px 30px 10px;
+        padding: 30px 40px 30px 40px;
         border-radius: 0%;
         height: auto;
     }
@@ -186,7 +160,7 @@
 
     .grupoBotones form{
         display: flex;
-        justify-content: center;
+        justify-content: space-evenly;
     }
 
     .grupoBotones button {
@@ -197,20 +171,20 @@
     }
 
     .linkPublicacion {
-        font-size: 80%;
+        font-size: 220%;
     }
 
     .palabraPrecio {
-        font-size: 120%;
+        font-size: 180%;
     }
 
     .form-label {
-        font-size: 120%;
+        font-size: 150%;
     }
 
     .btn-success {
-        width: 40%!important;
-        font-size: 60%!important;
+        width: 20%!important;
+        font-size: 110%!important;
     }
 
     #logoAdvertencia {
@@ -224,27 +198,23 @@
     .alert-warning {
         font-size: 175%;
     }
-
-    .botonIcon i {
-        font-size: 200%; 
-    }
 }
 
-@media(max-width:1200px) {
+@media(max-width:1280px) {
     .containerConsultaCitas {
-        padding: 40px 40px 40px 40px;
+        padding: 90px 80px 90px 80px;
     }
 
     .cuadroCita {
-        padding: 10px 10px 30px 10px;
+        padding: 30px 40px 30px 40px;
         border-radius: 0%;
         height: auto;
     }
 
     .citasTitulo {
-        padding-top: 5%;
-        padding-bottom: 1%;
-        font-size: 240%;
+        padding-top: 3%;
+        padding-bottom:3%;
+        font-size: 330%;
         text-align: center;
     }
 
@@ -253,21 +223,28 @@
         justify-content: space-around;
     }
 
+    .grupoBotones button {
+        width: 35%!important;
+        font-size: 150%!important; 
+        margin-left: 1%;
+        margin-right: 1%;
+    }
+
     .linkPublicacion {
-        font-size: 130%;
+        font-size: 250%;
     }
 
     .palabraPrecio {
-        font-size: 110%;
+        font-size: 170%;
     }
 
     .form-label {
-        font-size: 80%;
+        font-size: 130%;
     }
 
     .btn-success {
-        width: 35%!important;
-        font-size: 55%!important;
+        width: 20%!important;
+        font-size: 90%!important;
     }
 
     #logoAdvertencia {
@@ -281,52 +258,54 @@
     .alert-warning {
         font-size: 165%;
     }
-
-    .botonIcon i {
-        font-size: 200%; 
-    }
 }
 
-@media(max-width:992px) {
+
+@media(max-width:1024px) {
     .containerConsultaCitas {
-        padding: 40px 40px 40px 40px;
+        padding: 50px 40px 50px 40px;
     }
 
     .cuadroCita {
-        padding: 10px 10px 30px 10px;
+        padding: 30px 40px 30px 40px;
         border-radius: 0%;
         height: auto;
     }
 
     .citasTitulo {
-        padding-top: 5%;
-        padding-bottom: 1%;
-        font-size: 240%;
+        padding-top: 3%;
+        padding-bottom:3%;
+        font-size: 300%;
         text-align: center;
     }
 
     .grupoBotones form{
         display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        height: 450px;
+        justify-content: space-around;
+    }
+
+    .grupoBotones button {
+        width: 75%!important;
+        font-size: 150%!important; 
+        margin-left: 2%;
+        margin-right: 2%;
     }
 
     .linkPublicacion {
-        font-size: 80%;
+        font-size: 190%;
     }
 
     .palabraPrecio {
-        font-size: 110%;
+        font-size: 160%;
     }
 
     .form-label {
-        font-size: 80%;
+        font-size: 120%;
     }
 
     .btn-success {
-        width: 45%!important;
-        font-size: 55%!important;
+        width: 30%!important;
+        font-size: 110%!important;
     }
 
     #logoAdvertencia {
@@ -340,19 +319,15 @@
     .alert-warning {
         font-size: 165%;
     }
-
-    .botonIcon i {
-        font-size: 200%; 
-    }
 }
 
-@media(max-width:768px) {
+@media(max-width:800px) {
     .containerConsultaCitas {
-        padding: 40px 40px 40px 40px;
+        padding: 40px 20px 40px 20px;
     }
 
     .cuadroCita {
-        padding: 30px 10px 30px 10px;
+        padding: 30px 40px 30px 40px;
         border-radius: 0%;
         height: auto;
     }
@@ -366,7 +341,67 @@
 
     .grupoBotones form{
         display: flex;
-        justify-content: center;
+        justify-content: space-around;
+    }
+
+    .grupoBotones button {
+        width: 80%!important;
+        font-size: 150%!important; 
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+
+    .linkPublicacion {
+        font-size: 170%;
+    }
+
+    .palabraPrecio {
+        font-size: 140%;
+    }
+
+    .form-label {
+        font-size: 110%;
+    }
+
+    .btn-success {
+        width: 40%!important;
+        font-size: 110%!important;
+    }
+
+    #logoAdvertencia {
+        width: 100%;
+    }
+
+    .tituloAtencion {
+        font-size: 260%;
+    }
+
+    .alert-warning {
+        font-size: 165%;
+    }
+}
+
+@media(max-width:768px) {
+    .containerConsultaCitas {
+        padding: 40px 20px 40px 20px;
+    }
+
+    .cuadroCita {
+        padding: 30px 40px 30px 40px;
+        border-radius: 0%;
+        height: auto;
+    }
+
+    .citasTitulo {
+        padding-top: 5%;
+        padding-bottom: 5%;
+        font-size: 240%;
+        text-align: center;
+    }
+
+    .grupoBotones form{
+        display: flex;
+        justify-content: space-around;
     }
 
     .grupoBotones button {
@@ -404,10 +439,6 @@
     .alert-warning {
         font-size: 115%;
     }
-
-    .botonIcon i {
-        font-size: 300%; 
-    }
 }
 
 @media(max-width:600px) {
@@ -430,7 +461,7 @@
 
     .grupoBotones form{
         display: flex;
-        justify-content: center;
+        justify-content: space-around;
     }
 
     .grupoBotones button {
@@ -468,10 +499,6 @@
 
     .alert-warning {
         font-size: 105%;
-    }
-
-    .botonIcon i {
-        font-size: 400%; 
     }
 }
 
@@ -514,8 +541,8 @@
     }
 
     .btn-success {
-        width: 55%!important;
-        font-size: 11px!important;
+        width: 45%!important;
+        font-size: 70%!important;
     }
 
     #logoAdvertencia {
@@ -529,9 +556,6 @@
     .alert-warning {
         font-size: 100%;
     }
-
-    .botonIcon i {
-        font-size: 400%; }
 }
 
 @media(max-width:320px) {
@@ -552,7 +576,7 @@
 
     .grupoBotones form{
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
     }
 
     .grupoBotones button {
@@ -569,8 +593,8 @@
     }
 
     .btn-success {
-        width: 55%!important;
-        font-size: 11px!important;
+        width: 60%!important;
+        font-size: 60%;
     }
     
     .tituloAtencion {
@@ -580,6 +604,4 @@
     .alert-warning {
         font-size: 100%;
     }
-    .botonIcon i {
-    font-size: 400%; }
 }
