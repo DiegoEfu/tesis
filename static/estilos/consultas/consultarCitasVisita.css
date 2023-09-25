@@ -45,6 +45,13 @@
     border-color: var(--RojoOscuro)!important;
 }
 
+.botonA {
+    color: #00b9d1!important;
+    background-color: none!important;
+    border-color: none!important;
+    text-decoration: underline!important;
+}
+
 @media(max-width:2000px) {
     .containerConsultaCitas {
         padding: 160px 160px 160px 160px

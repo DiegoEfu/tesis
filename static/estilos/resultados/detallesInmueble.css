@@ -17,3 +17,392 @@ html, body {
     overflow-x: hidden;
 }
 
+.fondoDetalles {
+    background-image: url("../../img/fondoDetalles2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.cuadroInfo {
+    background-color: white;
+    border-radius: 3px;
+}
+
+.hiperLinkRegreso {
+    text-align: center;
+}
+
+.tituloCasa {
+    text-align: center;
+    color: var(--verdeMusgo);
+    font-weight: 700;
+}
+
+.precioTitulo {
+    text-align: center;
+    color: var(--Gris);
+    font-weight: 400;
+}
+
+.grupoBotones {
+    text-align: center;
+}
+
+.listaCaracteristicas {
+    list-style: none;
+    padding: 0;
+}
+
+.listaCaracteristicas li i {
+    color: var(--verdeMusgo);
+}
+
+.btn-success {
+    background-color: var(--Rojorubi)!important;
+    border-color: var(--Rojorubi)!important;
+}
+
+.btn-success:hover {
+    background-color: var(--RojoOscuro)!important;
+    border-color: var(--RojoOscuro)!important;
+}
+
+@media(max-width:2000px) {
+    .fondoDetalles {
+        padding: 85px 115px 85px 115px;
+    }
+
+    .cuadroInfo{
+        padding: 10px 10px 10px 10px;
+    }
+
+    .hiperLinkRegreso a {
+        font-size: 160%;
+    }
+
+    .tituloCasa{
+        font-size: 320%;
+    }
+
+    .precioTitulo {
+        font-size: 300%;
+    }
+
+    .listaCaracteristicas {
+        margin-left: 45px;
+        margin-right: 5px
+    }
+
+    .listaCaracteristicas li {
+        font-size: 155%;
+    }
+
+    .btn-success{
+        width: 10%;
+    }
+}
+
+@media(max-width:1800px) {
+    .fondoDetalles {
+        padding: 85px 115px 85px 115px;
+    }
+
+    .cuadroInfo{
+        padding: 10px 10px 10px 10px;
+    }
+
+    .hiperLinkRegreso a {
+        font-size: 160%;
+    }
+
+    .tituloCasa{
+        font-size: 320%;
+    }
+
+    .precioTitulo {
+        font-size: 300%;
+    }
+
+    .listaCaracteristicas {
+        margin-left: 45px;
+        margin-right: 5px
+    }
+
+    .listaCaracteristicas li {
+        font-size: 155%;
+    }
+
+    .btn-success{
+        width: 10%;
+    }
+}
+
+@media(max-width:1440px) {
+    .fondoDetalles {
+        padding: 85px 85px 85px 85px;
+    }
+
+    .cuadroInfo{
+        padding: 10px 10px 10px 10px;
+    }
+
+    .hiperLinkRegreso a {
+        font-size: 160%;
+    }
+
+    .tituloCasa{
+        font-size: 310%;
+    }
+
+    .precioTitulo {
+        font-size: 270%;
+    }
+
+    .listaCaracteristicas {
+        margin-left: 45px;
+        margin-right: 5px
+    }
+
+    .listaCaracteristicas li {
+        font-size: 165%;
+    }
+
+    .btn-success{
+        width: 10%;
+    }
+}
+
+@media(max-width:1280px) {
+    .fondoDetalles {
+        padding: 65px 65px 65px 65px;
+    }
+
+    .cuadroInfo{
+        padding: 20px 20px 20px 20px;
+    }
+
+    .hiperLinkRegreso a {
+        font-size: 140%;
+    }
+
+    .tituloCasa{
+        font-size: 290%;
+    }
+
+    .precioTitulo {
+        font-size: 260%;
+    }
+
+    .listaCaracteristicas {
+        margin-left: 40px;
+        margin-right: 5px
+    }
+
+    .listaCaracteristicas li {
+        font-size: 155%;
+    }
+
+    .btn-success{
+        width: 10%;
+    }
+}
+
+@media(max-width:1024px) {
+    .fondoDetalles {
+        padding: 65px 65px 65px 65px;
+    }
+
+    .cuadroInfo{
+        padding: 20px 20px 20px 20px;
+    }
+
+    .hiperLinkRegreso a {
+        font-size: 140%;
+    }
+
+    .tituloCasa{
+        font-size: 270%;
+    }
+
+    .precioTitulo {
+        font-size: 240%;
+    }
+
+    .listaCaracteristicas {
+        margin-left: 40px;
+        margin-right: 5px
+    }
+
+    .listaCaracteristicas li {
+        font-size: 155%;
+    }
+
+    .btn-success{
+        width: 15%;
+    }
+}
+
+
+@media(max-width:800px) {
+    .fondoDetalles {
+        padding: 45px 45px 45px 45px;
+    }
+
+    .cuadroInfo{
+        padding: 15px 15px 15px 15px;
+    }
+
+    .hiperLinkRegreso a {
+        font-size: 110%;
+    }
+
+    .tituloCasa{
+        font-size: 230%;
+    }
+
+    .precioTitulo {
+        font-size: 210%;
+    }
+
+    .listaCaracteristicas {
+        margin-left: 30px;
+        margin-right: 5px
+    }
+
+    .listaCaracteristicas li {
+        font-size: 135%;
+    }
+
+    .btn-success{
+        width: 15%;
+    }
+}
+
+@media(max-width:768px) {
+    .fondoDetalles {
+        padding: 35px 35px 35px 35px;
+    }
+
+    .cuadroInfo{
+        padding: 5px 5px 5px 5px;
+    }
+
+    .hiperLinkRegreso a {
+        font-size: 110%;
+    }
+
+    .tituloCasa{
+        font-size: 230%;
+    }
+
+    .precioTitulo {
+        font-size: 210%;
+    }
+
+    .listaCaracteristicas {
+        margin-left: 20px;
+        margin-right: 5px
+    }
+
+    .listaCaracteristicas li {
+        font-size: 115%;
+    }
+
+    .btn-success{
+        width: 20%;
+    }
+}
+
+@media(max-width:600px) {
+    .fondoDetalles {
+        padding: 15px 15px 15px 15px;
+    }
+
+    .cuadroInfo{
+        padding: 5px 5px 5px 5px;
+    }
+
+    .hiperLinkRegreso a {
+        font-size: 110%;
+    }
+
+    .tituloCasa{
+        font-size: 190%;
+    }
+
+    .precioTitulo {
+        font-size: 180%;
+    }
+
+    .listaCaracteristicas {
+        margin-left: 10px;
+        margin-right: 5px
+    }
+
+    .listaCaracteristicas li {
+        font-size: 115%;
+    }
+
+    .btn-success{
+        width: 20%;
+    }
+}
+
+@media(max-width:480px) {
+    .fondoDetalles {
+        padding: 15px 15px 15px 15px;
+    }
+
+    .cuadroInfo{
+        padding: 5px 5px 5px 5px;
+    }
+
+    .hiperLinkRegreso a {
+        font-size: 90%;
+    }
+
+    .tituloCasa{
+        font-size: 140%;
+    }
+
+    .listaCaracteristicas {
+        margin-left: 10px;
+        margin-right: 5px
+    }
+
+    .listaCaracteristicas li {
+        font-size: 95%;
+    }
+
+    .btn-success{
+        width: 20%;
+    }
+}
+
+@media(max-width:320px) {
+    .fondoDetalles {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .cuadroInfo{
+        padding: 5px 5px 5px 5px;
+    }
+
+    .hiperLinkRegreso a {
+        font-size: 90%;
+    }
+
+    .tituloCasa{
+        font-size: 140%;
+    }
+
+    .listaCaracteristicas {
+        margin-left: 10px;
+        margin-right: 5px
+    }
+
+    .btn-success{
+        width: 20%;
+    }
+}

@@ -15,36 +15,40 @@
     {% include 'nav.html' %}
     
     <div class="containerConsultaCitas">
-        <div class="cuadroCita row">
+        <div class="cuadroCita">
     <a href="{% url 'bienvenida_agente' %}" class="botonRegresar"><-Regresar al Menú Principal</a><br>
     <h3 class="citasTitulo">Consulta de Citas Finalizadas</h3><hr>
     {% for cita in citas %}
     {% if cita.inmueble %}
-    <div class="card col-xs-10 col-sm-12 col-md-6 col-xl-4 col-xxl-4">
+    <div class="card">
         <div class="card-body">
     <h5 class="linkPublicacion"><a href="{% url 'detalle_inmueble' pk=cita.inmueble.pk%}">{{cita.inmueble.nombre}}</a></h5>
     <label for="" class="form-label"><b>Fecha:</b> {{cita.fecha_asignada.date}} {{cita.fecha_asignada.hour}}:00</label>
     <label for="" class="form-label"><b>Agente:</b> {{cita.inmueble.agente}} (Teléfono: {{cita.inmueble.agente.numero_telefono}})</label>
     <label for="" class="form-label"><b>Sector:</b> {{cita.inmueble.sector.nombre}} </label>
     <label for="" class="form-label"><b>Ubicación detallada: </b> {{cita.inmueble.ubicacion_detallada}}</label>
-    
+    </div>
+    </div><br>
     {% else %}
-    <div class="card col-xs-10 col-sm-12 col-md-6 col-xl-4 col-xxl-4">
+    <div class="card">
         <div class="card-body">
     <h5 class="linkPublicacion"><a href="{% url 'detalle_inmueble' pk=cita.compra.inmueble.pk %}">{{cita.compra.inmueble.nombre}}</a></h5>
     <label for="" class="form-label"><b>Fecha:</b> {{cita.fecha_asignada.date}} {{cita.fecha_asignada.hour}}:00</label>
     <label for="" class="form-label"><b>Agente:</b> {{cita.compra.inmueble.agente}} (Teléfono: {{cita.compra.inmueble.agente.numero_telefono}})</label>
     <label for="" class="form-label"><b>Sector:</b> {{cita.compra.inmueble.sector.nombre}} </label>
-    <label for="" class="form-label"><b>Ubicación detallada: </b> {{cita.compra.inmueble.ubicacion_detallada}}</label>
-
-    {% endif %}
+    <label for="" class="form-label"><b>Ubicación detallada: </b> {{cita.compra.inmueble.ubicacion_detallada}}
+    </label>
     <label for="" class="form-label"><b>Estado de la Cita:</b> {{cita.estado_largo}}</label>
     <label for="" class="form-label"><b>Comentarios del Agente:</b> {{cita.resultados}}</label>
-    </div>
-    </div>
+</div>
+</div><br>
+    {% endif %}
+
+
     {% empty %}
     <div class="alert alert-danger" role="alert">
-    <label for="" class="form-label">No hay citas finalizadas por los momentos.</label></div>
+    <label for="" class="form-label">No hay citas finalizadas por los momentos.</label>
+</div>
     
 
     {% endfor %}

@@ -74,6 +74,16 @@ input[type='checkbox'] {
     right: 0!important;
 }
 
+.botonSumar {
+    background-color: var(--verdeOscuro);
+    color: white;
+    border-color: var(--verdeOscuro);
+}
+
+.botonImagen {
+    width: 80%;
+}
+
 @media (max-width:2000px) {
     .contenedorFormularioInmueble {
         height: 2650px;
