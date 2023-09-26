@@ -149,6 +149,7 @@
                                 document.getElementById('busqueda').value = document.getElementById('busqueda').value.trim().replace(/\s+/g,' ');
                                 hablar(`Usted ha escrito: ${document.getElementById('busqueda').value}. Diga "continuar" para buscar inmuebles, o diga "editar" para editar.`);
                                 campo = 2;
+                                escribiendo = false;
                                 break;
                             
                             case "continuar":
