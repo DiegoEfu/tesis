@@ -1,43 +1,58 @@
+{% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados Cita de Visita</title>
+    <title>Resultados Cita de Visita {{cita.pk}}</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'estilos/registration/register.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </head>
 <body>
+    {% include 'nav.html' %}
+    <div class="contenedorElementos container-fluid">
+        <div class="cuadroLogin container-fluid">
+            <h1 class="tituloRegistro">Resultados de Cita</h1><br>
     <form method="post">
+        
         {% csrf_token %}
-        <label for="cita">Número de Cita:</label>
-        <input type="text" name="cita" value="{{cita.pk}}" disabled>
+        <label for="cita" class="form-label">Número de Cita:</label>
+        <input type="text" name="cita" value="{{cita.pk}}" disabled class="form-control"><br>
 
-        <label for="ci_visitante">Cédula del Visitante:</label>
-        <input type="text" name="ci_visitante" value="{%  if cita.persona %}{{cita.persona.cedula}}{% else %}{{cita.compra.comprador.cedula}}{%endif%}" disabled>
+        <label for="ci_visitante" class="form-label">Cédula del Visitante:</label>
+        <input type="text" name="ci_visitante" value="{%  if cita.persona %}{{cita.persona.cedula}}{% else %}{{cita.compra.comprador.cedula}}{%endif%}" disabled class="form-control"><br>
 
-        <label for="nombre_visitante">Nombre del Visitante:</label>
-        <input type="text" name="nombre_visitante" value="{%  if cita.persona %}{{cita.persona}}{% else %}{{cita.compra.comprador}}{%endif%}" disabled>
+        <label for="nombre_visitante" class="form-label">Nombre del Visitante:</label>
+        <input type="text" name="nombre_visitante" value="{%  if cita.persona %}{{cita.persona}}{% else %}{{cita.compra.comprador}}{%endif%}" disabled class="form-control"><br>
 
-        <label for="nombre_inmueble">Nombre del Inmueble:</label>
-        <input type="text" name="nombre_inmueble" value="{% if cita.inmueble %}{{cita.inmueble.nombre}}{% else %}{{cita.compra.inmueble.nombre}}{%endif%}" disabled>
+        <label for="nombre_inmueble" class="form-label">Nombre del Inmueble:</label>
+        <input type="text" name="nombre_inmueble" value="{% if cita.inmueble %}{{cita.inmueble.nombre}}{% else %}{{cita.compra.inmueble.nombre}}{%endif%}" disabled class="form-control"><br>
 
-        <label for="direccion_inmueble">Sector del Inmueble:</label>
-        <input type="text" name="direccion_inmueble" value="{% if cita.inmueble %}{{cita.inmueble.sector.nombre}}{% else %}{{cita.compra.inmueble.sector.nombre}}{%endif%}" disabled>
+        <label for="direccion_inmueble" class="form-label">Sector del Inmueble:</label>
+        <input type="text" name="direccion_inmueble" value="{% if cita.inmueble %}{{cita.inmueble.sector.nombre}}{% else %}{{cita.compra.inmueble.sector.nombre}}{%endif%}" disabled class="form-control"><br>
 
-        <label for="dia_cita">Día de la Cita:</label>
-        <input type="text" name="dia_cita" value="{{cita.fecha_asignada.date}}" disabled>
+        <label for="dia_cita" class="form-label">Día de la Cita:</label>
+        <input type="text" name="dia_cita" value="{{cita.fecha_asignada.date}}" disabled class="form-control"><br>
 
-        <label for="hora_cita">Hora de la Cita:</label>
-        <input type="text" name="hora_cita" value="{{cita.fecha_asignada.hour}}:00" disabled>
+        <label for="hora_cita" class="form-label">Hora de la Cita:</label>
+        <input type="text" name="hora_cita" value="{{cita.fecha_asignada.hour}}:00" disabled class="form-control"><br>
 
-        <label for="hora_cita">Resultados de la cita:</label>
-        <textarea name="resultados" id="resultados" cols="30" rows="10" required></textarea>
+        <label for="hora_cita" class="form-label">Resultados de la cita:</label>
+        <textarea name="resultados" id="resultados" cols="30" rows="10" required class="form-control"></textarea><br>
 
         {% if cita.inmueble %}
-        <button type="submit" name="visto" value="bien">Enviar Resultados (Positivo)</button>
-        <button type="submit" name="visto" value="mal">Enviar Resultados (Negativo)</button>
+        <button type="submit" name="visto" value="bien" class="btn btn-danger">Aprobar</button>
+        <button type="submit" name="visto" value="mal" class="btn btn-danger">Denegar</button><br>
         {% else %}
-        <button type="submit" name="visto" value="bien">Enviar Resultados</button>
+        <button type="submit" name="visto" value="bien" class="btn btn-success">Enviar Resultados</button><br>
         {% endif %}    
-    </form>
+    </form><br><br>
+</div>
+</div>
+    {% include 'footer.html' %}
+
 </body>
 </html>
