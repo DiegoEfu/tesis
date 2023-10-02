@@ -139,7 +139,7 @@ class Inmueble(models.Model):
         return imagenes
     
     def edicion(self):
-        return Edicion.objects.get(inmueble__pk=self.pk, estado = 'P')
+        return Edicion.objects.get(inmueble__pk=self.pk, estado = 'R')
     
     def tiene_pagos_pendientes(self):
         return self.compra_activa() or self.compra_activa().pagos.filter(estado = 'P').exists()
