@@ -37,9 +37,9 @@
     <label for="" class="form-label"><b>Ubicación detallada: </b> {{cita.compra.inmueble.ubicacion_detallada}} <br></label>
 
     <label for="" class="form-label"><b>Esta cita es de formalidades. Contactar al abogado para formalizar la entrega del inmueble.</b></label>
+    {% endif %}
     <label for="" class="form-label"><b>Estado de la Cita:</b> {{cita.estado_largo}}</label> <br>
     <a href="{% url 'resultados_cita_agente' pk=cita.pk %}" class="botonRegresar">Registrar resultados</a>
-    {% endif %}
     
 </div>
 </div>
