@@ -25,7 +25,7 @@
             ['Correo Electrónico', 'email', 'Ingrese su correo electrónico. Debe ser un correo electrónico válido.'],
             ['Contraseña', 'password', 'Ingrese su contraseña secreta. Debe tener un mínimo de 8 caracteres y por seguridad no se puede dictar.']
         ];
-        let speaking = false, reporte = false, escribiendo = false, dictando = false, campo = 4;
+        let speaking = false, reporte = false, escribiendo = false, dictando = false, campo = 0;
         const voice = synthesis.getVoices().filter(function (voice) {
             return voice.lang === 'es';
         })[2];
@@ -177,7 +177,7 @@
                                                 cache: true,
                                                 async: false,
                                                 data: {
-                                                    'numero_telefono': $('#numero_telefono').val()
+                                                    'numero_telefono': $('#telefono').val()
                                                 },
                                                 success: (res) => {
                                                     console.log(res);
@@ -310,7 +310,8 @@
                         }                        
                         else if(dictando && campo === 7){
                             if(speech.toLowerCase().indexOf("dictado") === -1)
-                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/\.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/\.$/g,"").replaceAll(",","").replaceAll("punto", ".").replaceAll("listo","").replaceAll("salir","")
+                                    .replace(/\s+/g, "").replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u'));
                         }
                         else if(dictando){
                             if(speech.indexOf("Dictado") === -1){
@@ -516,7 +517,7 @@
     <form method="post">
         {% csrf_token %}
         <h4 class="tituloDatos">Datos Personales</h4>
-        <label class="tituloInput form-label">Cédula de Identidad o RIF:</label><br>
+        <label class="tituloInput form-label">Cédula de Identidad:</label><br>
         <div class="grupoCedula">
         <select name="tipo" id="tipo" class="form-select" id="formSelect">
             <option {% if previo.tipo == 'V' %} selected {% endif %} value="V">V</option>
