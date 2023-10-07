@@ -69,7 +69,7 @@ def formulario_pago(request, pk):
         if(fecha > datetime.today()):
             errores.append("La fecha de la transacción no puede ser mayor a hoy.")
 
-        if(fecha < compra.fecha):
+        if(fecha.timestamp() < compra.fecha.timestamp()):
             errores.append("La fecha de la transacción no puede ser menor a la de la compra.")
 
         # Creación
@@ -79,7 +79,7 @@ def formulario_pago(request, pk):
         pago = Pago.objects.create(
             estado = "P",
             cuenta = Cuenta.objects.get(pk=receptora),
-            referencia = referencia,
+            referencia = referencia[:15],
             monto = Decimal(monto),
             comentario = comentario,
             fecha_transaccion = fecha_transaccion,
@@ -143,6 +143,9 @@ def formulario_aprobar_pago(request, pk):
             compra = pago.compra
             compra.inmueble.estado = 'S'
             compra.inmueble.save()
+
+            compra.estado = 'S'
+            compra.save()
 
             inmueble = compra.inmueble
             dias_disponibles = []

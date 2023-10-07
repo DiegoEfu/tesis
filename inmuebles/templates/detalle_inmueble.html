@@ -380,10 +380,10 @@
             <div class="alert alert-warning" role="alert">
             ¡Ha agendado una cita para visitar el inmueble!</div>
             {% endif %}
-            {% if puede_comprar %}
-            <div class="alert alert-warning" role="alert">
+            {% if inmueble.estado == 'A' and puede_comprar %}
+            <div class="alert alert-success" role="alert">
             <a id="comprar" href="{% url 'comprar_inmueble' pk=inmueble.pk %}" class="alert-link">Comprar</a>
-            </div>{% else %}
+            </div>{% elif inmueble.estado == 'A' %}
             <div class="alert alert-danger" role="alert">
             ¡Debe agendar y asistir a una cita para ver el inmueble para poder comprar!</div>
             {% endif %}
