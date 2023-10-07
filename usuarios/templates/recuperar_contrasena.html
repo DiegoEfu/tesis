@@ -145,7 +145,8 @@
                     if(!speaking  && speech.toLowerCase().indexOf('deletree o dicte') === -1){
                         if(dictando && (campo === 0)){
                             if(speech.toLowerCase().indexOf("dictado") === -1)
-                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/\.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace(/\s+/g, ""));
+                                $('#email').val( $('#email').val() + speech.toLowerCase().replace('arroba', '@').replace(/\.$/g,"").replaceAll(",","").replaceAll("punto", ".").replaceAll("listo","").replaceAll("salir","")
+                                    .replace(/\s+/g, "").replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u'));
                         }                       
                     }
                     

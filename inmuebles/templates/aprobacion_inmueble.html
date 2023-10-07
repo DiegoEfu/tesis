@@ -50,7 +50,7 @@
         <label for="tipo_construccion" class="form-label">Tipo de Construcción:</label><br>
         <select name="tipo_construccion" id="tipo_construccion" class="form-select">
             {% for construccion in construcciones %}
-            <option value="{{forloop.counter}}">{{construccion.0}}</option>
+            <option value="{{forloop.counter}}" {% if inmueble.tipo_construccion == construccion.0 %}selected{% endif %}>{{construccion.0}}</option>
             {% endfor %}
         </select><br>
 
