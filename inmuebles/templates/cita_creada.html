@@ -42,7 +42,7 @@
                    console.log(speech);
 
                    if(localStorage.getItem('comandos') == '1')
-                   ["ayuda","ver perfil","consultar compras","consultar ventas","consultar citas","consultar publicaciones",
+                   ["ayuda","ver perfil","consultar compras","consultar ventas","consultar cita","consultar publicaciones",
                    "regresar inicio", "cerrar sesión", "leer pantalla", "leer detalles", "descargar pdf", "descargar mp 3", "desactivar comandos de voz"].forEach(comando => {
                       if(!speaking && speech.toLowerCase().includes(comando)){
                         console.log(comando);
@@ -75,7 +75,7 @@
                                 location.replace("/inmuebles/consultar/ventas/");
                                 break;
 
-                            case "consultar citas":
+                            case "consultar cita":
                                 hablar("Redirigiendo a la pantalla de citas.");
                                 location.replace("/inmuebles/consultar/citas/");
                                 break;
