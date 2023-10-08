@@ -85,3 +85,6 @@ class Pago(models.Model):
     
     def __str__(self):
         return f"PAGO A LA COMPRA {self.compra.pk} ({self.pk})"
+    
+    class Meta:
+        ordering = ('-fecha',)

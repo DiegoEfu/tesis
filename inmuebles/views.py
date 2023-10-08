@@ -786,7 +786,7 @@ def consultar_ventas_revision(request):
 
         request.session['mensaje'] = "La venta fue cancelada exitosamente."
 
-        enviar_correo([compra.inmueble.dueno,compra.inmueble.comprador], f"Se ha cancelado la venta", f"Saludos. \n"
+        enviar_correo([compra.inmueble.dueno,compra.comprador], f"Se ha cancelado la venta", f"Saludos. \n"
             + f"El agente <b>{compra.inmueble.agente}</b> del inmueble <b>{compra.inmueble.nombre.upper()}</b> ha cancelado la venta.\n"
             + f"Atentamente, \n     Inmuebles Incaibo.")
 
