@@ -121,7 +121,7 @@
                                 console.log(numero);
                                 // {% for pago in pagos %}
                                 if(numero == '{{forloop.counter}}'){
-                                    hablar(`Este pago se realizó el día {{pago.fecha.date}}. 
+                                    hablar(`Este pago se realizó el día {{pago.fecha}}. 
                                         El monto pagado fue de bolívares {{pago.monto_texto}} los cuales fueron al cambio del día {{pago.tasa.tasa_texto}} por dólar, un valor de
                                         {{pago.valor_dolar_texto}} dólares.
                                         Se realizó por transferencia a la cuenta: {{pago.cuenta}},

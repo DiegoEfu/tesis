@@ -118,7 +118,7 @@
                                 console.log(numero);
                                 // {% for compra in ventas %}
                                 if(numero == '{{forloop.counter}}'){
-                                    hablar(`Esta venta lleva el código interno {{compra.pk}}. Fecha {{compra.fecha.date}}. Estado: {{compra.estado_largo}}
+                                    hablar(`Esta venta lleva el código interno {{compra.pk}}. Fecha {{compra.fecha}}. Estado: {{compra.estado_largo}}
                                     {% if compra.estado == 'E' %} El comprador ha cancelado {{compra.monto_cancelado_texto}} dólares de {{compra.inmueble.precio_texto}} dólares. 
                                     {% elif compra.estado == 'S' %} El comprador ha cancelado la totalidad del precio y debe asistir a la cita de formalidades en el inmueble el día {{compra.cita_formalidades.fecha_asignada}} 
                                     {% elif compra.estado == 'X' %} Esta venta fue cancelada. 
