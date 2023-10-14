@@ -41,7 +41,9 @@
                    console.log(speaking);
                    if(dictando && !speaking){
                         console.log("a");
-                        $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(/\.$/g,"").replace(",","").replace("punto", ".").replace("listo","").replace("salir","").replace('dictado','').replace(/\s+/g, ""));
+                        $('#id_username').val( $('#id_username').val() + speech.toLowerCase().replace('arroba', '@').replace(/\.$/g,"").replace(",","")
+                            .replace("punto", ".").replace("listo","").replace("salir","").replace('dictado','').replace(/\s+/g, "").replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u')
+                            );
                    }
 
 

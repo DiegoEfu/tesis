@@ -151,7 +151,7 @@
                                     {% elif publicacion.estado == 'E' %} Espere a que el agente tome una decisión respecto a su caso. Al tomarse será notificado por correo electrónico.
                                     {% elif publicacion.estado == 'C' %} Espere a que el agente tome una decisión respecto a su caso. Al tomarse será notificado por correo electrónico.
                                     {% elif publicacion.estado == 'X' %} Usted canceló esta publicación.
-                                    {% elif publicacion.estado == 'S' %} El comprador ha finalizado el pago de la compra del inmueble. Tiene una cita el {{publicacion.formalidades.fecha_asignada.date}} a las {{publicacion.formalidades.fecha_asignada.hour}} horas.
+                                    {% elif publicacion.estado == 'S' %} El comprador ha finalizado el pago de la compra del inmueble. Tiene una cita el {{publicacion.formalidades.fecha_asignada}} a las {{publicacion.formalidades.fecha_asignada.hour}} horas.
                                     {% elif publicacion.estado == 'V' %} El inmueble se vendió en {{publicacion.precio_texto}} dólares.
                                     {% endif %}
                                     Este inmueble se ubica en el sector {{publicacion.sector.nombre}} de la parroquia {{publicacion.sector.parroquia.nombre}}.

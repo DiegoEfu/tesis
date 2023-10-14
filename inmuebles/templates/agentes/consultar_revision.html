@@ -53,7 +53,7 @@
     {% else %}
     <form method="post">
         {% csrf_token %}
-        <input type="hidden" name="inmueble" value="{{publicacion.pk}}">
+        <input type="hidden" name="pk" value="{{publicacion.pk}}">
         <button type="submit" name="tipo" value="cancelar" class="btn botonA">Aprobar Cancelación</button>
     </form>
     {% endif %}

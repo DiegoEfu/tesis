@@ -34,6 +34,7 @@ def comprobacion_correo(request):
     return JsonResponse({'existe': Usuario.objects.filter(email = request.GET['email']).exclude(pk = request.user.pk).exists()})
 
 def comprobacion_telefono(request):
+    print(request.GET)
     if(not request.user.is_authenticated):
         return JsonResponse({'existe': Persona.objects.filter(numero_telefono = request.GET['numero_telefono']).exists()})
     return JsonResponse({'existe': Persona.objects.filter(numero_telefono = request.GET['numero_telefono']).exclude(pk=request.user.persona.pk).exists()})
