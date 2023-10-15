@@ -2425,6 +2425,11 @@ text-align:justify;
     .box a .bi {
         font-size: 20px;
     }
+
+    .box input {
+        font-size: 13px;
+    }
+
     .listaCuadrosInfo {
         list-style: none;
         display: block;
@@ -2481,6 +2486,10 @@ text-align:justify;
 
     .box a .bi {
         font-size: 18px;
+    }
+
+    .box input {
+        font-size: 12px;
     }
     /*Responsive sección información*/
     .generalInfo {
