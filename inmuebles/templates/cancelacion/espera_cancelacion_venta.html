@@ -52,7 +52,7 @@
                             case "ayuda":
                                 if ('speechSynthesis' in window) {
                                     const crear_utterance = () => {
-                                        let x = "";
+                                        let x = "Presione ALT + C para desactivar o activar comandos de voz. Presione ALT + X para cancelar el periodo de habla."
                                         Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
                                         return x;
                                     };        

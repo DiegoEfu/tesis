@@ -44,8 +44,8 @@
         function inicial(event) {
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 if (event.results[i].isFinal){
-                   speech = event.results[i][0].transcript.replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
-                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   speech = event.results[i][0].transcript.replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stá\svicky/g, 'stavisky').replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
+                   .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace("lista","listo").replaceAll(/[eE]stabisque/g, "stavisky").replaceAll(/[eE]stá\svicky/g, 'stavisky').replaceAll(/[eE]stabinski/g, "stavisky").replaceAll(/[eE]st[aá] bizki/g, "stavisky")
                    .replaceAll(/[eE]stabiqui/g, "stavisky").replaceAll(/[Ee]stabinsky/g, "stavisky").replaceAll(/[sS]tabisky/g, "stavisky").replace(/regresar\sa[l]*\sinicio/g, "regresar inicio")
                    .replaceAll("en mueble", "inmueble").replaceAll("/4", " cuartos");
                    console.log(speech);
@@ -71,7 +71,7 @@
                             case "ayuda":
                                 if ('speechSynthesis' in window) {
                                     const crear_utterance = () => {
-                                        let x = "";
+                                        let x = "Presione ALT + C para desactivar o activar comandos de voz. Presione ALT + X para cancelar el periodo de habla."
                                         Object.keys(comandos).forEach((comando) => x += "Comando " + comando + ": " + comandos[comando] + "..........");
                                         return x;
                                     };        
