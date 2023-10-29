@@ -123,7 +123,9 @@
                                 if(numero == '{{forloop.counter}}'){
                                     hablar(`Esta cita tiene como fecha {{cita.fecha_asignada.date}} a las {{cita.fecha_asignada.hour}} horas.
                                      {% if cita.compra %} Cita de formalización para la compra del inmueble {{cita.compra.inmueble.nombre}}
-                                     {% else %} Cita de visita al inmueble {{cita.inmueble.nombre}}{% endif %}. Su estatus es {{cita.estado_largo}}.
+                                     {% else %} Cita de visita al inmueble {{cita.inmueble.nombre}}, ubicando en el sector {{cita.inmueble.sector.nombre}},
+                                     ubicación detallada: "{{cita.inmueble.ubicacion_detallada}}"{% endif %}. 
+                                     Su estatus es {{cita.estado_largo}}.
                                      {% if cita.estado == "F" or cita.estado == "X" %}El agente añadió un comentario: "{{cita.resultados}}".{% endif %}`)
                                     pasado = true;
                                 }
