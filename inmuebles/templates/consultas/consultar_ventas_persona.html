@@ -123,11 +123,11 @@
                                     {% elif compra.estado == 'S' %} El comprador ha cancelado la totalidad del precio y debe asistir a la cita de formalidades en el inmueble el día {{compra.cita_formalidades.fecha_asignada}} 
                                     {% elif compra.estado == 'X' %} Esta venta fue cancelada. 
                                     {% elif compra.estado == 'C' %} Esta venta está pendiente por cancelación.
-                                    {% else %} El comprador canceló y formalizó el traspaso del inmueble.\n {% endif %}
+                                    {% else %} El comprador canceló el monto requerido y formalizó el traspaso del inmueble.\n {% endif %}
                                     El comprador se llama {{compra.comprador}} y su correo es {{compra.comprador.usuario_persona.email}}, número de teléfono {{compra.comprador.numero_telefono}}.
                                     En caso de tener alguna duda con esta venta, contactar con el agente {{compra.inmueble.agente}},
                                     número de teléfono {{compra.inmueble.agente.numero_telefono}} y correo electrónico
-                                    {{compra.inmueble.agente.usuario_persona.email}}`)
+                                    {{compra.inmueble.agente.usuario_persona.email}}.`)
                                     pasado = true;
                                 }
                                 // {% endfor %}
