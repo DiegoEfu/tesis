@@ -131,6 +131,8 @@
                                     {% elif compra.estado == 'X' %} Esta compra fue cancelada. 
                                     {% elif compra.estado == 'C' %} Esta compra está pendiente por cancelación.
                                     {% else %} Usted canceló y formalizó el traspaso del inmueble. {% endif %}
+                                    El inmueble se ubica en el sector {{compra.inmueble.sector.nombre}} de la parroquia {{compra.inmueble.sector.parroquia.nombre}},
+                                    en la ubicación detallada "{{compra.inmueble.ubicacion_detallada}}".
                                     En caso de tener alguna duda con esta compra, contactar con el agente {{compra.inmueble.agente}},
                                     número de teléfono {{compra.inmueble.agente.numero_telefono}} y correo electrónico
                                     {{compra.inmueble.agente.usuario_persona.email}}`)
