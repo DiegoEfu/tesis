@@ -373,6 +373,7 @@
         {% if request.user.is_authenticated and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %}
         <li><b><i class='bx bx-spreadsheet'></i>Descripción:</b> {{inmueble.descripcion}}</li><br>
     </ul>
+    {% if inmueble.estado == 'A' %}
         {% if puede_cita %}
         <div class="alert alert-warning" role="alert">
             <a id="agendar" href="{% url 'seleccionar_dia_cita' pk=inmueble.pk %}" class="alert-link">Agendar Cita para Visitar el Inmueble</a></div>
@@ -394,6 +395,7 @@
         <div class="alert alert-danger" role="alert">
             Si quieres visitar este inmueble o comprarlo, inicia sesión.</div>
         {% endif %}
+    {%endif%}
     </ul>
     <h1 class="tituloCasa">Imágenes:</h1>
     <div class="containerImagen">
