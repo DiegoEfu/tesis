@@ -250,7 +250,7 @@
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance('Justo ahora está en la pantalla de resultados.' 
                     + '{% if resultados.count %} Se han encontrado {{resultados.count}} resultados {% else %} No se ha encontrado ningún resultado {% endif %}'
-                    + 'para la búsqueda "{{busqueda}}".');
+                    + '{% if busqueda %}para la búsqueda "{{busqueda}}"{% endif %}.');
                 
                utterance.voice = voice;
                 utterance.pitch = 1;
@@ -336,7 +336,7 @@
                     {% csrf_token %}
                      <div class="box">
                 <input type="submit" value="🔍︎" id="iconoBusqueda">
-                <input required type="text" id="busqueda" name="busqueda" value="{{busqueda}}" class="busqueda">
+                <input required type="text" id="busqueda" name="busqueda" value="{% if busqueda %}{{busqueda}}{%endif%}" class="busqueda">
                      </div>
                     </form>
     {% if resultados %}

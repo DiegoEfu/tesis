@@ -4,7 +4,8 @@ var filesToCache = [
     '/static/serviceworker.js',
     '/static/estilos/offline.css',
     '/static/estilos/bootstrap.min.css',
-    '/static/img/WarningIcon.png'
+    '/static/img/WarningIcon.png',
+    '/static/img/logoCasa.png'
 ];
 
 // Cache on install
