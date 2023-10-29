@@ -155,6 +155,7 @@
                                     {% elif publicacion.estado == 'V' %} El inmueble se vendió en {{publicacion.precio_texto}} dólares.
                                     {% endif %}
                                     Este inmueble se ubica en el sector {{publicacion.sector.nombre}} de la parroquia {{publicacion.sector.parroquia.nombre}}.
+                                    Ubicación detallada del inmueble: "{{publicacion.ubicacion_detallada}}".
                                     Esta publicación tiene el agente asignado: {{publicacion.agente}}. Si tiene alguna duda o pregunta, contáctelo al número de teléfono {{publicacion.agente.numero_telefono}} 
                                     o al correo {{publicacion.agente.usuario_persona.email}}`)
                                     pasado = true;
