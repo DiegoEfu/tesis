@@ -396,26 +396,22 @@
     <h5 class="palabraPrecio">${{compra.inmueble.precio}}</h5>
     {{compra.fecha}} <br>
     {{compra.estado_largo}} <br>
-    <button class="btn btn-success"><a href="{% url 'consultar_pagos_compra' pk=compra.pk %}">Consultar Pagos</a></button>
-</div>
-</div>
+    {% if compra.estado != 'S' %}
+    <label for="" class="form-label"><b>Nombre del Agente:</b> {{compra.inmueble.agente}}</label> <br>
+    <label for="" class="form-label"><b>Teléfono del Agente:</b> {{compra.inmueble.agente.numero_telefono}}</label> <br>
+    <label for="" class="form-label"><b>Correo del Agente:</b> {{compra.inmueble.agente.usuario_persona.email}}</label> <br>
 
-    {% if compra.estado == 'E' %}
-    <label for="" class="form-label"><b>Nombre del Agente:</b> {{compra.inmueble.agente}}</label>
-    <label for="" class="form-label"><b>Teléfono del Agente:</b> {{compra.inmueble.agente.numero_telefono}}</label>
-    <label for="" class="form-label"><b>Correo del Agente:</b> {{compra.inmueble.agente.usuario_persona.email}}</label>
-
-    <label for="" class="form-label"><b>Nombre del Dueño:</b> {{compra.inmueble.dueno}}</label>
-    <label for="" class="form-label"><b>Teléfono del Dueño:</b> {{compra.inmueble.dueno.numero_telefono}}</label>
-    <label for="" class="form-label"><b>Correo del Dueño:</b> {{compra.inmueble.dueno.usuario_persona.email}}</label>
+    <label for="" class="form-label"><b>Nombre del Dueño:</b> {{compra.inmueble.dueno}}</label> <br>
+    <label for="" class="form-label"><b>Teléfono del Dueño:</b> {{compra.inmueble.dueno.numero_telefono}}</label> <br>
+    <label for="" class="form-label"><b>Correo del Dueño:</b> {{compra.inmueble.dueno.usuario_persona.email}}</label> <br>
 
     <label for="linkPublicacion">{% if not compra.tiene_pagos_pendientes %}<a href="{% url 'cancelar_compra' pk=compra.pk %}">Cancelar Compra</a>{% endif %}</label>
     <form method="post">
         {% csrf_token %}
         <input type="hidden" name="compra" value="{{compra.pk}}">
-        <button type="submit" id="mp3_{{compra.pk}}" name="tipo" value="mp3">Comprobante MP3</button>
-        <button type="submit" id="pdf_{{compra.pk}}" name="tipo" value="pdf">Comprobante PDF</button>
-    </form>
+        <button  class="btn btn-success" type="submit" id="mp3_{{compra.pk}}" name="tipo" value="mp3">Comprobante MP3</button>
+        <button  class="btn btn-success" type="submit" id="pdf_{{compra.pk}}" name="tipo" value="pdf">Comprobante PDF</button>
+    </form><br>
     {% elif compra.estado == 'S' %}
     <label for="" class="form-label"><b>Nombre del Agente:</b> {{compra.inmueble.agente}}</label>
     <label for="" class="form-label"><b>Teléfono del Agente:</b> {{compra.inmueble.agente.numero_telefono}}</label>
@@ -426,6 +422,9 @@
     <label for="" class="form-label"><b>Correo del Dueño:</b> {{compra.inmueble.dueno.usuario_persona.email}}</label>
     <label for="" class="form-label"><b>Cita de Formalidades el día {{compra.cita_formalidades.fecha_asignada}}</b></label>
     {% endif %}
+    <button class="btn btn-success"><a href="{% url 'consultar_pagos_compra' pk=compra.pk %}">Consultar Pagos</a></button>
+</div>
+</div>
 
     {% empty %}
     <div class="mensajeNoHayCompras">
