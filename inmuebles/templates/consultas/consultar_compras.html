@@ -405,13 +405,16 @@
     <label for="" class="form-label"><b>Teléfono del Dueño:</b> {{compra.inmueble.dueno.numero_telefono}}</label> <br>
     <label for="" class="form-label"><b>Correo del Dueño:</b> {{compra.inmueble.dueno.usuario_persona.email}}</label> <br>
 
+    {% if compra.estado == 'E' %}
     <label for="linkPublicacion">{% if not compra.tiene_pagos_pendientes %}<a href="{% url 'cancelar_compra' pk=compra.pk %}">Cancelar Compra</a>{% endif %}</label>
+    
     <form method="post">
         {% csrf_token %}
         <input type="hidden" name="compra" value="{{compra.pk}}">
         <button  class="btn btn-success" type="submit" id="mp3_{{compra.pk}}" name="tipo" value="mp3">Comprobante MP3</button>
         <button  class="btn btn-success" type="submit" id="pdf_{{compra.pk}}" name="tipo" value="pdf">Comprobante PDF</button>
     </form><br>
+    {%endif%}
     {% elif compra.estado == 'S' %}
     <label for="" class="form-label"><b>Nombre del Agente:</b> {{compra.inmueble.agente}}</label>
     <label for="" class="form-label"><b>Teléfono del Agente:</b> {{compra.inmueble.agente.numero_telefono}}</label>
