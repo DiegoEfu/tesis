@@ -370,9 +370,9 @@
         <li><b><i class="bi bi-house-lock"></i>Número de pisos: </b>{{inmueble.estacionamientos}}</li>
         <li><b><i class='bx bxs-car-garage' ></i></i>Puestos de Estacionamiento: </b> {{inmueble.estacionamientos}}</li>
         <li><b><i class='bx bx-droplet'></i>Servicios: </b> {{inmueble.servicios}}</li>
-        {% if request.user.is_authenticated and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %}
         <li><b><i class='bx bx-spreadsheet'></i>Descripción:</b> {{inmueble.descripcion}}</li><br>
     </ul>
+    {% if request.user.is_authenticated and request.user.persona.pk != inmueble.dueno.pk and request.user.persona.pk != inmueble.agente.pk %}
     {% if inmueble.estado == 'A' %}
         {% if puede_cita %}
         <div class="alert alert-warning" role="alert">
